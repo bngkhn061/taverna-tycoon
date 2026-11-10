@@ -85,6 +85,7 @@ namespace Taverna
             Campaigns.Tick();
             Inn.Tick(Time.deltaTime);
             Tutorial.Tick();
+            Happiness.Tick(Time.deltaTime);
             Premium.TickDaily();
             Management.TickPenalty(Time.deltaTime);
         }

@@ -38,6 +38,7 @@ namespace Taverna
             {
                 if (GameState.Level < minLevel && !_forced) return;
                 _forced = false;
+                if (Tutorial.HoldsTime) return;   // v1.2: rehber sürerken yoğun saat gelmez
                 NextIn -= Time.deltaTime;
                 if (NextIn > 0f) return;
                 Active = true;

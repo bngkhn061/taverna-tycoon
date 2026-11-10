@@ -137,7 +137,7 @@ namespace Taverna
 
         void Leave(bool angry)
         {
-            if (angry) { Inn.AngryGuests++; Management.OnAngryCustomer(); Sfx.Play(SfxId.Angry); }
+            if (angry) { Inn.AngryGuests++; Management.OnAngryCustomer(); Happiness.OnAngry(transform.position + Vector3.up * 1.5f); Sfx.Play(SfxId.Angry); }
             if (room) room.Release();
             room = null;
             var back = new List<Vector3>();

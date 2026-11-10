@@ -645,3 +645,48 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .intro-foam-dot { position: absolute; width: 18px; height: 18px; background-color: rgb(255, 250, 240); border-width: 3px; border-color: rgb(31, 26, 23);
     border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-left-radius: 9px; border-bottom-right-radius: 9px; }
 .intro-skip { position: absolute; right: 22px; bottom: 16px; font-size: 13px; color: rgba(251, 243, 226, 0.45); -unity-font-style: bold; }
+
+/* ================= v1.1 stok uyarısı ================= */
+.station-tag.low { background-color: rgb(242, 182, 49); }
+.station-tag.low.blink, .station-tag.empty.blink { background-color: rgb(212, 85, 58); scale: 1.08 1.08; }
+.station-tag.low.blink .station-tag-text { color: rgb(251, 243, 226); }
+.blink { scale: 1.15 1.15; }
+
+/* ================= v1.2 mutluluk, etkinlik ================= */
+.happy-pill { border-width: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: center; height: 46px; width: 228px; padding: 0 12px 6px 6px; margin: 0 0 6px 0; }
+.happy-face { width: 36px; height: 36px; margin-right: 8px; flex-shrink: 0; }
+.happy-col { flex-grow: 1; }
+.happy-head { flex-direction: row; justify-content: space-between; }
+.happy-num { font-size: 12px; -unity-font-style: bold; color: var(--ink); }
+.happy-track { height: 12px; margin-top: 2px; background-color: var(--paper2); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; overflow: hidden; }
+.happy-fill { height: 100%; width: 60%; background-color: rgb(106, 168, 79); }
+.happy-card { position: absolute; left: 0; top: 262px; width: 300px; padding: 10px 14px 14px 12px; }
+.happy-card-title { font-size: 16px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); }
+.happy-card-text { font-size: 13px; -unity-font-style: bold; white-space: normal; margin-top: 4px; }
+.float-happy { position: absolute; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 20px;
+    color: rgb(150, 220, 120); -unity-text-outline-width: 2px; -unity-text-outline-color: var(--ink); }
+.float-happy.down { color: rgb(255, 160, 140); }
+.event-btn { margin-top: 6px; }
+.event-new { position: absolute; right: -10px; top: -10px; padding: 1px 6px; background-color: var(--brick); color: rgb(251, 243, 226); font-size: 11px;
+    border-width: 2px; border-color: var(--ink); border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; rotate: 8deg; }
+.event-banner {
+    position: absolute; top: 146px; left: 50%; translate: -50% 0; rotate: -1deg; padding: 6px 20px 10px 18px;
+    background-color: var(--plum); color: rgb(251, 243, 226); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 18px;
+}
+.ev-row { flex-direction: row; align-items: center; padding: 8px 10px; margin-bottom: 8px; background-color: rgb(255, 250, 240); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.ev-row.run { background-color: rgb(227, 240, 220); }
+.ev-row.lock { background-color: rgb(235, 224, 203); }
+.ev-img { width: 54px; height: 54px; margin-right: 10px; -unity-background-scale-mode: scale-to-fit; }
+.ev-row.lock .ev-img { -unity-background-image-tint-color: rgb(140, 130, 120); }
+.ev-col { flex-grow: 1; flex-shrink: 1; min-width: 0; }
+.tut-hidden { display: none; }
+
+/* v1.2 tabela kademeleri: yazı tabelayla birlikte süslenir */
+.sign-text.t1 { color: rgb(251, 231, 184); font-size: 18px; }
+.sign-text.t2 { color: rgb(220, 232, 255); font-size: 18px; }
+.sign-text.t3 { color: rgb(255, 214, 110); font-size: 19px; -unity-text-outline-width: 2px; }
+.sign-text.t4 { color: rgb(255, 222, 120); font-size: 20px; -unity-text-outline-width: 2px; -unity-text-outline-color: rgb(60, 20, 70); }

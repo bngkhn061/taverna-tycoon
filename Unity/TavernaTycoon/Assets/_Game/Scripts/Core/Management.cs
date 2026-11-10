@@ -40,11 +40,20 @@ namespace Taverna
         // ------------------------------------------------------------------ personel
         public static bool Hired(string id) => GameState.IsUnlocked(id);
 
+        /// <summary>v1.1: işe alınmış ve çalışacağı bölge açık (aşçı mutfak, hizmetçi han açılmadan sahneye çıkmaz, maaş almaz).</summary>
+        public static bool Working(string id)
+        {
+            if (!Hired(id)) return false;
+            var s = Array.Find(Catalog.StaffList, x => x.id == id);
+            return ZoneOpen(s.zone);
+        }
+
         public static BuyResult CanHire(Catalog.Staff s)
         {
             if (Hired(s.id)) return BuyResult.Owned;
             if (s.premium) return BuyResult.Premium;
             if (GameState.Level < s.level) return BuyResult.LevelLow;
+            if (!ZoneOpen(s.zone)) return BuyResult.ZoneLocked;
             return GameState.Coins >= s.hire ? BuyResult.Ok : BuyResult.NoMoney;
         }
 
@@ -65,7 +74,7 @@ namespace Taverna
             {
                 long w = 0;
                 foreach (var s in Catalog.StaffList)
-                    if (Hired(s.id)) w += WageOf(s);
+                    if (Working(s.id)) w += WageOf(s);
                 return w;
             }
         }
@@ -131,17 +140,11 @@ namespace Taverna
         }
 
         // ------------------------------------------------------------------ taverna puanı
-        /// <summary>1–5 yıldız (yarımlı): ambiyans yükseltir, kirli masalar düşürür.</summary>
-        public static float Stars
-        {
-            get
-            {
-                int dirty = 0, total = 0;
-                foreach (var t in Table.All) { total++; if (t.Dirty) dirty++; }
-                float s = 1f + AmbianceSource.Total / 30f - (total > 0 ? 2f * dirty / total : 0f) - AngryPenalty;
-                return Mathf.Clamp(Mathf.Round(s * 2f) / 2f, 1f, 5f);
-            }
-        }
+        /// <summary>
+        /// 1–5 yıldız (yarımlı): sadece ambiyans (v1.2). Kirli masa ve kızgın müşteri artık Mutluluk'u düşürür
+        /// (Happiness); yıldız zengin müşteri ve bahşiş getirir, mutluluk müşteri sayısını.
+        /// </summary>
+        public static float Stars => Mathf.Clamp(Mathf.Round((1f + AmbianceSource.Total / 30f) * 2f) / 2f, 1f, 5f);
 
         /// <summary>Kızgın giden müşterilerin geçici yıldız cezası (zamanla söner).</summary>
         public static float AngryPenalty { get; private set; }

@@ -81,7 +81,7 @@ def tabela(ox, oy):
     T.box("Post", "KoyuMese", p(-0.95, 0, 1.4), (0.14, 0.14, 2.8), bevel=0.02)
     T.box("Foot", "KoyuTas", p(-0.95, 0, 0.08), (0.4, 0.4, 0.16), bevel=0.02)
     T.box("Arm", "KoyuMese", p(-0.2, 0, 2.62), (1.6, 0.1, 0.1), bevel=0.015)
-    T.box("Brace", "KoyuMese", p(-0.72, 0, 2.38), (0.5, 0.08, 0.08), rot=(0, 45, 0))
+    T.box("Brace", "KoyuMese", p(-0.8, 0, 2.47), (0.3, 0.08, 0.08), rot=(0, 45, 0))   # v1.2: kısa, panonun önüne geçmesin
     for sx in (-1, 1):
         T.cyl(f"Chain{sx}", "KoyuTas", p(sx * 0.55, 0, 2.43), r=0.015, depth=0.3, verts=6)
     T.box("Board", "Mese", p(0, 0, 1.98), (1.4, 0.07, 0.62), bevel=0.03)

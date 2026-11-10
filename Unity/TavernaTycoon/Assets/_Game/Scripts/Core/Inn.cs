@@ -29,7 +29,7 @@ namespace Taverna
         public static readonly Vector3 UpArrive = new(-4.0f, 0f, 38.0f);
         public static readonly Vector3 Reception = new(13.35f, 0f, 1.5f);
         public static readonly Vector3[] ArrivalPath =
-            { new(17.5f, 0f, -3.5f), new(9.5f, 0f, -2.45f), new(11.6f, 0f, -1.2f), new(12.0f, 0f, 1.0f), Reception };
+            { new(17.5f, 0f, -6.5f), new(9.5f, 0f, -5.45f), new(9.5f, 0f, -2.0f), new(11.6f, 0f, -1.2f), new(12.0f, 0f, 1.0f), Reception };
         public static readonly Vector3[] ToStairsPath = { new(12.8f, 0f, 2.6f), StairsFoot };
 
         public static event Action<bool> StairsUsed;

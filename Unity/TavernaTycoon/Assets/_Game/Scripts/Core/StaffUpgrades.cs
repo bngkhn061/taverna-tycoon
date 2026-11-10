@@ -6,12 +6,16 @@ namespace Taverna
     /// <summary>
     /// Görevli gelişimi (v0.6, oyuncu testi: "görevlilerin upgradeleri olsun, hem reklam hem para ile").
     /// Her işe alınmış görevli 5 seviyeye kadar gelişir; seviye parayla alınır ya da görevli başına
-    /// 10 dakikada bir reklam izleyerek bedava verilir. Etkiler rolüne göre (Balance sabitleri).
+    /// 10 dakikada bir reklam izleyerek bedava verilir (v1.1: görevli başına en fazla 2 kez; en yüksek seviye uzun reklam). Etkiler rolüne göre (Balance sabitleri).
     /// </summary>
     public static class StaffUpgrades
     {
         public const int MaxLevel = 5;
         public const float AdCooldownSeconds = 600f;
+        /// <summary>v1.1 (oyuncu testi): görevli başına reklamla en fazla 2 seviye; gerisi parayla.</summary>
+        public const int MaxAdLevels = 2;
+        /// <summary>En yüksek seviyeyi reklamla almak uzun reklam ister (sn, sahte reklam ekranı).</summary>
+        public const float LongAdSeconds = 15f, ShortAdSeconds = 5f;
         static readonly Dictionary<string, float> _adReadyAt = new();
 
         public static int Level(string staffId)
@@ -42,12 +46,17 @@ namespace Taverna
         public static float AdWait(string staffId) =>
             _adReadyAt.TryGetValue(staffId, out var t) ? Mathf.Max(0f, t - Time.unscaledTime) : 0f;
 
-        public static bool AdAvailable(Catalog.Staff s) => CanLevel(s) && AdWait(s.id) <= 0f;
+        public static int AdsUsed(string staffId) => GameState.Data.staffAds.FindAll(x => x == staffId).Count;
+        public static int AdsLeft(string staffId) => Mathf.Max(0, MaxAdLevels - AdsUsed(staffId));
+        public static bool AdAvailable(Catalog.Staff s) => CanLevel(s) && AdsLeft(s.id) > 0 && AdWait(s.id) <= 0f;
+        /// <summary>Bu reklam görevliyi en yüksek seviyeye çıkaracaksa uzun reklam.</summary>
+        public static bool AdIsLong(Catalog.Staff s) => Level(s.id) + 1 >= MaxLevel;
 
         /// <summary>Reklam ödülü: bir seviye bedava, sonra bekleme süresi başlar.</summary>
         public static void GrantByAd(string staffId)
         {
             _adReadyAt[staffId] = Time.unscaledTime + AdCooldownSeconds;
+            GameState.Data.staffAds.Add(staffId);
             Grant(staffId);
         }
 

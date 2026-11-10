@@ -17,7 +17,10 @@ namespace Taverna
         /// <summary><see cref="Hop"/> zıplamasının yüksekliği (metre). Sabit: kaydedilen alan düzeni değişmesin.</summary>
         const float JumpHeight = 0.28f;
 
-        float _speed01, _phase, _pop, _jump;
+        float _speed01, _phase, _pop, _jump, _work, _workPhase;
+
+        /// <summary>v1.1 çalışma hareketi: öne eğilip ritmik bastırma (hamur yoğurma, bardak doldurma). 0 = yok.</summary>
+        public void SetWork(float w01) => _work = Mathf.MoveTowards(_work, Mathf.Clamp01(w01), 0.08f);
         Vector3 _baseScale, _basePos;
         Quaternion _baseRot;
 
@@ -46,8 +49,13 @@ namespace Taverna
             float popS = 1f + Mathf.Sin(_pop * Mathf.PI) * 0.12f;
             _jump = Mathf.MoveTowards(_jump, 0f, Time.deltaTime * 2.2f);
             hop += Mathf.Sin(_jump * Mathf.PI) * JumpHeight;
+            _workPhase += Time.deltaTime * 7f;
+            float press = 0.5f + 0.5f * Mathf.Sin(_workPhase);
+            hop -= _work * press * 0.03f;
+            squash -= _work * press * 0.05f;
             transform.localPosition = _basePos + Vector3.up * hop;
-            transform.localRotation = _baseRot * Quaternion.Euler(leanAngle * _speed01, 0f, Mathf.Sin(_phase) * 3f * _speed01);
+            transform.localRotation = _baseRot * Quaternion.Euler(leanAngle * _speed01 + _work * (10f + 10f * press), 0f,
+                                                                   Mathf.Sin(_phase) * 3f * _speed01 + _work * Mathf.Sin(_workPhase * 0.5f) * 4f);
             transform.localScale = new Vector3(_baseScale.x / Mathf.Sqrt(squash) * popS, _baseScale.y * squash * popS, _baseScale.z / Mathf.Sqrt(squash) * popS);
         }
     }

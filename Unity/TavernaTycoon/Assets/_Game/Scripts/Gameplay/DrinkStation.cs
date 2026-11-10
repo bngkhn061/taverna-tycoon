@@ -22,7 +22,7 @@ namespace Taverna
         public float ProduceTime => Balance.ProduceTime(drink, Save.speed) / Management.SpeedMultiplierFor(drink);
         public int MaxStock => Balance.MaxStock(Save.stock);
         /// <summary>Satış fiyatı: kalite × taverna kademesi (v1.0 "Tavernayı Büyüt").</summary>
-        public int Price => Mathf.RoundToInt(Balance.SellPrice(drink, Save.quality) * Tiers.PriceMultiplier);
+        public int Price => Mathf.RoundToInt(Balance.SellPrice(drink, Save.quality) * Tiers.PriceMultiplier * TavernEvents.PriceMultiplier);
         public StationSave Save => GameState.Station(drink.id);
         /// <summary>Depoda bu içeceğin malzemesi bitti mi? (üretim durur)</summary>
         public bool OutOfSupply => Depot.Supply(drink.id) <= 0;
@@ -55,7 +55,7 @@ namespace Taverna
                 {
                     // Akıllı alma: sadece bekleyen bir sipariş varsa ver (tepsi istenmeyen içecekle tıkanmasın)
                     _transferT = transferInterval;
-                    Sfx.Play(SfxId.Pop, 1f + carried * 0.15f);
+                    Sfx.Play(SfxId.Pickup, 1f + carried * 0.06f);
                 }
                 else if (carried > demand && Stock < MaxStock && p.carrier.Take(drink.id))
                 {

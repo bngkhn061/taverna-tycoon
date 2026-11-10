@@ -82,7 +82,7 @@ namespace Taverna
             {
                 GameState.Unlock(id);
                 ApplyUnlocked(true);
-                Sfx.Play(SfxId.Buy);
+                Sfx.Play(SfxId.Unlock);
                 GameSettings.Vibrate();
             }
         }

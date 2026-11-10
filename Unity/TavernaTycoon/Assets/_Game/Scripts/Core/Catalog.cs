@@ -52,6 +52,8 @@ namespace Taverna
             public long hire, wage;
             /// <summary>v1.0: sadece Hazine'den (gerçek para) alınır, maaşı yok.</summary>
             public bool premium;
+            /// <summary>v1.1: çalışacağı bölge ("" = her yer). Bölge açılmadan işe alınamaz; Hazine'den alınmışsa bölge açılınca gelir.</summary>
+            public string zone, zoneName;
         }
 
         public static readonly Staff[] StaffList =
@@ -61,11 +63,11 @@ namespace Taverna
             new() { id = "staff_gus", name = "Gus", role = Role.Barmen, roleName = "Barmen", icon = "Staff_Barmen", level = 5, hire = 500, wage = 45, desc = "Tüm makineler +%40 hız" },
             new() { id = "staff_mina", name = "Mina", role = Role.Garson, roleName = "Garson", icon = "Staff_GarsonMina", level = 6, hire = 650, wage = 40, desc = "Sipariş taşır, para toplar" },
             new() { id = "staff_tobi", name = "Tobi", role = Role.Garson, roleName = "Garson", icon = "Staff_GarsonTobi", level = 8, hire = 1300, wage = 70, desc = "Hızlı garson, 2 bardak taşır" },
-            new() { id = "staff_ayla", name = "Ayla", role = Role.Asci, roleName = "Aşçı", icon = "Staff_Asci", level = 7, hire = 800, wage = 45, desc = "Yemekler +%40 hızlı pişer" },
+            new() { id = "staff_ayla", name = "Ayla", role = Role.Asci, roleName = "Aşçı", icon = "Staff_Asci", level = 7, hire = 800, wage = 45, desc = "Yemekler +%40 hızlı pişer", zone = "mutfak", zoneName = "Mutfak" },
             new() { id = "staff_brak", name = "Brak", role = Role.Fenerci, roleName = "Fenerci", icon = "Staff_Fedai", level = 7, hire = 900, wage = 50, desc = "Akşam fenerleri yakar" },
-            new() { id = "staff_sema", name = "Sema", role = Role.Hizmetci, roleName = "Hizmetçi", icon = "Staff_Hizmetci", level = 11, hire = 1400, wage = 60, desc = "Han odalarını toplar" },
+            new() { id = "staff_sema", name = "Sema", role = Role.Hizmetci, roleName = "Hizmetçi", icon = "Staff_Hizmetci", level = 11, hire = 1400, wage = 60, desc = "Han odalarını toplar", zone = "merdiven", zoneName = "Han" },
             new() { id = "staff_lirael", name = "Lirael", role = Role.Garson, roleName = "Elf Garson", icon = "Staff_Lirael", level = 1, hire = 0, wage = 0, desc = "Çok hızlı · 4 bardak", premium = true },
-            new() { id = "staff_ignis", name = "Ignis", role = Role.Asci, roleName = "Ejder Aşçı", icon = "Staff_Ignis", level = 1, hire = 0, wage = 0, desc = "Yemekler ×2 hızlı", premium = true },
+            new() { id = "staff_ignis", name = "Ignis", role = Role.Asci, roleName = "Ejder Aşçı", icon = "Staff_Ignis", level = 1, hire = 0, wage = 0, desc = "Yemekler ×2 hızlı", premium = true, zone = "mutfak", zoneName = "Mutfak" },
             new() { id = "staff_lir", name = "Lir", role = Role.Ozan, roleName = "Ozan", icon = "Staff_OzanSahne", level = 9, hire = 1500, wage = 80, desc = "Herkesin sabrı +%25" },
         };
 

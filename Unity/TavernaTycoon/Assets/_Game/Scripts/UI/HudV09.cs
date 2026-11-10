@@ -136,6 +136,7 @@ namespace Taverna
             if (_signPoint)
             {
                 if (_signLabel.text != GameState.TavernName) _signLabel.text = GameState.TavernName;
+                for (int i = 1; i < 5; i++) _signLabel.EnableInClassList("t" + i, SignTier.Current == i);   // v1.2 tabela kademesi
                 bool on = ToPanel(_signPoint.position, out var p);
                 Place(_signLabel, p, on);
             }
@@ -165,7 +166,7 @@ namespace Taverna
             if (follow) follow.Intro(IntroSeconds);
             ShowBanner($"{GameState.TavernName.ToUpper(new System.Globalization.CultureInfo("tr-TR"))} · GÜN {GameState.Data.day}", "door", false, IntroSeconds + 0.6f);
             _banner.style.opacity = 0f;
-            Sfx.Play(SfxId.Rush, 0.9f);
+            Sfx.Play(SfxId.Door);
         }
 
         void UpdateIntro()
@@ -291,7 +292,7 @@ namespace Taverna
         {
             ShowBanner($"GÜN {day}", "sun", true, 2.2f);
             if (Management.Sulky) Toast("Maaşlar ödenmedi: personel bugün küskün, yavaş çalışıyor");
-            Sfx.Play(SfxId.LevelUp, 1.1f);
+            Sfx.Play(SfxId.Dawn);
         }
 
         // ------------------------------------------------------------------ rehber (E)
@@ -308,12 +309,12 @@ namespace Taverna
         void UpdateTutorial()
         {
             if (!Tutorial.Active) return;
-            // Hedef: dünya noktası ya da (son adım) Dükkân düğmesi
+            // Hedef: dünya noktası ya da (v1.2) yeni açılan yan buton
             Rect hole;
             var t = Tutorial.Target;
-            if (Tutorial.Step == 5)
+            if (Tutorial.UiTarget != null)
             {
-                var b = _root.Q<Button>("open-shop").worldBound;
+                var b = _root.Q<Button>(Tutorial.UiTarget).worldBound;
                 var c = _root.WorldToLocal(b.center);
                 hole = new Rect(c.x - 60f, c.y - 60f, 120f, 120f);
             }

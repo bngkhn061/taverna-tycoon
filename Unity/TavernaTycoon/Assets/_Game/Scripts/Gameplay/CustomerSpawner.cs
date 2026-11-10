@@ -30,16 +30,26 @@ namespace Taverna
                 _lastLevel = GameState.Level;
             }
 
+            // v1.2 rehber: bardak dolana kadar müşteri yok, sonra en fazla 2
+            if (!Tutorial.AllowsSpawn) { _t = Mathf.Min(_t, 1.2f); return; }
             _t -= Time.deltaTime;
             if (_t > 0f) return;
-            _t = Balance.BaseSpawnInterval * intervalScale * Balance.SpawnLevelScale(GameState.Level) / Automation.GuestMultiplier / Management.SpawnFromStars * Random.Range(0.75f, 1.25f)
-                 / (RushHour.Active ? 2.2f : 1f) / Campaigns.SpawnMultiplier;
+            _t = Balance.BaseSpawnInterval * intervalScale * Balance.SpawnLevelScale(GameState.Level) / Automation.GuestMultiplier / Happiness.SpawnMultiplier * Random.Range(0.75f, 1.25f)
+                 / (RushHour.Active ? 2.2f : 1f) / Campaigns.SpawnMultiplier / TavernEvents.SpawnMultiplier / Balance.SeatSpawnScale(SeatCount());
 
             var def = PickCustomer();
             if (!def) return;
             var seat = Sailor(def) ? DockSeat() ?? FreeSeat() : FreeSeat();
             if (!seat) return;
             Spawn(def, seat);
+        }
+
+        /// <summary>Sahnedeki (açılmış) masaların oturak sayısı.</summary>
+        static int SeatCount()
+        {
+            int n = 0;
+            foreach (var t in Table.All) if (t) n += t.seats.Length;
+            return n;
         }
 
         float Ambiance01()
@@ -84,7 +94,7 @@ namespace Taverna
                 if (!c || !c.modelPrefab || c.unlockLevel > GameState.Level) continue;
                 float w = c.spawnWeight;
                 // Zengin müşteriler (ödeme ★4+) yıldızlı tavernayı sever
-                if (c.payStars >= 4) w *= Mathf.Max(0.3f, Management.Stars / 2.5f) * Tiers.RichWeight;   // v1.0: kademe zengin müşteriyi sıklaştırır
+                if (c.payStars >= 4) w *= Mathf.Max(0.3f, Management.Stars / 2.5f) * Tiers.RichWeight * TavernEvents.RichWeight;   // v1.0: kademe zengin müşteriyi sıklaştırır
                 if (_newSince.TryGetValue(c.number, out var since) && Time.time - since < 180f) w *= 3f;
                 if (Night.IsNight && Night.IsNightCreature(c)) w *= Night.NightCreatureWeight; // gece fantastik müşteriler
                 pool.Add((c, w));

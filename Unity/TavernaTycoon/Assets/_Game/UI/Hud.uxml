@@ -19,9 +19,23 @@
                 <ui:Label name="coins" text="0" class="res-text" />
                 <ui:Button name="open-shop-plus" text="+" class="plus" />
             </ui:VisualElement>
-            <ui:VisualElement class="res v3-panel" style="min-width: 110px;">
+            <ui:VisualElement name="gem-pill" class="res v3-panel" style="min-width: 110px;">
                 <ui:VisualElement name="gem-icon" class="res-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_gem.png');" />
                 <ui:Label name="gems" text="0" class="res-text" />
+            </ui:VisualElement>
+            <!-- v1.2 Mutluluk barı (yüz kodla çizilir, dokununca açıklama) -->
+            <ui:Button name="happy-pill" class="happy-pill v3-panel">
+                <ui:VisualElement class="happy-col" picking-mode="Ignore">
+                    <ui:VisualElement class="happy-head" picking-mode="Ignore">
+                        <ui:Label text="MUTLULUK" class="small" picking-mode="Ignore" />
+                        <ui:Label name="happy-num" text="%60" class="happy-num" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="happy-track" picking-mode="Ignore"><ui:VisualElement name="happy-fill" class="happy-fill" picking-mode="Ignore" /></ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:VisualElement name="happy-card" class="happy-card v3-panel hidden" picking-mode="Ignore">
+                <ui:Label text="Müşteriler ne kadar mutlu?" class="happy-card-title" />
+                <ui:Label name="happy-card-text" text="" class="happy-card-text" />
             </ui:VisualElement>
             <ui:VisualElement class="day-pill v3-panel">
                 <ui:VisualElement name="day-icon" class="ic" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_sun.png');" />
@@ -31,6 +45,12 @@
             <ui:Button name="helper-btn" class="btn btn-plum btn-sm helper-btn">
                 <ui:VisualElement class="price-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_play.png');" />
                 <ui:Label name="helper-text" text="YARDIMCI" />
+            </ui:Button>
+            <!-- v1.2 Etkinlikler (Sv4) -->
+            <ui:Button name="event-btn" class="btn btn-sun btn-sm helper-btn event-btn hidden">
+                <ui:VisualElement class="price-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_horn.png');" />
+                <ui:Label name="event-text" text="ETKİNLİK" />
+                <ui:Label name="event-new" text="YENİ!" class="event-new hidden" />
             </ui:Button>
         </ui:VisualElement>
 
@@ -47,6 +67,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Label name="rush" text="YOĞUN SAAT!" class="rush hidden" picking-mode="Ignore" />
+        <ui:Label name="event-banner" text="" class="event-banner hidden" picking-mode="Ignore" />
 
         <!-- Sağ üst: seviye kalkanı + XP + yıldız, ayarlar -->
         <ui:VisualElement class="hud-top-right" picking-mode="Ignore">
@@ -107,9 +128,9 @@
                 <ui:Button name="upgrade-close" class="close" style="position: relative; right: 0; top: 0; width: 46px; height: 46px;"><ui:VisualElement class="x-ic" style="left: 9px; top: 9px; width: 22px; height: 22px;" /></ui:Button>
             </ui:VisualElement>
             <ui:VisualElement class="tierbar">
-                <ui:Label name="tier1" text="AHŞAP" class="tier t1" />
-                <ui:Label name="tier2" text="PİRİNÇ · Sv4" class="tier t2" />
-                <ui:Label name="tier3" text="ALTIN · Sv8" class="tier t3" />
+                <ui:Label name="tier1" text="YENİ" class="tier t1" />
+                <ui:Label name="tier2" text="GELİŞMİŞ · Sv4" class="tier t2" />
+                <ui:Label name="tier3" text="KUSURSUZ · Sv8" class="tier t3" />
             </ui:VisualElement>
             <ui:VisualElement name="upgrade-rows" class="list" />
         </ui:VisualElement>
@@ -134,6 +155,18 @@
                 <ui:Button name="quests-close" class="close"><ui:VisualElement class="x-ic" /></ui:Button>
             </ui:VisualElement>
             <ui:VisualElement name="quest-rows" class="list" />
+        </ui:VisualElement>
+
+        <!-- v1.2 Etkinlikler (soldan çekmece) -->
+        <ui:VisualElement name="events-panel" class="drawer-l v3-panel hidden">
+            <ui:VisualElement class="dhead">
+                <ui:VisualElement class="dhead-ic" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_horn.png');" />
+                <ui:Label text="ETKİNLİKLER" class="dhead-title" />
+                <ui:Label text="her biri günde bir kez" class="small" />
+                <ui:Label name="events-note" text="" class="small" />
+                <ui:Button name="events-close" class="close"><ui:VisualElement class="x-ic" /></ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement name="event-rows" class="list" />
         </ui:VisualElement>
 
         <!-- Dükkân (sağdan çekmece, arkası karartılır) -->

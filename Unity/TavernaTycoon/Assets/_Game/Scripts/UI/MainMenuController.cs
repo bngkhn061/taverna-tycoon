@@ -119,7 +119,7 @@ namespace Taverna
             if (!_clinked && t >= 1.0f)
             {
                 _clinked = true;
-                Sfx.Play(SfxId.Coin, 1.25f);
+                Sfx.Play(SfxId.Clink);
                 Sfx.Play(SfxId.Claim, 0.9f);
                 GameSettings.Vibrate();
                 var c = new Vector2(_intro.layout.width * 0.5f, _intro.layout.height * 0.74f);

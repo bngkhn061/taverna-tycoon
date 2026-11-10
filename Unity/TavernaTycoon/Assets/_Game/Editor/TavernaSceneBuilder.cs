@@ -534,20 +534,20 @@ namespace Taverna.EditorTools
             Themed(floorThemes, Themes.Kind.Floor, (g, suf) =>
             {
                 for (int ix = 0; ix < 8; ix++)
-                    for (int iz = 0; iz < 7; iz++)
+                    for (int iz = -3; iz < 7; iz++)   // v1.2: ön cephe z −2 → −5
                         P("PR_Building_Zemin" + suf, g, -3.5f + ix, -1.5f + iz);
                 for (int ix = 0; ix < 11; ix++)
-                    for (int iz = 0; iz < 7; iz++)
+                    for (int iz = -3; iz < 7; iz++)
                         P("PR_Building_Zemin" + suf, g, 4.5f + ix, -1.5f + iz);
             }).ambiance = themeAmb;
             for (int ix = 0; ix < 11; ix++)
-                for (int iz = 0; iz < 7; iz++)
-                    P("PR_Building_Cim", ground, -14.5f + ix, -1.5f + iz);   // Bahçe 11×7
+                for (int iz = -3; iz < 7; iz++)
+                    P("PR_Building_Cim", ground, -14.5f + ix, -1.5f + iz);   // Bahçe 11×10 (v1.2)
             for (int ix = 0; ix < 40; ix++)
             {
-                P("PR_Building_Kaldirim", ground, -19.5f + ix, -3f);        // Sokak
-                P("PR_Building_Kaldirim", ground, -19.5f + ix, -4f);
-                P("PR_Building_Cim", ground, -19.5f + ix, -5f);
+                P("PR_Building_Kaldirim", ground, -19.5f + ix, -6f);        // Sokak (v1.2: 3 m geri)
+                P("PR_Building_Kaldirim", ground, -19.5f + ix, -7f);
+                P("PR_Building_Cim", ground, -19.5f + ix, -8f);
             }
 
             // ================================================================ DUVARLAR (temalı)
@@ -562,6 +562,7 @@ namespace Taverna.EditorTools
                 for (int i = 1; i < back.Length; i++) P("PR_Building_" + back[i] + suf, g, -3.5f + i, 5.1f);        // Meyhane arka (x −3.5 = mutfak kapısı)
                 for (int i = 0; i < back2.Length; i++) if (i != 5) P("PR_Building_" + back2[i] + suf, g, 4.5f + i, 5.1f);      // Salon arka (x 9.5 = oyun salonu kapısı)
                 for (int i = 1; i < right2.Length; i++) P("PR_Building_" + right2[i] + suf, g, 15.1f, -1.5f + i, 90f); // Salon sağ (z −1.5 = avlu kapısı)
+                for (int i = 1; i <= 3; i++) P("PR_Building_" + (i == 2 ? "Pencere" : "Duvar") + suf, g, 15.1f, -1.5f - i, 90f);   // v1.2 öne uzantı
             });
             // Bahçe çiti (temasız)
             // v1.0: bahçenin arkası Şarap Mahzeni'nin taş cephesi (kapı x = −10.5, mahzen açılınca kalkar)
@@ -570,10 +571,10 @@ namespace Taverna.EditorTools
             Themed(wallYard, Themes.Kind.Wall, (g, suf) => P("PR_Building_Duvar" + suf, g, KitchenLayout.SideWallX, KitchenLayout.YardDoorZ, 90f));
             var wallCellar = Group("Wall_ToCellar");
             P("PR_Building_Duvar_Tas", wallCellar, KitchenLayout.CellarDoorX, 5.1f);
-            for (int i = 0; i < 7; i++) if (i != 3) P("PR_Building_Cit", walls, -15.1f, -1.5f + i, 90f);   // z 1.5 = iskele kapısı
+            for (int i = -3; i < 7; i++) if (i != 3) P("PR_Building_Cit", walls, -15.1f, -1.5f + i, 90f);   // z 1.5 = iskele kapısı
             var gateDock = Group("Gate_ToDock");
             P("PR_Building_Cit", gateDock, -KitchenLayout.SideWallX, KitchenLayout.DockDoorZ, 90f);
-            foreach (var (x, z) in new[] { (-4.1f, 5.1f), (4.1f, 5.1f), (15.1f, 5.1f), (15.1f, -2f), (-4.1f, -2f), (4.1f, -2f) })
+            foreach (var (x, z) in new[] { (-4.1f, 5.1f), (4.1f, 5.1f), (15.1f, 5.1f), (15.1f, -5f), (-4.1f, -5f), (4.1f, -5f) })
                 P("PR_Building_Kose", walls, x, z);
 
             // Meyhane ↔ Bahçe duvarı (bahçe açılınca yıkılır) ve Meyhane ↔ Salon duvarı (salon açılınca yıkılır)
@@ -582,6 +583,7 @@ namespace Taverna.EditorTools
             Themed(wallLeft, Themes.Kind.Wall, (g, suf) =>
             {
                 for (int i = 0; i < left.Length; i++) P("PR_Building_" + left[i] + suf, g, -4.1f, -1.5f + i, -90f);
+                for (int i = 1; i <= 3; i++) P("PR_Building_Duvar" + suf, g, -4.1f, -1.5f - i, -90f);
             });
             var wallGame = Group("Wall_ToGameRoom");     // v0.9: oyun salonu açılınca kalkar (kapı boşluğu)
             Themed(wallGame, Themes.Kind.Wall, (g, suf) => P("PR_Building_Duvar" + suf, g, KitchenLayout.GameDoorX, 5.1f));
@@ -613,7 +615,7 @@ namespace Taverna.EditorTools
             var wallRight = Group("Wall_ToSalon");
             Themed(wallRight, Themes.Kind.Wall, (g, suf) =>
             {
-                for (int i = 0; i < 7; i++) P("PR_Building_Duvar" + suf, g, 4.1f, -1.5f + i, 90f);
+                for (int i = -3; i < 7; i++) P("PR_Building_Duvar" + suf, g, 4.1f, -1.5f + i, 90f);
             });
 
             // Çarpıştırıcılar: zemin + ön sınır (önde duvar yok, kamera tarafı açık)
@@ -625,7 +627,7 @@ namespace Taverna.EditorTools
             var front = new GameObject("FrontBarrier", typeof(BoxCollider));
             front.transform.SetParent(walls);
             var frc = front.GetComponent<BoxCollider>();
-            frc.center = new Vector3(0f, 1f, -2.25f);
+            frc.center = new Vector3(0f, 1f, -5.25f);   // v1.2: ön cephe z −5
             frc.size = new Vector3(50f, 2f, 0.3f);
             _layout = true; // buradan sonrası eski koordinatlarla yazılı → yeni haritaya eşlenir
 
@@ -639,19 +641,19 @@ namespace Taverna.EditorTools
             P("PR_Decor_Mesale", decor, -9.0f, 2.95f);   // bahçe çitindeki fenerler
             P("PR_Decor_Mesale", decor, -4.6f, 2.95f);
             // Sokak (satılık değil, ortam)
-            for (int i = 0; i < 9; i++) P("PR_Decor_Saksi", decor, -11.5f + i * 2.9f, -5.2f);
-            P("PR_Decor_Flama", decor, -1.4f, -2.65f, 15f);
-            P("PR_Decor_Flama", decor, 1.4f, -2.65f, -15f);
+            for (int i = 0; i < 9; i++) P("PR_Decor_Saksi", decor, -11.5f + i * 2.9f, -8.2f);
+            P("PR_Decor_Flama", decor, -1.4f, -5.65f, 15f);
+            P("PR_Decor_Flama", decor, 1.4f, -5.65f, -15f);
 
             var db = AssetDatabase.LoadAssetAtPath<GameDatabase>(TavernaImport.Root + "/Resources/GameDatabase.asset");
 
             // ================================================================ BÖLGE NOKTALARI
             var nav = Group("Navigation");
-            var ent1 = Point("Entrance_Meyhane", nav, 0f, -2.45f);
+            var ent1 = Point("Entrance_Meyhane", nav, 0f, -5.45f);
             var hub1 = Point("Hub_Meyhane", nav, 0.6f, 1.2f);
-            var ent2 = Point("Entrance_Salon", nav, 7.0f, -2.45f);
+            var ent2 = Point("Entrance_Salon", nav, 7.0f, -5.45f);
             var hub2 = Point("Hub_Salon", nav, 7.0f, 1.55f);
-            var ent3 = Point("Entrance_Bahce", nav, -3.7f, -2.45f);
+            var ent3 = Point("Entrance_Bahce", nav, -3.7f, -5.45f);
             var hub3 = Point("Hub_Bahce", nav, -6.5f, 1.5f);
 
             // ================================================================ İSTASYONLAR
@@ -676,9 +678,12 @@ namespace Taverna.EditorTools
                 machineEntries.Add(new TavernRegistry.MachineEntry { drink = d, root = st });
                 st.SetActive(false);
             }
-            var cook = MakeIdleStaff(Group("KitchenStaff"), "Cook_Ayla", "CH_Staff_07_Asci", new Vector3(-1.6f, 0f, 8.2f), 180f);
+            // v1.1: hamur tezgâhı; aşçılar makineler ile tezgâh arasında çalışır (StaffWork)
+            P("PR_Furniture_Tezgah", kitchen, 2.2f, 6.2f);
+            var cookSpots = new[] { new Vector3(2.2f, 0f, 6.85f), new Vector3(1.5f, 0f, 6.85f) };
+            var cook = MakeWorker(Group("KitchenStaff"), "Cook_Ayla", "CH_Staff_07_Asci", new Vector3(-1.6f, 0f, 8.2f), cookSpots, new[] { 180f, 180f }, true);
             // v1.0 Hazine: Ejder aşçı Ignis (sadece gerçek parayla; yemekler ×2 hızlı)
-            var ignis = MakeIdleStaff(Group("PremiumKitchenStaff"), "Cook_Ignis", "CH_Staff_10_Ignis", new Vector3(1.4f, 0f, 8.2f), 180f);
+            var ignis = MakeWorker(Group("PremiumKitchenStaff"), "Cook_Ignis", "CH_Staff_10_Ignis", new Vector3(1.4f, 0f, 8.2f), cookSpots, new[] { 180f, 180f }, true);
             _layout = true;
 
             // ================================================================ MASALAR
@@ -742,7 +747,9 @@ namespace Taverna.EditorTools
                 new() { id = "staff_pip", root = MakeWaiter(staff, "Waiter_Pip", "CH_Main_Pip", "Pip", new Vector3(0.9f, 0f, 0.2f), hub1.position, 2.4f, 1) },
                 new() { id = "staff_mina", root = MakeWaiter(staff, "Waiter_Mina", "CH_Staff_01_GarsonMina", "Mina", new Vector3(5.2f, 0f, 1.4f), hub2.position, 2.6f, 1) },
                 new() { id = "staff_tobi", root = MakeWaiter(staff, "Waiter_Tobi", "CH_Staff_02_GarsonTobi", "Tobi", new Vector3(8.0f, 0f, 1.4f), hub2.position, 2.9f, 2) },
-                new() { id = "staff_gus", root = MakeIdleStaff(staff, "Barmen_Gus", "CH_Staff_03_Barmen", new Vector3(1.8f, 0f, 1.75f), 180f) },
+                // v1.1: barmen tezgâh boyunca dolaşır, makinelere dönüp doldurur, arada salona dönüp tezgâhı siler
+                new() { id = "staff_gus", root = MakeWorker(staff, "Barmen_Gus", "CH_Staff_03_Barmen", new Vector3(1.8f, 0f, 1.75f),
+                    new[] { L(0.6f, 0f, 1.75f), L(1.8f, 0f, 1.75f), L(2.7f, 0f, 1.75f), L(1.2f, 0f, 1.75f) }, new[] { 0f, 0f, 0f, 180f }, false) },
                 new() { id = "staff_nana", root = MakeCleaner(staff, "Cleaner_Nana", "CH_Staff_04_Temizlikci", new Vector3(-2.4f, 0f, -0.2f)) },
                 new() { id = "staff_ayla", root = cook },
                 new() { id = "staff_brak", root = MakeLamplighter(staff, "Lamplighter_Brak", "CH_Staff_05_Fedai", new Vector3(-2.2f, 0f, 1.2f)) },
@@ -760,10 +767,45 @@ namespace Taverna.EditorTools
             Zone(zones, "masaE", "Uzun Masa", 300, 5, "salon", 7.2f, 0.4f, new[] { tE });
             Zone(zones, "masaF", "Yeni Masa", 380, 6, "salon", 4.4f, -0.9f, new[] { tF });
             Zone(zones, "masaG", "Yeni Masa", 420, 7, "salon", 9.6f, -0.9f, new[] { tG });
-            Zone(zones, "masaH", "Bahçe Masası", 650, 9, "bahce", -4.6f, 0.6f, new[] { tH });
-            Zone(zones, "masaI", "Bahçe Masası", 750, 9, "bahce", -8.4f, 0.6f, new[] { tI });
-            Zone(zones, "masaJ", "Bahçe Masası", 850, 10, "bahce", -6.5f, -1.0f, new[] { tJ });
+            Zone(zones, "masaH", "Bahçe Masası", 450, 8, "bahce", -4.6f, 0.6f, new[] { tH });
+            Zone(zones, "masaI", "Bahçe Masası", 650, 8, "bahce", -8.4f, 0.6f, new[] { tI });
+            Zone(zones, "masaJ", "Bahçe Masası", 800, 8, "bahce", -6.5f, -1.0f, new[] { tJ });
             Zone(zones, "sahne", "Ozan Sahnesi", 2500, 11, "bahce", -6.5f, 1.55f, new[] { sahne });
+            // ================================================================ v1.2 ÖN SIRA MASALARI (oyuncu testi: "masalar çok artmalı")
+            // Bina sokağa doğru 3 m büyüdü (ön cephe z = −2 → −5). Ham koordinat; müşteri girişten koridora (cz) yürür, oradan oturağa.
+            _layout = false;
+            GameObject FrontTable(string name, float x, float z, Transform ent, float cz)
+            {
+                var seats = new[]
+                {
+                    Seat(x - 0.65f, z, (ent.position.x, cz), (x - 0.65f, cz)),
+                    Seat(x + 0.65f, z, (ent.position.x, cz), (x + 0.65f, cz)),
+                };
+                return Table(name, "PR_Furniture_MasaYuvarlak", tables, x, z, 3f, ent, ent, seats);
+            }
+            var frontRow = new (string id, float x, float z, Transform ent, float cz, long cost, int lv, string req, string label)[]
+            {
+                ("masaM1", -2.5f, -3.0f, ent1, -3.9f, 160, 3, "", "Yeni Masa"),
+                ("masaM2", 2.5f, -3.0f, ent1, -3.9f, 240, 4, "", "Yeni Masa"),
+                ("masaS1", 5.4f, -2.8f, ent2, -3.55f, 320, 5, "salon", "Yeni Masa"),
+                ("masaS2", 13.6f, -2.8f, ent2, -3.55f, 400, 5, "salon", "Yeni Masa"),
+                ("masaS3", 7.5f, -2.8f, ent2, -3.55f, 480, 6, "salon", "Yeni Masa"),
+                ("masaS4", 11.5f, -2.8f, ent2, -3.55f, 560, 6, "salon", "Yeni Masa"),
+                ("masaS5", 6.45f, -4.3f, ent2, -3.55f, 650, 7, "salon", "Yeni Masa"),
+                ("masaS6", 12.55f, -4.3f, ent2, -3.55f, 750, 7, "salon", "Yeni Masa"),
+                ("masaB1", -8.0f, -2.8f, ent3, -3.55f, 900, 8, "bahce", "Bahçe Masası"),
+                ("masaB2", -10.2f, -2.8f, ent3, -3.55f, 1000, 8, "bahce", "Bahçe Masası"),
+                ("masaB3", -12.4f, -2.8f, ent3, -3.55f, 1100, 9, "bahce", "Bahçe Masası"),
+                ("masaB4", -9.1f, -4.3f, ent3, -3.55f, 1200, 9, "bahce", "Bahçe Masası"),
+                ("masaB5", -11.3f, -4.3f, ent3, -3.55f, 1350, 10, "bahce", "Bahçe Masası"),
+            };
+            foreach (var f in frontRow)
+            {
+                var ft = FrontTable("Table_" + f.id, f.x, f.z, f.ent, f.cz);
+                Zone(zones, f.id, f.label, f.cost, f.lv, f.req, f.x, f.z, new[] { ft });
+            }
+            _layout = true;
+
             _layout = false;
             Zone(zones, "mutfak", "Mutfağı Aç", 700, 6, "", KitchenLayout.DoorX, 4.05f, new GameObject[0], new[] { wallKitchen.gameObject });
             var hk = BuildInn(zones);
@@ -804,8 +846,8 @@ namespace Taverna.EditorTools
 
             // ================================================================ MÜŞTERİ YOLU
             var spawner = new GameObject("CustomerSpawner").AddComponent<CustomerSpawner>();
-            spawner.outside = Point("StreetWest", spawner.transform, -13.5f, -3.5f);
-            spawner.outsideB = Point("StreetEast", spawner.transform, 13.5f, -3.5f);
+            spawner.outside = Point("StreetWest", spawner.transform, -13.5f, -6.5f);
+            spawner.outsideB = Point("StreetEast", spawner.transform, 13.5f, -6.5f);
             spawner.entrance = ent1;
             spawner.hub = hub1;
 
@@ -840,7 +882,7 @@ namespace Taverna.EditorTools
             dayNight.cam = cam;
             var follow = camGo.AddComponent<CameraFollow>();
             follow.target = player.transform;
-            follow.minXZ = new Vector2(-13f, -3f);   // büyük odalar (v0.6)
+            follow.minXZ = new Vector2(-13f, -6f);   // büyük odalar (v0.6) + v1.2 ön uzantı
             follow.maxXZ = new Vector2(13f, 9.2f);   // mutfak (v0.7)
             follow.SnapNow();
 
@@ -886,6 +928,20 @@ namespace Taverna.EditorTools
             var r = ring.GetComponent<MeshRenderer>();
             r.sharedMaterial = TavernaImport.ColorMaterial(path, StaffBadge.RoleColor(role));
             r.shadowCastingMode = ShadowCastingMode.Off;
+        }
+
+        /// <summary>v1.1: duraklar arasında gidip çalışan görevli (barmen, aşçı). Duraklar dünya koordinatında.</summary>
+        static GameObject MakeWorker(Transform parent, string name, string prefab, Vector3 pos, Vector3[] spots, float[] faces, bool kitchen)
+        {
+            var root = MakeIdleStaff(parent, name, prefab, pos, 180f);
+            var idle = root.GetComponent<StaffIdle>();
+            var w = root.AddComponent<StaffWork>();
+            w.anim = idle.anim;
+            w.spots = spots;
+            w.faces = faces;
+            w.kitchenStations = kitchen;
+            Object.DestroyImmediate(idle);
+            return root;
         }
 
         static GameObject MakeIdleStaff(Transform parent, string name, string prefab, Vector3 pos, float rotY)
@@ -1133,18 +1189,18 @@ namespace Taverna.EditorTools
             foreach (var (x, z) in new[] { (-21.7f, -1.9f), (-15.7f, 6.5f), (-18.6f, 6.4f), (-21.6f, 6.2f), (-27f, -3f) }) Put("PR_Nature_Saz", x, z, R(0, 360), R(0.9f, 1.3f));
             foreach (var (x, z) in new[] { (-24.6f, -2.6f), (-26.5f, 3.2f), (-19.2f, 8.4f), (-29f, 7f) }) Put("PR_Nature_Nilufer", x, z, R(0, 360), R(0.9f, 1.3f));
             // Sokağın önü: alçak çit, çiçek tarhları, çalılar (oyunu kapatmasın diye alçak)
-            for (int i = 0; i < 44; i++) P("PR_Building_Cit", world, -21.5f + i, -5.6f);
-            foreach (var x in new[] { -10f, -2f, 6f, 13f }) Put("PR_Nature_CicekTarhi", x, -6.7f);
-            foreach (var x in new[] { -14f, -6f, 2f, 9.5f, 17f }) Put("PR_Nature_Cali", x, -6.4f, R(0, 360), R(0.8f, 1f));
-            Put("PR_Nature_Kaya1", -17.5f, -7.4f); Put("PR_Nature_Kaya1", 19.5f, -7.8f, 120f);
+            for (int i = 0; i < 44; i++) P("PR_Building_Cit", world, -21.5f + i, -8.6f);
+            foreach (var x in new[] { -10f, -2f, 6f, 13f }) Put("PR_Nature_CicekTarhi", x, -9.7f);
+            foreach (var x in new[] { -14f, -6f, 2f, 9.5f, 17f }) Put("PR_Nature_Cali", x, -9.4f, R(0, 360), R(0.8f, 1f));
+            Put("PR_Nature_Kaya1", -17.5f, -10.4f); Put("PR_Nature_Kaya1", 19.5f, -10.8f, 120f);
             foreach (var x in new[] { -22f, -12f, 0f, 11f, 22f }) Put("PR_Nature_Agac", x + R(-1f, 1f), R(-11.5f, -9.5f), R(0, 360), R(0.9f, 1.2f));
             // Ot tutamları (bina, sokak ve yollardan uzak)
             for (int i = 0; i < 110; i++)
             {
                 float x = R(-28f, 28f), z = R(-12f, 16f);
-                bool building = x > -21.5f && x < 24f && z > -2.5f && z < 10.4f;   // bina + avlu + iskele
+                bool building = x > -21.5f && x < 24f && z > -5.5f && z < 10.4f;   // bina + avlu + iskele (v1.2 ön uzantı)
                 if (x < -21f && z > -9f) continue;   // göl
-                bool street = z > -5.8f && z < -2.2f;
+                bool street = z > -8.8f && z < -5.2f;
                 if (building || street) continue;
                 Put("PR_Nature_OtTutami", x, z, R(0, 360), R(0.8f, 1.4f));
             }
@@ -1154,17 +1210,22 @@ namespace Taverna.EditorTools
                     P("PR_Nature_Cati", world, -20f + ix * 4f, 33f + iz * 4f, 0f, -0.25f);
 
             // Tabela: Meyhane ile bahçenin köşesinde, sokağa bakar; yazı noktası panonun önünde
-            P("PR_Decor_Tabela", world, -3.2f, -2.6f);
+            // v1.2: tabela seviyeyle kademe atlar (statik grubun dışında: değişince açılıp kapanır)
+            var signHolder = Group("SignTiers");
+            var signVariants = new GameObject[5];
+            signVariants[0] = P("PR_Decor_Tabela", signHolder, -3.2f, -5.6f);
+            for (int i = 1; i < 5; i++) { signVariants[i] = P($"PR_Sign_{i + 1}", signHolder, -3.2f, -5.6f); signVariants[i].SetActive(false); }
+            signHolder.gameObject.AddComponent<SignTier>().variants = signVariants;
             // v1.0 Hazine: Kraliyet tabela çerçevesi (statik grubun dışında: alınınca görünür)
             var frameHolder = Group("PremiumSignFrame");
-            var frame = P("PR_Decor_TabelaCerceve", frameHolder, -3.2f, -2.6f);
+            var frame = P("PR_Decor_TabelaCerceve", frameHolder, -3.2f, -5.6f);
             var pv = frameHolder.gameObject.AddComponent<PremiumVisual>();
             pv.productId = "frame_kraliyet";
             pv.target = frame;
             frame.SetActive(false);
             var signText = new GameObject("TavernSignText").transform;
             signText.SetParent(world, false);
-            signText.position = new Vector3(-3.2f, 1.98f, -2.66f);
+            signText.position = new Vector3(-3.2f, 1.98f, -5.66f);
 
             _layout = lay;
             return world;
@@ -1186,7 +1247,7 @@ namespace Taverna.EditorTools
             set.variants = new[] { null, t1.gameObject, t2.gameObject };
 
             // Sütunlar: oda köşeleri + oyun salonu kapısının iki yanı (duvar yüzeyinde, içeride)
-            var pillars = new (float x, float z)[] { (-3.85f, 4.85f), (3.85f, 4.85f), (4.35f, 4.85f), (14.85f, 4.85f), (-3.85f, -1.95f), (14.85f, -1.95f), (8.75f, 4.85f), (10.25f, 4.85f) };
+            var pillars = new (float x, float z)[] { (-3.85f, 4.85f), (3.85f, 4.85f), (4.35f, 4.85f), (14.85f, 4.85f), (-3.85f, -4.95f), (14.85f, -4.95f), (8.75f, 4.85f), (10.25f, 4.85f) };
             foreach (var (x, z) in pillars)
             {
                 P("PR_Tier_TasSutun", t1, x, z);
@@ -1201,8 +1262,9 @@ namespace Taverna.EditorTools
                 var pos = t.position;
                 if (pos.x < -4.1f || pos.z > 5.1f) continue;
                 bool longTable = t.name == "Table_E";
-                P("PR_Tier_DemirAvize", t1, pos.x, pos.z);
-                P("PR_Tier_SarayAvize", t2, pos.x, pos.z);
+                // v1.1: kademe avizeleri de ışık versin (gövde 2.0–2.7 m)
+                NightLight.Attach(P("PR_Tier_DemirAvize", t1, pos.x, pos.z), 2.1f, 5f, new Color(1f, 0.7f, 0.42f), 2f);
+                NightLight.Attach(P("PR_Tier_SarayAvize", t2, pos.x, pos.z), 2.1f, 6f, new Color(1f, 0.84f, 0.6f), 2.6f);
                 P("PR_Tier_Ortu1", t1, pos.x, pos.z, longTable ? 90f : 0f);
                 P("PR_Tier_Ortu2", t2, pos.x, pos.z, longTable ? 90f : 0f);
             }
@@ -1214,9 +1276,9 @@ namespace Taverna.EditorTools
             // Hedef alanı (mockup M): Salon önü, masa ve yol dışında
             var zoneGo = new GameObject("TierZone");
             zoneGo.transform.SetParent(root, false);
-            zoneGo.transform.position = new Vector3(7.6f, 0.046f, -1.5f);
+            zoneGo.transform.position = new Vector3(0f, 0.046f, -3.6f);   // v1.2: Meyhane ön koridoru (salon önü masalarla doldu)
             var zone = zoneGo.AddComponent<TierZone>();
-            var vis = P("PR_Tier_BuyutKaresi", zoneGo.transform, 7.6f, -1.5f, 0f, 0.046f);
+            var vis = P("PR_Tier_BuyutKaresi", zoneGo.transform, 0f, -3.6f, 0f, 0.046f);
             vis.transform.localScale = Vector3.one * 0.75f;
             zone.visual = vis;
             vis.SetActive(false);
@@ -1265,6 +1327,11 @@ namespace Taverna.EditorTools
             var tB = Table("Table_CellarB", "PR_Furniture_MasaYuvarlak", room, -7.6f, 7.3f, 6f, ent, hub, new[] { S(-8.25f, 7.3f), S(-6.95f, 7.3f) });
             var torch = AddLantern(room, "CellarTorch", "bahce", -11.6f, 9.7f, 4f);
             Zone(zones, "mahzen", "Şarap Mahzeni", 6000, 17, "bahce", KitchenLayout.CellarDoorX, 4.05f, new[] { tA, tB, torch }, new[] { doorWall });
+            // v1.2: mahzen 2 → 4 masa (ön sıra, kapı tarafı)
+            var tC2 = Table("Table_CellarC", "PR_Furniture_MasaYuvarlak", room, -12.9f, 5.95f, 6f, ent, hub, new[] { S(-13.55f, 5.95f), S(-12.25f, 5.95f) });
+            var tD2 = Table("Table_CellarD", "PR_Furniture_MasaYuvarlak", room, -8.0f, 5.95f, 6f, ent, hub, new[] { S(-8.65f, 5.95f), S(-7.35f, 5.95f) });
+            Zone(zones, "mahzenC", "Mahzen Masası", 2500, 17, "mahzen", -12.9f, 5.95f, new[] { tC2 });
+            Zone(zones, "mahzenD", "Mahzen Masası", 3200, 18, "mahzen", -8.0f, 5.95f, new[] { tD2 });
             _layout = lay;
         }
 
@@ -1320,6 +1387,12 @@ namespace Taverna.EditorTools
             var torchA = AddLantern(room, "TerraceTorchA", "teras", 6.8f, 42.6f, 4f);
             var torchB = AddLantern(room, "TerraceTorchB", "teras", 13.6f, 40.8f, 4f);
             Zone(zones, "teras", "Çatı Terası", 7000, 20, "merdiven", 4.5f, 37.5f, new[] { t1, t2, t3, torchA, torchB }, new[] { _terraceDoor.gameObject });
+            // v1.2: teras 3 → 4 masa (barın önü; iki yandaki koridordan oturulur)
+            var t4 = Table("Table_TerraceD", "PR_Furniture_MasaYuvarlak", room, 10.9f, 41.8f, 8f, ent, hub, new[]
+            {
+                Seat(10.25f, 41.8f, Via(9.45f, (9.45f, 41.8f))), Seat(11.55f, 41.8f, Via(12.3f, (12.3f, 41.8f))),
+            });
+            Zone(zones, "terasD", "Teras Masası", 3500, 20, "teras", 10.9f, 41.8f, new[] { t4 });
             _layout = lay;
         }
 
@@ -1357,6 +1430,11 @@ namespace Taverna.EditorTools
             var lA = AddLantern(room, "YardTorchA", "avlu", 15.9f, 4.8f, 4f);
             var lB = AddLantern(room, "YardTorchB", "avlu", 23.2f, 1.5f, 4f);
             Zone(zones, "avlu", "Arka Avlu", 8000, 23, "salon", 14.45f, KitchenLayout.YardDoorZ, new[] { tA, tB, tC, lA, lB }, new[] { door });
+            // v1.2: avlu 3 → 5 masa
+            var tD = Table("Table_YardD", "PR_Furniture_MasaYuvarlak", room, 16.9f, 3.3f, 6f, ent, hub, new[] { Seat(16.25f, 3.3f, (16.25f, 2.0f)), Seat(17.55f, 3.3f, (17.55f, 2.0f)) });
+            var tE = Table("Table_YardE", "PR_Furniture_MasaYuvarlak", room, 21.7f, 3.3f, 6f, ent, hub, new[] { Seat(21.05f, 3.3f, (21.05f, 2.0f)), Seat(22.35f, 3.3f, (22.35f, 2.0f)) });
+            Zone(zones, "avluD", "Avlu Masası", 3800, 23, "avlu", 16.9f, 3.3f, new[] { tD });
+            Zone(zones, "avluE", "Avlu Masası", 4500, 24, "avlu", 21.7f, 3.3f, new[] { tE });
             _layout = lay;
         }
 
@@ -1410,6 +1488,9 @@ namespace Taverna.EditorTools
             var lA = AddLantern(room, "DockTorchA", "iskele", -20.8f, 5.4f, 4f);
             var lB = AddLantern(room, "DockTorchB", "iskele", -15.5f, -1.2f, 4f);
             Zone(zones, "iskele", "İskele", 9000, 26, "bahce", -14.4f, KitchenLayout.DockDoorZ, new[] { tA, tB, tC, lA, lB }, new[] { gate });
+            // v1.2: iskele 3 → 4 masa
+            var tD = Table("Table_DockD", "PR_Furniture_MasaYuvarlak", room, -16.6f, 2.9f, 7f, ent, hub, new[] { Seat(-17.25f, 2.9f, (-17.25f, 1.9f)), Seat(-15.95f, 2.9f, (-15.95f, 1.9f)) });
+            Zone(zones, "iskeleD", "İskele Masası", 5000, 26, "iskele", -16.6f, 2.9f, new[] { tD });
             _layout = lay;
         }
 
@@ -1484,8 +1565,8 @@ namespace Taverna.EditorTools
             A("dec_avize", "salon", 7.2f, 0.4f, 0f, 0.9f); A("dec_avize", "salon", 4.4f, -0.9f, 0f, 0.9f);
             // v1.0 Hazine (premium, birer yer): kristal avize D masasının üstünde; ejder heykeli ve altın fıçı dışarıda, vitrin gibi
             A("dec_kristal", "", 2.0f, -1.3f, 0f, 0.9f);
-            list.Add(new TavernRegistry.DecorSlot { item = "dec_ejder", zone = "", pos = new Vector3(3.0f, 0f, -2.85f), rotY = 0f });
-            list.Add(new TavernRegistry.DecorSlot { item = "dec_altinfici", zone = "", pos = new Vector3(13.4f, 0f, -2.85f), rotY = 0f });
+            list.Add(new TavernRegistry.DecorSlot { item = "dec_ejder", zone = "", pos = new Vector3(3.0f, 0f, -5.85f), rotY = 0f });
+            list.Add(new TavernRegistry.DecorSlot { item = "dec_altinfici", zone = "", pos = new Vector3(13.4f, 0f, -5.85f), rotY = 0f });
             return list.ToArray();
         }
 

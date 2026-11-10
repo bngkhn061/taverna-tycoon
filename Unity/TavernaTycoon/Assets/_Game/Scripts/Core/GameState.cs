@@ -42,14 +42,19 @@ namespace Taverna
         public bool autoOrder;      // "Tedarikçi anlaşması": stok azalınca kendiliğinden sipariş
         public List<string> staffIds = new();   // görevli seviyeleri (StaffUpgrades)
         public List<int> staffLvs = new();
+        public List<string> staffAds = new();   // v1.1: reklamla verilen her görevli seviyesi (görevli başına en fazla 2)
         public string floorTheme = "", wallTheme = "";   // Themes (boş = varsayılan)
         public List<int> roomLvs = new();                 // han odalarının konfor kademesi (Inn)
         public string tavernName = "";                    // v0.9: tabela (boşsa ilk "OYNA"da sorulur)
-        public bool tutorialDone;                         // v0.9: rehber görüldü / atlandı
+        public bool tutorialDone;
+        public bool eventsSeen;                           // v1.2: etkinlik butonundaki "YENİ!" bir kez                         // v0.9: rehber görüldü / atlandı
         public int renameAds;                             // v0.9: ad değiştirmek için izlenen reklam sayacı
         public List<string> autos = new();                // v0.9: alınan otomasyonlar (Automation)
         public int ustaGelir, ustaMusteri;                // v0.9: Usta geliştirme kademeleri
         public int sulkyDay;
+        public int eventDay;                              // v1.2 etkinlikler: bugün kullanılanlar
+        public List<string> eventsUsed = new();
+        public float happiness = -1f;                    // v1.2 Mutluluk (0–100, -1 = yeni oyun → Happiness.Start)
         public int tier;                                  // v1.0 "Tavernayı Büyüt": 0 Ahşap, 1 Taş Han, 2 Saray Hanı
         public List<string> premium = new();              // v1.0 Hazine: alınan gerçek para ürünleri (tek seferlik)
         public string vipUntilUtc = "", vipGemDate = "", starterShownUtc = "";                              // v1.0: maaşı ödenmeyen personelin küskün olduğu gün

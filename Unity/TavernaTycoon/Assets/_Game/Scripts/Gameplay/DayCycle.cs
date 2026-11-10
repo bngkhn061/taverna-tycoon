@@ -43,6 +43,7 @@ namespace Taverna
         void Update()
         {
             if (Ended) return;
+            if (Tutorial.HoldsTime) { RemainingSeconds = dayLength - _t; Progress01 = _t / dayLength; return; }   // v1.2: rehber sürerken gün akmaz
             _t += Time.deltaTime;
             Progress01 = _t / dayLength;
             RemainingSeconds = dayLength - _t;
@@ -65,6 +66,7 @@ namespace Taverna
             _servedStart = GameState.Data.customersServed;
             GameState.Save();
             Ended = true;
+            TavernEvents.StopAll();
             _prevScale = Time.timeScale > 0f ? Time.timeScale : 1f;
             Time.timeScale = 0f;
             DayEnded?.Invoke(r);

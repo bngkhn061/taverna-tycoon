@@ -73,7 +73,7 @@ namespace Taverna
         public const int RichUn = 2;
         public const float MaxStarPenalty = 2f;
 
-        /// <summary>4. ve 8. seviyede görsel kademe değişir: 1 Ahşap, 2 Pirinç, 3 Altın.</summary>
+        /// <summary>4. ve 8. seviyede görsel kademe değişir: 1 Yeni, 2 Gelişmiş, 3 Kusursuz (v1.1 adları).</summary>
         public static int VisualTier(int bestLv) => bestLv >= 8 ? 3 : bestLv >= 4 ? 2 : 1;
 
         // ---- Müşteriler (§7)
@@ -82,7 +82,14 @@ namespace Taverna
         public static float PatienceLevelScale(int level) => Mathf.Max(0.85f, 1f - 0.015f * Mathf.Max(0, level - 8));   // tempo ölçümü: 0.7 / %2 fazla serti
         /// <summary>v1.0 denge: müşteriye fazladan 1 sipariş ihtimali (Sv10+ %20, Sv18+ %35).</summary>
         public static float ExtraOrderChance(int level) => level >= 18 ? 0.25f : level >= 10 ? 0.2f : 0f;
-        public const float BaseSpawnInterval = 6f;
+        /// <summary>v1.2 (oyuncu testi "biraz daha fazla müşteri, tempo artsın"): 6 → 5.2 sn.</summary>
+        public const float BaseSpawnInterval = 5.2f;
+
+        /// <summary>
+        /// v1.2 masa planı (21 → 40 masa): açık oturak arttıkça müşteri de artar. 12 oturağa kadar ×1,
+        /// sonra karekökle büyür, en fazla ×2.2 (40 oturakta ≈ ×1.83).
+        /// </summary>
+        public static float SeatSpawnScale(int seats) => Mathf.Clamp(Mathf.Sqrt(seats / 12f), 1f, 2.2f);
         public const float DrinkDuration = 3f;
         public static float PayMultiplier(int payStars) => payStars <= 0 ? 0f : 0.8f + 0.2f * payStars;
         /// <summary>Sabır yeşil bölgedeyken servis → bahşiş (+%25). Sarıdayken bahşiş yok.</summary>

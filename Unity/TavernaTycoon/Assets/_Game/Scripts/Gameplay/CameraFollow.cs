@@ -7,6 +7,7 @@ namespace Taverna
     /// Yüksek açılı, sabit yönlü takip kamerası (DESIGN_RULES §2).
     /// Geniş varsayılan görüş + iki parmakla / fare tekerleğiyle yakınlaştırma.
     /// </summary>
+    [DefaultExecutionOrder(-50)]   // v1.1: kamera HUD'dan önce yerleşsin; yoksa dünya etiketleri (tabela adı) bir kare geriden gelip titriyor
     public class CameraFollow : MonoBehaviour
     {
         public Transform target;
@@ -15,7 +16,7 @@ namespace Taverna
         /// <summary>Yakınlaştırma sınırı: oyuncu testi "çok fazla yakınlaşıp uzaklaşıyor" (2026-11-10) → 9–14.</summary>
         public Vector2 zoomRange = new(9f, 14f);
         public float smooth = 6f;
-        public Vector2 minXZ = new(-9f, -3f);
+        public Vector2 minXZ = new(-9f, -6f);
         public Vector2 maxXZ = new(9f, 2.2f);
         /// <summary>Üst kat (han odaları, v0.8) sınırları; hedef z &gt; Inn.UpZ iken kullanılır.</summary>
         public Vector2 upMinXZ = new(-1.5f, 37.5f);

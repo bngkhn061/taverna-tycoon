@@ -14,7 +14,7 @@ namespace Taverna
         public const float HelperSeconds = 180f;
         public const float HelperCooldownSeconds = 600f;
         /// <summary>Tellalın sokaktaki yeri (tavernanın önü).</summary>
-        public static readonly Vector3 CrierPos = new(0.5f, 0f, -3.4f);
+        public static readonly Vector3 CrierPos = new(0.5f, 0f, -6.4f);   // v1.2: sokak 3 m geride
 
         static float _crierUntil, _helperUntil, _helperReadyAt;
         static GameObject _crier, _helper;

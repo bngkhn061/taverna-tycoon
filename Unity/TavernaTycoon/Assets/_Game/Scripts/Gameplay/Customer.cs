@@ -124,6 +124,7 @@ namespace Taverna
             if (foods.Count > 0 && Random.value < Balance.FoodOrderChance) wanted = foods[Random.Range(0, foods.Count)].drink.id;
             patienceMax = patience = Balance.PatienceSeconds(def.patienceStars) * Balance.PatienceLevelScale(GameState.Level) * Management.PatienceMultiplier;
             state = State.Waiting;
+            if (Random.value < 0.3f) Sfx.Voice(def, VoiceKind.Order, transform.position);
         }
 
         void TryGetServed()
@@ -141,7 +142,8 @@ namespace Taverna
         public void Serve()
         {
             reservedBy = null;
-            float tip = Balance.TipMultiplier(Patience01) * (RushHour.Active ? 2f : 1f) * Management.TipFromStars;
+            Happiness.OnServed(Patience01, HeadPos);
+            float tip = Balance.TipMultiplier(Patience01) * (RushHour.Active ? 2f : 1f) * Management.TipFromStars * TavernEvents.TipMultiplier;
             GameState.RaiseServed(wanted);
             var station = DrinkStation.All.Find(s => s.drink.id == wanted);
             int price = station ? station.Price : 1;
@@ -160,6 +162,7 @@ namespace Taverna
                 _cupGo.transform.localScale = Vector3.one * 1.2f;
             }
             if (_anim) _anim.Pop();
+            if (Random.value < (tip > 1f ? 0.45f : 0.2f)) Sfx.Voice(def, VoiceKind.Happy, transform.position, 0.9f);
         }
 
         int _pendingPay;
@@ -178,7 +181,7 @@ namespace Taverna
         void Leave(Emote e)
         {
             reservedBy = null;
-            if (e == Emote.Angry) { Sfx.Play(SfxId.Angry); Management.OnAngryCustomer(); }
+            if (e == Emote.Angry) { Sfx.Voice(def, VoiceKind.Grumble, transform.position, 1.1f); Management.OnAngryCustomer(); Happiness.OnAngry(HeadPos); }
             emote = e;
             emoteTime = 1.5f;
             state = State.Leaving;

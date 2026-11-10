@@ -227,6 +227,42 @@ Her dekor ve mobilyanın bir **Ambiyans** değeri vardır. Toplam Ambiyans şunl
 - **Sabır:** ★1 = 15 sn, ★5 = 45 sn. Sabır halkası yeşil → sarı → kırmızı. Sarıdayken servis edilirse bahşiş yok.
 - **Seviyeyle zorlaşma (v1.0):** Sv6'dan sonra müşteri aralığı seviye başına ×0.98 kısalır (en fazla ×1.25 kalabalık). Sv8'den sonra sabır seviye başına %1,5 kısalır (en az %85). Sv10+ müşterilerin %20'si, Sv18+ %25'i fazladan 1 sipariş verir. Barlo tek başına yetişemez; personel ve otomasyon gerekir.
 - **Yoğun Saat (olay):** Her 5–7 dakikada bir, 45 sn boyunca müşteri gelişi ×2 ve bahşiş ×2. Zorluk zirvesi budur. Kaçırınca ceza yoktur, yakalayınca büyük kazanç vardır.
+- **v1.2 gelme hızı:** taban aralık 5,2 sn (eskiden 6). Açık oturak sayısıyla çarpılır: `SeatSpawnScale = clamp(√(oturak / 12), 1, 2.2)` (40 oturak ≈ ×1.83). Ayrıca ÷ Mutluluk çarpanı, ÷ etkinlik çarpanı.
+
+### 7.2 Mutluluk (v1.2)
+
+Tek değer `M` (0–100, kayıtta; yeni oyunda 60). HUD'da altının altında yüzlü bar; dokununca açıklama.
+
+| Olay | Etki |
+|---|---|
+| Servis, sabır ≥ %66 | M + 4 |
+| Servis, sabır ≥ %33 | M + 2 |
+| Servis, sabır < %33 | 0 |
+| Kızgın giden müşteri / misafir | M − 8 |
+| Her kirli masa | saniyede M − 0,12 |
+| Boşta | saniyede 0,04 hızla 50'ye döner |
+
+Müşteri gelişi çarpanı: `M < 50 → lerp(0.6, 1.0, M/50)`, `M ≥ 50 → lerp(1.0, 1.5, (M−50)/50)`.
+★ yıldızlar artık sadece ambiyanstan gelir (`1 + ambiyans/30`, 1–5): zengin müşteri ağırlığı ve bahşiş. Kirli masa ve kızgın müşteri yıldızı değil mutluluğu düşürür.
+
+### 7.3 Etkinlikler (v1.2)
+
+Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinlik; gün bitince söner. Fiyat `taban + seviye × artış`.
+
+| Etkinlik | Açılış | Fiyat | Etki |
+|---|---|---|---|
+| Ozan Konseri | Sv4 | 120 + 60·Sv | müşteri gelişi ×1.6, ozan sahneye çıkar |
+| Bira Festivali | Sv5 | 150 + 80·Sv | satış fiyatı ×1.5 |
+| Tüccar Kervanı | Sv6, Ana Salon | 200 + 100·Sv | zengin müşteri ×5, bahşiş ×2, gelme ×1.2 |
+| Zar Turnuvası | Sv13, Oyun Salonu | 250 + 120·Sv | oyun masası ücreti ×2.5, tur ×1.4 hızlı |
+
+### 7.4 Rehber v2 (v1.2)
+
+9 adım: bira al → bardak dolsun → ilk müşteriye götür → parayı topla → **Görevler** butonu açılır → ödeme karesine para ver → **Dükkân** açılır → **Personel** açılır → **Depo** açılır. Rehber sürerken gün saati ve yoğun saat durur, ilk müşteri bardak dolunca gelir, en fazla 2 müşteri olur; elmas, yardımcı ve etkinlik butonu rehber bitince görünür. Her an atlanabilir.
+
+### 7.5 Masa planı ve tabela (v1.2)
+
+Ön cephe sokağa doğru 3 m büyüdü (z −2 → −5), sokak geri çekildi. Masa yerleri 21 → 40: Meyhane +2 (Sv3–4), Ana Salon +6 (Sv5–7), Bahçe +5 (Sv8–10, bahçeyle birlikte satın alınabilir), Mahzen +2, Teras +1, Avlu +2, İskele +1. Tabela Sv1 / 5 / 10 / 15 / 20'de kademe atlar (tahta → boyalı → demir → yaldızlı → görkemli), yazı rengi de değişir.
 
 ---
 
@@ -296,3 +332,12 @@ Her dekor ve mobilyanın bir **Ambiyans** değeri vardır. Toplam Ambiyans şunl
 | UI | Ana menü, Ayarlar, HUD, Yükseltme paneli (`design/ui/ui_mockups.html`) + menü arka planı | ✅ |
 | UI (sonra) | Seviye Atladın, Sen Yokken…, Koleksiyon Defteri, Mağaza, Düzenleme modu | ⬜ |
 | Hareket | İskelet (BODY_S/M/L) + temel animasyon seti | ⬜ |
+| Ses (v1.1) | 38 efekt (Kenney CC0 + katmanlama), 3 müzik (RandomMind CC0), 6 ses tipi × 14 oyuncak-dil konuşma, 5 ortam döngüsü (`tools/audio/build_audio.py`, önizleme `design/audio/ses_onizleme.html`) | ✅ |
+
+### 11.1 Ses kuralları (v1.1)
+
+- **Müzik:** (RandomMind, CC0 — `assets/audio/CREDITS.md`) gündüz `day` (Minstrel Dance); hava kararınca ve gün sonu ekranında `evening` (The Old Tower Inn); yoğun saatte `rush` (Market Day). Geçiş 2,5 sn çapraz; dönülen parça kaldığı yerden sürer. Büyük anlarda (seviye, yoğun saat, yeni alan, şafak, akşam) müzik efekt süresince %35'e iner.
+- **Kalabalık:** ayakta/oturan müşteri sayısı `n` (çıkanlar hariç). Az uğultu = `clamp01(n/4)·0.32`, dolu uğultu = `clamp01((n−4)/10)·0.45` (yoğun saatte en az 0.18). Gün bitince ikisi de söner.
+- **Gevezelik:** `n ≥ 2` iken her `U(1.0, 3.2) · lerp(1.4, 0.45, n/14)` saniyede içen bir müşteri konuşur (%22 kahkaha). Sipariş anında %30 “sipariş” sesi, serviste %45 (bahşişli) / %20 “sevinç”, kızgın çıkışta “söylenme”. Aynı anda en fazla 4 konuşma; ekran dışındakiler %35 sesle, ekrandaki yerine göre sağ/sol.
+- **Ses tipleri:** kalın (Oduncu, Demirci, Muhafız, Cüce, Şövalye, Ork), kadın (Çoban Kız, Elf, Cadı, Simyacı), minik (Buçukluk, Goblin), yaşlı (Keşiş, Büyücü), kibar (Tüccar, Vergi Memuru), diğerleri erkek. Her tipin kendi sabit perdesi var (0,93–1,05).
+

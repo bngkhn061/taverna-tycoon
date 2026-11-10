@@ -22,7 +22,7 @@ namespace Taverna
             p.Teleport(arrive);
             var cam = Camera.main ? Camera.main.GetComponent<CameraFollow>() : null;
             if (cam) cam.SnapNow();
-            Sfx.Play(SfxId.Pop, goesUp ? 1.3f : 0.9f);
+            Sfx.Play(SfxId.Step, goesUp ? 1.05f : 0.95f);
             Inn.RaiseStairs(goesUp);
         }
     }

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taverna Tycoon ses önizleme</title>
+<!-- v1.1 ses paketi: tools/audio/build_audio.py üretir, dosyalar assets/audio altında. Tarayıcıda açıp dinle. -->
+<style>
+  :root { --ink: #1f1a17; --paper: #fbf3e2; --mus: #f2b631; --brick: #d4553a; --muted: #7a6a5c; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #f4e9d6; --paper: #211a15; --muted: #b9a893; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 60px; background: var(--paper); color: var(--ink); font: 15px/1.45 system-ui, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  h2 { font-size: 18px; margin: 32px 0 10px; padding-bottom: 6px; border-bottom: 3px solid var(--mus); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .card { border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px; }
+  .card b { display: block; }
+  .card small { color: var(--muted); display: block; margin-bottom: 6px; }
+  audio { width: 100%; height: 34px; }
+  .voices { display: grid; grid-template-columns: 90px repeat(5, 1fr); gap: 6px; align-items: center; }
+  .voices button { border: 2px solid var(--ink); background: transparent; color: var(--ink); border-radius: 8px; padding: 6px 4px; cursor: pointer; font: inherit; font-size: 13px; }
+  .voices button:hover { background: var(--mus); color: #1f1a17; }
+  .voices .h { font-weight: 700; font-size: 13px; color: var(--muted); }
+  @media (max-width: 560px) { .voices { grid-template-columns: 70px repeat(5, 1fr); } .voices button { font-size: 11px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Taverna Tycoon · ses paketi v1.1</h1>
+  <p class="sub">Efektler Kenney CC0 kayıtlarının katmanlanmasıyla yapıldı; müzik RandomMind'ın CC0 parçaları; konuşma ve ortam sesleri sentezle üretildi. Konuşma butonları her tıklamada o türün rastgele bir çeşidini çalar.</p>
+
+  <h2>Müzik (döngü)</h2>
+  <div class="grid" id="music"></div>
+
+  <h2>Ortam döngüleri</h2>
+  <div class="grid" id="amb"></div>
+
+  <h2>Efektler</h2>
+  <div class="grid" id="sfx"></div>
+
+  <h2>Müşteri konuşmaları (oyuncak dil)</h2>
+  <div class="voices" id="voices"></div>
+</main>
+<script>
+const A = "../../assets/audio/";
+const MUSIC = [
+  ["music/day", "Gündüz · Minstrel Dance", "RandomMind (CC0). Lavta + viyola dansı, gün boyunca."],
+  ["music/evening", "Akşam · The Old Tower Inn", "RandomMind (CC0). Sakin; hava kararınca ve gün sonu ekranında."],
+  ["../../design/audio/alt/evening_bards_tale", "Akşam alternatifi · The Bard's Tale", "RandomMind (CC0). Lavta + flüt. Bunu seçersen akşam parçası bu olur."],
+  ["music/rush", "Yoğun saat · Market Day", "RandomMind (CC0). Hareketli; yoğun saat boyunca."],
+];
+const AMB = [
+  ["crowd_low", "Kalabalık · az", "2-4 müşteriden itibaren duyulur."],
+  ["crowd_high", "Kalabalık · dolu", "5+ müşteride yükselir; kahkaha ve kadeh şıngırtısı."],
+  ["fire", "Ocak çıtırtısı", "Hep kısık; akşam biraz yükselir."],
+  ["day", "Gündüz dışarısı", "Kuşlar ve hafif rüzgâr."],
+  ["night", "Gece dışarısı", "Cırcır böcekleri ve rüzgâr."],
+];
+const SFX = [
+  ["coin", 3, "Para toplama", "Masadaki parayı alınca; arka arkaya alınca perde yükselir."],
+  ["tick", 2, "Ödeme tıkırtısı", "Açılış alanına para akarken."],
+  ["pop", 2, "Arayüz tık", "Butonlar, menüler."],
+  ["pickup", 3, "Bardak alma", "İstasyondan içecek alınca (köpük/gulu)."],
+  ["serve", 3, "Servis", "Müşterinin masasına bırakınca."],
+  ["buy", 2, "Satın alma", "Yükseltme, personel, depo."],
+  ["claim", 2, "Ödül alma", "Görev, teslimat, reklam ödülü."],
+  ["unlock", 1, "Yeni alan açıldı", "Çekiç + akor."],
+  ["levelup", 1, "Seviye atlama", "Lavta arpeji, flüt triller, zil."],
+  ["rush", 1, "Yoğun saat başladı", "Çan, davul gürlemesi, kalabalıktan “hey!”"],
+  ["dawn", 1, "Yeni gün", "Flüt + kuşlar."],
+  ["nightfall", 1, "Akşam oldu", "Akor + baykuş."],
+  ["lantern", 2, "Fener yakma", "Mandal + alev parlaması."],
+  ["wipe", 3, "Masa / oda temizliği", "Bez sesi."],
+  ["dice", 3, "Zar atma", "Oyun salonu masası."],
+  ["step", 2, "Merdiven", "Ahşap adımlar + gıcırtı."],
+  ["door", 2, "Kapı", "Gün başı açılışı."],
+  ["clink", 1, "Kadeh tokuşturma", "Açılış animasyonu."],
+  ["error", 1, "Uyarı", "Malzeme bitti."],
+  ["angry", 2, "Söylenme", "Kızgın misafir (han)."],
+];
+const BANKS = [["deep", "Kalın"], ["male", "Erkek"], ["female", "Kadın"], ["tiny", "Minik"], ["old", "Yaşlı"], ["posh", "Kibar"]];
+const KINDS = [["chat", "Gevezelik", 6], ["laugh", "Kahkaha", 2], ["happy", "Sevinç", 2], ["order", "Sipariş", 2], ["grumble", "Söylenme", 2]];
+
+function card(parent, src, title, note) {
+  const d = document.createElement("div");
+  d.className = "card";
+  d.innerHTML = `<b>${title}</b><small>${note}</small><audio controls preload="none" src="${src}"></audio>`;
+  parent.appendChild(d);
+}
+MUSIC.forEach(([f, t, n]) => card(music, `${A}${f}.ogg`, t, n));
+AMB.forEach(([f, t, n]) => card(amb, `${A}amb/${f}.ogg`, t, n));
+SFX.forEach(([f, c, t, n]) => {
+  const single = ["levelup", "rush", "unlock", "dawn", "nightfall"].includes(f);
+  for (let i = 1; i <= c; i++) card(sfx, `${A}sfx/${single ? f : f + "_" + i}.ogg`, c > 1 ? `${t} · ${i}` : t, n);
+});
+const player = new Audio();
+voices.insertAdjacentHTML("beforeend", `<span></span>` + KINDS.map(k => `<span class="h">${k[1]}</span>`).join(""));
+BANKS.forEach(([b, label]) => {
+  voices.insertAdjacentHTML("beforeend", `<span class="h">${label}</span>`);
+  KINDS.forEach(([k, kl, count]) => {
+    const btn = document.createElement("button");
+    btn.textContent = "▶ " + kl;
+    btn.onclick = () => { player.src = `${A}voice/${b}_${k}_${1 + Math.floor(Math.random() * count)}.ogg`; player.play(); };
+    voices.appendChild(btn);
+  });
+});
+</script>
+</body>
+</html>

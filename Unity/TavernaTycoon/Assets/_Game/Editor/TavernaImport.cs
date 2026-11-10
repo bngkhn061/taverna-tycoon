@@ -15,6 +15,7 @@ namespace Taverna.EditorTools
         public const string PrefabsDir = Root + "/Art/Prefabs";
         public const string IconsDir = Root + "/Art/Icons";
         public const string TexDir = Root + "/Art/Textures";
+        public const string AudioDir = Root + "/Resources/Audio";
         public const string MatPath = Root + "/Art/M_Palette.mat";
         public const string TrayMatPath = Root + "/Art/M_Tray.mat";
 
@@ -42,6 +43,24 @@ namespace Taverna.EditorTools
             m.importNormals = ModelImporterNormals.Import;
             m.meshCompression = ModelImporterMeshCompression.Low;
             m.isReadable = false;
+        }
+
+        /// <summary>
+        /// v1.1 ses: müzik akışla (bellek az), ortam döngüleri sıkıştırılmış bellekte,
+        /// kısa efekt ve konuşmalar yüklemede açılır (çalarken işlemci yükü yok).
+        /// </summary>
+        void OnPreprocessAudio()
+        {
+            if (!assetPath.StartsWith(AudioDir)) return;
+            var a = (AudioImporter)assetImporter;
+            var st = a.defaultSampleSettings;
+            st.compressionFormat = AudioCompressionFormat.Vorbis;
+            if (assetPath.Contains("/music/")) { st.loadType = AudioClipLoadType.Streaming; st.quality = 0.5f; }
+            else if (assetPath.Contains("/amb/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.4f; }
+            else { st.loadType = AudioClipLoadType.DecompressOnLoad; st.quality = 0.6f; }
+            st.preloadAudioData = !assetPath.Contains("/music/");
+            a.defaultSampleSettings = st;
+            a.loadInBackground = assetPath.Contains("/music/");
         }
 
         void OnPreprocessTexture()
@@ -85,6 +104,9 @@ namespace Taverna.EditorTools
             n += CopyDir(Path.Combine(src, "icons"), Root + "/Resources/Icons", "*.png", topOnly: true);
             n += CopyDir(Path.Combine(src, "ui"), Root + "/Resources/Kit", "icon_*.png", topOnly: true);
             n += CopyDir(Path.Combine(src, "ui"), Root + "/Resources/Kit", "v3i_*.png", topOnly: true); // UI v3 ikonları
+            // v1.1 ses (tools/audio/build_audio.py): Kenney CC0 efektleri + özgün müzik, konuşma, ortam
+            foreach (var sub in new[] { "sfx", "music", "voice", "amb" })
+                n += CopyDir(Path.Combine(src, "audio", sub), AudioDir + "/" + sub, "*.ogg", topOnly: true);
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             BuildFonts();
             // USS/UXML, görseller ve fontlar hazır olduktan sonra yeniden içe aktarılsın (yollar çözülsün)

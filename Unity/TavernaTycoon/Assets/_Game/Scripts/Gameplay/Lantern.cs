@@ -46,7 +46,7 @@ namespace Taverna
         {
             if (lit || !Night.IsDark) return;
             lit = true;
-            Sfx.Play(SfxId.Pop, 1.4f);
+            Sfx.Play(SfxId.Lantern);
             LitEvent?.Invoke(this);
         }
     }

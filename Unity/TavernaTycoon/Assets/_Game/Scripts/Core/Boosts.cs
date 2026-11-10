@@ -28,7 +28,8 @@ namespace Taverna
             new() { id = "coins", name = "Altın Kesesi", icon = "Para", gems = 15 },
         };
 
-        public static long CoinPackAmount => 300L + 250L * GameState.Level;
+        /// <summary>v1.1 (oyuncu testi "15 elmasa çok altın veriyor"): erken seviyede küçük, ilerledikçe hızlanır (Sv1 160, Sv5 770, Sv10 2000).</summary>
+        public static long CoinPackAmount => 100L + (long)(60f * Mathf.Pow(GameState.Level, 1.5f));
 
         public static bool Buy(string id)
         {

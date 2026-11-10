@@ -27,6 +27,15 @@ namespace Taverna
 
         void Awake() => I = this;
 
+        void OnEnable() => GameState.ZoneUnlocked += OnZoneUnlocked;
+        void OnDisable() => GameState.ZoneUnlocked -= OnZoneUnlocked;
+
+        /// <summary>v1.1: bölge açılınca o bölgede çalışacak (önceden alınmış) personel işe başlar.</summary>
+        void OnZoneUnlocked(string zone)
+        {
+            foreach (var s in staff) ApplyStaff(s.id, true);
+        }
+
         void Start()
         {
             foreach (var m in machines) ApplyMachine(m.drink, false);
@@ -55,13 +64,27 @@ namespace Taverna
         {
             var e = Array.Find(staff, x => x.id == id);
             if (e == null || !e.root) return;
-            bool on = Management.Hired(id);
+            bool on = Management.Working(id);
             if (on && !e.root.activeSelf)
             {
                 e.root.SetActive(true);
                 if (animate) e.root.AddComponent<PopIn>();
             }
             else if (!on) e.root.SetActive(false);
+        }
+
+        bool _concert;
+
+        /// <summary>v1.2 Ozan Konseri: ozan işe alınmamış olsa da konser süresince sahneye çıkar.</summary>
+        void Update()
+        {
+            bool c = TavernEvents.Is(TavernEvents.Id.Konser);
+            if (c == _concert) return;
+            _concert = c;
+            var e = Array.Find(staff, x => x.id == "staff_lir");
+            if (e == null || !e.root) return;
+            if (c && !e.root.activeSelf) { e.root.SetActive(true); e.root.AddComponent<PopIn>(); }
+            else if (!c) ApplyStaff("staff_lir", false);
         }
 
         /// <summary>Bu dekor için bölgesi açık, boş ilk yer (-1: yok).</summary>
@@ -85,6 +108,9 @@ namespace Taverna
             var s = decorSlots[slot];
             var go = Instantiate(pf.prefab, s.pos, Quaternion.Euler(0f, s.rotY, 0f), decorRoot);
             go.AddComponent<AmbianceSource>().value = Catalog.FindDecor(item).ambiance;
+            // v1.1: avizeler gerçekten aydınlatsın (mumların hizasında sıcak ışık, akşam güçlenir)
+            if (item == "dec_avize") NightLight.Attach(go, 0.95f, 5.5f, new Color(1f, 0.72f, 0.4f));
+            else if (item == "dec_kristal") NightLight.Attach(go, 0.95f, 7f, new Color(1f, 0.85f, 0.65f), 3.2f);
             if (animate) go.AddComponent<PopIn>();
             _usedSlots.Add(slot);
         }

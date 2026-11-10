@@ -75,7 +75,7 @@ namespace Taverna
             Inn.RoomsCleaned++;
             _cleanT = 0f;
             if (messy) messy.SetActive(false);
-            Sfx.Play(SfxId.Claim, 1.2f);
+            Sfx.Play(SfxId.Wipe, 0.95f);
             GameState.NotifyChanged();
         }
     }

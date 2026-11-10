@@ -43,7 +43,7 @@ namespace Taverna
             foreach (var d in _dirt) if (d) Destroy(d);
             _dirt.Clear();
             claimedByCleaner = false;
-            Sfx.Play(SfxId.Pop, 1.3f);
+            Sfx.Play(SfxId.Wipe);
         }
 
         void Update()

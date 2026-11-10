@@ -80,8 +80,8 @@ namespace Taverna
         void StartRound(PlayerController p)
         {
             state = State.Playing;
-            _t = roundSeconds;
-            Sfx.Play(SfxId.Pop, 0.8f);
+            _t = roundSeconds / TavernEvents.GameRoundSpeed;
+            Sfx.Play(SfxId.Dice);
             if (p && p.anim) p.anim.Pop();
         }
 
@@ -100,7 +100,7 @@ namespace Taverna
         {
             for (int i = 0; i < _propBase.Length; i++) if (props[i]) props[i].localPosition = _propBase[i];
             int n = Mathf.Max(1, Players);
-            long fee = Mathf.Max(1, Mathf.RoundToInt(feePerPlayer * n * Boosts.IncomeMultiplier));
+            long fee = Mathf.Max(1, Mathf.RoundToInt(feePerPlayer * n * Boosts.IncomeMultiplier * TavernEvents.GameFeeMultiplier));
             CoinPile.Drop(_table.CoinPos, fee);
             GameState.AddUn(1);
             Sfx.Play(SfxId.Claim, 1.1f);

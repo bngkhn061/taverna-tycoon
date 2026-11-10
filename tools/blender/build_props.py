@@ -455,7 +455,8 @@ def x_saksi(ox, oy):
     p = at(ox, oy)
     T.cyl("Pot", "Bakir", p(0, 0, 0.17), r=0.15, r2=0.2, depth=0.34, verts=10)
     T.torus("PotRim", "Bakir", p(0, 0, 0.34), major=0.2, minor=0.025, seg=10)
-    T.cyl("Soil", "KoyuMese", p(0, 0, 0.33), r=0.18, depth=0.02, verts=10)
+    # v1.1: toprak üst yüzeyi saksı ağzıyla aynı yükseklikteydi (0.34) → z-titremesi; biraz yukarıda
+    T.cyl("Soil", "KoyuMese", p(0, 0, 0.345), r=0.18, depth=0.02, verts=10)
     for i, (x, y, z, r) in enumerate(((0, 0, 0.6, 0.17), (0.12, 0.05, 0.48, 0.12), (-0.11, -0.04, 0.5, 0.13),
                                       (0.02, -0.1, 0.75, 0.1), (-0.04, 0.1, 0.7, 0.11))):
         T.sphere(f"Leaf{i}", "Yaprak" if i % 2 == 0 else "Yesil", p(x, y, z), r=r, seg=8, rings=6)
@@ -714,7 +715,9 @@ DECOR = [("Somine", "Şömine", x_somine), ("Avize", "Avize", x_avize), ("Mesale
 def b_cim(ox, oy):
     """Bahçe zemini (1x1): çim karo + birkaç ot tutamı ve çiçek."""
     p = at(ox, oy)
-    T.box("Grass", "Yaprak", p(0, 0, 0.02), (1.0, 1.0, 0.04), bevel=0.006)
+    # v1.1: pah yok + altta taban: karo aralarında oluk çizgisi kamera kaydıkça titriyordu (tahta zeminle aynı düzeltme)
+    T.box("Bed", "Yesil", p(0, 0, 0.015), (1.0, 1.0, 0.03))
+    T.box("Grass", "Yaprak", p(0, 0, 0.02), (1.0, 1.0, 0.04))
     for i, (x, y) in enumerate(((-0.3, 0.25), (0.28, -0.2), (0.05, 0.35))):
         T.cyl(f"Tuft{i}", "Yesil", p(x, y, 0.07), r=0.04, r2=0.0, depth=0.08, verts=4)
     T.sphere("Flower", "Altin" if (ox + oy) % 2 else "Kirmizi", p(-0.15, -0.3, 0.06), r=0.025, seg=6, rings=4)
