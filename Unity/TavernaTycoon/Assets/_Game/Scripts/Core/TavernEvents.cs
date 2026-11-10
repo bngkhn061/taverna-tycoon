@@ -8,10 +8,14 @@ namespace Taverna
     /// daha çok müşteri gelsin; başka etkinlik daha çok para getirsin"). Altınla başlar, 3 dk sürer, her biri günde bir kez,
     /// aynı anda tek etkinlik. Bölgesi açık değilse (kervan: Ana Salon, turnuva: Oyun Salonu) başlatılamaz.
     /// Etkiler çarpan olarak okunur: müşteri gelişi, satış fiyatı, zengin müşteri ve bahşiş, oyun masası ücreti.
+    /// v1.4: Tellal (Sv2, 40 + 30·Sv, müşteri ×1.3) eski parayla "Tellal tut" satın alımının yerini aldı.
     /// </summary>
     public static class TavernEvents
     {
-        public enum Id { Konser, Festival, Kervan, Turnuva }
+        public enum Id { Konser, Festival, Kervan, Turnuva, Tellal }
+
+        /// <summary>v1.4 Tellal etkinliği: müşteri gelişi çarpanı (eski parayla "Tellal tut" satın alımının yerine).</summary>
+        public const float TellalSpawn = 1.3f;
 
         public struct Def
         {
@@ -25,6 +29,8 @@ namespace Taverna
 
         public static readonly Def[] List =
         {
+            // v1.4: Tellal ilk etkinlik (Sv2); sokakta zil çalan tellal görünür (Campaigns)
+            new() { id = Id.Tellal, key = "tellal", name = "Tellal", desc = "Müşteri gelişi ×1.3 · sokakta tellal bağırır", icon = "Cust_15", level = 2, baseCost = 40, perLevel = 30 },
             new() { id = Id.Konser, key = "konser", name = "Ozan Konseri", desc = "Müşteri gelişi ×1.6 · ozan çalar", icon = "Staff_OzanSahne", level = 4, baseCost = 120, perLevel = 60 },
             new() { id = Id.Festival, key = "festival", name = "Bira Festivali", desc = "Tüm satışlar ×1.5 fiyat", icon = "Bira", level = 5, baseCost = 150, perLevel = 80 },
             new() { id = Id.Kervan, key = "kervan", name = "Tüccar Kervanı", desc = "Zengin müşteriler gelir · bahşiş ×2", icon = "Cust_09", level = 6, zone = "salon", zoneName = "Ana Salon", baseCost = 200, perLevel = 100 },
@@ -76,7 +82,7 @@ namespace Taverna
         public static void StopAll() { _active = null; Changed?.Invoke(); }
 
         // ---- çarpanlar
-        public static float SpawnMultiplier => Is(Id.Konser) ? 1.6f : Is(Id.Kervan) ? 1.2f : 1f;
+        public static float SpawnMultiplier => Is(Id.Konser) ? 1.6f : Is(Id.Kervan) ? 1.2f : Is(Id.Tellal) ? TellalSpawn : 1f;
         public static float PriceMultiplier => Is(Id.Festival) ? 1.5f : 1f;
         public static float TipMultiplier => Is(Id.Kervan) ? 2f : 1f;
         public static float RichWeight => Is(Id.Kervan) ? 5f : 1f;
@@ -88,6 +94,7 @@ namespace Taverna
             Id.Konser => "müşteri ×1.6",
             Id.Festival => "fiyat ×1.5",
             Id.Kervan => "bahşiş ×2",
+            Id.Tellal => $"müşteri ×{TellalSpawn:0.0}",
             _ => "oyun ücreti ×2.5",
         };
     }

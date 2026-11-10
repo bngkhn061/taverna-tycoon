@@ -57,6 +57,65 @@ namespace Taverna
             Log($"Test başladı. Para={GameState.Coins} Seviye={GameState.Level}");
             _startLv = GameState.Level; _startUn = GameState.Data.un;
             GameState.CoinsGainedAt += (a, _) => _earned += a;
+            // v1.4 test kancaları
+            Tutorial.Changed += OnTutorialStep;
+            _tutStepAt = _real;
+            if (Tutorial.Active) Log($"v1.4 REHBER: başladı · adım {Tutorial.Step + 1} · gün saati {DayCycle.Progress01:0.000} · zaman durur={Tutorial.HoldsTime}");
+            Log($"v1.4 YILDIZ: ambiyans={AmbianceSource.Total:0} ★{Management.Stars:0.#} · sonraki ★{Management.NextStar} için {Management.AmbianceToNextStar} · eşikler=[{string.Join(",", Balance.StarThresholds)}] premium'suz toplam={Balance.AmbianceNoPremiumTotal:0}");
+            Log($"v1.4 GÖREVLER (başlangıç): [{string.Join(" | ", Quests.List.ConvertAll(q => Quests.Text(q) + $" ({q.rewardCoins} altın, {q.rewardGems} elmas)"))}]");
+        }
+
+        // ------------------------------------------------------------------ v1.4 test durumu
+        float _tutStepAt, _happyMin = 101f, _happyMax = -1f, _avgMin = 101f, _avgMax = -1f, _rawMax, _capMax, _v14LogT;
+        int _dirtyMax, _tutOpened = -1;
+        bool _capLogged, _tellalStarted, _tellalLogged, _questForced, _dayFlowLogged;
+        float _tutEndReal = -1f, _tutEndDay;
+
+        void OnTutorialStep()
+        {
+            _tutStepAt = _real;
+            string s = Tutorial.Active ? $"adım {Tutorial.Step + 1}" : "BİTTİ";
+            Log($"v1.4 REHBER: {s} · gerçek {_real:0.0} sn · gün saati {DayCycle.Progress01:0.000} · zaman durur={Tutorial.HoldsTime} · kendiliğinden geçen={Tutorial.AutoAdvanced}");
+            if (!Tutorial.Active) { _tutEndReal = _real; _tutEndDay = DayCycle.Progress01; }
+        }
+
+        /// <summary>v1.4: rehberde Görevler, Dükkân ve Personel butonlarına bot basar (2 sn sonra); Depo adımını kendiliğinden geçmeye bırakır.</summary>
+        void TutorialClicks(HudController hud)
+        {
+            if (!hud || !Tutorial.Active || Tutorial.UiTarget == null || Tutorial.Step == Tutorial.StepDepot) return;
+            if (_tutOpened != Tutorial.Step && _real > _tutStepAt + 2f)
+            {
+                _tutOpened = Tutorial.Step;
+                hud.DebugOpen(Tutorial.Step == Tutorial.StepQuests ? "quests" : Tutorial.Step == Tutorial.StepShop ? "shop" : "shop-staff");
+                Log($"v1.4 REHBER: bot {Tutorial.UiTarget} butonuna bastı (adım {Tutorial.Step + 1})");
+            }
+            else if (_tutOpened == Tutorial.Step && _real > _tutStepAt + 3f) hud.DebugOpen("close");
+        }
+
+        void TrackV14()
+        {
+            float v = Happiness.Value, a = Happiness.Average;
+            _happyMin = Mathf.Min(_happyMin, v); _happyMax = Mathf.Max(_happyMax, v);
+            _avgMin = Mathf.Min(_avgMin, a); _avgMax = Mathf.Max(_avgMax, a);
+            _dirtyMax = Mathf.Max(_dirtyMax, Happiness.DirtyTables);
+            float raw = CustomerSpawner.RawBoost, cap = CustomerSpawner.BoostMultiplier;
+            _rawMax = Mathf.Max(_rawMax, raw); _capMax = Mathf.Max(_capMax, cap);
+            if (!_capLogged && raw > Balance.SpawnBoostCap)
+            {
+                _capLogged = true;
+                Log($"v1.4 ÇARPAN SINIRI: ham ×{raw:0.00} (mutluluk ×{Happiness.SpawnMultiplier:0.00} · etkinlik ×{TavernEvents.SpawnMultiplier:0.0} · yoğun={RushHour.Active} · Usta ×{Automation.GuestMultiplier:0.00}) → uygulanan ×{cap:0.00}");
+            }
+            if (!_dayFlowLogged && _tutEndReal > 0f && _real > _tutEndReal + 10f)
+            {
+                _dayFlowLogged = true;
+                Log($"v1.4 REHBER SONRASI: 10 gerçek sn'de gün saati {_tutEndDay:0.000} → {DayCycle.Progress01:0.000} (akıyor={DayCycle.Progress01 > _tutEndDay})");
+            }
+            _v14LogT += Time.deltaTime;
+            if (_v14LogT >= 30f)
+            {
+                _v14LogT = 0f;
+                Log($"v1.4 MUTLULUK: etkin %{v:0.0} · ortalama %{a:0.0} · kirli masa {Happiness.DirtyTables} (−{Happiness.DirtyPenalty:0}) · puanlanan {Happiness.Samples} · müşteri ×{Happiness.SpawnMultiplier:0.00} · toplam çarpan ×{cap:0.00} (ham ×{raw:0.00})");
+            }
         }
 
         void Log(string s) { var line = $"[{_t,6:0.0}s] {s}"; _log.AppendLine(line); Debug.Log("[Playtest] " + line); }
@@ -103,6 +162,8 @@ namespace Taverna
             }
             // Arayüz ekranlarının görüntüleri (bir kez)
             var hud = FindAnyObjectByType<HudController>();
+            TrackV14();
+            TutorialClicks(hud);
             if (hud)
             {
                 if (hud.LevelCardOpen)
@@ -110,7 +171,8 @@ namespace Taverna
                     if (!_levelShot) { _levelShot = true; _levelCloseAt = _t + 1f; Shot("ui_levelup.png"); }
                     else if (_t > _levelCloseAt) hud.DebugOpen("close");
                 }
-                if (_uiStep < UiSteps.Length && _t > 30f + _uiStep * 4f)
+                // v1.4: rehber sürerken panel görüntüleri beklenir (bot rehber butonlarını kendisi basar, kalanı kendiliğinden geçer)
+                if (_uiStep < UiSteps.Length && !Tutorial.Active && _t > 30f + _uiStep * 4f)
                 {
                     var (what, file) = UiSteps[_uiStep];
                     if (_uiPhase == 0) { hud.DebugOpen(what); _uiPhase = 1; _uiT = _t; }
@@ -118,32 +180,59 @@ namespace Taverna
                     else if (_uiPhase == 2 && _t > _uiT + 2.0f) { hud.DebugOpen("close"); _uiPhase = 0; _uiStep++; }
                 }
             }
-            // v1.3: kov → maaş düşer → yeniden işe al
+            // v1.3: kov → maaş düşer → yeniden işe al (v1.4: ücret = max(katalog, 2 × günlük maaş))
             if (_fireStep == 0 && _t > 120f && Management.Hired("staff_nana"))
             {
                 var nana = System.Array.Find(Catalog.StaffList, x => x.id == "staff_nana");
                 long w0 = Management.DailyWages;
+                long nanaWage = Management.WageOf(nana), costBefore = Management.HireCost(nana);
                 bool ok = Management.Fire(nana);
                 Log($"v1.3 KOV: Nana → {ok} · çalışıyor={Management.Working("staff_nana")} · maaş {w0} → {Management.DailyWages} · temizlikçi var={Management.HasRole(Catalog.Role.Temizlikci)}");
+                Log($"v1.4 İŞE ALIM: Nana Sv{GameState.Level} · katalog {nana.hire} · kovulmadan önce maaş {nanaWage}/gün (ücret {costBefore}) · kovulduktan sonra maaş {Management.WageOf(nana)}/gün → ücret {Management.HireCost(nana)} = max({nana.hire}, {Balance.HireWageMultiplier}×{Management.WageOf(nana)})");
+                foreach (var st in Catalog.StaffList)
+                    if (!st.premium)
+                    {
+                        long w20 = Balance.Wage(st.wage, st.level, 20, 0), w30 = Balance.Wage(st.wage, st.level, Balance.MaxLevel, 0);
+                        Log($"v1.4 İŞE ALIM ÖLÇEĞİ: {st.name} · şimdi {Management.HireCost(st)} · Sv20'de max({st.hire}, 2×{w20}) = {System.Math.Max(st.hire, 2 * w20)} · Sv30'da {System.Math.Max(st.hire, 2 * w30)}");
+                    }
                 _fireStep = 1;
             }
             else if (_fireStep == 1 && _t > 126f)
             {
                 var nana = System.Array.Find(Catalog.StaffList, x => x.id == "staff_nana");
-                GameState.Data.coins += nana.hire;
+                long cost = Management.HireCost(nana);
+                GameState.Data.coins += cost;
+                long before = GameState.Coins;
                 var r = Management.Hire(nana);
-                Log($"v1.3 YENİDEN İŞE AL: Nana → {r} · çalışıyor={Management.Working("staff_nana")} · seviye {StaffUpgrades.Level("staff_nana")}");
+                Log($"v1.3 YENİDEN İŞE AL: Nana → {r} · çalışıyor={Management.Working("staff_nana")} · seviye {StaffUpgrades.Level("staff_nana")} · ödenen {before - GameState.Coins} (HireCost {cost})");
                 _fireStep = 2;
             }
-            // v1.2: etkinlik (konser) başlat, şeridi çek
-            if (!_evStarted && _t > 95f && GameState.Level >= 4)
+            // v1.4: özel sipariş görevi (Sv3+) — sayaç yalnızca oyuncunun servis ettiği özel siparişte artar
+            if (!_questForced && _t > 5f && GameState.Level >= Balance.SpecialQuestLevel && Quests.List.Count > 0)
+            {
+                _questForced = true;
+                if (!Quests.List.Exists(q => q.type == QuestType.SpecialOrder || q.type == QuestType.SpecialOrderBig))
+                    Quests.List[0] = Quests.Make(QuestType.SpecialOrder);   // test: görev listesinde yoksa ilk görevi özel sipariş yap
+                var sq = Quests.List.Find(q => q.type == QuestType.SpecialOrder || q.type == QuestType.SpecialOrderBig);
+                Log($"v1.4 GÖREV: \"{Quests.Text(sq)}\" {sq.progress}/{sq.target} · ödül {sq.rewardCoins} altın {sq.rewardGems} elmas · büyük görev ödülü {Quests.Make(QuestType.SpecialOrderBig).rewardCoins} altın {Quests.Make(QuestType.SpecialOrderBig).rewardGems} elmas · oyuncu servis={Customer.SpecialServed}");
+                _specialAtForce = Customer.SpecialServed;
+            }
+            // v1.4: Tellal etkinliği (Sv2, rehber bitince) — eski "Tellal tut" satın alımının yerine; şeridi çek
+            if (!_evStarted && _t > 95f && GameState.Level >= 2 && !Tutorial.Active)
             {
                 _evStarted = true;
-                long need = TavernEvents.Cost(TavernEvents.List[0]);
+                var tel = TavernEvents.Get(TavernEvents.Id.Tellal);
+                long need = TavernEvents.Cost(tel);
+                Log($"v1.4 TELLAL: durum={TavernEvents.StateOf(tel)} · fiyat {need} (40 + 30×Sv{GameState.Level}) · tellal görünür={Campaigns.CrierVisible}");
                 if (GameState.Coins < need) GameState.Data.coins += need;   // test: etkinlik parası (bot her şeye harcıyor)
-                var r = TavernEvents.Start(TavernEvents.List[0]);
-                Log($"v1.2 ETKİNLİK: konser → {r} · altın {GameState.Coins} · mutluluk %{Happiness.Value:0} (×{Happiness.SpawnMultiplier:0.00})");
+                var r = TavernEvents.Start(tel);
+                Log($"v1.2 ETKİNLİK: tellal → {r} · altın {GameState.Coins} · mutluluk %{Happiness.Value:0} (×{Happiness.SpawnMultiplier:0.00}) · etkinlik çarpanı ×{TavernEvents.SpawnMultiplier:0.0}");
                 _evShotAt = _t + 2f;
+            }
+            if (_evStarted && !_tellalLogged && _t > _evShotAt)
+            {
+                _tellalLogged = true;
+                Log($"v1.4 TELLAL: etkinlik={TavernEvents.Active} · tellal sokakta görünür={Campaigns.CrierVisible} · kalan {TavernEvents.Remaining:0} sn · ikinci başlatma → {TavernEvents.StateOf(TavernEvents.Get(TavernEvents.Id.Tellal))}");
             }
             if (_evStarted && !_evShot && _t > _evShotAt) { _evShot = true; Shot("ui_event_banner.png"); }
             if (!_bubbleShot)
@@ -403,7 +492,6 @@ namespace Taverna
             foreach (var s in Catalog.StaffList)
                 if (StaffUpgrades.CanLevel(s) && GameState.Coins - StaffUpgrades.Cost(s, StaffUpgrades.Level(s.id)) > keep + 100 && StaffUpgrades.TryBuy(s))
                     Log($"Görevli gelişti: {s.name} → Sv {StaffUpgrades.Level(s.id)}");
-            if (!Campaigns.CrierActive && GameState.Coins - Campaigns.CrierCost > keep + 200 && Campaigns.BuyCrier()) Log("Tellal tutuldu");
             // Depo (v0.6): raf azalınca ve yolda sipariş yoksa sipariş ver; para artınca rafı büyüt
             foreach (var st in DrinkStation.All)
             {
@@ -418,7 +506,11 @@ namespace Taverna
                     Log($"Raf büyütüldü: {id} → {Depot.Capacity(id)}");
             }
             for (int i = 0; i < Quests.List.Count; i++)
-                if (Quests.List[i].Done && !Quests.List[i].claimed && Quests.Claim(i)) Log("Görev ödülü toplandı");
+            {
+                var q = Quests.List[i];
+                string txt = Quests.Text(q);
+                if (q.Done && !q.claimed && Quests.Claim(i)) Log($"Görev ödülü toplandı: \"{txt}\" ({q.progress}/{q.target}) +{q.rewardCoins} altın +{q.rewardGems} elmas");
+            }
             if (Offline.Pending > 0) Offline.Collect();
             // Para fazlaysa (ödeme alanlarına yetecek kadar bırakıp) ucuz yükseltmeleri al
             // Yönetim: makine > personel > dekor (ucuzdan pahalıya)
@@ -426,13 +518,17 @@ namespace Taverna
                 if (Management.CanBuyMachine(m) == Management.BuyResult.Ok && Management.BuyMachine(m) == Management.BuyResult.Ok)
                     Log($"Makine alındı: {m.drink} ({m.price})");
             foreach (var st in Catalog.StaffList)
-                if (Management.CanHire(st) == Management.BuyResult.Ok && GameState.Coins > st.hire * 1.5f && Management.Hire(st) == Management.BuyResult.Ok)
-                    Log($"İşe alındı: {st.name} ({st.roleName})");
+            {
+                long hc = Management.HireCost(st);
+                if (_fireStep == 1 && st.id == "staff_nana") continue;   // kovma testi: yeniden işe alımı test adımı yapsın
+                if (Management.CanHire(st) == Management.BuyResult.Ok && GameState.Coins > hc * 1.5f && Management.Hire(st) == Management.BuyResult.Ok)
+                    Log($"İşe alındı: {st.name} ({st.roleName}) · ücret {hc}");
+            }
             var goal = PayZone.NextGoal();
             long reserve = goal && goal.Available ? goal.Remaining : 0;
             foreach (var d in Catalog.DecorList)
                 if (Management.CanBuyDecor(d) == Management.BuyResult.Ok && GameState.Coins - d.price > reserve + 50 && Management.BuyDecor(d) == Management.BuyResult.Ok)
-                    Log($"Dekor: {d.name} → ★{Management.Stars:0.#}");
+                    Log($"Dekor: {d.name} → ambiyans {AmbianceSource.Total:0} ★{Management.Stars:0.#} (sonraki ★ için {Management.AmbianceToNextStar})");
             foreach (var s in DrinkStation.All)
                 foreach (UpgradeStat stat in System.Enum.GetValues(typeof(UpgradeStat)))
                 {
@@ -448,7 +544,8 @@ namespace Taverna
         }
 
         void OnEnable() { GameState.LeveledUp += OnLevel; }
-        void OnDisable() { GameState.LeveledUp -= OnLevel; }
+        void OnDisable() { GameState.LeveledUp -= OnLevel; Tutorial.Changed -= OnTutorialStep; }
+        int _specialAtForce;
         void OnLevel(int lv) => Log($"*** SEVİYE {lv} ***");
 
         string _music = "";
@@ -474,6 +571,13 @@ namespace Taverna
             PlayerController.JoystickInput = Vector2.zero;
             Log($"v0.9: gün sonu={_daysEnded} oyun turu={_rounds} otomasyon=[{string.Join(",", GameState.Data.autos)}] depo-oto={GameState.Data.autoOrder} usta gelir={Automation.UstaIncomeLv} rehber={(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} ad={GameState.TavernName}");
             Log($"v1.3: özel sipariş açılan={Customer.SpecialOrders} oyuncu servis etti={Customer.SpecialServed} · garson={Waiter.All.Count} · kasa otomasyonu={Automation.Has("kasa")} · yerdeki para yığını={CoinPile.All.Count}");
+            Log($"v1.4 MUTLULUK ÖZET: etkin %{_happyMin:0.0}–%{_happyMax:0.0} · ortalama %{_avgMin:0.0}–%{_avgMax:0.0} · şimdi %{Happiness.Value:0.0} (ort. %{Happiness.Average:0.0}) · en çok kirli masa {_dirtyMax} · puanlanan müşteri {Happiness.Samples}");
+            Log($"v1.4 ÇARPAN ÖZET: ham en yüksek ×{_rawMax:0.00} · uygulanan en yüksek ×{_capMax:0.00} (sınır ×{Balance.SpawnBoostCap:0.0})");
+            var sq = Quests.List.Find(q => q.type == QuestType.SpecialOrder || q.type == QuestType.SpecialOrderBig);
+            Log($"v1.4 GÖREV ÖZET: oyuncunun servis ettiği özel sipariş (zorlamadan sonra) {Customer.SpecialServed - _specialAtForce} · listede özel görev: {(sq != null ? $"\"{Quests.Text(sq)}\" {sq.progress}/{sq.target}" : "yok (toplandı)")}");
+            Log($"v1.4 YILDIZ ÖZET: ambiyans={AmbianceSource.Total:0} ★{Management.Stars:0.#} · sonraki ★{Management.NextStar} için {Management.AmbianceToNextStar}");
+            Log($"v1.4 TELLAL ÖZET: etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} · tellal görünür={Campaigns.CrierVisible} · bugün=[{string.Join(",", GameState.Data.eventsUsed)}]");
+            Log($"v1.4 REHBER ÖZET: {(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} · kendiliğinden geçen adım {Tutorial.AutoAdvanced} · bitiş gerçek {_tutEndReal:0.0} sn");
             Log($"v1.2: mutluluk=%{Happiness.Value:0} (müşteri ×{Happiness.SpawnMultiplier:0.00}) ★{Management.Stars:0.#} etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} bugün=[{string.Join(",", GameState.Data.eventsUsed)}] masa={Table.All.Count}");
             Log($"SES: grup={Sfx.LoadedGroups} müzik={Sfx.MusicNow} kalabalık={Sfx.CrowdLevel:0.00} konuşma={Sfx.TalkCount} ortam=[{Sfx.AmbientInfo}]");
             Log($"HAN: açık={Inn.Open} giriş={Inn.CheckIns} kızgın misafir={Inn.AngryGuests} toplanan oda={Inn.RoomsCleaned} (bot {_roomsCleaned}) oda durumları=[{string.Join(",", Room.All.ConvertAll(x => x.state.ToString()))}]");

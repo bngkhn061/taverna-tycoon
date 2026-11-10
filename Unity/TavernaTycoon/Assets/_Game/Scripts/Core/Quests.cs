@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Taverna
 {
-    public enum QuestType { ServeDrink, ServeCustomers, EarnCoins, RushHour, Upgrade, Unlock }
+    /// <summary>Görev türleri. Kayıtta sayı olarak saklanır: yeni türler yalnızca sona eklenir.</summary>
+    public enum QuestType { ServeDrink, ServeCustomers, EarnCoins, RushHour, Upgrade, Unlock, SpecialOrder, SpecialOrderBig }
 
     [Serializable]
     public class QuestSave
@@ -46,6 +47,11 @@ namespace Taverna
         public static void OnRushCompleted() => Bump(q => q.type == QuestType.RushHour, 1);
         public static void OnUpgrade() => Bump(q => q.type == QuestType.Upgrade, 1);
 
+        /// <summary>v1.4: oyuncu bir "Barlo'ya özel" siparişi servis etti (Customer.Serve, özel dal).</summary>
+        public static void OnSpecialServed() => Bump(IsSpecial, 1);
+
+        static bool IsSpecial(QuestSave q) => q.type == QuestType.SpecialOrder || q.type == QuestType.SpecialOrderBig;
+
         static void Bump(Predicate<QuestSave> match, int amount)
         {
             bool any = false;
@@ -85,23 +91,44 @@ namespace Taverna
             if (drinks.Count == 0) drinks.Add(DrinkId.Bira);
 
             var types = new List<QuestType> { QuestType.ServeDrink, QuestType.ServeCustomers, QuestType.EarnCoins, QuestType.Upgrade, QuestType.RushHour, QuestType.Unlock };
-            // Listede zaten olan türleri tekrar verme (üç görev hep farklı olsun)
-            foreach (var q0 in List) if (!q0.claimed) types.Remove(q0.type);
+            // v1.4: özel sipariş görevleri Sv3'ten (özel siparişlerin başladığı seviye) itibaren
+            if (lv >= Balance.SpecialQuestLevel) { types.Add(QuestType.SpecialOrder); types.Add(QuestType.SpecialOrderBig); }
+            // Listede zaten olan türleri tekrar verme (üç görev hep farklı olsun; iki özel sipariş görevi aynı anda çıkmaz)
+            foreach (var q0 in List)
+                if (!q0.claimed)
+                {
+                    types.Remove(q0.type);
+                    if (IsSpecial(q0)) { types.Remove(QuestType.SpecialOrder); types.Remove(QuestType.SpecialOrderBig); }
+                }
             if (types.Count == 0) types.Add(QuestType.ServeCustomers);
-            var t = types[rnd.Next(types.Count)];
+            return Make(types[rnd.Next(types.Count)], drinks[rnd.Next(drinks.Count)]);
+        }
+
+        /// <summary>Bir görevi türüne ve seviyeye göre kurar (hedef ve ödül). Test botu da kullanır.</summary>
+        public static QuestSave Make(QuestType t, DrinkId drink = DrinkId.Bira)
+        {
+            int lv = GameState.Level;
             float scale = 1f + lv * 0.35f;
             var q = new QuestSave { type = t };
             switch (t)
             {
-                case QuestType.ServeDrink: q.drink = drinks[rnd.Next(drinks.Count)]; q.target = 8 + lv * 2; break;
+                case QuestType.ServeDrink: q.drink = drink; q.target = 8 + lv * 2; break;
                 case QuestType.ServeCustomers: q.target = 12 + lv * 3; break;
                 case QuestType.EarnCoins: q.target = Mathf.RoundToInt(60 * scale * scale); break;
                 case QuestType.Upgrade: q.target = 2 + lv / 3; break;
                 case QuestType.RushHour: q.target = 1; break;
                 case QuestType.Unlock: q.target = 1; break;
+                case QuestType.SpecialOrder: q.target = Balance.SpecialQuestSmall; break;
+                case QuestType.SpecialOrderBig: q.target = Balance.SpecialQuestBig; break;
             }
             q.rewardCoins = Mathf.RoundToInt(25 * scale * scale);
             q.rewardGems = 1 + lv / 4;
+            // 12 özel sipariş ≈ 65 sipariş (özel oranı %18–22): normal görevin iki katı emek → iki kat altın, +1 elmas
+            if (t == QuestType.SpecialOrderBig)
+            {
+                q.rewardCoins *= Balance.SpecialQuestBigCoinMultiplier;
+                q.rewardGems += Balance.SpecialQuestBigExtraGems;
+            }
             return q;
         }
 
@@ -112,6 +139,7 @@ namespace Taverna
             QuestType.EarnCoins => $"{q.target} altın kazan",
             QuestType.Upgrade => $"{q.target} yükseltme yap",
             QuestType.RushHour => "Bir Yoğun Saat atlat",
+            QuestType.SpecialOrder or QuestType.SpecialOrderBig => $"{q.target} özel sipariş yetiştir",
             _ => "Yeni bir alan aç",
         };
 

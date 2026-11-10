@@ -6,7 +6,8 @@ namespace Taverna
     /// <summary>
     /// İlk oyun rehberi v2 (v1.2, mockup design/ui/ui_v12_akis.html R1–R3; oyuncu testi: "oyun hemen akmamalı,
     /// görevleri, dükkânı inceletmeli, butonlar sonradan açılmalı"). 9 adım, her biri oyuncu yapınca geçer; atlanabilir.
-    /// Rehber sürerken gün saati ve yoğun saat durur, ilk müşteri ancak bardak dolunca gelir ve en fazla 2 müşteri olur.
+    /// İlk dört adımda gün saati ve yoğun saat durur (v1.4: sonra akar), ilk müşteri ancak bardak dolunca gelir ve en fazla 2 müşteri olur.
+    /// Buton adımları 25 gerçek saniyede kendiliğinden geçer (v1.4).
     /// Yan butonlar adım adım açılır (<see cref="Reveals"/>). Görünüm HudController (karartma, halka, Barlo kartı).
     /// </summary>
     public static class Tutorial
@@ -28,16 +29,28 @@ namespace Taverna
         /// <summary>Adım → bu adımla açılan yan buton (HUD element adı).</summary>
         public const int StepQuests = 4, StepShop = 6, StepStaff = 7, StepDepot = 8;
 
+        /// <summary>
+        /// v1.4: HUD butonu gösteren adım (Görevler, Dükkân, Personel, Depo) oyuncu basmazsa bu kadar gerçek saniye sonra
+        /// kendiliğinden geçer; rehber her durumda biter.
+        /// </summary>
+        public const float UiStepAutoSeconds = 25f;
+
         public static int Step { get; private set; } = -1;
         public static bool Active => Step >= 0 && Step < StepCount;
         public static event Action Changed;
 
+        /// <summary>Test günlüğü: kendiliğinden geçen adım sayısı.</summary>
+        public static int AutoAdvanced { get; private set; }
+
         static bool _served, _coins, _quests, _shop, _staff, _depot;
+        static float _stepT;
 
         /// <summary>Yeni oyunda (Sv1, rehber görülmemiş) başlatır. GameBootstrap çağırır.</summary>
         public static void Begin()
         {
             _served = _coins = _quests = _shop = _staff = _depot = false;
+            _stepT = 0f;
+            AutoAdvanced = 0;
             Step = !GameState.Data.tutorialDone && GameState.Level <= 1 ? 0 : -1;
             GameState.DrinkServed -= OnServed;
             GameState.CoinsGainedAt -= OnCoins;
@@ -66,6 +79,7 @@ namespace Taverna
         static void Next()
         {
             Step++;
+            _stepT = 0f;
             Sfx.Play(SfxId.Claim, 1.2f);
             if (Step >= StepCount) Finish();
             else Changed?.Invoke();
@@ -74,8 +88,11 @@ namespace Taverna
         /// <summary>Bu adıma gelmeden buton gizli. Rehber yoksa (eski oyuncu) her şey açık.</summary>
         public static bool Reveals(int step) => !Active || Step >= step;
 
-        /// <summary>Rehber sürerken oyun "akmaz": gün saati ve yoğun saat durur.</summary>
-        public static bool HoldsTime => Active;
+        /// <summary>
+        /// v1.4: gün saati ve yoğun saat yalnızca ilk dört adımda (fıçı → servis → para) durur; Görevler adımından
+        /// sonra oyun akar, rehber yan butonları tanıtırken müşteri ve gün devam eder.
+        /// </summary>
+        public static bool HoldsTime => Active && Step < StepQuests;
 
         /// <summary>Rehberde müşteri gelişi: oyuncu fıçıya varana kadar hiç, sonra en fazla 2 müşteri.</summary>
         public static bool AllowsSpawn => !Active || Step >= StepQuests || (Step >= 1 && Customer.All.Count < 2);   // fıçı ancak sipariş varken bardak verir
@@ -114,6 +131,12 @@ namespace Taverna
         public static void Tick()
         {
             if (!Active) return;
+            // v1.4: buton adımı oyuncu basmasa da süre dolunca geçer (gerçek saniye; hızlandırılmış testte de aynı)
+            if (UiTarget != null)
+            {
+                _stepT += Time.unscaledDeltaTime;
+                if (_stepT >= UiStepAutoSeconds) { AutoAdvanced++; Next(); return; }
+            }
             var p = PlayerController.I;
             if (!p) return;
             switch (Step)

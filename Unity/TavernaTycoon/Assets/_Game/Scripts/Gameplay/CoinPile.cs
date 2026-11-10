@@ -8,8 +8,6 @@ namespace Taverna
     {
         public static readonly List<CoinPile> All = new();
         public long amount;
-        /// <summary>Bir garson bu yığını almaya gidiyor.</summary>
-        [System.NonSerialized] public bool Claimed;
         Transform _collector;
 
         readonly List<Transform> _coins = new();
@@ -22,7 +20,7 @@ namespace Taverna
         /// <summary>Aynı noktadaki yığına ekler ya da yeni yığın açar.</summary>
         public static void Drop(Vector3 pos, long value)
         {
-            var pile = All.Find(p => !p._collecting && !p.Claimed && Vector3.Distance(p.transform.position, pos) < 0.3f);
+            var pile = All.Find(p => !p._collecting && Vector3.Distance(p.transform.position, pos) < 0.3f);
             if (!pile)
             {
                 pile = new GameObject("CoinPile").AddComponent<CoinPile>();
@@ -61,7 +59,7 @@ namespace Taverna
             var p = PlayerController.I;
             // v0.9 Kasa otomasyonu: yığın kısa bir süre sonra kendiliğinden toplanır (paralar yukarı uçar)
             _age += Time.deltaTime;
-            if (!_collecting && !Claimed && _age > Balance.AutoCollectDelay && Automation.Has("kasa")) Collect(null);
+            if (!_collecting && _age > Balance.AutoCollectDelay && Automation.Has("kasa")) Collect(null);
             if (!_collecting && p && DrinkStation.FlatDistance(p.transform.position, transform.position) < Balance.InteractRadius)
             {
                 Collect(p.transform);

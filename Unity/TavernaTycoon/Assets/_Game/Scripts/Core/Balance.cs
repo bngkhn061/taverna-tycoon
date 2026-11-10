@@ -121,8 +121,8 @@ namespace Taverna
         // ---- v1.3 "oyuncuya hep iş kalsın" (oyuncu testi: oyun kendi kendine oynuyor)
         /// <summary>"Barlo'ya özel" sipariş: Sv3'ten sonra yeni siparişlerin bu kadarı. Garsonlar almaz, sadece oyuncu servis eder.</summary>
         public static float SpecialOrderChance(int level) => level < 3 ? 0f : level < 10 ? 0.18f : 0.22f;
-        /// <summary>Özel siparişin ödeme çarpanı ve fazladan mutluluk.</summary>
-        public const float SpecialPayMultiplier = 2.5f, SpecialHappiness = 3f;
+        /// <summary>Özel siparişin ödeme çarpanı (mutluluğa katkısı v1.4'te Happiness.SpecialScore / SpecialRepeats).</summary>
+        public const float SpecialPayMultiplier = 2.5f;
         /// <summary>Özel sipariş müşterisinin sabrı biraz uzun (oyuncu yetişebilsin).</summary>
         public const float SpecialPatienceMultiplier = 1.4f;
         /// <summary>Kasa otomasyonu (para kendiliğinden toplanır) son düzlükte açılır.</summary>
@@ -132,6 +132,60 @@ namespace Taverna
         public const float AutoCheckInDelay = 1.5f;
         /// <summary>Taverna adını değiştirme bedeli (altın) ya da izlenecek reklam sayısı.</summary>
         public const int RenameCost = 500, RenameAds = 2;
+
+        // ---- v1.4 (Paket A, production/project-stage-report.md A bölümü)
+        /// <summary>
+        /// Hazine (premium) olmadan elde edilebilecek toplam ambiyans (kod okunarak, 2026-11-10):
+        /// masalar 217 (43 masa: ana 14, salon 15, bahçe 14, ön sıra 13×3 = 39, oyun salonu 21, mahzen 24, teras 32, avlu 30, iskele 28),
+        /// dekor yerleri 127 (saksı 7×2, mumluk 7×2, halı 4×4, flama 3×4, fıçı 3×3, kalkan 5, boynuz 2×5, mühür 15, avize 4×8),
+        /// ozan sahnesi 20, en iyi zemin + duvar teması 6 + 6 = 12, Saray Hanı kademesi 60 → 436.
+        /// </summary>
+        public const float AmbianceNoPremiumTotal = 436f;
+
+        /// <summary>
+        /// Yıldız eşikleri (ambiyans): indeks i → (i+1)★. 2★ ≈ %8, 3★ ≈ %25, 4★ ≈ %50, 5★ ≈ %80 (premium'suz toplamın).
+        /// Aradaki yarım yıldızlar doğrusal.
+        /// </summary>
+        public static readonly float[] StarThresholds = { 0f, 35f, 110f, 220f, 350f };
+
+        /// <summary>Ambiyanstan yarım yıldıza yuvarlanmış (aşağı) puan, 1–5.</summary>
+        public static float StarsForAmbiance(float ambiance)
+        {
+            var t = StarThresholds;
+            if (ambiance >= t[t.Length - 1]) return t.Length;
+            for (int i = t.Length - 2; i >= 0; i--)
+                if (ambiance >= t[i])
+                {
+                    float s = 1f + i + (ambiance - t[i]) / (t[i + 1] - t[i]);
+                    return Mathf.Floor(s * 2f) / 2f;
+                }
+            return 1f;
+        }
+
+        /// <summary>Bir yıldız değerine (yarımlı) ulaşmak için gereken ambiyans.</summary>
+        public static float AmbianceForStars(float stars)
+        {
+            var t = StarThresholds;
+            if (stars <= 1f) return 0f;
+            if (stars >= t.Length) return t[t.Length - 1];
+            int i = Mathf.FloorToInt(stars) - 1;
+            return t[i] + (stars - 1f - i) * (t[i + 1] - t[i]);
+        }
+
+        /// <summary>
+        /// Geçici / kazanılan müşteri çarpanlarının (mutluluk × etkinlik × yoğun saat × Usta) çarpımının üst sınırı.
+        /// Oturak ve seviye ölçeği bu sınırın dışında.
+        /// </summary>
+        public const float SpawnBoostCap = 3.0f;
+        /// <summary>Yoğun saatte müşteri gelişi çarpanı.</summary>
+        public const float RushSpawnMultiplier = 2.2f;
+
+        /// <summary>İşe alım ücreti en az görevlinin şu anki günlük maaşının bu katı (kovup sabah geri almak kâr etmesin).</summary>
+        public const int HireWageMultiplier = 2;
+
+        /// <summary>Özel sipariş görevleri: açılış seviyesi, hedefler ve büyük görevin ödül çarpanları.</summary>
+        public const int SpecialQuestLevel = 3, SpecialQuestSmall = 5, SpecialQuestBig = 12;
+        public const int SpecialQuestBigCoinMultiplier = 2, SpecialQuestBigExtraGems = 1;
 
         // ---- Oyuncu
         public const float PlayerSpeed = 3.4f;

@@ -1,0 +1,765 @@
+=== Koşu (a) yeni oyun 330 sn ===
+[Playtest] [   0.0s] Test başladı. Para=10 Seviye=1
+[Playtest] [   0.0s] v1.4 REHBER: başladı · adım 1 · gün saati 0.000 · zaman durur=True
+[Playtest] [   0.0s] v1.4 YILDIZ: ambiyans=7 ★1 · sonraki ★2 için 28 · eşikler=[0,35,110,220,350] premium'suz toplam=436
+[Playtest] [   0.0s] v1.4 GÖREVLER (başlangıç): [Yeni bir alan aç (46 altın, 1 elmas) | 10 Bira sat (46 altın, 1 elmas) | 15 müşteriye servis yap (46 altın, 1 elmas)]
+[Playtest] [   0.0s] SES müzik → day · faz=0.00 yoğun=False müşteri=0 kalabalık=0.00 ortam=[crowd_low:0.00 crowd_high:0.00 fire:0.00 day:0.00 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [   0.0s] YAVAŞ KARE 98 ms · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [   0.3s] v1.4 REHBER: adım 2 · gerçek 0.2 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  16.2s] YAVAŞ KARE 137 ms · müşteri=2 para yığını=0 dünya UI=58 efekt UI=0 GC+=2 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [  17.7s] v1.4 REHBER: adım 3 · gerçek 4.5 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  18.4s] v1.4 REHBER: adım 4 · gerçek 4.7 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  20.0s] Para=10 Seviye=1 Ün=0/20 FPS=56 Servis=0 İçeride=2 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[] Hedef=bekle Poz=(0.4,0.9)
+[Playtest] [  21.8s] v1.4 REHBER: adım 5 · gerçek 5.5 sn · gün saati 0.000 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  21.8s] Yükseltme: Bira Stok → Sv1 (14 altın)
+[Playtest] [  29.8s] v1.4 REHBER: bot open-quests butonuna bastı (adım 5)
+[Playtest] [  29.8s] v1.4 REHBER: adım 6 · gerçek 7.5 sn · gün saati 0.019 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  29.8s] v1.4 REHBER: adım 7 · gerçek 7.6 sn · gün saati 0.019 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  30.0s] v1.4 MUTLULUK: etkin %66.1 · ortalama %66.1 · kirli masa 0 (−0) · puanlanan 2 · müşteri ×1.16 · toplam çarpan ×1.16 (ham ×1.16)
+[Playtest] [  37.8s] v1.4 REHBER: bot open-shop butonuna bastı (adım 7)
+[Playtest] [  37.8s] v1.4 REHBER: adım 8 · gerçek 9.6 sn · gün saati 0.038 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  40.0s] Para=4 Seviye=1 Ün=2/20 FPS=60 Servis=2 İçeride=5 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[] Hedef=servis:Çiftçi Poz=(0.4,2.3)
+[Playtest] [  45.8s] v1.4 REHBER: bot open-staff butonuna bastı (adım 8)
+[Playtest] [  45.8s] v1.4 REHBER: adım 9 · gerçek 11.6 sn · gün saati 0.057 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  59.2s] Yükseltme: Bira Hiz → Sv1 (20 altın)
+[Playtest] [  60.0s] Para=0 Seviye=1 Ün=6/20 FPS=60 Servis=6 İçeride=4 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[] Hedef=istasyon:Bira Poz=(0.8,1.5)
+[Playtest] [  60.0s] v1.4 MUTLULUK: etkin %71.7 · ortalama %75.7 · kirli masa 1 (−4) · puanlanan 6 · müşteri ×1.22 · toplam çarpan ×1.22 (ham ×1.22)
+[Playtest] [  61.8s] YAVAŞ KARE 120 ms · müşteri=4 para yığını=0 dünya UI=60 efekt UI=2 GC+=8 faz=0.10 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [  80.1s] Para=4 Seviye=1 Ün=7/20 FPS=59 Servis=7 İçeride=5 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[] Hedef=istasyon:Bira Poz=(1.4,1.7)
+[Playtest] [  90.1s] v1.4 MUTLULUK: etkin %77.1 · ortalama %81.1 · kirli masa 1 (−4) · puanlanan 9 · müşteri ×1.27 · toplam çarpan ×1.27 (ham ×1.27)
+[Playtest] [  90.4s] Görev ödülü toplandı: "10 Bira sat" (10/10) +46 altın +1 elmas
+[Playtest] [  90.4s] Makine alındı: Sira (40)
+[Playtest] [  90.4s] Yükseltme: Şıra Stok → Sv1 (14 altın)
+[Playtest] [  90.5s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +46 altın +1 elmas
+[Playtest] [  90.5s] Yükseltme: Bira Hiz → Sv2 (24 altın)
+[Playtest] [  90.5s] Yükseltme: Bira Stok → Sv2 (17 altın)
+[Playtest] [  93.9s] Sipariş: Bira +10
+[Playtest] [ 100.1s] Para=7 Seviye=1 Ün=11/20 FPS=60 Servis=11 İçeride=6 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[mac_Sira] Hedef=bekle Poz=(0.5,0.9)
+[Playtest] [ 120.1s] Para=11 Seviye=1 Ün=12/20 FPS=60 Servis=12 İçeride=4 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[mac_Sira] Hedef=bekle Poz=(0.1,0.9)
+[Playtest] [ 120.1s] v1.4 MUTLULUK: etkin %86.5 · ortalama %86.5 · kirli masa 0 (−0) · puanlanan 13 · müşteri ×1.36 · toplam çarpan ×1.36 (ham ×1.36)
+[Playtest] [ 128.1s] Görev ödülü toplandı: "15 müşteriye servis yap" (15/15) +46 altın +1 elmas
+[Playtest] [ 128.1s] Yükseltme: Bira Hiz → Sv3 (28 altın)
+[Playtest] [ 128.1s] Yükseltme: Bira Stok → Sv3 (19 altın)
+[Playtest] [ 128.1s] Görev ödülü toplandı: "2 yükseltme yap" (2/2) +46 altın +1 elmas
+[Playtest] [ 128.1s] Yükseltme: Bira Hiz → Sv4 (33 altın)
+[Playtest] [ 128.1s] Yükseltme: Bira Stok → Sv4 (23 altın)
+[Playtest] [ 128.2s] Görev ödülü toplandı: "2 yükseltme yap" (2/2) +46 altın +1 elmas
+[Playtest] [ 128.2s] Yükseltme: Bira Hiz → Sv5 (39 altın)
+[Playtest] [ 131.4s] Yükseltme: Şıra Hiz → Sv1 (20 altın)
+[Playtest] [ 140.1s] Para=0 Seviye=1 Ün=16/20 FPS=60 Servis=16 İçeride=6 Garson=0 Yıldız=1 Gün=1 Yoğun=False Açılan=[mac_Sira] Hedef=servis:Balıkçı Poz=(0.3,2.3)
+[Playtest] [ 145.9s] v1.4 REHBER: BİTTİ · gerçek 36.6 sn · gün saati 0.295 · zaman durur=False · kendiliğinden geçen=1
+[Playtest] [ 147.8s] YAVAŞ KARE 174 ms · müşteri=4 para yığını=0 dünya UI=62 efekt UI=2 GC+=12 faz=0.30 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [ 150.1s] v1.4 MUTLULUK: etkin %91.1 · ortalama %91.1 · kirli masa 0 (−0) · puanlanan 18 · müşteri ×1.41 · toplam çarpan ×1.41 (ham ×1.41)
+[Playtest] [ 156.0s] YAVAŞ KARE 81 ms · müşteri=6 para yığını=0 dünya UI=63 efekt UI=0 GC+=1 faz=0.32 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [ 158.1s] Hazine (test): alındı · VIP=True · garson=1 · elmas=5 · yıldız=3
+[Playtest] [ 159.1s] Yükseltme: Şıra Stok → Sv2 (17 altın)
+[Playtest] [ 160.2s] Para=2 Seviye=1 Ün=19/20 FPS=52 Servis=19 İçeride=6 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=bekle Poz=(1.4,0.5)
+[Playtest] [ 164.4s] YAVAŞ KARE 80 ms · müşteri=6 para yığını=0 dünya UI=64 efekt UI=182 GC+=1 faz=0.34 yoğun=False masa=2 istasyon=2 fener=6 amb=3
+[Playtest] [ 170.4s] *** SEVİYE 2 ***
+[Playtest] [ 170.7s] v1.4 TELLAL: durum=NoMoney · fiyat 100 (40 + 30×Sv2) · tellal görünür=False
+[Playtest] [ 170.7s] v1.2 ETKİNLİK: tellal → Running · altın 2 · mutluluk %88 (×1.38) · etkinlik çarpanı ×1.3
+[Playtest] [ 172.8s] v1.4 TELLAL: etkinlik=Tellal · tellal sokakta görünür=True · kalan 179 sn · ikinci başlatma → Running
+[Playtest] [ 173.2s] YAVAŞ KARE 100 ms · müşteri=6 para yığını=0 dünya UI=64 efekt UI=43 GC+=1 faz=0.36 yoğun=False masa=2 istasyon=2 fener=6 amb=3
+[Playtest] [ 180.1s] v1.4 MUTLULUK: etkin %89.6 · ortalama %93.6 · kirli masa 1 (−4) · puanlanan 22 · müşteri ×1.40 · toplam çarpan ×1.81 (ham ×1.81)
+[Playtest] [ 180.2s] Para=22 Seviye=2 Ün=1/26 FPS=53 Servis=21 İçeride=5 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Şıra Poz=(0.7,0.9)
+[Playtest] [ 185.9s] v1.4 REHBER SONRASI: 10 gerçek sn'de gün saati 0.295 → 0.391 (akıyor=True)
+[Playtest] [ 200.2s] Para=53 Seviye=2 Ün=4/26 FPS=60 Servis=24 İçeride=6 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=bekle Poz=(1.8,0.6)
+[Playtest] [ 208.6s] Sipariş: Bira +10
+[Playtest] [ 209.0s] Görev ödülü toplandı: "109 altın kazan" (109/109) +46 altın +1 elmas
+[Playtest] [ 209.0s] Yükseltme: Bira Stok → Sv5 (27 altın)
+[Playtest] [ 210.1s] v1.4 MUTLULUK: etkin %91.4 · ortalama %95.4 · kirli masa 1 (−4) · puanlanan 26 · müşteri ×1.41 · toplam çarpan ×1.84 (ham ×1.84)
+[Playtest] [ 214.5s] Görev ödülü toplandı: "10 Bira sat" (10/10) +46 altın +1 elmas
+[Playtest] [ 214.5s] Yükseltme: Bira Hiz → Sv6 (46 altın)
+[Playtest] [ 214.6s] Görev ödülü toplandı: "2 yükseltme yap" (2/2) +72 altın +1 elmas
+[Playtest] [ 214.6s] Dekor: Mumluk → ambiyans 118 ★3 (sonraki ★ için 102)
+[Playtest] [ 214.6s] Yükseltme: Bira Stok → Sv6 (32 altın)
+[Playtest] [ 214.6s] Yükseltme: Şıra Stok → Sv3 (19 altın)
+[Playtest] [ 214.6s] Görev ödülü toplandı: "2 yükseltme yap" (2/2) +72 altın +1 elmas
+[Playtest] [ 214.6s] Yükseltme: Bira Hiz → Sv7 (57 altın)
+[Playtest] [ 215.4s] Yükseltme: Şıra Hiz → Sv2 (24 altın)
+[Playtest] [ 215.4s] Görev ödülü toplandı: "2 yükseltme yap" (2/2) +72 altın +1 elmas
+[Playtest] [ 215.4s] Yükseltme: Bira Hiz → Sv8 (70 altın)
+[Playtest] [ 220.2s] Para=16 Seviye=2 Ün=8/26 FPS=60 Servis=28 İçeride=7 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3] Hedef=bekle Poz=(0.6,-0.5)
+[Playtest] [ 221.2s] Sipariş: Sira +10
+[Playtest] [ 237.2s] Yükseltme: Şıra Stok → Sv4 (23 altın)
+[Playtest] [ 240.1s] v1.4 MUTLULUK: etkin %93.0 · ortalama %97.0 · kirli masa 1 (−4) · puanlanan 31 · müşteri ×1.43 · toplam çarpan ×1.86 (ham ×1.86)
+[Playtest] [ 240.2s] Para=4 Seviye=2 Ün=10/26 FPS=60 Servis=30 İçeride=8 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3] Hedef=servis:Çiftçi Poz=(-0.2,0.6)
+[Playtest] [ 246.1s] Yükseltme: Bira Kalite → Sv1 (32 altın)
+[Playtest] [ 252.2s] Sipariş: Bira +10
+[Playtest] [ 260.2s] Para=22 Seviye=2 Ün=16/26 FPS=60 Servis=36 İçeride=10 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3] Hedef=bekle Poz=(0.4,0.9)
+[Playtest] [ 270.1s] v1.4 MUTLULUK: etkin %94.2 · ortalama %98.2 · kirli masa 1 (−4) · puanlanan 37 · müşteri ×1.44 · toplam çarpan ×1.87 (ham ×1.87)
+[Playtest] [ 270.5s] v1.4 ÇARPAN SINIRI: ham ×4.12 (mutluluk ×1.44 · etkinlik ×1.3 · yoğun=True · Usta ×1.00) → uygulanan ×3.00
+[Playtest] [ 270.5s] Yükseltme: Şıra Hiz → Sv3 (28 altın)
+[Playtest] [ 270.5s] SES müzik → rush · faz=0.59 yoğun=True müşteri=9 kalabalık=0.41 ortam=[crowd_low:0.32 crowd_high:0.09 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 274.6s] YAVAŞ KARE 161 ms · müşteri=8 para yığını=1 dünya UI=67 efekt UI=15 GC+=12 faz=0.60 yoğun=True masa=3 istasyon=2 fener=6 amb=4
+[Playtest] [ 276.6s] Yükseltme: Bira Stok → Sv7 (40 altın)
+[Playtest] [ 280.2s] Para=24 Seviye=2 Ün=20/26 FPS=58 Servis=40 İçeride=9 Garson=1 Yıldız=3 Gün=1 Yoğun=True Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3] Hedef=bekle Poz=(-0.1,1.5)
+[Playtest] [ 282.3s] Yükseltme: Bira Kalite → Sv2 (38 altın)
+[Playtest] [ 285.0s] Yükseltme: Şıra Hiz → Sv4 (33 altın)
+[Playtest] [ 288.9s] Yükseltme: Şıra Stok → Sv5 (27 altın)
+[Playtest] [ 300.2s] v1.4 MUTLULUK: etkin %95.1 · ortalama %99.1 · kirli masa 1 (−4) · puanlanan 46 · müşteri ×1.45 · toplam çarpan ×3.00 (ham ×4.15)
+[Playtest] [ 300.2s] Sipariş: Bira +10
+[Playtest] [ 300.2s] Para=23 Seviye=2 Ün=24/26 FPS=60 Servis=44 İçeride=8 Garson=1 Yıldız=3 Gün=1 Yoğun=True Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3] Hedef=para Poz=(-0.9,-0.2)
+[Playtest] [ 302.6s] *** SEVİYE 3 ***
+[Playtest] [ 302.6s] v1.4 GÖREV: "5 özel sipariş yetiştir" 0/5 · ödül 105 altın 1 elmas · büyük görev ödülü 210 altın 2 elmas · oyuncu servis=0
+[Playtest] [ 303.3s] YAVAŞ KARE 151 ms · müşteri=8 para yığını=2 dünya UI=67 efekt UI=52 GC+=3 faz=0.67 yoğun=True masa=3 istasyon=2 fener=6 amb=4
+[Playtest] [ 313.2s] İşe alındı: Nana (Temizlikçi) · ücret 80
+[Playtest] [ 313.2s] v1.3 KOV: Nana → True · çalışıyor=False · maaş 14 → 0 · temizlikçi var=False
+[Playtest] [ 313.2s] v1.4 İŞE ALIM: Nana Sv3 · katalog 80 · kovulmadan önce maaş 14/gün (ücret 80) · kovulduktan sonra maaş 14/gün → ücret 80 = max(80, 2×14)
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Nana · şimdi 80 · Sv20'de max(80, 2×149) = 298 · Sv30'da 1202
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Pip · şimdi 150 · Sv20'de max(150, 2×194) = 388 · Sv30'da 1568
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Gus · şimdi 500 · Sv20'de max(500, 2×366) = 732 · Sv30'da 2962
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Mina · şimdi 650 · Sv20'de max(650, 2×283) = 650 · Sv30'da 2290
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Tobi · şimdi 1300 · Sv20'de max(1300, 2×375) = 1300 · Sv30'da 3030
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Ayla · şimdi 800 · Sv20'de max(800, 2×277) = 800 · Sv30'da 2240
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Brak · şimdi 900 · Sv20'de max(900, 2×308) = 900 · Sv30'da 2490
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Sema · şimdi 1400 · Sv20'de max(1400, 2×211) = 1400 · Sv30'da 1708
+[Playtest] [ 313.2s] v1.4 İŞE ALIM ÖLÇEĞİ: Lir · şimdi 1500 · Sv20'de max(1500, 2×372) = 1500 · Sv30'da 3012
+[Playtest] [ 313.3s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +72 altın +1 elmas
+[Playtest] [ 313.3s] İşe alındı: Nana (Temizlikçi) · ücret 80
+[Playtest] [ 313.3s] v1.3 YENİDEN İŞE AL: Nana → Owned · çalışıyor=True · seviye 0 · ödenen 0 (HireCost 80)
+[Playtest] [ 315.5s] Görev ödülü toplandı: "Bir Yoğun Saat atlat" (1/1) +46 altın +1 elmas
+[Playtest] [ 315.5s] Yükseltme: Bira Stok → Sv8 (49 altın)
+[Playtest] [ 315.6s] SES müzik → evening · faz=0.70 yoğun=False müşteri=11 kalabalık=0.50 ortam=[crowd_low:0.32 crowd_high:0.18 fire:0.70 day:0.00 night:0.20 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 316.9s] Yükseltme: Bira Kalite → Sv3 (45 altın)
+[Playtest] [ 320.2s] Para=4 Seviye=3 Ün=4/35 FPS=58 Servis=50 İçeride=10 Garson=1 Yıldız=3 Gün=1 Yoğun=False Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3,staff_nana,masa4] Hedef=bekle Poz=(2.6,-1.0)
+[Playtest] [ 330.0s] TEMPO: başlangıç Sv1 → Sv3 · 5.5 oyun-dk · Ün 51 (9.3/dk) · altın 1286 (234/dk) · servis 51 · kızgın 0 · sonraki seviye 35 Ün
+[Playtest] [ 330.0s] v0.9: gün sonu=0 oyun turu=0 otomasyon=[] depo-oto=False usta gelir=0 rehber=bitti ad=Test Tavernası
+[Playtest] [ 330.0s] v1.3: özel sipariş açılan=0 oyuncu servis etti=0 · garson=1 · kasa otomasyonu=False · yerdeki para yığını=0
+[Playtest] [ 330.0s] v1.4 MUTLULUK ÖZET: etkin %59.2–%99.5 · ortalama %60.0–%99.5 · şimdi %99.5 (ort. %99.5) · en çok kirli masa 2 · puanlanan müşteri 53
+[Playtest] [ 330.0s] v1.4 ÇARPAN ÖZET: ham en yüksek ×4.27 · uygulanan en yüksek ×3.00 (sınır ×3.0)
+[Playtest] [ 330.0s] v1.4 GÖREV ÖZET: oyuncunun servis ettiği özel sipariş (zorlamadan sonra) 0 · listede özel görev: "5 özel sipariş yetiştir" 0/5
+[Playtest] [ 330.0s] v1.4 YILDIZ ÖZET: ambiyans=121 ★3 · sonraki ★4 için 99
+[Playtest] [ 330.0s] v1.4 TELLAL ÖZET: etkinlik=Tellal · tellal görünür=True · bugün=[tellal]
+[Playtest] [ 330.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 1 · bitiş gerçek 36.6 sn
+[Playtest] [ 330.0s] v1.2: mutluluk=%100 (müşteri ×1.50) ★3 etkinlik=Tellal bugün=[tellal] masa=4
+[Playtest] [ 330.0s] SES: grup=50 müzik=evening kalabalık=0.46 konuşma=51 ortam=[crowd_low:0.32 crowd_high:0.14 fire:0.70 day:0.00 night:0.20 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 330.0s] HAN: açık=False giriş=0 kızgın misafir=0 toplanan oda=0 (bot 0) oda durumları=[Free,Free]
+[Playtest] [ 330.0s] SONUÇ: 330 oyun-sn · Para=18 · Seviye=3 · Servis=51 · Kızgın ayrılan=0 · Yükseltme=28 · Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3,staff_nana,masa4]
+
+=== Koşu (b) Sv9 300 sn ===
+[Playtest] [   0.0s] Test başladı. Para=27000 Seviye=9
+[Playtest] [   0.0s] v1.4 YILDIZ: ambiyans=22 ★1.5 · sonraki ★2 için 13 · eşikler=[0,35,110,220,350] premium'suz toplam=436
+[Playtest] [   0.0s] v1.4 GÖREVLER (başlangıç): [Bir Yoğun Saat atlat (431 altın, 3 elmas) | Yeni bir alan aç (431 altın, 3 elmas) | 5 özel sipariş yetiştir (431 altın, 3 elmas)]
+[Playtest] [   0.0s] Görevli gelişti: Nana → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Pip → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Mina → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Ayla → Sv 1
+[Playtest] [   0.0s] Raf büyütüldü: Bira → 30
+[Playtest] [   0.0s] Raf büyütüldü: Ekmek → 30
+[Playtest] [   0.0s] Makine alındı: Sira (40)
+[Playtest] [   0.0s] Makine alındı: BalSarabi (220)
+[Playtest] [   0.0s] Makine alındı: Sarap (600)
+[Playtest] [   0.0s] Makine alındı: Sut (650)
+[Playtest] [   0.0s] Makine alındı: KaraBira (1500)
+[Playtest] [   0.0s] Makine alındı: Guvec (1300)
+[Playtest] [   0.0s] İşe alındı: Gus (Barmen) · ücret 500
+[Playtest] [   0.0s] İşe alındı: Tobi (Garson) · ücret 1300
+[Playtest] [   0.0s] İşe alındı: Brak (Fenerci) · ücret 900
+[Playtest] [   0.0s] İşe alındı: Lir (Ozan) · ücret 1500
+[Playtest] [   0.0s] Dekor: Saksı → ambiyans 24 ★1.5 (sonraki ★ için 11)
+[Playtest] [   0.0s] Dekor: Mumluk → ambiyans 26 ★1.5 (sonraki ★ için 9)
+[Playtest] [   0.0s] Dekor: Halı → ambiyans 30 ★1.5 (sonraki ★ için 5)
+[Playtest] [   0.0s] Dekor: Flama → ambiyans 34 ★1.5 (sonraki ★ için 1)
+[Playtest] [   0.0s] Dekor: Fıçı Yığını → ambiyans 37 ★2 (sonraki ★ için 73)
+[Playtest] [   0.0s] Dekor: Kalkan & Kılıç → ambiyans 42 ★2 (sonraki ★ için 68)
+[Playtest] [   0.0s] Dekor: Geyik Boynuzu → ambiyans 47 ★2 (sonraki ★ için 63)
+[Playtest] [   0.0s] Dekor: Avize → ambiyans 55 ★2 (sonraki ★ için 55)
+[Playtest] [   0.0s] Yükseltme: Bira Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Hiz → Sv1 (80 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Stok → Sv1 (56 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Kalite → Sv1 (128 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Hiz → Sv1 (80 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Stok → Sv1 (56 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Kalite → Sv1 (128 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Hiz → Sv1 (80 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Stok → Sv1 (56 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Kalite → Sv1 (128 altın)
+[Playtest] [   0.0s] SES müzik → day · faz=0.00 yoğun=False müşteri=0 kalabalık=0.00 ortam=[crowd_low:0.00 crowd_high:0.00 fire:0.00 day:0.00 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [   0.0s] Görevli gelişti: Nana → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Pip → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Gus → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Mina → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Tobi → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Ayla → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Brak → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Lir → Sv 1
+[Playtest] [   0.0s] Raf büyütüldü: Bira → 45
+[Playtest] [   0.0s] Raf büyütüldü: Ekmek → 45
+[Playtest] [   0.0s] Raf büyütüldü: Sira → 30
+[Playtest] [   0.0s] Raf büyütüldü: BalSarabi → 30
+[Playtest] [   0.0s] Raf büyütüldü: Sarap → 30
+[Playtest] [   0.0s] Raf büyütüldü: Sut → 30
+[Playtest] [   0.0s] Raf büyütüldü: KaraBira → 30
+[Playtest] [   0.0s] Raf büyütüldü: Guvec → 30
+[Playtest] [   0.0s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +431 altın +3 elmas
+[Playtest] [   0.0s] Dekor: Saksı → ambiyans 57 ★2 (sonraki ★ için 53)
+[Playtest] [   0.0s] Dekor: Mumluk → ambiyans 59 ★2 (sonraki ★ için 51)
+[Playtest] [   0.0s] Dekor: Halı → ambiyans 63 ★2 (sonraki ★ için 47)
+[Playtest] [   0.0s] Dekor: Flama → ambiyans 67 ★2 (sonraki ★ için 43)
+[Playtest] [   0.0s] Dekor: Fıçı Yığını → ambiyans 70 ★2 (sonraki ★ için 40)
+[Playtest] [   0.0s] Dekor: Geyik Boynuzu → ambiyans 75 ★2.5 (sonraki ★ için 35)
+[Playtest] [   0.0s] Dekor: Avize → ambiyans 83 ★2.5 (sonraki ★ için 27)
+[Playtest] [   0.0s] Yükseltme: Bira Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Hiz → Sv2 (94 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Stok → Sv2 (66 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Kalite → Sv2 (151 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Hiz → Sv2 (94 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Stok → Sv2 (66 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Kalite → Sv2 (151 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Hiz → Sv2 (94 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Stok → Sv2 (66 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Kalite → Sv2 (151 altın)
+[Playtest] [   0.0s] YAVAŞ KARE 260 ms · müşteri=0 para yığını=0 dünya UI=2 efekt UI=280 GC+=31 faz=0.00 yoğun=False masa=7 istasyon=8 fener=6 amb=16
+[Playtest] [   0.1s] Görevli gelişti: Nana → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Pip → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Gus → Sv 2
+[Playtest] [   0.1s] Görevli gelişti: Mina → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Tobi → Sv 2
+[Playtest] [   0.1s] Görevli gelişti: Ayla → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Brak → Sv 2
+[Playtest] [   0.1s] Görevli gelişti: Lir → Sv 2
+[Playtest] [   0.1s] Raf büyütüldü: Bira → 65
+[Playtest] [   0.1s] Raf büyütüldü: Sira → 45
+[Playtest] [   0.1s] Görev ödülü toplandı: "5 yükseltme yap" (5/5) +431 altın +3 elmas
+[Playtest] [   0.1s] Dekor: Saksı → ambiyans 85 ★2.5 (sonraki ★ için 25)
+[Playtest] [   0.1s] Dekor: Mumluk → ambiyans 87 ★2.5 (sonraki ★ için 23)
+[Playtest] [   0.1s] Dekor: Halı → ambiyans 91 ★2.5 (sonraki ★ için 19)
+[Playtest] [   0.1s] Dekor: Flama → ambiyans 95 ★2.5 (sonraki ★ için 15)
+[Playtest] [   0.1s] Dekor: Fıçı Yığını → ambiyans 98 ★2.5 (sonraki ★ için 12)
+[Playtest] [   0.1s] Dekor: Avize → ambiyans 106 ★2.5 (sonraki ★ için 4)
+[Playtest] [   0.1s] Yükseltme: Bira Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Bira Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Bira Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Sıcak Ekmek Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Sıcak Ekmek Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Sıcak Ekmek Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Şıra Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Şıra Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Şıra Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Bal Şarabı Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Bal Şarabı Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Bal Şarabı Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Kırmızı Şarap Hiz → Sv3 (111 altın)
+[Playtest] [   0.1s] Yükseltme: Kırmızı Şarap Stok → Sv3 (78 altın)
+[Playtest] [   0.1s] Yükseltme: Süt Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Süt Stok → Sv3 (19 altın)
+[Playtest] [   0.2s] Sipariş: Bira +10
+[Playtest] [   0.2s] Görev ödülü toplandı: "5 yükseltme yap" (5/5) +431 altın +3 elmas
+[Playtest] [   0.2s] Dekor: Saksı → ambiyans 108 ★2.5 (sonraki ★ için 2)
+[Playtest] [   0.2s] Dekor: Mumluk → ambiyans 110 ★3 (sonraki ★ için 110)
+[Playtest] [   0.2s] Dekor: Halı → ambiyans 114 ★3 (sonraki ★ için 106)
+[Playtest] [   0.2s] Yükseltme: Bira Hiz → Sv4 (33 altın)
+[Playtest] [   0.2s] Yükseltme: Bira Stok → Sv4 (23 altın)
+[Playtest] [   0.2s] Yükseltme: Bira Kalite → Sv4 (53 altın)
+[Playtest] [   0.2s] Yükseltme: Sıcak Ekmek Hiz → Sv4 (33 altın)
+[Playtest] [   0.2s] Yükseltme: Sıcak Ekmek Stok → Sv4 (23 altın)
+[Playtest] [   0.2s] Yükseltme: Sıcak Ekmek Kalite → Sv4 (53 altın)
+[Playtest] [   0.2s] Yükseltme: Şıra Hiz → Sv4 (33 altın)
+[Playtest] [   0.2s] Yükseltme: Şıra Stok → Sv4 (23 altın)
+[Playtest] [   2.6s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +431 altın +3 elmas
+[Playtest] [   2.6s] Dekor: Saksı → ambiyans 120 ★3 (sonraki ★ için 100)
+[Playtest] [   2.6s] Dekor: Mumluk → ambiyans 122 ★3 (sonraki ★ için 98)
+[Playtest] [   2.6s] Yükseltme: Bira Hiz → Sv5 (39 altın)
+[Playtest] [   2.6s] Yükseltme: Bira Stok → Sv5 (27 altın)
+[Playtest] [   2.6s] Yükseltme: Bira Kalite → Sv5 (62 altın)
+[Playtest] [   2.6s] Yükseltme: Sıcak Ekmek Hiz → Sv5 (39 altın)
+[Playtest] [   2.6s] Yükseltme: Sıcak Ekmek Stok → Sv5 (27 altın)
+[Playtest] [   2.6s] Yükseltme: Bal Şarabı Stok → Sv4 (23 altın)
+[Playtest] [   5.0s] v1.4 GÖREV: "5 özel sipariş yetiştir" 0/5 · ödül 431 altın 3 elmas · büyük görev ödülü 862 altın 4 elmas · oyuncu servis=0
+[Playtest] [   5.6s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +431 altın +3 elmas
+[Playtest] [   6.8s] Sipariş: Sira +10
+[Playtest] [  13.1s] YAVAŞ KARE 138 ms · müşteri=4 para yığını=0 dünya UI=72 efekt UI=23 GC+=4 faz=0.03 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  13.6s] Sipariş: Ekmek +10
+[Playtest] [  20.0s] Para=339 Seviye=9 Ün=1/184 FPS=54 Servis=1 İçeride=6 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=para Poz=(3.6,-2.0)
+[Playtest] [  20.2s] Sipariş: Bira +10
+[Playtest] [  25.6s] YAVAŞ KARE 137 ms · müşteri=7 para yığını=0 dünya UI=75 efekt UI=0 GC+=4 faz=0.06 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  30.1s] v1.4 MUTLULUK: etkin %64.9 · ortalama %68.9 · kirli masa 1 (−4) · puanlanan 3 · müşteri ×1.15 · toplam çarpan ×1.15 (ham ×1.15)
+[Playtest] [  35.8s] YAVAŞ KARE 138 ms · müşteri=9 para yığını=2 dünya UI=77 efekt UI=0 GC+=2 faz=0.09 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  40.1s] Para=329 Seviye=9 Ün=3/184 FPS=54 Servis=3 İçeride=10 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=istasyon:Güveç Poz=(-3.4,3.9)
+[Playtest] [  47.7s] YAVAŞ KARE 127 ms · müşteri=12 para yığını=5 dünya UI=80 efekt UI=0 GC+=4 faz=0.11 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  55.8s] YAVAŞ KARE 141 ms · müşteri=13 para yığını=5 dünya UI=82 efekt UI=0 GC+=2 faz=0.13 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  60.1s] v1.4 MUTLULUK: etkin %76.0 · ortalama %84.0 · kirli masa 2 (−8) · puanlanan 11 · müşteri ×1.26 · toplam çarpan ×1.26 (ham ×1.26)
+[Playtest] [  60.2s] Para=329 Seviye=9 Ün=9/184 FPS=53 Servis=9 İçeride=13 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=istasyon:Güveç Poz=(-3.5,4.5)
+[Playtest] [  67.7s] YAVAŞ KARE 134 ms · müşteri=14 para yığını=7 dünya UI=82 efekt UI=0 GC+=3 faz=0.16 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  75.9s] YAVAŞ KARE 144 ms · müşteri=13 para yığını=8 dünya UI=81 efekt UI=0 GC+=2 faz=0.18 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  80.2s] Para=389 Seviye=9 Ün=16/184 FPS=54 Servis=15 İçeride=13 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=para Poz=(2.1,-0.2)
+[Playtest] [  84.9s] Yükseltme: Süt Stok → Sv4 (23 altın)
+[Playtest] [  86.1s] Sipariş: Sut +10
+[Playtest] [  88.0s] Yükseltme: Bira Stok → Sv6 (32 altın)
+[Playtest] [  88.9s] Yükseltme: Şıra Stok → Sv5 (27 altın)
+[Playtest] [  90.1s] v1.4 MUTLULUK: etkin %85.3 · ortalama %89.3 · kirli masa 1 (−4) · puanlanan 21 · müşteri ×1.35 · toplam çarpan ×1.35 (ham ×1.35)
+[Playtest] [  90.3s] Yükseltme: Bira Stok → Sv7 (40 altın)
+[Playtest] [  95.1s] v1.4 TELLAL: durum=Ready · fiyat 310 (40 + 30×Sv9) · tellal görünür=False
+[Playtest] [  95.1s] v1.2 ETKİNLİK: tellal → Running · altın 135 · mutluluk %89 (×1.39) · etkinlik çarpanı ×1.3
+[Playtest] [  97.1s] v1.4 TELLAL: etkinlik=Tellal · tellal sokakta görünür=True · kalan 179 sn · ikinci başlatma → Running
+[Playtest] [  97.8s] YAVAŞ KARE 179 ms · müşteri=14 para yığını=2 dünya UI=82 efekt UI=0 GC+=5 faz=0.23 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [ 100.0s] v1.4 ÇARPAN SINIRI: ham ×3.89 (mutluluk ×1.36 · etkinlik ×1.3 · yoğun=True · Usta ×1.00) → uygulanan ×3.00
+[Playtest] [ 100.1s] SES müzik → rush · faz=0.24 yoğun=True müşteri=15 kalabalık=0.59 ortam=[crowd_low:0.32 crowd_high:0.27 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 100.2s] Para=157 Seviye=9 Ün=21/184 FPS=58 Servis=20 İçeride=15 Garson=3 Yıldız=3 Gün=1 Yoğun=True Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=para Poz=(-1.9,2.6)
+[Playtest] [ 120.0s] v1.3 KOV: Nana → True · çalışıyor=False · maaş 677 → 631 · temizlikçi var=False
+[Playtest] [ 120.0s] v1.4 İŞE ALIM: Nana Sv9 · katalog 80 · kovulmadan önce maaş 46/gün (ücret 92) · kovulduktan sonra maaş 32/gün → ücret 80 = max(80, 2×32)
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Nana · şimdi 80 · Sv20'de max(80, 2×149) = 298 · Sv30'da 1202
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Pip · şimdi 150 · Sv20'de max(150, 2×194) = 388 · Sv30'da 1568
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Gus · şimdi 500 · Sv20'de max(500, 2×366) = 732 · Sv30'da 2962
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Mina · şimdi 650 · Sv20'de max(650, 2×283) = 650 · Sv30'da 2290
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Tobi · şimdi 1300 · Sv20'de max(1300, 2×375) = 1300 · Sv30'da 3030
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Ayla · şimdi 800 · Sv20'de max(800, 2×277) = 800 · Sv30'da 2240
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Brak · şimdi 900 · Sv20'de max(900, 2×308) = 900 · Sv30'da 2490
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Sema · şimdi 1400 · Sv20'de max(1400, 2×211) = 1400 · Sv30'da 1708
+[Playtest] [ 120.0s] v1.4 İŞE ALIM ÖLÇEĞİ: Lir · şimdi 1500 · Sv20'de max(1500, 2×372) = 1500 · Sv30'da 3012
+[Playtest] [ 120.2s] v1.4 MUTLULUK: etkin %86.0 · ortalama %94.0 · kirli masa 2 (−8) · puanlanan 28 · müşteri ×1.36 · toplam çarpan ×3.00 (ham ×3.89)
+[Playtest] [ 120.2s] Para=157 Seviye=9 Ün=27/184 FPS=60 Servis=26 İçeride=21 Garson=3 Yıldız=3 Gün=1 Yoğun=True Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=para Poz=(-3.2,3.4)
+[Playtest] [ 126.0s] v1.3 YENİDEN İŞE AL: Nana → Ok · çalışıyor=True · seviye 0 · ödenen 80 (HireCost 80)
+[Playtest] [ 130.0s] Dekor: Saksı → ambiyans 127 ★3 (sonraki ★ için 93)
+[Playtest] [ 130.0s] Dekor: Mumluk → ambiyans 129 ★3 (sonraki ★ için 91)
+[Playtest] [ 130.0s] Yükseltme: Bira Hiz → Sv6 (46 altın)
+[Playtest] [ 132.7s] Sipariş: Guvec +10
+[Playtest] [ 138.0s] Sipariş: BalSarabi +10
+[Playtest] [ 140.2s] Para=340 Seviye=9 Ün=33/184 FPS=60 Servis=32 İçeride=23 Garson=3 Yıldız=3 Gün=1 Yoğun=True Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana] Hedef=istasyon:Güveç Poz=(-3.5,5.3)
+[Playtest] [ 145.1s] Görev ödülü toplandı: "Bir Yoğun Saat atlat" (1/1) +431 altın +3 elmas
+[Playtest] [ 145.1s] Dekor: Saksı → ambiyans 131 ★3 (sonraki ★ için 89)
+[Playtest] [ 145.1s] Dekor: Mumluk → ambiyans 133 ★3 (sonraki ★ için 87)
+[Playtest] [ 145.1s] Yükseltme: Bira Hiz → Sv7 (57 altın)
+[Playtest] [ 145.1s] Yükseltme: Bira Stok → Sv8 (49 altın)
+[Playtest] [ 145.1s] Yükseltme: Bira Kalite → Sv6 (73 altın)
+[Playtest] [ 145.1s] Yükseltme: Sıcak Ekmek Hiz → Sv6 (46 altın)
+[Playtest] [ 145.1s] Yükseltme: Sıcak Ekmek Stok → Sv6 (32 altın)
+[Playtest] [ 145.1s] SES müzik → day · faz=0.35 yoğun=False müşteri=23 kalabalık=0.77 ortam=[crowd_low:0.32 crowd_high:0.45 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 147.6s] Yükseltme: Sıcak Ekmek Stok → Sv7 (40 altın)
+[Playtest] [ 149.0s] Yükseltme: Şıra Hiz → Sv5 (39 altın)
+[Playtest] [ 150.0s] Sipariş: Ekmek +10
+[Playtest] [ 150.6s] YAVAŞ KARE 149 ms · müşteri=23 para yığını=3 dünya UI=90 efekt UI=12 GC+=14 faz=0.36 yoğun=False masa=9 istasyon=8 fener=6 amb=31
+[Playtest] [ 150.6s] v1.4 MUTLULUK: etkin %73.0 · ortalama %77.0 · kirli masa 1 (−4) · puanlanan 38 · müşteri ×1.23 · toplam çarpan ×1.60 (ham ×1.60)
+[Playtest] [ 158.6s] Hazine (test): alındı · VIP=True · garson=4 · elmas=18 · yıldız=4
+[Playtest] [ 159.8s] Sipariş: Bira +10
+[Playtest] [ 160.3s] Para=410 Seviye=9 Ün=38/184 FPS=56 Servis=37 İçeride=21 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Bira Poz=(2.7,3.1)
+[Playtest] [ 162.7s] Yükseltme: Şıra Hiz → Sv6 (46 altın)
+[Playtest] [ 164.5s] Yükseltme: Bira Hiz → Sv8 (70 altın)
+[Playtest] [ 166.4s] Yükseltme: Bira Stok → Sv9 (61 altın)
+[Playtest] [ 167.2s] Yükseltme: Şıra Stok → Sv6 (32 altın)
+[Playtest] [ 171.3s] YAVAŞ KARE 153 ms · müşteri=23 para yığını=2 dünya UI=92 efekt UI=0 GC+=5 faz=0.41 yoğun=False masa=9 istasyon=8 fener=6 amb=33
+[Playtest] [ 173.6s] Yükseltme: Bira Hiz → Sv9 (87 altın)
+[Playtest] [ 173.6s] Yükseltme: Sıcak Ekmek Hiz → Sv7 (57 altın)
+[Playtest] [ 180.3s] Para=425 Seviye=9 Ün=46/184 FPS=58 Servis=45 İçeride=19 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Kara Bira Poz=(7.3,1.6)
+[Playtest] [ 180.6s] v1.4 MUTLULUK: etkin %78.0 · ortalama %86.0 · kirli masa 2 (−8) · puanlanan 54 · müşteri ×1.28 · toplam çarpan ×1.66 (ham ×1.66)
+[Playtest] [ 189.4s] Görev ödülü toplandı: "5 özel sipariş yetiştir" (5/5) +431 altın +3 elmas
+[Playtest] [ 189.4s] Yükseltme: Bira Hiz → Sv10 (108 altın)
+[Playtest] [ 189.4s] Yükseltme: Bira Stok → Sv10 (76 altın)
+[Playtest] [ 189.4s] Yükseltme: Bira Kalite → Sv7 (91 altın)
+[Playtest] [ 189.4s] Yükseltme: Sıcak Ekmek Hiz → Sv8 (70 altın)
+[Playtest] [ 189.4s] Yükseltme: Sıcak Ekmek Stok → Sv8 (49 altın)
+[Playtest] [ 189.4s] Yükseltme: Şıra Stok → Sv7 (40 altın)
+[Playtest] [ 189.5s] Görev ödülü toplandı: "5 yükseltme yap" (5/5) +431 altın +3 elmas
+[Playtest] [ 189.5s] Yükseltme: Bira Kalite → Sv8 (113 altın)
+[Playtest] [ 189.5s] Yükseltme: Sıcak Ekmek Hiz → Sv9 (87 altın)
+[Playtest] [ 189.5s] Yükseltme: Sıcak Ekmek Stok → Sv9 (61 altın)
+[Playtest] [ 189.5s] Yükseltme: Sıcak Ekmek Kalite → Sv5 (62 altın)
+[Playtest] [ 189.5s] Yükseltme: Şıra Hiz → Sv7 (57 altın)
+[Playtest] [ 189.5s] Yükseltme: Şıra Stok → Sv8 (49 altın)
+[Playtest] [ 190.3s] Yükseltme: Bal Şarabı Stok → Sv5 (27 altın)
+[Playtest] [ 191.6s] Yükseltme: Şıra Stok → Sv9 (61 altın)
+[Playtest] [ 192.6s] Sipariş: Sira +10
+[Playtest] [ 197.0s] Yükseltme: Bal Şarabı Hiz → Sv4 (33 altın)
+[Playtest] [ 197.2s] Yükseltme: Bal Şarabı Stok → Sv6 (32 altın)
+[Playtest] [ 198.5s] Yükseltme: Şıra Kalite → Sv4 (53 altın)
+[Playtest] [ 200.3s] Para=436 Seviye=9 Ün=54/184 FPS=60 Servis=53 İçeride=22 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Şıra Poz=(3.7,1.0)
+[Playtest] [ 203.1s] Yükseltme: Süt Hiz → Sv4 (33 altın)
+[Playtest] [ 204.0s] Yükseltme: Şıra Hiz → Sv8 (70 altın)
+[Playtest] [ 210.7s] v1.4 MUTLULUK: etkin %78.7 · ortalama %82.7 · kirli masa 1 (−4) · puanlanan 69 · müşteri ×1.29 · toplam çarpan ×1.67 (ham ×1.67)
+[Playtest] [ 213.1s] Sipariş: KaraBira +10
+[Playtest] [ 220.3s] Para=360 Seviye=9 Ün=60/184 FPS=60 Servis=58 İçeride=18 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Güveç Poz=(-3.5,5.2)
+[Playtest] [ 228.1s] Yükseltme: Bal Şarabı Hiz → Sv5 (39 altın)
+[Playtest] [ 229.3s] Yükseltme: Sıcak Ekmek Stok → Sv10 (76 altın)
+[Playtest] [ 230.1s] Sipariş: Sarap +10
+[Playtest] [ 240.3s] Para=443 Seviye=9 Ün=71/184 FPS=60 Servis=65 İçeride=19 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Güveç Poz=(-3.5,5.1)
+[Playtest] [ 240.7s] v1.4 MUTLULUK: etkin %76.2 · ortalama %88.2 · kirli masa 3 (−12) · puanlanan 80 · müşteri ×1.26 · toplam çarpan ×1.64 (ham ×1.64)
+[Playtest] [ 252.1s] SES müzik → evening · faz=0.60 yoğun=False müşteri=18 kalabalık=0.77 ortam=[crowd_low:0.32 crowd_high:0.45 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 253.4s] YAVAŞ KARE 170 ms · müşteri=19 para yığını=6 dünya UI=89 efekt UI=0 GC+=24 faz=0.60 yoğun=False masa=9 istasyon=8 fener=6 amb=33
+[Playtest] [ 259.5s] Sipariş: Bira +10
+[Playtest] [ 260.1s] Görev ödülü toplandı: "39 müşteriye servis yap" (39/39) +431 altın +3 elmas
+[Playtest] [ 260.1s] Yükseltme: Bira Kalite → Sv9 (140 altın)
+[Playtest] [ 260.1s] Yükseltme: Sıcak Ekmek Hiz → Sv10 (108 altın)
+[Playtest] [ 260.1s] Yükseltme: Sıcak Ekmek Kalite → Sv6 (73 altın)
+[Playtest] [ 260.1s] Yükseltme: Şıra Hiz → Sv9 (87 altın)
+[Playtest] [ 260.3s] Para=436 Seviye=9 Ün=76/184 FPS=58 Servis=70 İçeride=17 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Sıcak Ekmek Poz=(-3.5,5.2)
+[Playtest] [ 262.8s] Yükseltme: Şıra Kalite → Sv5 (62 altın)
+[Playtest] [ 263.9s] Yükseltme: Süt Stok → Sv5 (27 altın)
+[Playtest] [ 266.6s] Yükseltme: Süt Stok → Sv6 (32 altın)
+[Playtest] [ 269.6s] Yükseltme: Sıcak Ekmek Kalite → Sv7 (91 altın)
+[Playtest] [ 269.6s] Yükseltme: Bal Şarabı Hiz → Sv6 (46 altın)
+[Playtest] [ 270.7s] v1.4 MUTLULUK: etkin %69.8 · ortalama %73.8 · kirli masa 1 (−4) · puanlanan 91 · müşteri ×1.20 · toplam çarpan ×1.56 (ham ×1.56)
+[Playtest] [ 271.1s] Yükseltme: Sıcak Ekmek Kalite → Sv8 (113 altın)
+[Playtest] [ 272.1s] Yükseltme: Şıra Stok → Sv10 (76 altın)
+[Playtest] [ 275.7s] Yükseltme: Şıra Hiz → Sv10 (108 altın)
+[Playtest] [ 277.9s] Yükseltme: Bal Şarabı Stok → Sv7 (40 altın)
+[Playtest] [ 280.3s] Para=430 Seviye=9 Ün=83/184 FPS=60 Servis=77 İçeride=17 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Süt Poz=(-0.4,2.0)
+[Playtest] [ 282.5s] Yükseltme: Süt Hiz → Sv5 (39 altın)
+[Playtest] [ 290.5s] Yükseltme: Şıra Kalite → Sv6 (73 altın)
+[Playtest] [ 291.8s] Yükseltme: Şıra Kalite → Sv7 (91 altın)
+[Playtest] [ 293.3s] Yükseltme: Şıra Kalite → Sv8 (113 altın)
+[Playtest] [ 296.3s] Yükseltme: Bal Şarabı Hiz → Sv7 (57 altın)
+[Playtest] [ 296.3s] Yükseltme: Bal Şarabı Stok → Sv8 (49 altın)
+[Playtest] [ 296.7s] Sipariş: Sut +10
+[Playtest] [ 298.8s] Görev ödülü toplandı: "1033 altın kazan" (1033/1033) +431 altın +3 elmas
+[Playtest] [ 298.8s] Dekor: Avize → ambiyans 246 ★4 (sonraki ★ için 104)
+[Playtest] [ 298.8s] Yükseltme: Bal Şarabı Hiz → Sv8 (70 altın)
+[Playtest] [ 298.8s] Yükseltme: Süt Hiz → Sv6 (46 altın)
+[Playtest] [ 300.0s] TEMPO: başlangıç Sv9 → Sv9 · 5.0 oyun-dk · Ün 91 (18.2/dk) · altın 7175 (1435/dk) · servis 85 · kızgın 0 · sonraki seviye 184 Ün
+[Playtest] [ 300.0s] v0.9: gün sonu=0 oyun turu=0 otomasyon=[] depo-oto=False usta gelir=0 rehber=bitti ad=Test Tavernası
+[Playtest] [ 300.0s] v1.3: özel sipariş açılan=24 oyuncu servis etti=7 · garson=4 · kasa otomasyonu=False · yerdeki para yığını=2
+[Playtest] [ 300.0s] v1.4 MUTLULUK ÖZET: etkin %57.8–%94.0 · ortalama %60.0–%96.4 · şimdi %84.5 (ort. %88.5) · en çok kirli masa 5 · puanlanan müşteri 109
+[Playtest] [ 300.0s] v1.4 ÇARPAN ÖZET: ham en yüksek ×4.12 · uygulanan en yüksek ×3.00 (sınır ×3.0)
+[Playtest] [ 300.0s] v1.4 GÖREV ÖZET: oyuncunun servis ettiği özel sipariş (zorlamadan sonra) 7 · listede özel görev: yok (toplandı)
+[Playtest] [ 300.0s] v1.4 YILDIZ ÖZET: ambiyans=246 ★4 · sonraki ★5 için 104
+[Playtest] [ 300.0s] v1.4 TELLAL ÖZET: etkinlik=Tellal · tellal görünür=True · bugün=[tellal]
+[Playtest] [ 300.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+[Playtest] [ 300.0s] v1.2: mutluluk=%85 (müşteri ×1.35) ★4 etkinlik=Tellal bugün=[tellal] masa=9
+[Playtest] [ 300.0s] SES: grup=50 müzik=evening kalabalık=0.59 konuşma=134 ortam=[crowd_low:0.32 crowd_high:0.27 fire:0.70 day:0.00 night:0.20 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 300.0s] HAN: açık=False giriş=0 kızgın misafir=0 toplanan oda=0 (bot 0) oda durumları=[Free,Free]
+[Playtest] [ 300.0s] SONUÇ: 300 oyun-sn · Para=424 · Seviye=9 · Servis=85 · Kızgın ayrılan=0 · Yükseltme=138 · Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin]
+
+=== Koşu (b2) Sv9 300 sn (kart düzeltmesi sonrası) ===
+[Playtest] [   0.0s] Test başladı. Para=27000 Seviye=9
+[Playtest] [   0.0s] v1.4 YILDIZ: ambiyans=22 ★1.5 · sonraki ★2 için 13 · eşikler=[0,35,110,220,350] premium'suz toplam=436
+[Playtest] [   0.0s] v1.4 GÖREVLER (başlangıç): [Bir Yoğun Saat atlat (431 altın, 3 elmas) | Yeni bir alan aç (431 altın, 3 elmas) | 5 özel sipariş yetiştir (431 altın, 3 elmas)]
+[Playtest] [   0.0s] Görevli gelişti: Nana → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Pip → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Mina → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Ayla → Sv 1
+[Playtest] [   0.0s] Raf büyütüldü: Bira → 30
+[Playtest] [   0.0s] Raf büyütüldü: Ekmek → 30
+[Playtest] [   0.0s] Makine alındı: Sira (40)
+[Playtest] [   0.0s] Makine alındı: BalSarabi (220)
+[Playtest] [   0.0s] Makine alındı: Sarap (600)
+[Playtest] [   0.0s] Makine alındı: Sut (650)
+[Playtest] [   0.0s] Makine alındı: KaraBira (1500)
+[Playtest] [   0.0s] Makine alındı: Guvec (1300)
+[Playtest] [   0.0s] İşe alındı: Gus (Barmen) · ücret 500
+[Playtest] [   0.0s] İşe alındı: Tobi (Garson) · ücret 1300
+[Playtest] [   0.0s] İşe alındı: Brak (Fenerci) · ücret 900
+[Playtest] [   0.0s] İşe alındı: Lir (Ozan) · ücret 1500
+[Playtest] [   0.0s] Dekor: Saksı → ambiyans 24 ★1.5 (sonraki ★ için 11)
+[Playtest] [   0.0s] Dekor: Mumluk → ambiyans 26 ★1.5 (sonraki ★ için 9)
+[Playtest] [   0.0s] Dekor: Halı → ambiyans 30 ★1.5 (sonraki ★ için 5)
+[Playtest] [   0.0s] Dekor: Flama → ambiyans 34 ★1.5 (sonraki ★ için 1)
+[Playtest] [   0.0s] Dekor: Fıçı Yığını → ambiyans 37 ★2 (sonraki ★ için 73)
+[Playtest] [   0.0s] Dekor: Kalkan & Kılıç → ambiyans 42 ★2 (sonraki ★ için 68)
+[Playtest] [   0.0s] Dekor: Geyik Boynuzu → ambiyans 47 ★2 (sonraki ★ için 63)
+[Playtest] [   0.0s] Dekor: Avize → ambiyans 55 ★2 (sonraki ★ için 55)
+[Playtest] [   0.0s] Yükseltme: Bira Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Hiz → Sv1 (80 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Stok → Sv1 (56 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Kalite → Sv1 (128 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Hiz → Sv1 (20 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Stok → Sv1 (14 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Kalite → Sv1 (32 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Hiz → Sv1 (80 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Stok → Sv1 (56 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Kalite → Sv1 (128 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Hiz → Sv1 (80 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Stok → Sv1 (56 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Kalite → Sv1 (128 altın)
+[Playtest] [   0.0s] SES müzik → day · faz=0.00 yoğun=False müşteri=0 kalabalık=0.00 ortam=[crowd_low:0.00 crowd_high:0.00 fire:0.00 day:0.00 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [   0.0s] Görevli gelişti: Nana → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Pip → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Gus → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Mina → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Tobi → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Ayla → Sv 2
+[Playtest] [   0.0s] Görevli gelişti: Brak → Sv 1
+[Playtest] [   0.0s] Görevli gelişti: Lir → Sv 1
+[Playtest] [   0.0s] Raf büyütüldü: Bira → 45
+[Playtest] [   0.0s] Raf büyütüldü: Ekmek → 45
+[Playtest] [   0.0s] Raf büyütüldü: Sira → 30
+[Playtest] [   0.0s] Raf büyütüldü: BalSarabi → 30
+[Playtest] [   0.0s] Raf büyütüldü: Sarap → 30
+[Playtest] [   0.0s] Raf büyütüldü: Sut → 30
+[Playtest] [   0.0s] Raf büyütüldü: KaraBira → 30
+[Playtest] [   0.0s] Raf büyütüldü: Guvec → 30
+[Playtest] [   0.0s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +431 altın +3 elmas
+[Playtest] [   0.0s] Dekor: Saksı → ambiyans 57 ★2 (sonraki ★ için 53)
+[Playtest] [   0.0s] Dekor: Mumluk → ambiyans 59 ★2 (sonraki ★ için 51)
+[Playtest] [   0.0s] Dekor: Halı → ambiyans 63 ★2 (sonraki ★ için 47)
+[Playtest] [   0.0s] Dekor: Flama → ambiyans 67 ★2 (sonraki ★ için 43)
+[Playtest] [   0.0s] Dekor: Fıçı Yığını → ambiyans 70 ★2 (sonraki ★ için 40)
+[Playtest] [   0.0s] Dekor: Geyik Boynuzu → ambiyans 75 ★2.5 (sonraki ★ için 35)
+[Playtest] [   0.0s] Dekor: Avize → ambiyans 83 ★2.5 (sonraki ★ için 27)
+[Playtest] [   0.0s] Yükseltme: Bira Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Bira Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Sıcak Ekmek Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Şıra Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Bal Şarabı Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Hiz → Sv2 (94 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Stok → Sv2 (66 altın)
+[Playtest] [   0.0s] Yükseltme: Kırmızı Şarap Kalite → Sv2 (151 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Hiz → Sv2 (24 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Stok → Sv2 (17 altın)
+[Playtest] [   0.0s] Yükseltme: Süt Kalite → Sv2 (38 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Hiz → Sv2 (94 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Stok → Sv2 (66 altın)
+[Playtest] [   0.0s] Yükseltme: Kara Bira Kalite → Sv2 (151 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Hiz → Sv2 (94 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Stok → Sv2 (66 altın)
+[Playtest] [   0.0s] Yükseltme: Güveç Kalite → Sv2 (151 altın)
+[Playtest] [   0.0s] YAVAŞ KARE 260 ms · müşteri=0 para yığını=0 dünya UI=2 efekt UI=280 GC+=31 faz=0.00 yoğun=False masa=7 istasyon=8 fener=6 amb=16
+[Playtest] [   0.1s] Görevli gelişti: Nana → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Pip → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Gus → Sv 2
+[Playtest] [   0.1s] Görevli gelişti: Mina → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Tobi → Sv 2
+[Playtest] [   0.1s] Görevli gelişti: Ayla → Sv 3
+[Playtest] [   0.1s] Görevli gelişti: Brak → Sv 2
+[Playtest] [   0.1s] Görevli gelişti: Lir → Sv 2
+[Playtest] [   0.1s] Raf büyütüldü: Bira → 65
+[Playtest] [   0.1s] Raf büyütüldü: Sira → 45
+[Playtest] [   0.1s] Görev ödülü toplandı: "5 yükseltme yap" (5/5) +431 altın +3 elmas
+[Playtest] [   0.1s] Dekor: Saksı → ambiyans 85 ★2.5 (sonraki ★ için 25)
+[Playtest] [   0.1s] Dekor: Mumluk → ambiyans 87 ★2.5 (sonraki ★ için 23)
+[Playtest] [   0.1s] Dekor: Halı → ambiyans 91 ★2.5 (sonraki ★ için 19)
+[Playtest] [   0.1s] Dekor: Flama → ambiyans 95 ★2.5 (sonraki ★ için 15)
+[Playtest] [   0.1s] Dekor: Fıçı Yığını → ambiyans 98 ★2.5 (sonraki ★ için 12)
+[Playtest] [   0.1s] Dekor: Avize → ambiyans 106 ★2.5 (sonraki ★ için 4)
+[Playtest] [   0.1s] Yükseltme: Bira Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Bira Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Bira Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Sıcak Ekmek Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Sıcak Ekmek Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Sıcak Ekmek Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Şıra Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Şıra Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Şıra Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Bal Şarabı Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Bal Şarabı Stok → Sv3 (19 altın)
+[Playtest] [   0.1s] Yükseltme: Bal Şarabı Kalite → Sv3 (45 altın)
+[Playtest] [   0.1s] Yükseltme: Kırmızı Şarap Hiz → Sv3 (111 altın)
+[Playtest] [   0.1s] Yükseltme: Kırmızı Şarap Stok → Sv3 (78 altın)
+[Playtest] [   0.1s] Yükseltme: Süt Hiz → Sv3 (28 altın)
+[Playtest] [   0.1s] Yükseltme: Süt Stok → Sv3 (19 altın)
+[Playtest] [   0.2s] Sipariş: Bira +10
+[Playtest] [   0.2s] Görev ödülü toplandı: "5 yükseltme yap" (5/5) +431 altın +3 elmas
+[Playtest] [   0.2s] Dekor: Saksı → ambiyans 108 ★2.5 (sonraki ★ için 2)
+[Playtest] [   0.2s] Dekor: Mumluk → ambiyans 110 ★3 (sonraki ★ için 110)
+[Playtest] [   0.2s] Dekor: Halı → ambiyans 114 ★3 (sonraki ★ için 106)
+[Playtest] [   0.2s] Yükseltme: Bira Hiz → Sv4 (33 altın)
+[Playtest] [   0.2s] Yükseltme: Bira Stok → Sv4 (23 altın)
+[Playtest] [   0.2s] Yükseltme: Bira Kalite → Sv4 (53 altın)
+[Playtest] [   0.2s] Yükseltme: Sıcak Ekmek Hiz → Sv4 (33 altın)
+[Playtest] [   0.2s] Yükseltme: Sıcak Ekmek Stok → Sv4 (23 altın)
+[Playtest] [   0.2s] Yükseltme: Sıcak Ekmek Kalite → Sv4 (53 altın)
+[Playtest] [   0.2s] Yükseltme: Şıra Hiz → Sv4 (33 altın)
+[Playtest] [   0.2s] Yükseltme: Şıra Stok → Sv4 (23 altın)
+[Playtest] [   2.5s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +431 altın +3 elmas
+[Playtest] [   2.5s] Dekor: Saksı → ambiyans 120 ★3 (sonraki ★ için 100)
+[Playtest] [   2.5s] Dekor: Mumluk → ambiyans 122 ★3 (sonraki ★ için 98)
+[Playtest] [   2.5s] Yükseltme: Bira Hiz → Sv5 (39 altın)
+[Playtest] [   2.5s] Yükseltme: Bira Stok → Sv5 (27 altın)
+[Playtest] [   2.5s] Yükseltme: Bira Kalite → Sv5 (62 altın)
+[Playtest] [   2.5s] Yükseltme: Sıcak Ekmek Hiz → Sv5 (39 altın)
+[Playtest] [   2.5s] Yükseltme: Sıcak Ekmek Stok → Sv5 (27 altın)
+[Playtest] [   2.5s] Yükseltme: Bal Şarabı Stok → Sv4 (23 altın)
+[Playtest] [   5.0s] v1.4 GÖREV: "5 özel sipariş yetiştir" 0/5 · ödül 431 altın 3 elmas · büyük görev ödülü 862 altın 4 elmas · oyuncu servis=0
+[Playtest] [   5.6s] Görev ödülü toplandı: "Yeni bir alan aç" (1/1) +431 altın +3 elmas
+[Playtest] [   6.8s] Sipariş: Sira +10
+[Playtest] [  13.7s] Sipariş: Ekmek +10
+[Playtest] [  16.5s] YAVAŞ KARE 137 ms · müşteri=4 para yığını=0 dünya UI=72 efekt UI=0 GC+=5 faz=0.04 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  20.0s] Para=317 Seviye=9 Ün=0/184 FPS=54 Servis=0 İçeride=5 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=istasyon:Sıcak Ekmek Poz=(-3.5,5.2)
+[Playtest] [  24.5s] Sipariş: Bira +10
+[Playtest] [  25.6s] YAVAŞ KARE 140 ms · müşteri=7 para yığını=1 dünya UI=75 efekt UI=0 GC+=3 faz=0.06 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  30.1s] v1.4 MUTLULUK: etkin %66.1 · ortalama %66.1 · kirli masa 0 (−0) · puanlanan 2 · müşteri ×1.16 · toplam çarpan ×1.16 (ham ×1.16)
+[Playtest] [  35.8s] YAVAŞ KARE 147 ms · müşteri=10 para yığını=1 dünya UI=78 efekt UI=0 GC+=2 faz=0.09 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  40.0s] Para=162 Seviye=9 Ün=4/184 FPS=54 Servis=4 İçeride=10 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=istasyon:Kara Bira Poz=(12.2,3.7)
+[Playtest] [  43.8s] YAVAŞ KARE 146 ms · müşteri=11 para yığını=2 dünya UI=80 efekt UI=0 GC+=3 faz=0.10 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  55.8s] YAVAŞ KARE 145 ms · müşteri=13 para yığını=0 dünya UI=81 efekt UI=0 GC+=3 faz=0.13 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  60.1s] Para=0 Seviye=9 Ün=8/184 FPS=53 Servis=8 İçeride=12 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=istasyon:Bira Poz=(5.6,-1.2)
+[Playtest] [  60.1s] v1.4 MUTLULUK: etkin %82.6 · ortalama %82.6 · kirli masa 0 (−0) · puanlanan 10 · müşteri ×1.33 · toplam çarpan ×1.33 (ham ×1.33)
+[Playtest] [  67.8s] YAVAŞ KARE 130 ms · müşteri=13 para yığını=3 dünya UI=80 efekt UI=2 GC+=3 faz=0.16 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  69.0s] Sipariş: BalSarabi +10
+[Playtest] [  75.9s] YAVAŞ KARE 161 ms · müşteri=14 para yığını=4 dünya UI=82 efekt UI=0 GC+=2 faz=0.18 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [  80.1s] Para=62 Seviye=9 Ün=16/184 FPS=54 Servis=15 İçeride=15 Garson=3 Yıldız=3 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=servis:Muhafız Poz=(-6.5,-1.3)
+[Playtest] [  90.1s] v1.4 MUTLULUK: etkin %89.6 · ortalama %93.6 · kirli masa 1 (−4) · puanlanan 22 · müşteri ×1.40 · toplam çarpan ×1.40 (ham ×1.40)
+[Playtest] [  95.0s] v1.4 TELLAL: durum=NoMoney · fiyat 310 (40 + 30×Sv9) · tellal görünür=False
+[Playtest] [  95.0s] v1.2 ETKİNLİK: tellal → Running · altın 240 · mutluluk %94 (×1.44) · etkinlik çarpanı ×1.3
+[Playtest] [  97.0s] v1.4 TELLAL: etkinlik=Tellal · tellal sokakta görünür=True · kalan 180 sn · ikinci başlatma → Running
+[Playtest] [  97.7s] YAVAŞ KARE 173 ms · müşteri=13 para yığını=2 dünya UI=81 efekt UI=0 GC+=5 faz=0.23 yoğun=False masa=9 istasyon=8 fener=6 amb=27
+[Playtest] [ 100.1s] v1.4 ÇARPAN SINIRI: ham ×4.02 (mutluluk ×1.41 · etkinlik ×1.3 · yoğun=True · Usta ×1.00) → uygulanan ×3.00
+[Playtest] [ 100.1s] SES müzik → rush · faz=0.24 yoğun=True müşteri=14 kalabalık=0.57 ortam=[crowd_low:0.32 crowd_high:0.25 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 100.1s] Para=240 Seviye=9 Ün=23/184 FPS=58 Servis=21 İçeride=14 Garson=3 Yıldız=3 Gün=1 Yoğun=True Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_nana,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=para Poz=(-7.1,-1.5)
+[Playtest] [ 116.8s] Sipariş: Bira +10
+[Playtest] [ 120.1s] v1.3 KOV: Nana → True · çalışıyor=False · maaş 677 → 631 · temizlikçi var=False
+[Playtest] [ 120.1s] v1.4 İŞE ALIM: Nana Sv9 · katalog 80 · kovulmadan önce maaş 46/gün (ücret 92) · kovulduktan sonra maaş 32/gün → ücret 80 = max(80, 2×32)
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Nana · şimdi 80 · Sv20'de max(80, 2×149) = 298 · Sv30'da 1202
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Pip · şimdi 150 · Sv20'de max(150, 2×194) = 388 · Sv30'da 1568
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Gus · şimdi 500 · Sv20'de max(500, 2×366) = 732 · Sv30'da 2962
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Mina · şimdi 650 · Sv20'de max(650, 2×283) = 650 · Sv30'da 2290
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Tobi · şimdi 1300 · Sv20'de max(1300, 2×375) = 1300 · Sv30'da 3030
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Ayla · şimdi 800 · Sv20'de max(800, 2×277) = 800 · Sv30'da 2240
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Brak · şimdi 900 · Sv20'de max(900, 2×308) = 900 · Sv30'da 2490
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Sema · şimdi 1400 · Sv20'de max(1400, 2×211) = 1400 · Sv30'da 1708
+[Playtest] [ 120.1s] v1.4 İŞE ALIM ÖLÇEĞİ: Lir · şimdi 1500 · Sv20'de max(1500, 2×372) = 1500 · Sv30'da 3012
+[Playtest] [ 120.1s] Para=357 Seviye=9 Ün=31/184 FPS=60 Servis=29 İçeride=23 Garson=3 Yıldız=3 Gün=1 Yoğun=True Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4] Hedef=para Poz=(1.8,-0.7)
+[Playtest] [ 120.1s] v1.4 MUTLULUK: etkin %90.4 · ortalama %94.4 · kirli masa 1 (−4) · puanlanan 35 · müşteri ×1.40 · toplam çarpan ×3.00 (ham ×4.01)
+[Playtest] [ 121.7s] Yükseltme: Bira Hiz → Sv6 (46 altın)
+[Playtest] [ 123.8s] Yükseltme: Süt Stok → Sv4 (23 altın)
+[Playtest] [ 126.1s] v1.3 YENİDEN İŞE AL: Nana → Ok · çalışıyor=True · seviye 0 · ödenen 80 (HireCost 80)
+[Playtest] [ 130.2s] Dekor: Mumluk → ambiyans 127 ★3 (sonraki ★ için 93)
+[Playtest] [ 130.2s] Yükseltme: Bira Stok → Sv6 (32 altın)
+[Playtest] [ 131.9s] Yükseltme: Bira Stok → Sv7 (40 altın)
+[Playtest] [ 136.3s] Sipariş: Guvec +10
+[Playtest] [ 137.2s] Sipariş: Sut +10
+[Playtest] [ 140.1s] Para=301 Seviye=9 Ün=38/184 FPS=60 Servis=36 İçeride=20 Garson=3 Yıldız=3 Gün=1 Yoğun=True Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana] Hedef=istasyon:Şıra Poz=(-0.2,0.0)
+[Playtest] [ 144.6s] Dekor: Mumluk → ambiyans 129 ★3 (sonraki ★ için 91)
+[Playtest] [ 144.6s] Yükseltme: Bira Hiz → Sv7 (57 altın)
+[Playtest] [ 145.1s] Görev ödülü toplandı: "Bir Yoğun Saat atlat" (1/1) +431 altın +3 elmas
+[Playtest] [ 145.1s] Dekor: Saksı → ambiyans 131 ★3 (sonraki ★ için 89)
+[Playtest] [ 145.1s] Yükseltme: Bira Hiz → Sv8 (70 altın)
+[Playtest] [ 145.1s] Yükseltme: Bira Stok → Sv8 (49 altın)
+[Playtest] [ 145.1s] Yükseltme: Bira Kalite → Sv6 (73 altın)
+[Playtest] [ 145.1s] Yükseltme: Sıcak Ekmek Hiz → Sv6 (46 altın)
+[Playtest] [ 145.1s] Yükseltme: Sıcak Ekmek Stok → Sv6 (32 altın)
+[Playtest] [ 145.1s] Yükseltme: Sıcak Ekmek Kalite → Sv5 (62 altın)
+[Playtest] [ 145.1s] Yükseltme: Şıra Hiz → Sv5 (39 altın)
+[Playtest] [ 145.1s] SES müzik → day · faz=0.35 yoğun=False müşteri=21 kalabalık=0.68 ortam=[crowd_low:0.32 crowd_high:0.36 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 148.1s] Yükseltme: Şıra Stok → Sv5 (27 altın)
+[Playtest] [ 148.5s] Yükseltme: Sıcak Ekmek Stok → Sv7 (40 altın)
+[Playtest] [ 149.8s] Yükseltme: Sıcak Ekmek Stok → Sv8 (49 altın)
+[Playtest] [ 150.7s] YAVAŞ KARE 170 ms · müşteri=21 para yığını=3 dünya UI=90 efekt UI=19 GC+=13 faz=0.36 yoğun=False masa=9 istasyon=8 fener=6 amb=30
+[Playtest] [ 150.7s] v1.4 MUTLULUK: etkin %90.1 · ortalama %98.1 · kirli masa 2 (−8) · puanlanan 48 · müşteri ×1.40 · toplam çarpan ×1.82 (ham ×1.82)
+[Playtest] [ 153.3s] Yükseltme: Şıra Stok → Sv6 (32 altın)
+[Playtest] [ 157.9s] Yükseltme: Şıra Hiz → Sv6 (46 altın)
+[Playtest] [ 158.6s] Hazine (test): alındı · VIP=True · garson=4 · elmas=18 · yıldız=4
+[Playtest] [ 160.2s] Para=386 Seviye=9 Ün=52/184 FPS=56 Servis=49 İçeride=21 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=para Poz=(-0.2,-0.1)
+[Playtest] [ 161.0s] Yükseltme: Bal Şarabı Hiz → Sv4 (33 altın)
+[Playtest] [ 168.6s] Sipariş: Sira +10
+[Playtest] [ 170.4s] Yükseltme: Bira Stok → Sv9 (61 altın)
+[Playtest] [ 171.4s] Sipariş: Bira +10
+[Playtest] [ 171.4s] YAVAŞ KARE 162 ms · müşteri=17 para yığını=3 dünya UI=89 efekt UI=7 GC+=5 faz=0.41 yoğun=False masa=9 istasyon=8 fener=6 amb=32
+[Playtest] [ 179.1s] Dekor: Saksı → ambiyans 238 ★4 (sonraki ★ için 112)
+[Playtest] [ 179.1s] Yükseltme: Sıcak Ekmek Hiz → Sv7 (57 altın)
+[Playtest] [ 180.2s] Para=379 Seviye=9 Ün=58/184 FPS=58 Servis=55 İçeride=18 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Güveç Poz=(-6.3,-0.8)
+[Playtest] [ 180.7s] v1.4 MUTLULUK: etkin %94.3 · ortalama %98.3 · kirli masa 1 (−4) · puanlanan 62 · müşteri ×1.44 · toplam çarpan ×1.88 (ham ×1.88)
+[Playtest] [ 187.3s] Yükseltme: Bal Şarabı Stok → Sv5 (27 altın)
+[Playtest] [ 193.2s] Sipariş: Ekmek +10
+[Playtest] [ 199.2s] Yükseltme: Bal Şarabı Stok → Sv6 (32 altın)
+[Playtest] [ 200.1s] Yükseltme: Bira Hiz → Sv9 (87 altın)
+[Playtest] [ 200.2s] Para=368 Seviye=9 Ün=67/184 FPS=60 Servis=63 İçeride=17 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=para Poz=(-0.9,1.4)
+[Playtest] [ 206.4s] Yükseltme: Sıcak Ekmek Stok → Sv9 (61 altın)
+[Playtest] [ 207.2s] Yükseltme: Bira Hiz → Sv10 (108 altın)
+[Playtest] [ 207.2s] Yükseltme: Süt Stok → Sv5 (27 altın)
+[Playtest] [ 208.2s] Yükseltme: Bira Stok → Sv10 (76 altın)
+[Playtest] [ 210.7s] v1.4 MUTLULUK: etkin %93.6 · ortalama %93.6 · kirli masa 0 (−0) · puanlanan 73 · müşteri ×1.44 · toplam çarpan ×1.87 (ham ×1.87)
+[Playtest] [ 212.2s] Görev ödülü toplandı: "5 özel sipariş yetiştir" (5/5) +431 altın +3 elmas
+[Playtest] [ 212.2s] Yükseltme: Bira Kalite → Sv7 (91 altın)
+[Playtest] [ 212.2s] Yükseltme: Sıcak Ekmek Hiz → Sv8 (70 altın)
+[Playtest] [ 212.2s] Yükseltme: Sıcak Ekmek Stok → Sv10 (76 altın)
+[Playtest] [ 212.2s] Yükseltme: Sıcak Ekmek Kalite → Sv6 (73 altın)
+[Playtest] [ 212.2s] Yükseltme: Şıra Hiz → Sv7 (57 altın)
+[Playtest] [ 212.2s] Yükseltme: Şıra Stok → Sv7 (40 altın)
+[Playtest] [ 212.2s] Yükseltme: Süt Hiz → Sv4 (33 altın)
+[Playtest] [ 212.2s] Görev ödülü toplandı: "5 yükseltme yap" (5/5) +431 altın +3 elmas
+[Playtest] [ 212.2s] Yükseltme: Bira Kalite → Sv8 (113 altın)
+[Playtest] [ 212.2s] Yükseltme: Sıcak Ekmek Hiz → Sv9 (87 altın)
+[Playtest] [ 212.2s] Yükseltme: Sıcak Ekmek Kalite → Sv7 (91 altın)
+[Playtest] [ 212.2s] Yükseltme: Şıra Hiz → Sv8 (70 altın)
+[Playtest] [ 212.2s] Yükseltme: Şıra Stok → Sv8 (49 altın)
+[Playtest] [ 212.3s] Yükseltme: Sıcak Ekmek Hiz → Sv10 (108 altın)
+[Playtest] [ 218.2s] Yükseltme: Şıra Hiz → Sv9 (87 altın)
+[Playtest] [ 220.2s] Para=370 Seviye=9 Ün=73/184 FPS=60 Servis=68 İçeride=18 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Sıcak Ekmek Poz=(-3.1,1.6)
+[Playtest] [ 224.2s] Sipariş: Guvec +10
+[Playtest] [ 231.0s] Yükseltme: Şıra Stok → Sv9 (61 altın)
+[Playtest] [ 232.2s] Sipariş: Sarap +10
+[Playtest] [ 236.3s] Yükseltme: Şıra Hiz → Sv10 (108 altın)
+[Playtest] [ 239.5s] Yükseltme: Süt Stok → Sv6 (32 altın)
+[Playtest] [ 240.0s] Yükseltme: Şıra Kalite → Sv4 (53 altın)
+[Playtest] [ 240.2s] Para=376 Seviye=9 Ün=86/184 FPS=60 Servis=78 İçeride=21 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=para Poz=(2.5,-2.2)
+[Playtest] [ 240.7s] v1.4 MUTLULUK: etkin %82.4 · ortalama %94.4 · kirli masa 3 (−12) · puanlanan 88 · müşteri ×1.32 · toplam çarpan ×1.72 (ham ×1.72)
+[Playtest] [ 240.8s] Görev ödülü toplandı: "39 müşteriye servis yap" (39/39) +431 altın +3 elmas
+[Playtest] [ 240.8s] Yükseltme: Bira Kalite → Sv9 (140 altın)
+[Playtest] [ 240.8s] Yükseltme: Sıcak Ekmek Kalite → Sv8 (113 altın)
+[Playtest] [ 240.8s] Yükseltme: Şıra Stok → Sv10 (76 altın)
+[Playtest] [ 240.8s] Yükseltme: Şıra Kalite → Sv5 (62 altın)
+[Playtest] [ 240.8s] Yükseltme: Bal Şarabı Hiz → Sv5 (39 altın)
+[Playtest] [ 241.1s] Yükseltme: Şıra Kalite → Sv6 (73 altın)
+[Playtest] [ 242.0s] Yükseltme: Bal Şarabı Stok → Sv7 (40 altın)
+[Playtest] [ 248.6s] Yükseltme: Bal Şarabı Hiz → Sv6 (46 altın)
+[Playtest] [ 248.6s] Yükseltme: Süt Hiz → Sv5 (39 altın)
+[Playtest] [ 250.8s] Yükseltme: Süt Hiz → Sv6 (46 altın)
+[Playtest] [ 252.1s] SES müzik → evening · faz=0.60 yoğun=False müşteri=21 kalabalık=0.67 ortam=[crowd_low:0.32 crowd_high:0.35 fire:0.45 day:0.16 night:0.00 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 253.4s] YAVAŞ KARE 162 ms · müşteri=20 para yığını=3 dünya UI=91 efekt UI=14 GC+=24 faz=0.60 yoğun=False masa=9 istasyon=8 fener=6 amb=33
+[Playtest] [ 253.4s] Yükseltme: Bal Şarabı Stok → Sv8 (49 altın)
+[Playtest] [ 257.2s] Yükseltme: Şıra Kalite → Sv7 (91 altın)
+[Playtest] [ 260.3s] Para=375 Seviye=9 Ün=92/184 FPS=58 Servis=84 İçeride=17 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Güveç Poz=(-3.5,1.9)
+[Playtest] [ 262.1s] Yükseltme: Bal Şarabı Hiz → Sv7 (57 altın)
+[Playtest] [ 267.3s] Yükseltme: Şıra Kalite → Sv8 (113 altın)
+[Playtest] [ 270.8s] v1.4 MUTLULUK: etkin %84.8 · ortalama %92.8 · kirli masa 2 (−8) · puanlanan 101 · müşteri ×1.35 · toplam çarpan ×1.75 (ham ×1.75)
+[Playtest] [ 277.6s] Yükseltme: Bal Şarabı Stok → Sv9 (61 altın)
+[Playtest] [ 279.0s] Yükseltme: Bal Şarabı Hiz → Sv8 (70 altın)
+[Playtest] [ 279.8s] Yükseltme: Bal Şarabı Hiz → Sv9 (87 altın)
+[Playtest] [ 280.3s] Para=384 Seviye=9 Ün=101/184 FPS=60 Servis=91 İçeride=20 Garson=4 Yıldız=4 Gün=1 Yoğun=False Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin] Hedef=istasyon:Kara Bira Poz=(2.6,-2.2)
+[Playtest] [ 283.6s] Sipariş: Sut +10
+[Playtest] [ 284.5s] Sipariş: Bira +10
+[Playtest] [ 286.6s] Sipariş: KaraBira +10
+[Playtest] [ 295.4s] Yükseltme: Süt Stok → Sv7 (40 altın)
+[Playtest] [ 297.7s] Görev ödülü toplandı: "1033 altın kazan" (1033/1033) +431 altın +3 elmas
+[Playtest] [ 297.7s] Dekor: Avize → ambiyans 246 ★4 (sonraki ★ için 104)
+[Playtest] [ 297.7s] Yükseltme: Bal Şarabı Kalite → Sv4 (53 altın)
+[Playtest] [ 298.8s] Yükseltme: Bal Şarabı Hiz → Sv10 (108 altın)
+[Playtest] [ 300.1s] TEMPO: başlangıç Sv9 → Sv9 · 5.0 oyun-dk · Ün 110 (22.0/dk) · altın 7826 (1565/dk) · servis 99 · kızgın 0 · sonraki seviye 184 Ün
+[Playtest] [ 300.1s] v0.9: gün sonu=0 oyun turu=0 otomasyon=[] depo-oto=False usta gelir=0 rehber=bitti ad=Test Tavernası
+[Playtest] [ 300.1s] v1.3: özel sipariş açılan=16 oyuncu servis etti=8 · garson=4 · kasa otomasyonu=False · yerdeki para yığını=2
+[Playtest] [ 300.1s] v1.4 MUTLULUK ÖZET: etkin %59.2–%96.9 · ortalama %60.0–%99.0 · şimdi %86.5 (ort. %90.5) · en çok kirli masa 5 · puanlanan müşteri 114
+[Playtest] [ 300.1s] v1.4 ÇARPAN ÖZET: ham en yüksek ×4.11 · uygulanan en yüksek ×3.00 (sınır ×3.0)
+[Playtest] [ 300.1s] v1.4 GÖREV ÖZET: oyuncunun servis ettiği özel sipariş (zorlamadan sonra) 8 · listede özel görev: yok (toplandı)
+[Playtest] [ 300.1s] v1.4 YILDIZ ÖZET: ambiyans=246 ★4 · sonraki ★5 için 104
+[Playtest] [ 300.1s] v1.4 TELLAL ÖZET: etkinlik=Tellal · tellal görünür=True · bugün=[tellal]
+[Playtest] [ 300.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+[Playtest] [ 300.1s] v1.2: mutluluk=%87 (müşteri ×1.37) ★4 etkinlik=Tellal bugün=[tellal] masa=9
+[Playtest] [ 300.1s] SES: grup=50 müzik=evening kalabalık=0.73 konuşma=116 ortam=[crowd_low:0.32 crowd_high:0.41 fire:0.70 day:0.00 night:0.20 oyun=True ayar=m0.00/e0.00]
+[Playtest] [ 300.1s] HAN: açık=False giriş=0 kızgın misafir=0 toplanan oda=0 (bot 0) oda durumları=[Free,Free]
+[Playtest] [ 300.1s] SONUÇ: 300 oyun-sn · Para=329 · Seviye=9 · Servis=99 · Kızgın ayrılan=0 · Yükseltme=143 · Açılan=[salon,bahce,mutfak,mac_Ekmek,staff_ayla,staff_pip,staff_mina,masaS1,masaS2,masaB1,masaM1,masaM2,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Guvec,staff_gus,staff_tobi,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin]

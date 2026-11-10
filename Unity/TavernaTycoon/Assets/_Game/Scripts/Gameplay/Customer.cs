@@ -150,8 +150,9 @@ namespace Taverna
         public void Serve()
         {
             reservedBy = null;
-            Happiness.OnServed(Patience01, HeadPos);
-            if (special) { Happiness.Bonus(Balance.SpecialHappiness, HeadPos); SpecialServed++; }
+            // v1.4: özel siparişi garsonlar almaz → bu dal yalnızca oyuncunun servisi
+            Happiness.OnServed(Patience01, HeadPos, special);
+            if (special) { SpecialServed++; Quests.OnSpecialServed(); }
             float tip = Balance.TipMultiplier(Patience01) * (RushHour.Active ? 2f : 1f) * Management.TipFromStars * TavernEvents.TipMultiplier;
             GameState.RaiseServed(wanted);
             var station = DrinkStation.All.Find(s => s.drink.id == wanted);

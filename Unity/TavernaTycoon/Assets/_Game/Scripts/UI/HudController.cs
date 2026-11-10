@@ -795,6 +795,10 @@ namespace Taverna
             _shopScroll.Add(l);
         }
 
+        /// <summary>v1.4 dekor kartı eki: sonraki yıldıza kalan ambiyans (5★'da boş).</summary>
+        static string StarHint() => Management.NextStar == 0 ? ""
+            : $" · ★{Management.NextStar}{(Management.NextStar == 2 ? "'ye" : "'e")} {Management.AmbianceToNextStar}";
+
         /// <summary>Dükkân > Dekor: zemin/duvar teması kartı (satın al · kullan · seçili).</summary>
         void AddThemeItem(Themes.Theme t)
         {
@@ -815,7 +819,7 @@ namespace Taverna
             col.AddToClassList("item-col");
             var n = new Label(t.name);
             n.AddToClassList("item-name");
-            var sub = new Label($"{(t.kind == Themes.Kind.Floor ? "Zemin" : "Duvar")}" + (t.ambiance > 0 ? $" · +{t.ambiance:0} ambiyans (★ +{t.ambiance / 30f:0.0#})" : " · varsayılan"));
+            var sub = new Label($"{(t.kind == Themes.Kind.Floor ? "Zemin" : "Duvar")}" + (t.ambiance > 0 ? $" · +{t.ambiance:0} ambiyans" + StarHint() : " · varsayılan"));
             sub.AddToClassList("item-sub");
             col.Add(n); col.Add(sub);
             Button b;
@@ -1223,10 +1227,10 @@ namespace Taverna
 
         void UpdateRush()
         {
-            bool on = RushHour.Active || Campaigns.CrierActive || Boosts.IncomeMultiplier > 1f;
+            // v1.4: tellal artık etkinlik; şeridi etkinlik şeridi (HudV12)
+            bool on = RushHour.Active || Boosts.IncomeMultiplier > 1f;
             _rush.EnableInClassList("hidden", !on);
             if (RushHour.Active) _rush.text = $"YOĞUN SAAT!  ×2 bahşiş · {Mathf.CeilToInt(RushHour.Remaining)} sn";
-            else if (Campaigns.CrierActive) _rush.text = $"TELLAL ÇAĞIRIYOR · müşteri ×{Campaigns.CrierSpawnMultiplier:0.0} · {Mathf.CeilToInt(Campaigns.CrierRemaining)} sn";
             else if (on) _rush.text = $"×2 GELİR · {Mathf.CeilToInt(Boosts.IncomeRemaining / 60f)} dk";
         }
 
@@ -1245,6 +1249,7 @@ namespace Taverna
             QuestType.EarnCoins => "ParaYigini",
             QuestType.ServeCustomers => "Bira",
             QuestType.RushHour => "EjderAtesi",
+            QuestType.SpecialOrder or QuestType.SpecialOrderBig => "Main_Barlo",   // v1.4: "Barlo'ya özel" siparişler
             _ => "Elmas",
         };
 
@@ -1366,13 +1371,16 @@ namespace Taverna
                                      can == Management.BuyResult.LevelLow ? $"Seviye {s.level}'te açılır" :
                                      can == Management.BuyResult.ZoneLocked ? $"Önce {s.zoneName} açılmalı" : $"{s.desc}";
                         var ss = s;
-                        AddShopItem(LoadIcon(s.icon), $"{s.name} · {s.roleName}", sub, can, s.hire, false,
+                        AddShopItem(LoadIcon(s.icon), $"{s.name} · {s.roleName}", sub, can, Management.HireCost(s), false,
                             () => Management.Hire(ss), s.level, s.zoneName ?? "", $"Maaş {Management.WageOf(s)}/gün");
                     }
                     break;
                 case "dec":
                     // v1.1 (oyuncu testi: "artı puan neye?"): ambiyansın neye yaradığı açıkça
-                    _shopNote.text = $"Ambiyans tavernanın havasıdır: her 30 ambiyans +1 ★ · şu an ★{Management.Stars:0.#} · ★ arttıkça daha çok müşteri gelir ve bahşiş artar";
+                    // v1.4: artan eşikli yıldız ölçeği (Balance.StarThresholds)
+                    _shopNote.text = Management.NextStar == 0
+                        ? $"Ambiyans {AmbianceSource.Total:0} · ★5, en yüksek yıldız · ★ zengin müşteri ve bahşiş getirir"
+                        : $"Ambiyans {AmbianceSource.Total:0} · şu an ★{Management.Stars:0.#} · sonraki yıldıza {Management.AmbianceToNextStar} ambiyans · ★ = zengin müşteri, bahşiş";
                     // Zemin ve duvar temaları (v0.6): bir kez alınır, istenince ücretsiz seçilir
                     if (Inn.Open)
                     {
@@ -1389,7 +1397,7 @@ namespace Taverna
                         int owned = Management.DecorOwned(d.id);
                         string sub = can == Management.BuyResult.LevelLow ? $"Seviye {d.level}'te açılır" :
                                      can == Management.BuyResult.NoSlot ? (owned > 0 ? $"{owned} adet · yer kalmadı" : "Yeni alan açılınca") :
-                                     $"+{d.ambiance:0} ambiyans (★ +{d.ambiance / 30f:0.0#})" + (owned > 0 ? $" · {owned} adet" : "");
+                                     $"+{d.ambiance:0} ambiyans" + StarHint() + (owned > 0 ? $" · {owned} adet" : "");
                         var dd = d;
                         AddShopItem(LoadIcon(d.icon), d.name, sub, can, d.price, false, () => Management.BuyDecor(dd), d.level, "");
                     }
@@ -1403,13 +1411,7 @@ namespace Taverna
                     break;
                 default:
                     _shopNote.text = "Elmaslar görevlerden, seviye ve günlük ödüllerden kazanılır · ilerlemek için gerekmez";
-                    {
-                        var cc = GameState.Coins >= Campaigns.CrierCost ? Management.BuyResult.Ok : Management.BuyResult.NoMoney;
-                        string sub = Campaigns.CrierActive ? $"Aktif · {Mathf.CeilToInt(Campaigns.CrierRemaining)} sn kaldı (alırsan uzar)"
-                                                            : $"{Campaigns.CrierSeconds / 60f:0} dk boyunca müşteri ×{Campaigns.CrierSpawnMultiplier:0.0}";
-                        AddShopItem(KitIcon("horn"), "Tellal tut", sub, cc, Campaigns.CrierCost, false,
-                            () => Campaigns.BuyCrier() ? Management.BuyResult.Ok : Management.BuyResult.NoMoney, 0, "");
-                    }
+                    // v1.4: "Tellal tut" buradan kalktı, Etkinlikler'e taşındı
                     foreach (var o in Boosts.Offers)
                     {
                         var oo = o;

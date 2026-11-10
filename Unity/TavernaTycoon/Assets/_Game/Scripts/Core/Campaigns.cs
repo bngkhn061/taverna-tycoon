@@ -3,42 +3,32 @@ using UnityEngine;
 namespace Taverna
 {
     /// <summary>
-    /// Tanıtım kampanyası (v0.6, oyuncu testi: "reklam basma özelliği olsun, daha çok müşteri gelsin").
-    /// "Tellal tut": parayla, süre boyunca müşteri gelişi hızlanır; sokakta zil çalan bir tellal görünür.
-    /// Ayrıca reklamla çağrılan geçici yardımcı garson burada yönetilir.
+    /// Sokaktaki tellal görseli ve reklamla çağrılan geçici yardımcı garson.
+    /// v1.4: parayla "Tellal tut" satın alımı kaldırıldı; tellal artık bir etkinlik (TavernEvents.Id.Tellal).
+    /// Etkinlik sürerken sokakta zil çalan tellal görünür, bitince kaybolur.
     /// </summary>
     public static class Campaigns
     {
-        public const float CrierSeconds = 120f;
-        public const float CrierSpawnMultiplier = 1.6f;
         public const float HelperSeconds = 180f;
         public const float HelperCooldownSeconds = 600f;
         /// <summary>Tellalın sokaktaki yeri (tavernanın önü).</summary>
         public static readonly Vector3 CrierPos = new(0.5f, 0f, -6.4f);   // v1.2: sokak 3 m geride
+        /// <summary>Tellalın zıplama aralığı (saniye).</summary>
+        public const float CrierHopInterval = 1.1f;
 
-        static float _crierUntil, _helperUntil, _helperReadyAt;
+        static float _helperUntil, _helperReadyAt;
         static GameObject _crier, _helper;
         static ToyAnimator _crierAnim;
         static float _hopT;
 
-        public static long CrierCost => 60L + 40L * GameState.Level;
-        public static bool CrierActive => Time.unscaledTime < _crierUntil;
-        public static float CrierRemaining => Mathf.Max(0f, _crierUntil - Time.unscaledTime);
-        public static float SpawnMultiplier => CrierActive ? CrierSpawnMultiplier : 1f;
+        /// <summary>Tellal etkinliği sürüyor mu?</summary>
+        public static bool CrierActive => TavernEvents.Is(TavernEvents.Id.Tellal);
+        /// <summary>Tellal karakteri sokakta görünüyor mu (test günlüğü).</summary>
+        public static bool CrierVisible => _crier;
 
         public static bool HelperActive => _helper;
         public static float HelperRemaining => Mathf.Max(0f, _helperUntil - Time.unscaledTime);
         public static float HelperWait => Mathf.Max(0f, _helperReadyAt - Time.unscaledTime);
-
-        /// <summary>Tellal tutar (para). Zaten aktifse süreyi uzatır.</summary>
-        public static bool BuyCrier()
-        {
-            if (!GameState.TrySpend(CrierCost)) return false;
-            _crierUntil = Mathf.Max(_crierUntil, Time.unscaledTime) + CrierSeconds;
-            if (!_crier) SpawnCrier();
-            GameState.NotifyChanged();
-            return true;
-        }
 
         static void SpawnCrier()
         {
@@ -85,16 +75,17 @@ namespace Taverna
             return true;
         }
 
-        /// <summary>Süreler: GameBootstrap her kare çağırır.</summary>
+        /// <summary>Süreler: GameBootstrap her kare çağırır. Tellal etkinlik sürerken sokakta durur.</summary>
         public static void Tick()
         {
+            if (CrierActive && !_crier) SpawnCrier();
             if (_crier)
             {
                 if (!CrierActive) { Object.Destroy(_crier); _crier = null; }
                 else if (_crierAnim)
                 {
                     _hopT -= Time.deltaTime;
-                    if (_hopT <= 0f) { _hopT = 1.1f; _crierAnim.Hop(); _crierAnim.Pop(); }
+                    if (_hopT <= 0f) { _hopT = CrierHopInterval; _crierAnim.Hop(); _crierAnim.Pop(); }
                 }
             }
             if (_helper && Time.unscaledTime >= _helperUntil) { Object.Destroy(_helper); _helper = null; }

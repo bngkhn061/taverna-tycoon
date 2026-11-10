@@ -17,8 +17,10 @@ namespace Taverna
         readonly List<(Label l, Vector3 world, float t)> _happyFloats = new();
         float _eventsRefreshT;
 
-        /// <summary>Etkinlik butonunun açıldığı seviye.</summary>
-        const int EventsLevel = 4;
+        /// <summary>Etkinlik butonunun açıldığı seviye (v1.4: Tellal etkinliğiyle Sv2, rehber bittikten sonra).</summary>
+        const int EventsLevel = 2;
+        /// <summary>Uçan mutluluk yazısı bu farkın altındaysa gösterilmez; 1'in altı tek ondalıkla yazılır.</summary>
+        const float HappyFloatMin = 0.1f;
 
         void InitV12()
         {
@@ -99,10 +101,11 @@ namespace Taverna
             _helperBtn.EnableInClassList("tut-hidden", Tutorial.Active);
             _root.Q("happy-pill").EnableInClassList("tut-hidden", Tutorial.Active && Tutorial.Step < 3);
 
-            // Etkinlik butonu (Sv4, rehber bitince) + mor şerit
+            // Etkinlik butonu (Sv2, rehber bitince) + mor şerit (tellal dahil)
             bool evOn = !Tutorial.Active && GameState.Level >= EventsLevel;
-            _eventBtn.EnableInClassList("hidden", !evOn);
-            _eventNew.EnableInClassList("hidden", !evOn || GameState.Data.eventsSeen);
+            // v1.4: açıklama kartı açıkken buton kartın altında kalmasın
+            _eventBtn.EnableInClassList("hidden", !evOn || !_happyCard.ClassListContains("hidden"));
+            _eventNew.EnableInClassList("hidden", !evOn || GameState.Data.eventsSeen || !_happyCard.ClassListContains("hidden"));
             var act = TavernEvents.Active;
             _eventBanner.EnableInClassList("hidden", !act.HasValue);
             if (act.HasValue)
@@ -118,11 +121,23 @@ namespace Taverna
             }
         }
 
+        /// <summary>Sayının bulunma eki ("2'de", "4'te", "6'da", "10'da"); ünsüz benzeşmesi ve ünlü uyumu.</summary>
+        static string Locative(int n)
+        {
+            int d = n % 10;
+            if (d == 0) return n % 100 == 0 ? "'de" : (n / 10 % 10) switch { 1 or 3 or 6 or 9 => "'da", _ => "'de" };
+            return d switch { 3 or 4 or 5 => "'te", 6 or 9 => "'da", _ => "'de" };
+        }
+
         void SetRevealed(string name, bool on) => _root.Q(name)?.EnableInClassList("tut-hidden", !on);
 
         void OnHappinessChanged(float d, Vector3 at)
         {
-            var l = new Label((d > 0 ? "+" : "−") + Mathf.RoundToInt(Mathf.Abs(d)) + " mutluluk") { pickingMode = PickingMode.Ignore };
+            // v1.4: fark = ortalamanın bu müşteriyle değişimi (α·(puan − M)); küçük farklar tek ondalık
+            float ad = Mathf.Abs(d);
+            if (ad < HappyFloatMin) { if (!_happyCard.ClassListContains("hidden")) RefreshHappyCard(); return; }
+            string num = ad < 1f ? ad.ToString("0.0", new System.Globalization.CultureInfo("tr-TR")) : Mathf.RoundToInt(ad).ToString();
+            var l = new Label((d > 0 ? "+" : "−") + num + " mutluluk") { pickingMode = PickingMode.Ignore };
             l.AddToClassList("float-happy");
             l.EnableInClassList("down", d < 0f);
             _world.Add(l);
@@ -132,11 +147,14 @@ namespace Taverna
 
         void RefreshHappyCard()
         {
+            // v1.4: mutluluk = son müşterilerin puan ortalaması (GAME_DESIGN.md §7.2)
             _happyCardText.text =
-                $"Çabuk servis: +{Happiness.FastServe:0} · zamanında: +{Happiness.NormalServe:0}\n" +
-                $"Bekleyip kızgın giden: −{Happiness.AngryLoss:0} · kirli masa: yavaşça düşer\n" +
+                $"Her müşteri puan verir: çabuk {Happiness.FastScore:0} · zamanında {Happiness.NormalScore:0} · geç {Happiness.SlowScore:0} · kızgın {Happiness.AngryScore:0}\n" +
+                $"Mutluluk son müşterilerin ortalaması · Barlo'ya özel: {Happiness.SpecialScore:0}, iki kez sayılır\n" +
+                $"Kirli masa: masa başına −{Happiness.DirtyPenaltyPerTable:0} (en fazla −{Happiness.MaxDirtyPenalty:0}) · şu an −{Happiness.DirtyPenalty:0}\n" +
                 $"Şu an %{Mathf.RoundToInt(Happiness.Value)}: müşteri gelişi ×{Happiness.SpawnMultiplier:0.0#}\n" +
-                "★ yıldızlar ayrı: dekorla artar, zengin müşteri ve bahşiş getirir.";
+                $"Toplam müşteri çarpanı ×{CustomerSpawner.BoostMultiplier:0.0#} (en fazla ×{Balance.SpawnBoostCap:0})\n" +
+                "★ yıldızlar ayrı: ambiyansla artar, zengin müşteri ve bahşiş getirir.";
         }
 
         // ------------------------------------------------------------------ etkinlikler
@@ -171,7 +189,7 @@ namespace Taverna
                 n.AddToClassList("item-name");
                 string sub = st switch
                 {
-                    TavernEvents.State.LevelLow => $"Seviye {d.level}'te açılır",
+                    TavernEvents.State.LevelLow => $"Seviye {d.level}{Locative(d.level)} açılır",
                     TavernEvents.State.ZoneLocked => $"Önce {d.zoneName} açılmalı",
                     TavernEvents.State.UsedToday => "Bugün yapıldı · yarın yine",
                     TavernEvents.State.Busy => $"{d.desc} · başka etkinlik sürüyor",

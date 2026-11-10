@@ -54,8 +54,14 @@ namespace Taverna
             if (s.premium) return BuyResult.Premium;
             if (GameState.Level < s.level) return BuyResult.LevelLow;
             if (!ZoneOpen(s.zone)) return BuyResult.ZoneLocked;
-            return GameState.Coins >= s.hire ? BuyResult.Ok : BuyResult.NoMoney;
+            return GameState.Coins >= HireCost(s) ? BuyResult.Ok : BuyResult.NoMoney;
         }
+
+        /// <summary>
+        /// v1.4 işe alım ücreti: katalogdaki ücret ya da görevlinin şu anki günlük maaşının 2 katı (hangisi büyükse).
+        /// Maaş seviyeyle büyüdüğü için kovup sabah yeniden işe almak maaştan kâr ettirmez.
+        /// </summary>
+        public static long HireCost(Catalog.Staff s) => Math.Max(s.hire, Balance.HireWageMultiplier * WageOf(s));
 
         /// <summary>v1.3: Hazine'den alınan görevli izinde mi (çalışmaz, maaş almaz; geri çağrılabilir).</summary>
         public static bool OnLeave(string id) => GameState.Data.benched.Contains(id);
@@ -89,7 +95,7 @@ namespace Taverna
         {
             var r = CanHire(s);
             if (r != BuyResult.Ok) return r;
-            GameState.TrySpend(s.hire);
+            GameState.TrySpend(HireCost(s));
             GameState.Unlock(s.id);
             if (TavernRegistry.I) TavernRegistry.I.ApplyStaff(s.id, true);
             Changed?.Invoke();
@@ -172,7 +178,15 @@ namespace Taverna
         /// 1–5 yıldız (yarımlı): sadece ambiyans (v1.2). Kirli masa ve kızgın müşteri artık Mutluluk'u düşürür
         /// (Happiness); yıldız zengin müşteri ve bahşiş getirir, mutluluk müşteri sayısını.
         /// </summary>
-        public static float Stars => Mathf.Clamp(Mathf.Round((1f + AmbianceSource.Total / 30f) * 2f) / 2f, 1f, 5f);
+        /// v1.4: artan eşikli ölçek (Balance.StarThresholds): 2★ 35, 3★ 110, 4★ 220, 5★ 350 ambiyans; yarım yıldızlar doğrusal.
+        public static float Stars => Balance.StarsForAmbiance(AmbianceSource.Total);
+
+        /// <summary>Sonraki tam yıldız (en fazla 5★); zaten 5★ ise 0.</summary>
+        public static int NextStar => Stars >= Balance.StarThresholds.Length ? 0 : Mathf.FloorToInt(Stars) + 1;
+
+        /// <summary>Sonraki tam yıldıza kalan ambiyans (5★'da 0).</summary>
+        public static int AmbianceToNextStar =>
+            NextStar == 0 ? 0 : Mathf.Max(1, Mathf.CeilToInt(Balance.AmbianceForStars(NextStar) - AmbianceSource.Total));
 
         /// <summary>Kızgın giden müşterilerin geçici yıldız cezası (zamanla söner).</summary>
         public static float AngryPenalty { get; private set; }

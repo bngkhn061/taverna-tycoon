@@ -20,7 +20,6 @@ namespace Taverna
 
         Customer _target;
         DrinkStation _station;
-        CoinPile _coins;
         Vector3 _home;
 
         StaffBadge _badge;
@@ -44,7 +43,7 @@ namespace Taverna
                 carrier.capacity = _baseCapacity + (_badge && !string.IsNullOrEmpty(_badge.staffId) ? StaffUpgrades.CarryBonus(_badge.staffId) : 0);
             if (_target && _target.state != Customer.State.Waiting) Release();
 
-            if (!_target && !_coins) PickJob();
+            if (!_target) PickJob();
 
             if (_target)
             {
@@ -58,10 +57,6 @@ namespace Taverna
                     if (carrier.Take(_target.wanted)) { _target.Serve(); Sfx.Play(SfxId.Serve, 1.1f); }
                     Release();
                 }
-            }
-            else if (_coins)
-            {
-                if (MoveTo(_coins.transform.position, 0.6f)) { _coins.Collect(transform); _coins = null; }
             }
             else MoveTo(_home, 0.2f);
         }

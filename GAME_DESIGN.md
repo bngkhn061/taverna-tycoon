@@ -2,6 +2,7 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
+> Sürüm: **v1.4** (2026-11-10, Paket A: rehber zamanı, mutluluk ortalaması, yıldız eşikleri, işe alım ücreti, tellal etkinliği, müşteri çarpanı sınırı, özel sipariş görevleri).
 
 ---
 
@@ -102,7 +103,7 @@ Oyuncu Barlo'yu yönetmeye devam eder. Bunun üstüne bir yönetim katmanı ekle
 | **Makineler** (Mağaza › Makineler) | Her içecek makinesi kendi seviyesinde açılır ve satın alınınca yerine kurulur. Bölgesi açık değilse "Önce Ana Salon/Bahçe" uyarısı çıkar. Ödeme kareleri artık sadece alan ve masa açmak için. |
 | **Personel** (Mağaza › Personel) | Garson ×3 (Pip, Mina, Tobi), Barmen (tüm makineler +%40 hız), Temizlikçi (kirli masaları temizler), Ozan (herkesin sabrı +%25). Tek seferlik işe alma bedeli + **günlük maaş**. |
 | **Dekor** (Mağaza › Dekor) | Saksı, mumluk, halı, flama, fıçı yığını, kalkan, geyik boynuzu, avize. Satın alınca uygun ilk boş yere yerleşir. Her biri Ambiyans puanı verir. |
-| **Taverna puanı** (★1–5) | Ambiyans ve temizlik ile hesaplanır. Etkileri: müşteri gelme hızı, bahşiş (+%5 / yıldız) ve zengin müşterilerin gelme ağırlığı. |
+| **Taverna puanı** (★1–5) | v1.4: yalnızca ambiyanstan, artan eşiklerle (§7.2). Eski metin: ambiyans ve temizlik ile hesaplanır. Etkileri: müşteri gelme hızı, bahşiş (+%5 / yıldız) ve zengin müşterilerin gelme ağırlığı. |
 | **Kirli masa** | Müşteri gidince masada bardak kalır. Kirli masaya yeni müşteri oturmaz. Barlo yanında durunca ya da temizlikçi gelince temizlenir. |
 | **Gün döngüsü** | 1 gün = 5 dk. Gün sonunda gelir, maaş ve puan özeti gösterilir, maaşlar ödenir. |
 
@@ -227,45 +228,63 @@ Her dekor ve mobilyanın bir **Ambiyans** değeri vardır. Toplam Ambiyans şunl
 - **Sabır:** ★1 = 15 sn, ★5 = 45 sn. Sabır halkası yeşil → sarı → kırmızı. Sarıdayken servis edilirse bahşiş yok.
 - **Seviyeyle zorlaşma (v1.0):** Sv6'dan sonra müşteri aralığı seviye başına ×0.98 kısalır (en fazla ×1.25 kalabalık). Sv8'den sonra sabır seviye başına %1,5 kısalır (en az %85). Sv10+ müşterilerin %20'si, Sv18+ %25'i fazladan 1 sipariş verir. Barlo tek başına yetişemez; personel ve otomasyon gerekir.
 - **Yoğun Saat (olay):** Her 5–7 dakikada bir, 45 sn boyunca müşteri gelişi ×2 ve bahşiş ×2. Zorluk zirvesi budur. Kaçırınca ceza yoktur, yakalayınca büyük kazanç vardır.
-- **v1.2 gelme hızı:** taban aralık 5,2 sn (eskiden 6). Açık oturak sayısıyla çarpılır: `SeatSpawnScale = clamp(√(oturak / 12), 1, 2.2)` (40 oturak ≈ ×1.83). Ayrıca ÷ Mutluluk çarpanı, ÷ etkinlik çarpanı.
+- **v1.2 gelme hızı:** taban aralık 5,2 sn (eskiden 6). Açık oturak sayısıyla çarpılır: `SeatSpawnScale = clamp(√(oturak / 12), 1, 2.2)` (40 oturak ≈ ×1.83).
+- **v1.4 müşteri çarpanı sınırı:** geçici / kazanılan çarpanların çarpımı `mutluluk × etkinlik × yoğun saat (×2.2) × Usta` en fazla **×3.0** (`Balance.SpawnBoostCap`). Oturak ve seviye ölçeği bu sınırın dışında. Aralık = `5,2 × seviye ölçeği × rastgele(0.75–1.25) ÷ min(3, çarpım) ÷ SeatSpawnScale`. Mutluluk kartında "Toplam müşteri çarpanı ×N (en fazla ×3)".
 
-### 7.2 Mutluluk (v1.2)
+### 7.2 Mutluluk (v1.4)
 
-Tek değer `M` (0–100, kayıtta; yeni oyunda 60). HUD'da altının altında yüzlü bar; dokununca açıklama.
+`M` = son müşterilerin memnuniyetinin **üstel hareketli ortalaması** (0–100, kayıtta; yeni oyunda 60). Her sonuçlanan müşteri bir puan getirir ve `M ← M + α·(puan − M)`, **α = 0.08** (yaklaşık son 12 müşteri ağırlıklı).
 
-| Olay | Etki |
+| Sonuç | Puan |
 |---|---|
-| Servis, sabır ≥ %66 | M + 4 |
-| Servis, sabır ≥ %33 | M + 2 |
-| Servis, sabır < %33 | 0 |
-| Kızgın giden müşteri / misafir | M − 8 |
-| Her kirli masa | saniyede M − 0,12 |
-| Boşta | saniyede 0,04 hızla 50'ye döner |
+| Servis, sabır ≥ %66 | 100 |
+| Servis, sabır ≥ %33 | 65 |
+| Servis, sabır < %33 | 35 |
+| Kızgın giden müşteri / han misafiri | 0 |
+| Oyuncunun servis ettiği "Barlo'ya özel" sipariş | 100, **iki kez** sayılır |
 
-Müşteri gelişi çarpanı: `M < 50 → lerp(0.6, 1.0, M/50)`, `M ≥ 50 → lerp(1.0, 1.5, (M−50)/50)`.
-★ yıldızlar artık sadece ambiyanstan gelir (`1 + ambiyans/30`, 1–5): zengin müşteri ağırlığı ve bahşiş. Kirli masa ve kızgın müşteri yıldızı değil mutluluğu düşürür.
+Gösterilen / etkin değer `E = clamp(M − min(20, 4 × kirli masa), 0, 100)`: kirli masa ortalamayı bozmaz, yalnızca etkin değeri düşürür. Boşta dönüş yok. HUD barı ve uçan "+N mutluluk" yazısı E'nin değişimini gösterir (1'in altı tek ondalık).
+Müşteri gelişi çarpanı (E'den): `E < 50 → lerp(0.6, 1.0, E/50)`, `E ≥ 50 → lerp(1.0, 1.5, (E−50)/50)`.
+Ölçüm (bot, 2026-11-10): yeni oyunda %59–99, Sv9 orta oyunda etkin %58–97 arasında dolaştı (eski modelde hep %93–100).
 
-### 7.3 Etkinlikler (v1.2)
+**★ yıldızlar (v1.4)** yalnızca ambiyanstan gelir, artan eşikli ölçek (`Balance.StarThresholds`). Hazine olmadan elde edilebilecek toplam ambiyans **436** (masalar 217, dekor yerleri 127, ozan sahnesi 20, en iyi zemin + duvar 12, Saray Hanı kademesi 60).
 
-Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinlik; gün bitince söner. Fiyat `taban + seviye × artış`.
+| ★ | Ambiyans | Premium'suz toplamın |
+|---|---|---|
+| 1 | 0 | — |
+| 2 | 35 | %8 |
+| 3 | 110 | %25 |
+| 4 | 220 | %50 |
+| 5 | 350 | %80 |
+
+Aradaki yarım yıldızlar doğrusal (aşağı yuvarlanır). Dükkân › Dekor kartları "+N ambiyans · ★3'e 23", not satırı "sonraki yıldıza N ambiyans" gösterir. Yıldız zengin müşteri ağırlığı ve bahşiş getirir; kirli masa ve kızgın müşteri yıldızı değil mutluluğu düşürür.
+
+### 7.3 Etkinlikler (v1.2, Tellal v1.4)
+
+Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinlik; gün bitince söner. Fiyat `taban + seviye × artış`. Etkinlik butonu **Sv2'de** (rehber bittikten sonra) görünür.
 
 | Etkinlik | Açılış | Fiyat | Etki |
 |---|---|---|---|
+| Tellal (v1.4) | Sv2 | 40 + 30·Sv | müşteri gelişi ×1.3, sürerken sokakta zil çalan tellal görünür |
 | Ozan Konseri | Sv4 | 120 + 60·Sv | müşteri gelişi ×1.6, ozan sahneye çıkar |
 | Bira Festivali | Sv5 | 150 + 80·Sv | satış fiyatı ×1.5 |
 | Tüccar Kervanı | Sv6, Ana Salon | 200 + 100·Sv | zengin müşteri ×5, bahşiş ×2, gelme ×1.2 |
 | Zar Turnuvası | Sv13, Oyun Salonu | 250 + 120·Sv | oyun masası ücreti ×2.5, tur ×1.4 hızlı |
 
+v1.4: parayla "Tellal tut" (Dükkân › Hızlandır) kaldırıldı; şeridi de etkinlik şeridi oldu. Reklamla gelen yardımcı garson aynen kalır.
+
 ### 7.4 Rehber v2 (v1.2)
 
-9 adım: bira al → bardak dolsun → ilk müşteriye götür → parayı topla → **Görevler** butonu açılır → ödeme karesine para ver → **Dükkân** açılır → **Personel** açılır → **Depo** açılır. Rehber sürerken gün saati ve yoğun saat durur, ilk müşteri bardak dolunca gelir, en fazla 2 müşteri olur; elmas, yardımcı ve etkinlik butonu rehber bitince görünür. Her an atlanabilir.
+9 adım: bira al → bardak dolsun → ilk müşteriye götür → parayı topla → **Görevler** butonu açılır → ödeme karesine para ver → **Dükkân** açılır → **Personel** açılır → **Depo** açılır. **v1.4:** gün saati ve yoğun saat yalnızca ilk dört adımda (bira → bardak → servis → para) durur, Görevler adımından itibaren oyun akar. Bir HUD butonunu gösteren adımlar (Görevler, Dükkân, Personel, Depo) oyuncu basmazsa **25 gerçek saniye** sonra kendiliğinden geçer; rehber her durumda biter. İlk müşteri bardak dolunca gelir, rehberin ilk dört adımında en fazla 2 müşteri olur; elmas, yardımcı ve etkinlik butonu rehber bitince görünür. Her an atlanabilir.
 
 ### 7.6 Oyuncuya hep iş kalır (v1.3)
 
 Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirmez.
-- **Barlo'ya özel sipariş:** Sv3–9 yeni siparişlerin %18'i, Sv10+ %22'si (sadece zemin kat). Balon altın renkte ve büyük. Garsonlar almaz, yalnızca oyuncu servis eder. Ödeme ×2.5, mutluluk +3 (normal servis artışına ek), sabır ×1.4.
+- **Barlo'ya özel sipariş:** Sv3–9 yeni siparişlerin %18'i, Sv10+ %22'si (sadece zemin kat). Balon altın renkte ve büyük. Garsonlar almaz, yalnızca oyuncu servis eder. Ödeme ×2.5, mutluluğa 100 puanla iki kez sayılır (v1.4, §7.2), sabır ×1.4.
+- **Özel sipariş görevleri (v1.4):** Sv3'ten itibaren günlük görev havuzunda "5 özel sipariş yetiştir" (normal görev ödülü: `25 × (1 + 0.35·Sv)²` altın, `1 + Sv/4` elmas) ve "12 özel sipariş yetiştir" (iki kat altın, +1 elmas). Aynı anda tek özel sipariş görevi. Sayaç yalnızca oyuncunun servis ettiği özel siparişte artar.
 - **Para toplama oyuncunun işi:** garsonlar masadaki parayı toplamaz. Kasa otomasyonu Sv22'de 25.000 altına açılır (eskiden Sv8, 5.000).
 - **Kovma:** Dükkân › Personel kartında KOV (iki dokunuşla onay). Kovulan görevli sahneden çıkar, maaşı ve rol bonusu durur, seviyesi sıfırlanır, yeniden işe alınabilir; reklamla geliştirme hakkı sıfırlanmaz. Hazine görevlisi (Lirael, Ignis) kovulmaz: İZNE GÖNDER / GERİ ÇAĞIR.
+- **İşe alım ücreti (v1.4):** `max(katalogdaki ücret, 2 × görevlinin şu anki günlük maaşı)` (`Management.HireCost`). Maaş seviyeyle büyüdüğü için akşam kovup sabah geri almak maaştan kâr ettirmez (ücret her zaman bir günlük maaşın en az iki katı). Örnek: Nana Sv9'da 80, Sv20'de 298, Sv30'da 1.202; Pip Sv20'de 388.
 
 ### 7.5 Masa planı ve tabela (v1.2)
 

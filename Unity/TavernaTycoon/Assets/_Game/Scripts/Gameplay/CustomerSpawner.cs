@@ -34,8 +34,8 @@ namespace Taverna
             if (!Tutorial.AllowsSpawn) { _t = Mathf.Min(_t, 1.2f); return; }
             _t -= Time.deltaTime;
             if (_t > 0f) return;
-            _t = Balance.BaseSpawnInterval * intervalScale * Balance.SpawnLevelScale(GameState.Level) / Automation.GuestMultiplier / Happiness.SpawnMultiplier * Random.Range(0.75f, 1.25f)
-                 / (RushHour.Active ? 2.2f : 1f) / Campaigns.SpawnMultiplier / TavernEvents.SpawnMultiplier / Balance.SeatSpawnScale(SeatCount());
+            _t = Balance.BaseSpawnInterval * intervalScale * Balance.SpawnLevelScale(GameState.Level) * Random.Range(0.75f, 1.25f)
+                 / BoostMultiplier / Balance.SeatSpawnScale(SeatCount());
 
             var def = PickCustomer();
             if (!def) return;
@@ -43,6 +43,15 @@ namespace Taverna
             if (!seat) return;
             Spawn(def, seat);
         }
+
+        /// <summary>
+        /// v1.4: geçici / kazanılan müşteri çarpanlarının ham çarpımı: mutluluk × etkinlik × yoğun saat × Usta.
+        /// </summary>
+        public static float RawBoost => Happiness.SpawnMultiplier * TavernEvents.SpawnMultiplier
+                                        * (RushHour.Active ? Balance.RushSpawnMultiplier : 1f) * Automation.GuestMultiplier;
+
+        /// <summary>Uygulanan müşteri çarpanı: ham çarpım, en fazla ×<see cref="Balance.SpawnBoostCap"/>. Oturak ve seviye ölçeği dışarıda.</summary>
+        public static float BoostMultiplier => Mathf.Min(Balance.SpawnBoostCap, RawBoost);
 
         /// <summary>Sahnedeki (açılmış) masaların oturak sayısı.</summary>
         static int SeatCount()
