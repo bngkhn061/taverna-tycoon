@@ -690,3 +690,7 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .sign-text.t2 { color: rgb(220, 232, 255); font-size: 18px; }
 .sign-text.t3 { color: rgb(255, 214, 110); font-size: 19px; -unity-text-outline-width: 2px; }
 .sign-text.t4 { color: rgb(255, 222, 120); font-size: 20px; -unity-text-outline-width: 2px; -unity-text-outline-color: rgb(60, 20, 70); }
+
+/* ================= v1.3 Barlo'ya özel sipariş ================= */
+.bubble.special { -unity-background-image-tint-color: rgb(255, 205, 80); scale: 1.18 1.18; }
+.bubble.special .emote { color: rgb(212, 85, 58); }

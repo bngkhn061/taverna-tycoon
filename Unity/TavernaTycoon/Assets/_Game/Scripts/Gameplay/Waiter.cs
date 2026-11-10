@@ -5,7 +5,8 @@ namespace Taverna
 {
     /// <summary>
     /// Garson (GAME_DESIGN.md §5): bekleyen bir siparişi üstlenir → istasyondan alır → servis eder.
-    /// Sipariş yoksa masalardaki paraları toplar. İlk otomasyon: oyuncu koşturmaktan büyütmeye geçer.
+    /// v1.3 (oyuncu testi "oyun kendi kendine oynuyor"): garson yardım eder ama işi bitirmez —
+    /// "Barlo'ya özel" siparişleri almaz ve masadaki parayı toplamaz (o oyuncunun ya da geç açılan Kasa otomasyonunun).
     /// </summary>
     public class Waiter : MonoBehaviour
     {
@@ -72,7 +73,7 @@ namespace Taverna
             float bestP = float.MaxValue;
             foreach (var c in Customer.All)
             {
-                if (c.state != Customer.State.Waiting || c.reservedBy) continue;
+                if (c.state != Customer.State.Waiting || c.reservedBy || c.special) continue;
                 if (Inn.Upstairs(c.transform.position)) continue;   // teras: garsonlar çıkmaz
                 if (PlayerController.I && PlayerController.I.carrier.Has(c.wanted)) continue; // oyuncu zaten getiriyor
                 var st = DrinkStation.All.Find(s => s.drink.id == c.wanted);
@@ -85,15 +86,7 @@ namespace Taverna
                 best.reservedBy = this;
                 return;
             }
-            // Sipariş yoksa en yakın para yığını
-            float bd = float.MaxValue;
-            foreach (var p in CoinPile.All)
-            {
-                if (p.Claimed || Inn.Upstairs(p.transform.position)) continue;
-                float d = DrinkStation.FlatDistance(transform.position, p.transform.position);
-                if (d < bd) { bd = d; _coins = p; }
-            }
-            if (_coins) _coins.Claimed = true;
+            // v1.3: sipariş yoksa yerine döner (para toplamak oyuncunun işi)
         }
 
         void Release()

@@ -117,6 +117,17 @@ namespace Taverna
         public const int DiceFee = 6, CardFee = 10, ArmFee = 16;
         /// <summary>Otomasyonlu kasada para yığını bu kadar bekleyince kendiliğinden toplanır.</summary>
         public const float AutoCollectDelay = 1.2f;
+
+        // ---- v1.3 "oyuncuya hep iş kalsın" (oyuncu testi: oyun kendi kendine oynuyor)
+        /// <summary>"Barlo'ya özel" sipariş: Sv3'ten sonra yeni siparişlerin bu kadarı. Garsonlar almaz, sadece oyuncu servis eder.</summary>
+        public static float SpecialOrderChance(int level) => level < 3 ? 0f : level < 10 ? 0.18f : 0.22f;
+        /// <summary>Özel siparişin ödeme çarpanı ve fazladan mutluluk.</summary>
+        public const float SpecialPayMultiplier = 2.5f, SpecialHappiness = 3f;
+        /// <summary>Özel sipariş müşterisinin sabrı biraz uzun (oyuncu yetişebilsin).</summary>
+        public const float SpecialPatienceMultiplier = 1.4f;
+        /// <summary>Kasa otomasyonu (para kendiliğinden toplanır) son düzlükte açılır.</summary>
+        public const int KasaLevel = 22;
+        public const long KasaPrice = 25000;
         /// <summary>Otomasyonlu resepsiyonda misafir bu kadar bekleyince kendi giriş yapar.</summary>
         public const float AutoCheckInDelay = 1.5f;
         /// <summary>Taverna adını değiştirme bedeli (altın) ya da izlenecek reklam sayısı.</summary>

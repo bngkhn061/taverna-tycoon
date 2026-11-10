@@ -14,7 +14,7 @@ namespace Taverna
 
         public static readonly Def[] List =
         {
-            new() { id = "kasa", name = "Kasa", desc = "Masalardaki para kendiliğinden toplanır", icon = "coin", level = 8, price = 5000 },
+            new() { id = "kasa", name = "Kasa", desc = "Masalardaki para kendiliğinden toplanır", icon = "coin", level = Balance.KasaLevel, price = Balance.KasaPrice },
             new() { id = "depo", name = "Depo", desc = "Azalan malzeme otomatik sipariş edilir", icon = "stock", level = Balance.AutoOrderLevel, price = Balance.AutoOrderPrice },
             new() { id = "han", name = "Han resepsiyonu", desc = "Misafir kendi giriş yapar", icon = "bell", level = 12, price = 6000 },
             new() { id = "oyun", name = "Oyun salonu", desc = "Oyun masaları kendi döner", icon = "gift", level = 14, price = 8000 },

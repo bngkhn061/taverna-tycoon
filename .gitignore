@@ -45,3 +45,7 @@ project.local.yaml
 Thumbs.db
 desktop.ini
 *.tmp
+
+# Python önbelleği
+__pycache__/
+*.pyc

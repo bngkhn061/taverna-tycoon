@@ -43,7 +43,7 @@ namespace Taverna
         /// <summary>v1.1: işe alınmış ve çalışacağı bölge açık (aşçı mutfak, hizmetçi han açılmadan sahneye çıkmaz, maaş almaz).</summary>
         public static bool Working(string id)
         {
-            if (!Hired(id)) return false;
+            if (!Hired(id) || OnLeave(id)) return false;
             var s = Array.Find(Catalog.StaffList, x => x.id == id);
             return ZoneOpen(s.zone);
         }
@@ -55,6 +55,34 @@ namespace Taverna
             if (GameState.Level < s.level) return BuyResult.LevelLow;
             if (!ZoneOpen(s.zone)) return BuyResult.ZoneLocked;
             return GameState.Coins >= s.hire ? BuyResult.Ok : BuyResult.NoMoney;
+        }
+
+        /// <summary>v1.3: Hazine'den alınan görevli izinde mi (çalışmaz, maaş almaz; geri çağrılabilir).</summary>
+        public static bool OnLeave(string id) => GameState.Data.benched.Contains(id);
+
+        /// <summary>
+        /// v1.3 (oyuncu testi "personelleri kovabilelim"): normal görevli kovulur — sahneden çıkar, maaşı durur,
+        /// seviyesi sıfırlanır, yeniden işe alınabilir (işe alım ücreti tekrar ödenir). Reklam hakkı sıfırlanmaz.
+        /// Hazine görevlisi gerçek parayla alındığı için kovulmaz, izne gönderilir / geri çağrılır.
+        /// </summary>
+        public static bool Fire(Catalog.Staff s)
+        {
+            if (!Hired(s.id)) return false;
+            if (s.premium)
+            {
+                if (OnLeave(s.id)) GameState.Data.benched.Remove(s.id);
+                else GameState.Data.benched.Add(s.id);
+            }
+            else
+            {
+                GameState.Data.unlocked.Remove(s.id);
+                StaffUpgrades.ResetLevel(s.id);
+            }
+            GameState.Save();
+            if (TavernRegistry.I) TavernRegistry.I.ApplyStaff(s.id, true);
+            Changed?.Invoke();
+            GameState.NotifyChanged();
+            return true;
         }
 
         public static BuyResult Hire(Catalog.Staff s)
@@ -88,7 +116,7 @@ namespace Taverna
 
         public static bool HasRole(Catalog.Role role)
         {
-            foreach (var s in Catalog.StaffList) if (s.role == role && Hired(s.id)) return true;
+            foreach (var s in Catalog.StaffList) if (s.role == role && Working(s.id)) return true;   // v1.3: kovulan / izindeki görevli rol bonusu vermez
             return false;
         }
 
@@ -96,14 +124,14 @@ namespace Taverna
         public static float StationSpeedMultiplier => HasRole(Catalog.Role.Barmen) ? 1f + StaffUpgrades.BarmenBonus(RoleStaffId(Catalog.Role.Barmen)) : 1f;
         /// <summary>Mutfak makinelerinin hızı: Aşçı (v0.7), Barmen'le aynı eğri.</summary>
         public static float KitchenSpeedMultiplier => (HasRole(Catalog.Role.Asci) ? 1f + StaffUpgrades.BarmenBonus(RoleStaffId(Catalog.Role.Asci)) : 1f)
-                                                     * (Hired("staff_ignis") ? 2f : 1f);   // v1.0 Hazine: Ejder aşçı Ignis yemekleri ×2 hızlandırır
+                                                     * (Working("staff_ignis") ? 2f : 1f);   // v1.0 Hazine: Ejder aşçı Ignis yemekleri ×2 hızlandırır
         public static float SpeedMultiplierFor(DrinkDef d) => d && d.isFood ? KitchenSpeedMultiplier : StationSpeedMultiplier;
         public static float PatienceMultiplier => HasRole(Catalog.Role.Ozan) ? 1f + StaffUpgrades.BardBonus(RoleStaffId(Catalog.Role.Ozan)) : 1f;
 
         /// <summary>Bu rolde işe alınmış ilk görevlinin kimliği (yoksa boş).</summary>
         static string RoleStaffId(Catalog.Role role)
         {
-            foreach (var s in Catalog.StaffList) if (s.role == role && Hired(s.id)) return s.id;
+            foreach (var s in Catalog.StaffList) if (s.role == role && Working(s.id)) return s.id;
             return "";
         }
 

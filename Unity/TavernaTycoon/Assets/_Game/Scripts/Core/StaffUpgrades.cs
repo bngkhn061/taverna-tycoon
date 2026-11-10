@@ -31,6 +31,13 @@ namespace Taverna
             else { GameState.Data.staffIds.Add(staffId); GameState.Data.staffLvs.Add(lv); }
         }
 
+        /// <summary>v1.3 kovulan görevli yeniden işe alınınca baştan başlar.</summary>
+        public static void ResetLevel(string staffId)
+        {
+            int i = GameState.Data.staffIds.IndexOf(staffId);
+            if (i >= 0) GameState.Data.staffLvs[i] = 0;
+        }
+
         public static int Cost(Catalog.Staff s, int lv) => Mathf.RoundToInt(s.hire * 0.6f * Mathf.Pow(1.6f, lv));
 
         public static bool CanLevel(Catalog.Staff s) => Management.Hired(s.id) && Level(s.id) < MaxLevel;

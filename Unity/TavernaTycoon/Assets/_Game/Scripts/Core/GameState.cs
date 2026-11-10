@@ -42,7 +42,8 @@ namespace Taverna
         public bool autoOrder;      // "Tedarikçi anlaşması": stok azalınca kendiliğinden sipariş
         public List<string> staffIds = new();   // görevli seviyeleri (StaffUpgrades)
         public List<int> staffLvs = new();
-        public List<string> staffAds = new();   // v1.1: reklamla verilen her görevli seviyesi (görevli başına en fazla 2)
+        public List<string> staffAds = new();
+        public List<string> benched = new();     // v1.3: izne gönderilen (Hazine) görevliler   // v1.1: reklamla verilen her görevli seviyesi (görevli başına en fazla 2)
         public string floorTheme = "", wallTheme = "";   // Themes (boş = varsayılan)
         public List<int> roomLvs = new();                 // han odalarının konfor kademesi (Inn)
         public string tavernName = "";                    // v0.9: tabela (boşsa ilk "OYNA"da sorulur)

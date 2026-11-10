@@ -118,6 +118,23 @@ namespace Taverna
                     else if (_uiPhase == 2 && _t > _uiT + 2.0f) { hud.DebugOpen("close"); _uiPhase = 0; _uiStep++; }
                 }
             }
+            // v1.3: kov → maaş düşer → yeniden işe al
+            if (_fireStep == 0 && _t > 120f && Management.Hired("staff_nana"))
+            {
+                var nana = System.Array.Find(Catalog.StaffList, x => x.id == "staff_nana");
+                long w0 = Management.DailyWages;
+                bool ok = Management.Fire(nana);
+                Log($"v1.3 KOV: Nana → {ok} · çalışıyor={Management.Working("staff_nana")} · maaş {w0} → {Management.DailyWages} · temizlikçi var={Management.HasRole(Catalog.Role.Temizlikci)}");
+                _fireStep = 1;
+            }
+            else if (_fireStep == 1 && _t > 126f)
+            {
+                var nana = System.Array.Find(Catalog.StaffList, x => x.id == "staff_nana");
+                GameState.Data.coins += nana.hire;
+                var r = Management.Hire(nana);
+                Log($"v1.3 YENİDEN İŞE AL: Nana → {r} · çalışıyor={Management.Working("staff_nana")} · seviye {StaffUpgrades.Level("staff_nana")}");
+                _fireStep = 2;
+            }
             // v1.2: etkinlik (konser) başlat, şeridi çek
             if (!_evStarted && _t > 95f && GameState.Level >= 4)
             {
@@ -436,6 +453,7 @@ namespace Taverna
 
         string _music = "";
         bool _evStarted, _evShot;
+        int _fireStep;
         float _evShotAt;
         int _startLv, _startUn;
         long _earned;
@@ -455,6 +473,7 @@ namespace Taverna
             LogTempo();
             PlayerController.JoystickInput = Vector2.zero;
             Log($"v0.9: gün sonu={_daysEnded} oyun turu={_rounds} otomasyon=[{string.Join(",", GameState.Data.autos)}] depo-oto={GameState.Data.autoOrder} usta gelir={Automation.UstaIncomeLv} rehber={(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} ad={GameState.TavernName}");
+            Log($"v1.3: özel sipariş açılan={Customer.SpecialOrders} oyuncu servis etti={Customer.SpecialServed} · garson={Waiter.All.Count} · kasa otomasyonu={Automation.Has("kasa")} · yerdeki para yığını={CoinPile.All.Count}");
             Log($"v1.2: mutluluk=%{Happiness.Value:0} (müşteri ×{Happiness.SpawnMultiplier:0.00}) ★{Management.Stars:0.#} etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} bugün=[{string.Join(",", GameState.Data.eventsUsed)}] masa={Table.All.Count}");
             Log($"SES: grup={Sfx.LoadedGroups} müzik={Sfx.MusicNow} kalabalık={Sfx.CrowdLevel:0.00} konuşma={Sfx.TalkCount} ortam=[{Sfx.AmbientInfo}]");
             Log($"HAN: açık={Inn.Open} giriş={Inn.CheckIns} kızgın misafir={Inn.AngryGuests} toplanan oda={Inn.RoomsCleaned} (bot {_roomsCleaned}) oda durumları=[{string.Join(",", Room.All.ConvertAll(x => x.state.ToString()))}]");

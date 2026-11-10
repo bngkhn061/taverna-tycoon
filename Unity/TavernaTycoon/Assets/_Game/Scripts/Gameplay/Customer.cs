@@ -21,6 +21,10 @@ namespace Taverna
         public Emote emote;
         public float emoteTime;
         public float walkSpeed = 1.9f;
+        /// <summary>v1.3 "Barlo'ya özel" sipariş: garsonlar almaz, oyuncu servis edince ×2.5 öder.</summary>
+        public bool special;
+        /// <summary>Test günlüğü: açılan ve servis edilen özel sipariş sayısı.</summary>
+        public static int SpecialOrders, SpecialServed;
         [System.NonSerialized] public Waiter reservedBy;
 
         Seat _seat;
@@ -122,7 +126,11 @@ namespace Taverna
             // v0.7: mutfak açıksa müşteriler ara sıra yemek ister (her siparişte %35)
             var foods = up ? new List<DrinkStation>() : DrinkStation.All.FindAll(s => s.drink && s.drink.isFood);
             if (foods.Count > 0 && Random.value < Balance.FoodOrderChance) wanted = foods[Random.Range(0, foods.Count)].drink.id;
-            patienceMax = patience = Balance.PatienceSeconds(def.patienceStars) * Balance.PatienceLevelScale(GameState.Level) * Management.PatienceMultiplier;
+            // v1.3: üst kattaki (teras) siparişler zaten oyuncunun; özel sipariş sadece zemin katta
+            special = !up && Random.value < Balance.SpecialOrderChance(GameState.Level);
+            if (special) SpecialOrders++;
+            patienceMax = patience = Balance.PatienceSeconds(def.patienceStars) * Balance.PatienceLevelScale(GameState.Level) * Management.PatienceMultiplier
+                                     * (special ? Balance.SpecialPatienceMultiplier : 1f);
             state = State.Waiting;
             if (Random.value < 0.3f) Sfx.Voice(def, VoiceKind.Order, transform.position);
         }
@@ -143,12 +151,15 @@ namespace Taverna
         {
             reservedBy = null;
             Happiness.OnServed(Patience01, HeadPos);
+            if (special) { Happiness.Bonus(Balance.SpecialHappiness, HeadPos); SpecialServed++; }
             float tip = Balance.TipMultiplier(Patience01) * (RushHour.Active ? 2f : 1f) * Management.TipFromStars * TavernEvents.TipMultiplier;
             GameState.RaiseServed(wanted);
             var station = DrinkStation.All.Find(s => s.drink.id == wanted);
             int price = station ? station.Price : 1;
             _pendingPay = Mathf.Max(1, Mathf.CeilToInt(price * Balance.PayMultiplier(def.payStars) * tip * Boosts.IncomeMultiplier
-                                                       * Night.PayMultiplier(def, transform.position)));
+                                                       * Night.PayMultiplier(def, transform.position)
+                                                       * (special ? Balance.SpecialPayMultiplier : 1f)));
+            special = false;
             _drinkT = Balance.DrinkDuration;
             state = State.Drinking;
             emote = tip > 1f ? Emote.Happy : Emote.None;

@@ -37,60 +37,67 @@ the alias `model:` takes, never as a model ID: Claude Code resolves each alias
 to the current model in that family, so this table does not change when a new
 model ships.
 
+> **Project policy (2026-11-10, Taverna Tycoon owner's decision).** Fable 5.2 is
+> strong but expensive, so it is kept for **management decisions only**: scanning
+> the project and reporting what is missing, and go/no-go verdicts. All medium,
+> high and hard work runs on **Opus**. Sonnet and Haiku keep only light work.
+> Work in **fewer, larger prompts** (batch a feature list, test at the end) rather
+> than many small ones: every prompt on an expensive tier costs a full turn.
+
 | Tier | `model:` | When to use |
 |------|----------|-------------|
-| **Haiku** | `haiku` | Read-only status checks, formatting, simple lookups — no creative judgment needed |
-| **Sonnet** | `sonnet` | Implementation, design authoring, analysis of individual systems — default for most work |
-| **Opus** | `opus` | Multi-document synthesis, high-stakes phase gate verdicts, cross-system holistic review |
+| **Fable** | `fable` | Management decisions only: project scans, gap reports, phase gates, milestone and scope verdicts, what to cut. Never implementation |
+| **Opus** | `opus` | Every medium, high or hard task: implementation, design authoring, reviews, team orchestration, multi-document synthesis. Default for new skills |
+| **Sonnet** | `sonnet` | Light writing with a fixed shape: changelogs, patch notes, bug report drafts, settings lookups |
+| **Haiku** | `haiku` | Read-only status checks and next-step pointers — no judgement |
 | **Session** | `inherit` | Agents only — runs on whatever model the session runs |
 
-Skills with `model: haiku` (6): `/next-step`, `/onboard`, `/project-stage-detect`,
-`/scope-check`, `/sprint-status`, and `/help`, the old name of `/next-step`
+**Why Fable sits on skills, not on agents.** A skill's `model:` is used only when
+you type the command yourself (see the table at the top of this file); when
+Claude starts a skill through the Skill tool, the session model runs it. So a
+`fable` skill costs Fable only when you choose to run it. An agent's `model:` is
+always applied, every time any skill spawns it — the directors are spawned by
+13–14 skills each, so pinning them to Fable would bill Fable on routine work.
+The directors therefore stay on `opus`.
+
+Skills with `model: fable` (7) — run these when you want the project scanned and
+judged: `/project-stage-detect` (where are we, what is missing), `/adopt`
+(do the existing artifacts actually work), `/content-audit` (planned vs built),
+`/gate-check` (can we move to the next stage), `/milestone-review` (go/no-go),
+`/scope-check` (scope creep), `/cut` (what to cut, polish list).
+
+Skills with `model: haiku` (4): `/next-step`, `/onboard`, `/sprint-status`, and
+`/help`, the old name of `/next-step`.
+
+Skills with `model: sonnet` (6): `/patch-notes`, `/write-changelog`,
+`/bug-report`, `/project-settings`, and the old names `/changelog` and
+`/settings`.
 
 > `/help`, `/settings` and `/changelog` are the old names of `/next-step`,
 > `/project-settings` and `/write-changelog`. Each carries the
 > `model:` of the skill it points to: typed as `/help`, the old name runs on its
 > own pin, and it then starts the new skill in the same turn.
->
-> `/patch-notes` and `/write-changelog` are `sonnet`, not `haiku`: both produce
-> **player-facing** copy and need judgement the cheapest tier is defined as not
-> doing. Full reasoning in each skill's own header.
->
-> `/project-settings` was moved off `haiku` for the same reason. It does not only read
-> and format — it resolves every leaf with provenance and then compares the
-> configured rigor against the project's observable working practice. That is
-> synthesis, which is what the Haiku row is defined as excluding.
 
-Skills with `model: opus` (3): `/architecture-review`, `/gate-check`, `/review-all-gdds`
-
-All other skills are Sonnet. When creating a new skill, assign Haiku if it only
-reads and formats; assign Opus if it must synthesize 5+ documents with
-high-stakes output; otherwise write `model: sonnet` explicitly. Every skill
-declares a tier except `/prototype`, which has no `model:` line, so it runs on
-the session's model. Whether the tier takes effect depends on how the skill starts
-(see the table at the top of this file).
+All other skills are `opus` (60). When creating a new skill, write `model: opus`
+unless it only reads and formats (`haiku`), writes fixed-shape copy (`sonnet`) or
+is a management scan or verdict the owner runs on purpose (`fable`). `/prototype`
+has no `model:` line, so it runs on the session's model.
 
 **Agent model tiers.** 30 agents use `model: inherit` and run on the session's
 model. 19 are pinned:
 
-- **opus (3):** `creative-director`, `producer`, `technical-director`. Under an
-  Opus session an `opus` pin runs on the session's exact model, `[1m]` included,
-  so it never gets a smaller window than its parent.
-- **sonnet (16):** `lead-programmer`, `prototyper`, `devops-engineer`,
-  `community-manager` and the 12 engine sub-specialists:
-  `godot-csharp-specialist`, `godot-gdextension-specialist`,
-  `godot-gdscript-specialist`, `godot-shader-specialist`,
-  `ue-blueprint-specialist`, `ue-gas-specialist`, `ue-replication-specialist`,
-  `ue-umg-specialist`, `unity-addressables-specialist`,
-  `unity-dots-specialist`, `unity-shader-specialist`, `unity-ui-specialist`.
-  `/dev-story` and `/code-review` spawn the sub-specialists named in
-  `project.yaml`'s `specialists` block (which `/setup-engine` writes); `/team-ui` spawns
-  `unity-ui-specialist` and `ue-umg-specialist`; `/team-release` spawns
-  `devops-engineer` and `community-manager`, and `/team-live-ops` spawns
-  `community-manager`.
-- **haiku (0):** no agent. The Haiku row above is for read-only lookups and
-  formatting; every agent drafts, writes or judges. Building CI pipelines and
-  writing player-facing text are Sonnet work, as they are for `/patch-notes`.
+- **opus (18):** the directors `creative-director`, `producer`,
+  `technical-director`; `lead-programmer`, `prototyper`, `devops-engineer`; and
+  the 12 engine sub-specialists: `godot-csharp-specialist`,
+  `godot-gdextension-specialist`, `godot-gdscript-specialist`,
+  `godot-shader-specialist`, `ue-blueprint-specialist`, `ue-gas-specialist`,
+  `ue-replication-specialist`, `ue-umg-specialist`,
+  `unity-addressables-specialist`, `unity-dots-specialist`,
+  `unity-shader-specialist`, `unity-ui-specialist`. Under an Opus session an
+  `opus` pin runs on the session's exact model, `[1m]` included.
+- **sonnet (1):** `community-manager` (player-facing posts, same reasoning as
+  `/patch-notes`).
+- **fable (0), haiku (0):** no agent — see "Why Fable sits on skills" above.
 
 Every agent not named above is `inherit`. The `model:` line in the agent's own
 file is what runs.
@@ -109,6 +116,6 @@ the session's model with one line in your `.claude/settings.local.json`
 { "env": { "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1" } }
 ```
 
-It applies to **every** pin, the three `opus` directors included: under a
+It applies to **every** pin, the `opus` directors included: under a
 Sonnet session they run on Sonnet too. `CLAUDE_CODE_SUBAGENT_MODEL` alone does
 not do it: it applies only to agents that set no model of their own.

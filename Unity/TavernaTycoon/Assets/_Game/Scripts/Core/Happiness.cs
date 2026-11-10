@@ -45,6 +45,9 @@ namespace Taverna
 
         public static void OnAngry(Vector3 at) => Add(-AngryLoss, at);
 
+        /// <summary>v1.3: oyuncunun servis ettiği "Barlo'ya özel" sipariş için ek mutluluk.</summary>
+        public static void Bonus(float amount, Vector3 at) => Add(amount, at);
+
         static void Add(float d, Vector3 at)
         {
             Value += d;

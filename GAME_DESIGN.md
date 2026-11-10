@@ -260,6 +260,13 @@ Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinli
 
 9 adım: bira al → bardak dolsun → ilk müşteriye götür → parayı topla → **Görevler** butonu açılır → ödeme karesine para ver → **Dükkân** açılır → **Personel** açılır → **Depo** açılır. Rehber sürerken gün saati ve yoğun saat durur, ilk müşteri bardak dolunca gelir, en fazla 2 müşteri olur; elmas, yardımcı ve etkinlik butonu rehber bitince görünür. Her an atlanabilir.
 
+### 7.6 Oyuncuya hep iş kalır (v1.3)
+
+Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirmez.
+- **Barlo'ya özel sipariş:** Sv3–9 yeni siparişlerin %18'i, Sv10+ %22'si (sadece zemin kat). Balon altın renkte ve büyük. Garsonlar almaz, yalnızca oyuncu servis eder. Ödeme ×2.5, mutluluk +3 (normal servis artışına ek), sabır ×1.4.
+- **Para toplama oyuncunun işi:** garsonlar masadaki parayı toplamaz. Kasa otomasyonu Sv22'de 25.000 altına açılır (eskiden Sv8, 5.000).
+- **Kovma:** Dükkân › Personel kartında KOV (iki dokunuşla onay). Kovulan görevli sahneden çıkar, maaşı ve rol bonusu durur, seviyesi sıfırlanır, yeniden işe alınabilir; reklamla geliştirme hakkı sıfırlanmaz. Hazine görevlisi (Lirael, Ignis) kovulmaz: İZNE GÖNDER / GERİ ÇAĞIR.
+
 ### 7.5 Masa planı ve tabela (v1.2)
 
 Ön cephe sokağa doğru 3 m büyüdü (z −2 → −5), sokak geri çekildi. Masa yerleri 21 → 40: Meyhane +2 (Sv3–4), Ana Salon +6 (Sv5–7), Bahçe +5 (Sv8–10, bahçeyle birlikte satın alınabilir), Mahzen +2, Teras +1, Avlu +2, İskele +1. Tabela Sv1 / 5 / 10 / 15 / 20'de kademe atlar (tahta → boyalı → demir → yaldızlı → görkemli), yazı rengi de değişir.

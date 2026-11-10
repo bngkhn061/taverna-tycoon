@@ -418,6 +418,7 @@ namespace Taverna
                 Place(b.box, p, show && onScreen);
                 if (!show) continue;
                 b.box.EnableInClassList("angry", angry);
+                b.box.EnableInClassList("special", waiting && c.special);   // v1.3 Barlo'ya özel: altın çerçeve + yıldız
                 b.ring.style.display = waiting ? DisplayStyle.Flex : DisplayStyle.None;
                 b.icon.style.display = waiting ? DisplayStyle.Flex : DisplayStyle.None;
                 b.emote.text = angry ? "!" : "";
@@ -868,7 +869,30 @@ namespace Taverna
                 else Toast(max ? "En yüksek seviyede" : "Yeterli altın yok");
             };
             btns.Add(buy);
-            if (!max && StaffUpgrades.AdsLeft(s.id) > 0)
+            // v1.3: kov (normal) ya da izne gönder / geri çağır (Hazine); ilk dokunuş sorar, ikincisi yapar
+            var fire = new Button();
+            fire.AddToClassList("btn"); fire.AddToClassList("btn-sm"); fire.AddToClassList("btn-brick"); fire.AddToClassList("fire-btn");
+            bool leave = Management.OnLeave(s.id);
+            string fireText = s.premium ? (leave ? "GERİ ÇAĞIR" : "İZNE GÖNDER") : "KOV";
+            var fireLabel = new Label(fireText);
+            fire.Add(fireLabel);
+            bool armed = false;
+            fire.clicked += () =>
+            {
+                if (!armed && !(s.premium && leave))
+                {
+                    armed = true;
+                    fireLabel.text = "EMİN MİSİN?";
+                    fire.schedule.Execute(() => { armed = false; fireLabel.text = fireText; }).StartingIn(2500);
+                    return;
+                }
+                if (!Management.Fire(s)) return;
+                Sfx.Play(SfxId.Pop, 0.8f);
+                Toast(s.premium ? (Management.OnLeave(s.id) ? $"{s.name} izne çıktı" : $"{s.name} işe döndü")
+                                : $"{s.name} kovuldu · maaşı durdu, istersen yeniden işe alabilirsin");
+                BuildShop();
+            };
+            if (!max && StaffUpgrades.AdsLeft(s.id) > 0 && !leave)
             {
                 float wait = StaffUpgrades.AdWait(s.id);
                 bool longAd = StaffUpgrades.AdIsLong(s);
@@ -883,6 +907,8 @@ namespace Taverna
                 };
                 btns.Add(ad);
             }
+            btns.Add(fire);
+            if (leave) { item.AddToClassList("locked"); buy.SetEnabled(false); }
             item.Add(img); item.Add(col); item.Add(btns);
             _shopScroll.Add(item);
         }
