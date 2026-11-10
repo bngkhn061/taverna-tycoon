@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 01_Sira
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 1
+  displayName: "\u015E\u0131ra"
+  basePrice: 4
+  baseTime: 3
+  unlockLevel: 1
+  icon: {fileID: 7045866157970376176, guid: 742a0294384502b4497c4479f88c04cf, type: 3}
+  cupPrefab: {fileID: 337007390619193454, guid: dce050a9d22e13c40a603c6d1f11efbf, type: 3}
+  upgradeCostMultiplier: 1
+  isFood: 0

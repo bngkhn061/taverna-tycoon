@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165870acc58250a4e8b15a0fc617f73f, type: 3}
+  m_Name: GameDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.GameDatabase
+  drinks:
+  - {fileID: 11400000, guid: e1ca51711b3044543a42e703ea207fcf, type: 2}
+  - {fileID: 11400000, guid: 8253f998f4bd2e64fbf78a3fb7fbc7e3, type: 2}
+  - {fileID: 11400000, guid: 6ad4107dae1557e4e8f60ef71dd26523, type: 2}
+  - {fileID: 11400000, guid: ce9912abd20f291409c265b7b06d6536, type: 2}
+  - {fileID: 11400000, guid: 157e269a313c7174084562c91d8a73aa, type: 2}
+  - {fileID: 11400000, guid: 36c44fb5766d2514bb019fe4f688b51c, type: 2}
+  - {fileID: 11400000, guid: 537b8cbd199a96f4a9e74bb03dd6f518, type: 2}
+  - {fileID: 11400000, guid: f39e639d1306a8e42a0d42caceb7bd26, type: 2}
+  - {fileID: 11400000, guid: 6400297576c3be045b34a72c69c0900f, type: 2}
+  - {fileID: 11400000, guid: e97cb10387a0fc74cacdd01319501e46, type: 2}
+  - {fileID: 11400000, guid: 3a507f62823d7804094110fcf2789972, type: 2}
+  - {fileID: 11400000, guid: 791474097e9e0954bb61f0f6e40958a7, type: 2}
+  - {fileID: 11400000, guid: 596ac4b40399a4d4a92cf7bb997a9f5f, type: 2}
+  - {fileID: 11400000, guid: 0f0a85900120f5d4290ec1a4443a8705, type: 2}
+  - {fileID: 11400000, guid: 164d8acd91597474e9955e6fdc990ff3, type: 2}
+  - {fileID: 11400000, guid: e69d300ce892b4549988c3ff40428f60, type: 2}
+  - {fileID: 11400000, guid: ea3207af50a27da48b67940f5f04344b, type: 2}
+  - {fileID: 11400000, guid: e5fbbc08bd2731a48ad33a60b7da4166, type: 2}
+  customers:
+  - {fileID: 11400000, guid: 008e4c9681780af42b4af2b2ff25b28a, type: 2}
+  - {fileID: 11400000, guid: ed000c6a5ce79824793846ab80e61830, type: 2}
+  - {fileID: 11400000, guid: 6285e10051f5aae4e952891d169f3807, type: 2}
+  - {fileID: 11400000, guid: 42ee2f07246a1474ab03684ee237e4b1, type: 2}
+  - {fileID: 11400000, guid: c0c83fdc979c05d44be8baa753a8c8ba, type: 2}
+  - {fileID: 11400000, guid: 3548985d13438ee48825637386080d0a, type: 2}
+  - {fileID: 11400000, guid: 979a5225fa3d1c0478a589b53853758d, type: 2}
+  - {fileID: 11400000, guid: 0f50dfce7daf7a342b38795c36ed53bf, type: 2}
+  - {fileID: 11400000, guid: e5bb4f0b6fd4eed40a9724e1413518c2, type: 2}
+  - {fileID: 11400000, guid: ddf64a4151e948942a3973a4276c954c, type: 2}
+  - {fileID: 11400000, guid: d7b11f8e9b6c327489d99c24e6ff3674, type: 2}
+  - {fileID: 11400000, guid: ed179647cb71ee141aea2057fdca6477, type: 2}
+  - {fileID: 11400000, guid: d8bba01b68eb32540b7f6bb7b036c80f, type: 2}
+  - {fileID: 11400000, guid: a53fa68cb7da04f418c22524d2c12fea, type: 2}
+  - {fileID: 11400000, guid: f29216c5a2959b941839f33dcf734af7, type: 2}
+  - {fileID: 11400000, guid: bfc665738dc60a04288bdc0ce6e01dd6, type: 2}
+  - {fileID: 11400000, guid: ae573eaeac1ecc74ba0da31c1fbb527b, type: 2}
+  - {fileID: 11400000, guid: 382f5d2bc3c7b1141a474da7cb0cc485, type: 2}
+  - {fileID: 11400000, guid: 45a1e2ccc4046ec4686b4307875c2dcd, type: 2}
+  - {fileID: 11400000, guid: 34a251d5097f98a45b56a17226eab3a7, type: 2}
+  - {fileID: 11400000, guid: 1158dbf3ea6932c48b29e3c954024cba, type: 2}
+  - {fileID: 11400000, guid: b1866a1d7b5728843a51bebf29506f9e, type: 2}
+  - {fileID: 11400000, guid: 426a875c4ad7a9643a1efff2c7ebf6df, type: 2}
+  - {fileID: 11400000, guid: 31ba8483140812b4888eb856715b2f0a, type: 2}
+  - {fileID: 11400000, guid: 18c2456e0307a9d469978689f4c8ff12, type: 2}
+  - {fileID: 11400000, guid: 4fe36e9a3a89e5a4d811f3699c73ab4d, type: 2}
+  - {fileID: 11400000, guid: 775a9ab3a3b810f45a32bb72113a43fe, type: 2}
+  - {fileID: 11400000, guid: 2c5e413ac5f4de6429e02cf9e4c7ebd4, type: 2}
+  - {fileID: 11400000, guid: 2d445ac792610404fac0ed8893cddf89, type: 2}
+  - {fileID: 11400000, guid: 2792de3c0710b534abb8148e2183ab88, type: 2}
+  coinPrefab: {fileID: 3871478194651391344, guid: 27431bf7330e3a9468b59b10db060d30, type: 3}
+  coinIcon: {fileID: -5951777678060486925, guid: 622951cedd2bcba42a79856a2546fd1a, type: 3}
+  gemIcon: {fileID: -5299672502157883096, guid: c9e0f96f7cf951a4abb45f4ced604874, type: 3}

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Taverna Tycoon — UI v3 stil yönleri</title>
+<!-- Üç stil yönü, aynı oyun içi ekran (yatay 1266×585). Hepsi açık lisanslı (OFL) Google fontları.
+     İkonlar bu dosyada elle çizildi (SVG); hazır ikon seti ya da emoji yok. -->
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Patrick+Hand&family=Bowlby+One&family=Nunito:wght@800;900&family=Cinzel:wght@700;900&family=Alegreya+Sans:wght@700;800&display=block" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #17120f; color: #eee; font-family: "Nunito", sans-serif; width: 1306px; padding: 20px; }
+  .label { font: 900 22px "Nunito"; color: #f4e6c8; margin: 6px 0 2px; }
+  .sub { font: 800 14px "Nunito"; color: #b9a98d; margin-bottom: 10px; }
+  .frame { position: relative; width: 1266px; height: 585px; overflow: hidden; border-radius: 14px; margin-bottom: 30px;
+           background: url("../../assets/renders/Menu_Background_Wide.png") center 62% / cover; }
+  .frame::before { content: ""; position: absolute; inset: 0; background: rgba(20, 12, 8, .12); }
+  svg.ic { width: 100%; height: 100%; overflow: visible; }
+  .abs { position: absolute; }
+  .pill { display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px 0 6px; margin-bottom: 8px; }
+  .pill .i { width: 34px; height: 34px; }
+  .goal { left: 50%; transform: translateX(-50%); top: 12px; width: 380px; padding: 9px 14px 11px; display: flex; gap: 12px; align-items: center; }
+  .goal .i { width: 44px; height: 44px; flex: none; }
+  .goal .txt { flex: 1; }
+  .bar { height: 12px; margin-top: 6px; position: relative; overflow: hidden; }
+  .bar > b { position: absolute; left: 0; top: 0; bottom: 0; width: 72%; }
+  .lvl { right: 86px; top: 12px; width: 62px; height: 70px; display: flex; align-items: center; justify-content: center; }
+  .gear { right: 18px; top: 16px; width: 54px; height: 54px; padding: 9px; }
+  .side { right: 18px; top: 112px; display: flex; flex-direction: column; gap: 12px; }
+  .sbtn { width: 82px; height: 76px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; position: relative; }
+  .sbtn .i { width: 38px; height: 38px; }
+  .dot { position: absolute; right: -6px; top: -6px; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .act { right: 24px; bottom: 22px; width: 190px; height: 70px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .act .i { width: 34px; height: 34px; }
+  .joy { left: 46px; bottom: 30px; width: 124px; height: 124px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .joy > i { width: 52px; height: 52px; border-radius: 50%; display: block; }
+  .bubble { left: 560px; top: 214px; width: 84px; height: 88px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .bubble .i { width: 42px; height: 42px; }
+  .ring { width: 54px; height: 8px; margin-top: 5px; position: relative; overflow: hidden; }
+  .ring > b { position: absolute; left: 0; top: 0; bottom: 0; width: 60%; }
+  .card { left: 50%; transform: translateX(-50%); bottom: 20px; width: 470px; height: 82px; display: flex; align-items: center; gap: 14px; padding: 0 12px; }
+  .card .por { width: 60px; height: 60px; flex: none; background: url("../../assets/icons/ICO_Main_Pip.png") center / 120% no-repeat; }
+  .card .txt { flex: 1; }
+  .card .buy { height: 52px; padding: 0 14px; display: flex; align-items: center; gap: 6px; }
+  .card .buy .i { width: 26px; height: 26px; }
+
+  /* ================= A · Tebeşir Tahtası ================= */
+  .A { --chalk: #f2eee2; --yel: #f3d36b; --pink: #f19a8f; --slate: #25302b; --wood: #8a5a32; font-family: "Patrick Hand", cursive; color: var(--chalk); }
+  .A .ic { fill: none; stroke: var(--chalk); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; filter: url(#rough); }
+  .A .panel { background: var(--slate) radial-gradient(circle at 30% 20%, rgba(255,255,255,.06), transparent 60%); border: 5px solid var(--wood);
+              border-radius: 6px; box-shadow: inset 0 0 0 2px rgba(0,0,0,.35), 0 3px 0 rgba(0,0,0,.35); }
+  .A .num { font: 700 26px "Cabin Sketch"; letter-spacing: .5px; }
+  .A .small { font-size: 17px; opacity: .85; }
+  .A .bar { border: 2px dashed var(--chalk); border-radius: 3px; }
+  .A .bar > b { background: repeating-linear-gradient(-45deg, var(--yel) 0 4px, transparent 4px 8px); }
+  .A .lvl { font: 700 30px "Cabin Sketch"; }
+  .A .lvl svg { position: absolute; inset: 0; }
+  .A .sbtn span { font-size: 16px; }
+  .A .dot { background: var(--pink); color: var(--slate); font: 700 15px "Cabin Sketch"; border: 2px solid var(--slate); }
+  .A .act { font: 700 30px "Cabin Sketch"; color: var(--yel); }
+  .A .act .ic { stroke: var(--yel); }
+  .A .joy { border: 3px dashed rgba(242,238,226,.7); }
+  .A .joy > i { border: 3px solid var(--chalk); background: rgba(37,48,43,.6); }
+  .A .bubble { border-radius: 50% 50% 50% 50% / 46% 46% 54% 54%; }
+  .A .ring { border: 2px solid var(--chalk); border-radius: 4px; }
+  .A .ring > b { background: var(--yel); }
+  .A .card .buy { border: 3px solid var(--yel); border-radius: 4px; font: 700 22px "Cabin Sketch"; color: var(--yel); }
+  .A .card .buy .ic { stroke: var(--yel); }
+  .A h4 { font: 700 21px "Cabin Sketch"; }
+
+  /* ================= B · Mürekkep Çizgi ================= */
+  .B { --ink: #1f1a17; --paper: #fbf3e2; --mus: #f2b631; --brick: #d4553a; --teal: #2f8f8a; font-family: "Nunito"; font-weight: 900; color: var(--ink); }
+  .B .ic { stroke: var(--ink); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; fill: var(--paper); }
+  .B { --f1: var(--mus); --f2: var(--teal); --f3: var(--brick); }
+  .B .panel { background: var(--paper); border: 3px solid var(--ink); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink); }
+  .B .num { font: 400 24px "Bowlby One"; }
+  .B .small { font-size: 14px; color: #6d5d4f; }
+  .B .bar { border: 3px solid var(--ink); border-radius: 8px; background: #efe2c6; height: 14px; }
+  .B .bar > b { background: var(--teal); border-right: 3px solid var(--ink); }
+  .B .goal { transform: translateX(-50%) rotate(-1deg); }
+  .B .lvl { font: 400 28px "Bowlby One"; color: var(--paper); }
+  .B .lvl svg { position: absolute; inset: 0; }
+  .B .sbtn span { font-size: 13px; text-transform: uppercase; letter-spacing: .5px; }
+  .B .sbtn:nth-child(2) { background: var(--mus); }
+  .B .dot { background: var(--brick); color: var(--paper); border: 3px solid var(--ink); font-size: 13px; }
+  .B .act { background: var(--brick); color: var(--paper); font: 400 26px "Bowlby One"; transform: rotate(1deg); }
+  .B .act .ic { fill: var(--paper); }
+  .B .joy { border: 3px solid var(--ink); background: rgba(251,243,226,.35); }
+  .B .joy > i { border: 3px solid var(--ink); background: var(--paper); box-shadow: 3px 3px 0 var(--ink); }
+  .B .bubble { border-radius: 50%; }
+  .B .ring { border: 2.5px solid var(--ink); border-radius: 6px; background: #efe2c6; }
+  .B .ring > b { background: var(--mus); }
+  .B .card { transform: translateX(-50%) rotate(.6deg); }
+  .B .card .buy { background: var(--teal); color: var(--paper); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 3px 3px 0 var(--ink); font: 400 20px "Bowlby One"; }
+  .B h4 { font: 400 19px "Bowlby One"; }
+
+  /* ================= C · Demir ve Mum ================= */
+  .C { --dark: #1c191b; --gold: #e8c27a; --amber: #f3dcae; --wine: #7a2333; --forest: #2f5a3a; --iron: #a88b5c; font-family: "Alegreya Sans"; font-weight: 800; color: var(--amber); }
+  .C .ic { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .C .panel { background: linear-gradient(180deg, rgba(40,34,36,.94), rgba(24,21,23,.94)); border: 1.5px solid #5d4c3a; border-radius: 3px;
+              box-shadow: 0 6px 18px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,220,160,.08); }
+  .C .panel::before, .C .panel::after { content: ""; position: absolute; width: 14px; height: 14px; border: 3px solid var(--iron); }
+  .C .panel::before { left: -4px; top: -4px; border-right: 0; border-bottom: 0; }
+  .C .panel::after { right: -4px; bottom: -4px; border-left: 0; border-top: 0; }
+  .C .pill { position: relative; }
+  .C .num { font: 700 23px "Cinzel"; color: var(--gold); }
+  .C .small { font-size: 14px; color: #bda57f; letter-spacing: .4px; }
+  .C .bar { height: 8px; background: #2a2426; border: 1px solid #5d4c3a; }
+  .C .bar > b { background: linear-gradient(90deg, #b8893d, var(--gold)); }
+  .C .lvl { font: 900 26px "Cinzel"; color: var(--gold); }
+  .C .lvl svg { position: absolute; inset: 0; }
+  .C .sbtn span { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: #d9c08f; }
+  .C .dot { background: var(--wine); color: var(--amber); border: 2px solid var(--gold); font: 700 13px "Cinzel"; }
+  .C .act { background: linear-gradient(180deg, #8d2a3c, var(--wine)); border-color: var(--gold); color: var(--amber); font: 900 22px "Cinzel"; letter-spacing: 1.5px; }
+  .C .joy { border: 2px solid rgba(232,194,122,.55); background: rgba(28,25,27,.35); }
+  .C .joy > i { border: 2px solid var(--gold); background: rgba(28,25,27,.8); }
+  .C .bubble { border-radius: 4px; }
+  .C .ring { background: #2a2426; border: 1px solid #5d4c3a; }
+  .C .ring > b { background: var(--forest); box-shadow: 0 0 6px #5fae73; }
+  .C .card .buy { background: linear-gradient(180deg, #3b7049, var(--forest)); border: 1.5px solid var(--gold); border-radius: 3px; font: 700 18px "Cinzel"; color: var(--amber); }
+  .C h4 { font: 700 18px "Cinzel"; color: var(--gold); letter-spacing: .5px; }
+</style>
+</head>
+<body>
+
+<!-- ============ Elle çizilmiş ikon seti (48×48). Dolgu sınıfları: f1 hardal, f2 camgöbeği, f3 tuğla ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.4"/>
+    </filter>
+    <symbol id="i-coin" viewBox="0 0 48 48"><circle style="fill:var(--f1,none)" cx="24" cy="24" r="17"/><circle fill="none" cx="24" cy="24" r="11.5"/><path fill="none" d="M18.5 28 L20.5 19.5 L24 24.5 L27.5 19.5 L29.5 28 Z"/></symbol>
+    <symbol id="i-gem" viewBox="0 0 48 48"><path style="fill:var(--f2,none)" d="M12 18 L19 10 H29 L36 18 L24 38 Z"/><path fill="none" d="M12 18 H36 M19 10 L21.5 18 L24 38 L26.5 18 L29 10"/></symbol>
+    <symbol id="i-star" viewBox="0 0 48 48"><path style="fill:var(--f1,none)" d="M24 7 L28.6 18.2 L40.5 19.2 L31.4 27 L34.3 38.8 L24 32.4 L13.7 38.8 L16.6 27 L7.5 19.2 L19.4 18.2 Z"/></symbol>
+    <symbol id="i-shop" viewBox="0 0 48 48"><path d="M11 21 V39 H37 V21"/><path fill="none" d="M20 39 V29 H28 V39"/><path style="fill:var(--f3,none)" d="M8 21 L12 9 H36 L40 21 Q36 25.5 32 21 Q28 25.5 24 21 Q20 25.5 16 21 Q12 25.5 8 21 Z"/><path fill="none" d="M18 9 L16 21 M24 9 V21 M30 9 L32 21"/></symbol>
+    <symbol id="i-quest" viewBox="0 0 48 48"><path fill="none" d="M14 30 V41 M34 30 V41"/><rect x="8" y="8" width="32" height="22" rx="2"/><path style="fill:var(--f1,none)" d="M16 12 H28 L29 25 H15 Z"/><path fill="none" d="M18.5 17 H25.5 M18.5 21 H24"/><circle style="fill:var(--f3,none)" cx="22" cy="12.5" r="2"/><path fill="none" d="M33 13 V25"/></symbol>
+    <symbol id="i-staff" viewBox="0 0 48 48"><path d="M17 9 L18.5 16 Q13 18.5 13.5 25 L15.5 40 H32.5 L34.5 25 Q35 18.5 29.5 16 L31 9 Q24 14 17 9 Z"/><path style="fill:var(--f1,none)" d="M19.5 27 H28.5 V34 H19.5 Z"/><path fill="none" d="M13.6 23 Q8 25 9 31 M34.4 23 Q40 25 39 31"/></symbol>
+    <symbol id="i-hammer" viewBox="0 0 48 48"><path fill="none" d="M22 19 L39 37"/><path style="fill:var(--f3,none)" d="M9 16 L19.5 7.5 L27.5 15 L17 23.5 Z"/><path fill="none" d="M36 31 L41 36 L37 40 L32 35"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 48 48"><path fill="none" d="M24 6.5 V12 M24 36 V41.5 M6.5 24 H12 M36 24 H41.5 M11.6 11.6 L15.5 15.5 M32.5 32.5 L36.4 36.4 M36.4 11.6 L32.5 15.5 M15.5 32.5 L11.6 36.4"/><circle cx="24" cy="24" r="11"/><circle fill="none" cx="24" cy="24" r="4.5"/></symbol>
+    <symbol id="i-mug" viewBox="0 0 48 48"><path style="fill:var(--f1,none)" d="M12 15 H31 V38 Q31 41 28 41 H15 Q12 41 12 38 Z"/><path fill="none" d="M31 19.5 H35.5 Q38.5 19.5 38.5 22.5 V29.5 Q38.5 32.5 35.5 32.5 H31"/><path d="M11 15.5 Q10.5 9 17 9.5 Q19.5 6 24 8 Q28.5 6 31 10 Q34.5 11 32 15.5 Z"/><path fill="none" d="M17.5 21 V35 M24.5 21 V35"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 64 72"><path style="fill:var(--f3,none)" d="M32 4 L58 12 V34 Q58 56 32 68 Q6 56 6 34 V12 Z"/><path fill="none" d="M32 10 L52 16 V34 Q52 51 32 61 Q12 51 12 34 V16 Z"/></symbol>
+    <symbol id="i-up" viewBox="0 0 48 48"><path style="fill:var(--f1,none)" d="M24 8 L39 25 H30 V40 H18 V25 H9 Z"/></symbol>
+  </defs>
+</svg>
+
+<!-- Ortak HUD gövdesi: her yönde aynı yerleşim (DESIGN_RULES §9), farklı malzeme -->
+<template id="hud">
+  <div class="abs" style="left:18px;top:14px">
+    <div class="pill panel"><span class="i"><svg class="ic"><use href="#i-coin"/></svg></span><span class="num">1.284</span></div>
+    <div class="pill panel"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span><span class="num">36</span></div>
+  </div>
+  <div class="abs goal panel">
+    <span class="i"><svg class="ic"><use href="#i-mug"/></svg></span>
+    <div class="txt"><div class="small">Sıradaki hedef</div><h4>Bal Kazanı</h4><div class="bar"><b></b></div></div>
+    <span class="num" style="font-size:18px">108/150</span>
+  </div>
+  <div class="abs lvl"><svg class="ic" viewBox="0 0 64 72"><use href="#i-shield"/></svg><span style="position:relative;margin-top:-4px">5</span></div>
+  <div class="abs gear panel"><svg class="ic"><use href="#i-gear"/></svg></div>
+  <div class="abs side">
+    <div class="sbtn panel"><span class="i"><svg class="ic"><use href="#i-quest"/></svg></span><span>Görevler</span><span class="dot">2</span></div>
+    <div class="sbtn panel"><span class="i"><svg class="ic"><use href="#i-shop"/></svg></span><span>Dükkân</span></div>
+    <div class="sbtn panel"><span class="i"><svg class="ic"><use href="#i-staff"/></svg></span><span>Personel</span></div>
+  </div>
+  <div class="abs bubble panel"><span class="i"><svg class="ic"><use href="#i-mug"/></svg></span><div class="ring"><b></b></div></div>
+  <div class="abs joy"><i></i></div>
+  <div class="abs card panel">
+    <div class="por"></div>
+    <div class="txt"><h4>Garson Pip</h4><div class="small">Masalara içecek taşır · günlük 18</div></div>
+    <div class="buy"><span class="i"><svg class="ic"><use href="#i-coin"/></svg></span>200</div>
+  </div>
+  <div class="abs act panel"><span class="i"><svg class="ic"><use href="#i-hammer"/></svg></span>YÜKSELT</div>
+</template>
+
+<div class="label">A · Tebeşir Tahtası</div>
+<div class="sub">Meyhane menü tahtası: koyu arduvaz paneller, ince ahşap çerçeve, tebeşirle elle yazılmış rakamlar ve hafif titrek çizgili ikonlar. Sıcak, el yapımı, "mekânın kendi tabelası" hissi.</div>
+<div class="frame A" data-hud></div>
+
+<div class="label">B · Mürekkep Çizgi</div>
+<div class="sub">Kalın siyah mürekkep konturu, düz renkler (hardal, tuğla, camgöbeği), bulanıksız sert gölge, hafif yamuk kartlar. Masa oyunu kartı / resimli kitap gibi: canlı, okunaklı, mobilde en net.</div>
+<div class="frame B" data-hud></div>
+
+<div class="label">C · Demir ve Mum</div>
+<div class="sub">Mat kömür paneller, köşelerde dövme demir köşebent, mum sarısı yazılar, şarap kırmızısı ve orman yeşili butonlar. Daha "büyük" ve ciddi; PC tycoon havası, gece tavernası.</div>
+<div class="frame C" data-hud></div>
+
+<script>
+  const t = document.getElementById("hud");
+  document.querySelectorAll("[data-hud]").forEach(f => f.appendChild(t.content.cloneNode(true)));
+</script>
+</body>
+</html>

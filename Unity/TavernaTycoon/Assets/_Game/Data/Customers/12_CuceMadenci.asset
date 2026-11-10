@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 12_CuceMadenci
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 12
+  displayName: "C\xFCce Madenci"
+  modelPrefab: {fileID: 7207987843244486725, guid: a382738b36e96744ea06e798efa28c6e, type: 3}
+  drinks: 020000000f000000i
+  patienceStars: 3
+  payStars: 3
+  unlockLevel: 11
+  ordersPerVisit: 2
+  spawnWeight: 1

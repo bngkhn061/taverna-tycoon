@@ -1,0 +1,647 @@
+/* ==========================================================================
+   Taverna Tycoon — Arayüz v3 "Mürekkep Çizgi" (YATAY). Kaynak: design/ui/ui_v3_ink.html (onay 2026-11-09)
+   Panel referansı 1266x585, yüksekliğe göre ölçeklenir → buradaki 1px = taslaktaki 1px.
+   Gölgeli paneller/butonlar ve ikonlar: Images/Kit/v3_*.png, v3i_*.png (tools/ui/make_ui_kit_v3.py, 2x → slice-scale 0.5).
+   Gölgeli 9-dilim görsellerin sağ/alt 4px'i gölgedir: içerik dolgusu sağ/alt +6px.
+   Gölgesiz parçalar (kart, çip, sekme, çubuk) burada kenarlık + köşe ile çizilir.
+   v2 dosyaları: design/ui/v2_unity_backup/
+   ========================================================================== */
+
+:root {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Nunito.asset");
+    color: rgb(31, 26, 23);
+    --ink: rgb(31, 26, 23);
+    --paper: rgb(251, 243, 226);
+    --paper2: rgb(239, 226, 198);
+    --cardbg: rgb(255, 250, 240);
+    --mus: rgb(242, 182, 49);
+    --brick: rgb(212, 85, 58);
+    --teal: rgb(47, 143, 138);
+    --plum: rgb(108, 74, 125);
+    --grass: rgb(106, 168, 79);
+    --muted: rgb(109, 93, 79);
+}
+.screen { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.hidden { display: none; }
+.title, .h { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); }
+.overlay { background-color: rgba(31, 26, 23, 0.45); }
+Label { margin: 0; padding: 0; }
+
+/* ---------- gölgeli malzemeler (9-dilim) ---------- */
+.v3-panel, .v3-mus, .v3-brick, .v3-teal, .v3-plum, .v3-off {
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+    background-color: rgba(0, 0, 0, 0);
+}
+.v3-panel { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel.png"); }
+.v3-mus { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); }
+.v3-brick { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_brick.png"); }
+.v3-teal { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_teal.png"); }
+.v3-plum { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_plum.png"); }
+.v3-off { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_off.png"); }
+
+/* ---------- gölgesiz parçalar ---------- */
+.card {
+    background-color: var(--cardbg); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+}
+.chip {
+    flex-direction: row; align-items: center; height: 26px; padding: 0 9px; margin-right: 5px;
+    background-color: var(--paper2); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 13px; border-top-right-radius: 13px; border-bottom-left-radius: 13px; border-bottom-right-radius: 13px;
+    font-size: 13px; -unity-font-style: bold; white-space: nowrap; flex-shrink: 0;
+}
+.small { font-size: 13px; color: var(--muted); -unity-font-style: bold; }
+.small-note { font-size: 13px; color: var(--muted); -unity-font-style: bold; -unity-text-align: middle-center; white-space: normal; }
+.ic { -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; }
+
+/* ---------- butonlar (gölgeli görsel; Unity Button varsayılanları sıfırlanır) ---------- */
+.btn {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset");
+    flex-direction: row; align-items: center; justify-content: center;
+    min-height: 54px; padding: 0 22px 6px 16px; margin: 0;
+    border-width: 0; background-color: rgba(0, 0, 0, 0);
+    font-size: 19px; color: rgb(251, 243, 226); white-space: nowrap; -unity-text-align: middle-center;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_brick.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+    transition-property: scale; transition-duration: 0.08s;
+}
+.btn:hover { background-color: rgba(0, 0, 0, 0); }
+.btn:active { scale: 0.95 0.95; }
+.btn > Label { color: rgb(251, 243, 226); -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); }
+.btn-paper { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel.png"); color: var(--ink); }
+.btn-paper > Label { color: var(--ink); }
+.btn-teal, .btn-gold { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_teal.png"); }
+.btn-green, .btn-red, .btn-brick { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_brick.png"); }
+.btn-mus { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); color: var(--ink); }
+.btn-mus > Label { color: var(--ink); }
+.btn-plum { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_plum.png"); }
+.btn.owned { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel.png"); }
+.btn.owned > Label { color: var(--teal); }
+.btn.locked { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_off.png"); color: rgb(138, 125, 108); }
+.btn.locked > Label { color: rgb(138, 125, 108); }
+.btn-sm { min-height: 46px; padding: 0 18px 6px 12px; font-size: 17px; }
+.btn-sm > Label { font-size: 17px; }
+.btn-icon, .price-icon { width: 26px; height: 26px; margin-right: 7px; -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; }
+.btn-sm .price-icon { width: 22px; height: 22px; margin-right: 5px; }
+.round {
+    width: 64px; height: 64px; padding: 12px 16px 16px 12px; margin: 0; border-width: 0;
+    background-color: rgba(0, 0, 0, 0); background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_circle.png");
+    -unity-background-scale-mode: stretch-to-fill; transition-property: scale; transition-duration: 0.08s;
+}
+.round:hover { background-color: rgba(0, 0, 0, 0); }
+.round:active { scale: 0.93 0.93; }
+.round-icon { flex-grow: 1; -unity-background-scale-mode: scale-to-fit; }
+.close {
+    position: absolute; right: -14px; top: -14px; width: 50px; height: 50px; margin: 0; padding: 0; border-width: 0;
+    background-color: rgba(0, 0, 0, 0); background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_circle.png");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+.close:hover { background-color: rgba(0, 0, 0, 0); }
+.x-ic {
+    position: absolute; left: 11px; top: 11px; width: 24px; height: 24px; -unity-background-scale-mode: scale-to-fit;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3i_close.png");
+}
+.badge {
+    position: absolute; right: -8px; top: -8px; min-width: 26px; height: 26px; padding: 0 6px;
+    background-color: var(--brick); color: rgb(251, 243, 226); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 13px; border-top-right-radius: 13px; border-bottom-left-radius: 13px; border-bottom-right-radius: 13px;
+    font-size: 13px; -unity-font-style: bold; -unity-text-align: middle-center;
+}
+
+/* ---------- kurdele (pencere başlığı) ---------- */
+.ribbon {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset");
+    position: absolute; top: -28px; align-self: center; padding: 8px 30px 14px 24px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_brick.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+    color: rgb(251, 243, 226); font-size: 21px; white-space: nowrap; rotate: -2deg;
+}
+.ribbon-plum { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_plum.png"); }
+.ribbon-teal { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_teal.png"); }
+
+/* ---------- pencereler ve çekmeceler ---------- */
+.modal { position: absolute; left: 50%; top: 50%; translate: -50% -50%; padding: 40px 30px 26px 24px; align-items: stretch; }
+.drawer-r, .drawer-l { position: absolute; top: 12px; bottom: 12px; width: 486px; padding: 0 6px 6px 0; }
+.drawer-r { right: 10px; }
+.drawer-l { left: 10px; width: 446px; }
+.dhead { flex-direction: row; align-items: center; padding: 12px 14px 10px 14px; border-bottom-width: 3px; border-color: var(--ink); }
+.dhead-ic { width: 40px; height: 40px; margin-right: 12px; -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; }
+.dhead-title { flex-grow: 1; font-size: 22px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); }
+.dhead > .close { position: relative; right: 0; top: 0; width: 46px; height: 46px; margin-left: 8px; }
+.dhead > .close > .x-ic { left: 9px; top: 9px; width: 22px; height: 22px; }
+.list { flex-grow: 1; padding: 10px 12px 6px 12px; }
+
+/* ---------- liste satırı / kart (dükkân, görev, yükseltme) ---------- */
+.row, .item {
+    flex-direction: row; align-items: center; padding: 8px 10px; margin-bottom: 10px;
+    background-color: var(--cardbg); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+}
+.item.owned { background-color: rgb(227, 240, 220); }
+.item.locked { background-color: rgb(235, 224, 203); }
+.item.locked .item-img { -unity-background-image-tint-color: rgb(150, 142, 130); }
+.item-img, .q-img, .unl-img, .por {
+    width: 58px; height: 58px; flex-shrink: 0; margin-right: 12px;
+    background-color: var(--paper2); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 29px; border-top-right-radius: 29px; border-bottom-left-radius: 29px; border-bottom-right-radius: 29px;
+    -unity-background-scale-mode: scale-and-crop;
+}
+.q-img { width: 50px; height: 50px; -unity-background-scale-mode: scale-to-fit; }
+.item-col, .q-text { flex-grow: 1; flex-shrink: 1; min-width: 0; margin-right: 8px; }
+.item-name, .q-name, .up-name {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset");
+    font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.item-sub, .up-sub { font-size: 13px; color: var(--muted); -unity-font-style: bold; margin-top: 3px; white-space: normal; }
+.item > .btn, .row > .btn { min-width: 116px; }
+.ico { width: 44px; height: 44px; margin-right: 12px; flex-shrink: 0; }
+.ico-img { flex-grow: 1; -unity-background-scale-mode: scale-to-fit; }
+.pips { flex-direction: row; margin-top: 5px; }
+.pip {
+    width: 14px; height: 10px; margin-right: 3px; background-color: var(--paper2); border-width: 2px; border-color: var(--ink);
+    border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;
+}
+.pip.on { background-color: var(--teal); }
+.q-reward { flex-direction: row; align-items: center; margin-top: 5px; }
+.q-reward-icon { width: 18px; height: 18px; margin-right: 3px; -unity-background-scale-mode: scale-to-fit; }
+.q-reward-text { font-size: 13px; -unity-font-style: bold; margin-right: 10px; }
+.q-bar {
+    height: 12px; margin-top: 6px; background-color: var(--paper2); border-width: 2.5px; border-color: var(--ink); overflow: hidden;
+    border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;
+}
+.q-fill { height: 100%; background-color: var(--teal); }
+.row.done { background-color: rgb(227, 240, 220); }
+.row.done .q-fill { background-color: var(--grass); }
+
+/* ---------- sekmeler / seçmeli kutular ---------- */
+.tabs {
+    flex-direction: row; border-width: 3px; border-color: var(--ink); overflow: hidden;
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;
+}
+.tab {
+    margin: 0; padding: 5px 12px; border-width: 0; border-left-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+    background-color: var(--paper2); color: var(--ink); font-size: 13px; -unity-font-style: bold;
+}
+.tab:hover { background-color: var(--paper2); }
+.tab.first { border-left-width: 0; }
+.tab.on, .tab.on:hover { background-color: var(--mus); }
+.shop-tabs {
+    border-width: 0; border-bottom-width: 3px; padding: 10px 12px 0 12px; overflow: visible;
+    border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+}
+.shop-tabs > .tab {
+    flex-grow: 1; flex-basis: 0; height: 40px; margin-right: 6px; border-width: 3px; border-bottom-width: 0;
+    border-top-left-radius: 10px; border-top-right-radius: 10px; font-size: 13px; -unity-text-align: middle-center;
+}
+.shop-tabs > .tab.first { border-left-width: 3px; }
+.shop-tabs > .tab.last { margin-right: 0; }
+
+/* ---------- ayarlar ---------- */
+.settings-card { width: 580px; }
+.srow { flex-direction: row; align-items: center; padding: 8px 0; border-bottom-width: 2px; border-color: rgb(205, 189, 159); }
+.srow.last { border-bottom-width: 0; }
+.row-label { flex-grow: 1; font-size: 17px; -unity-font-style: bold; }
+.srow > .ico { width: 34px; height: 34px; }
+.toggle {
+    width: 100px; height: 36px; min-height: 36px; margin: 0; padding: 0; border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;
+    background-color: var(--paper2); background-image: none; color: var(--ink); font-size: 14px; -unity-font-style: bold;
+}
+.toggle:hover { background-color: var(--paper2); }
+.toggle.on, .toggle.on:hover { background-color: var(--teal); color: rgb(251, 243, 226); }
+Slider { width: 210px; margin: 0; }
+Slider .unity-base-slider__drag-container { height: 30px; }
+Slider .unity-base-slider__tracker {
+    height: 16px; margin-top: -8px; background-color: var(--paper2); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-left-radius: 9px; border-bottom-right-radius: 9px;
+}
+Slider .unity-base-slider__dragger {
+    width: 28px; height: 28px; margin-top: -14px; background-color: var(--paper); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+}
+Slider .unity-base-slider__dragger-border { display: none; }
+.sheet-actions { flex-direction: row; margin-top: 14px; }
+.sheet-actions > .btn { flex-grow: 1; flex-basis: 0; margin-right: 12px; }
+.sheet-actions > .btn.last { margin-right: 0; }
+
+/* ==========================================================================
+   OYUN EKRANI
+   ========================================================================== */
+.joy-zone { position: absolute; left: 0; bottom: 0; width: 42%; height: 72%; }
+.joy-base {
+    position: absolute; left: 46px; bottom: 30px; width: 116px; height: 116px; opacity: 0.85;
+    background-color: rgba(251, 243, 226, 0.35); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 58px; border-top-right-radius: 58px; border-bottom-left-radius: 58px; border-bottom-right-radius: 58px;
+}
+.joy-base.active { opacity: 1; }
+.joy-knob {
+    position: absolute; left: 30px; top: 30px; width: 56px; height: 56px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_circle.png"); -unity-background-scale-mode: stretch-to-fill;
+}
+.world-layer { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+
+/* kaynaklar */
+.hud-top-left { position: absolute; left: 18px; top: 12px; }
+.res { flex-direction: row; align-items: center; height: 52px; padding: 0 14px 6px 6px; margin-bottom: 6px; min-width: 150px; }
+.res-icon { width: 34px; height: 34px; margin-right: 8px; -unity-background-scale-mode: scale-to-fit; }
+.res-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 23px; flex-grow: 1; }
+.res.pulse { scale: 1.08 1.08; }
+.plus {
+    width: 32px; height: 32px; margin: 0 0 0 8px; padding: 0; border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+    background-color: var(--teal); background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3i_plus.png");
+    -unity-background-scale-mode: scale-to-fit; font-size: 1px; color: rgba(0, 0, 0, 0);
+}
+.plus:hover { background-color: var(--teal); }
+.day-pill { flex-direction: row; align-items: center; height: 42px; padding: 0 14px 6px 6px; align-self: flex-start; }
+.day-pill > .ic { width: 26px; height: 26px; margin-right: 6px; }
+.day-clock { font-size: 14px; -unity-font-style: bold; }
+
+/* sıradaki hedef */
+.goal {
+    position: absolute; top: 10px; left: 50%; translate: -50% 0; width: 420px; min-height: 78px;
+    flex-direction: row; align-items: center; padding: 8px 20px 14px 14px; rotate: -1deg;
+}
+.goal.ready { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); }
+.goal-icon { width: 46px; height: 46px; margin-right: 12px; -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; }
+.goal-col { flex-grow: 1; flex-shrink: 1; min-width: 0; }
+.goal-head { flex-direction: row; align-items: center; }
+.goal-text { flex-grow: 1; flex-shrink: 1; font-size: 16px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.goal-num { font-size: 15px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); margin-left: 8px; white-space: nowrap; flex-shrink: 0; }
+.goal-bar {
+    height: 14px; margin-top: 6px; background-color: var(--paper2); border-width: 3px; border-color: var(--ink); overflow: hidden;
+    border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+}
+.goal-fill { height: 100%; width: 0; background-color: var(--teal); }
+.goal-arrow {
+    position: absolute; width: 44px; height: 44px; translate: -50% -100%;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3i_arrow.png"); -unity-background-scale-mode: scale-to-fit;
+}
+
+/* yoğun saat, bildirim, gün sonu */
+.rush {
+    position: absolute; top: 98px; left: 50%; translate: -50% 0; rotate: 1.5deg; padding: 8px 24px 14px 20px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_brick.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 17px; color: rgb(251, 243, 226); white-space: nowrap;
+}
+.toast {
+    position: absolute; bottom: 110px; left: 50%; translate: -50% 0; rotate: -1deg; padding: 10px 22px 16px 18px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+    font-size: 15px; -unity-font-style: bold; white-space: nowrap;
+}
+.day-report { position: absolute; top: 120px; left: 50%; translate: -50% 0; width: 440px; padding: 40px 26px 22px 22px; rotate: 1deg; }
+.day-title { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_teal.png"); }
+.day-text { font-size: 16px; -unity-font-style: bold; white-space: normal; margin-bottom: 12px; }
+
+/* sağ üst: seviye + yıldız + ayarlar */
+.hud-top-right { position: absolute; right: 16px; top: 10px; flex-direction: row; align-items: flex-start; }
+.lvl { align-items: center; margin-right: 12px; }
+.shield {
+    width: 60px; height: 66px; padding-bottom: 8px; background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3i_shield.png");
+    -unity-background-scale-mode: scale-to-fit; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset");
+    font-size: 27px; color: rgb(251, 243, 226); -unity-text-align: middle-center;
+}
+.xp-track {
+    width: 78px; height: 12px; margin-top: 2px; background-color: var(--paper2); border-width: 3px; border-color: var(--ink); overflow: hidden;
+    border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;
+}
+.xp-fill { height: 100%; width: 0; background-color: var(--mus); }
+.xp-text { font-size: 10px; -unity-font-style: bold; color: rgb(251, 243, 226); -unity-text-outline-width: 1px; -unity-text-outline-color: var(--ink); margin-top: 1px; }
+.stars { flex-direction: row; margin-top: 2px; }
+.star { width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit; background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3i_star.png"); }
+.star.off { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3i_star0.png"); }
+.star.half { opacity: 0.6; }
+.gear-btn {
+    width: 60px; height: 60px; padding: 10px 16px 16px 10px; margin: 0; border-width: 0; background-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+}
+.gear-btn:hover { background-color: rgba(0, 0, 0, 0); }
+
+/* sağ kenar butonları */
+.side { position: absolute; right: 16px; top: 126px; }
+.side-btn {
+    width: 90px; height: 76px; margin: 0 0 9px 0; padding: 4px 6px 10px 0; flex-direction: column; border-width: 0;
+    background-color: rgba(0, 0, 0, 0); background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px;
+    align-items: center; justify-content: center; transition-property: scale; transition-duration: 0.08s;
+}
+.side-btn:hover { background-color: rgba(0, 0, 0, 0); }
+.side-btn:active { scale: 0.94 0.94; }
+.side-btn.hot { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); }
+.side-btn-icon { width: 34px; height: 34px; -unity-background-scale-mode: scale-to-fit; }
+.side-cap { font-size: 12px; -unity-font-style: bold; margin-top: 2px; letter-spacing: 0.4px; color: var(--ink); }
+
+/* yükselt */
+.action { position: absolute; right: 22px; bottom: 20px; min-height: 72px; padding: 0 30px 6px 22px; rotate: 1deg; }
+.action > Label { font-size: 25px; }
+.action > .btn-icon { width: 32px; height: 32px; }
+
+/* dünya üstü etiketler */
+.bubble {
+    position: absolute; width: 74px; height: 78px; translate: -50% -100%; align-items: center; justify-content: center; padding: 0 4px 4px 0;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_circle.png"); -unity-background-scale-mode: stretch-to-fill;
+}
+.bubble.angry { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_circle_mus.png"); }
+.bubble-ring { position: absolute; left: 7px; top: 7px; right: 11px; bottom: 11px; }
+.bubble-icon { width: 36px; height: 36px; -unity-background-scale-mode: scale-to-fit; }
+.emote { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 32px; color: var(--brick); }
+.station-tag {
+    position: absolute; translate: -50% -100%; flex-direction: row; align-items: center; height: 30px; padding: 0 10px 0 5px;
+    background-color: var(--paper); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;
+}
+.station-tag-text { font-size: 13px; -unity-font-style: bold; }
+.zone-tag { position: absolute; translate: -50% -50%; align-items: center; }
+.zone-title {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 15px; color: rgb(251, 243, 226);
+    -unity-text-outline-width: 1.5px; -unity-text-outline-color: var(--ink); white-space: nowrap;
+}
+.zone-cost {
+    flex-direction: row; align-items: center; margin-top: 3px; height: 28px; padding: 0 10px 0 5px;
+    background-color: var(--paper); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+}
+.zone-tag.locked .zone-cost { background-color: var(--paper2); }
+.zone-cost-icon { width: 20px; height: 20px; margin-right: 4px; -unity-background-scale-mode: scale-to-fit; }
+.zone-cost-text { font-size: 14px; -unity-font-style: bold; white-space: nowrap; }
+.dirty-tag {
+    position: absolute; translate: -50% -100%; padding: 3px 10px; background-color: var(--brick); color: rgb(251, 243, 226);
+    border-width: 2.5px; border-color: var(--ink); font-size: 12px; -unity-font-style: bold; white-space: nowrap;
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+}
+.float-text {
+    position: absolute; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 22px;
+    color: var(--mus); -unity-text-outline-width: 2px; -unity-text-outline-color: var(--ink);
+}
+.fly-coin { position: absolute; width: 28px; height: 28px; translate: -50% -50%; -unity-background-scale-mode: scale-to-fit; }
+.confetti { position: absolute; width: 10px; height: 14px; border-width: 1.5px; border-color: var(--ink); }
+
+/* yükseltme çekmecesi */
+.st-head { flex-direction: row; align-items: center; padding: 12px 14px 10px 14px; border-bottom-width: 3px; border-color: var(--ink); }
+.st-thumb { width: 56px; height: 56px; -unity-background-scale-mode: scale-to-fit; }
+.st-col { flex-grow: 1; flex-shrink: 1; min-width: 0; }
+.st-title { font-size: 20px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); white-space: nowrap; }
+.stats { font-size: 13px; color: var(--muted); -unity-font-style: bold; margin-top: 2px; white-space: normal; }
+.tierbar { flex-direction: row; padding: 10px 14px 2px 14px; }
+.tier {
+    flex-grow: 1; flex-basis: 0; margin-right: 8px; padding: 6px 2px; background-color: var(--paper2); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;
+    font-size: 12px; -unity-font-style: bold; -unity-text-align: middle-center; white-space: nowrap;
+}
+.tier.t3 { margin-right: 0; }
+.tier.cur { background-color: var(--mus); }
+
+/* dükkân */
+.shop-drawer { position: absolute; right: 10px; top: 12px; bottom: 12px; width: 610px; padding: 0 6px 6px 0; }
+.coin-chip { margin-right: 4px; }
+.shop-scroll { flex-grow: 1; padding: 10px 12px 0 12px; }
+.shop-scroll .unity-scroll-view__vertical-scroller { width: 0; display: none; }
+.shop-note { padding: 4px 14px 10px 14px; }
+
+/* sen yokken / seviye */
+.popup-ic { width: 70px; height: 70px; align-self: center; -unity-background-scale-mode: scale-to-fit; }
+.popup-sub { font-size: 14px; color: var(--muted); -unity-font-style: bold; -unity-text-align: middle-center; margin: 4px 0 6px 0; white-space: normal; }
+.popup-amount { flex-direction: row; align-items: center; justify-content: center; }
+.popup-amount > .ic { width: 44px; height: 44px; margin-right: 10px; }
+.popup-big { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 44px; }
+.popup-actions { flex-direction: row; margin-top: 16px; }
+.popup-actions > .btn { flex-grow: 1; flex-basis: 0; margin-right: 12px; }
+.popup-actions > .btn.last { margin-right: 0; }
+.rays { display: none; }
+.lvlcard { width: 640px; align-items: center; padding-top: 46px; }
+.bigshield { width: 96px; height: 106px; font-size: 44px; padding-bottom: 12px; }
+.unlocks { flex-direction: row; justify-content: center; margin: 12px 0 16px 0; }
+.unl { width: 140px; align-items: center; padding: 10px 6px; margin: 0 6px; }
+.unl-img { margin: 0 0 6px 0; -unity-background-scale-mode: scale-to-fit; }
+.unl-tag {
+    font-size: 11px; -unity-font-style: bold; padding: 2px 8px; background-color: var(--paper2); border-width: 2px; border-color: var(--ink);
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; margin-top: 4px; white-space: nowrap;
+}
+.unl-name { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 15px; -unity-text-align: middle-center; white-space: nowrap; }
+
+/* ==========================================================================
+   ANA MENÜ
+   ========================================================================== */
+.menu-bg { background-color: rgba(0, 0, 0, 0); }
+.tap-pop { position: absolute; width: 56px; height: 56px; -unity-background-scale-mode: scale-to-fit; }
+.logo { position: absolute; left: 32px; top: 24px; padding: 10px 28px 20px 22px; align-items: center; rotate: -1deg; }
+.logo-title { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 42px; color: var(--ink); }
+.logo-ribbon {
+    margin-top: 4px; padding: 2px 16px; background-color: var(--brick); color: rgb(251, 243, 226); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 18px; letter-spacing: 3px;
+}
+.menu-stack { position: absolute; right: 28px; bottom: 28px; width: 260px; }
+.menu-stack > .btn { margin-bottom: 10px; }
+.menu-stack > .play { min-height: 80px; rotate: 1deg; }
+.menu-stack > .play > Label { font-size: 32px; }
+.menu-foot { position: absolute; left: 28px; bottom: 24px; flex-direction: row; }
+.menu-foot > .round { margin-right: 14px; }
+.version {
+    position: absolute; right: 26px; top: 18px; font-size: 12px; -unity-font-style: bold; color: rgb(251, 243, 226);
+    -unity-text-outline-width: 1px; -unity-text-outline-color: var(--ink);
+}
+.book { width: 1120px; padding: 48px 18px 12px 14px; }
+.book-scroll { max-height: 420px; }
+.book-grid { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+.book-cell { width: 100px; height: 112px; margin: 0 4px 8px 4px; padding: 4px; align-items: center; justify-content: flex-end; }
+.book-cell.unseen { background-color: rgb(226, 214, 190); }
+.book-cell.unseen .book-img { -unity-background-image-tint-color: rgba(0, 0, 0, 0.3); }
+.book-img { flex-grow: 1; width: 100%; -unity-background-scale-mode: scale-to-fit; }
+.book-name { font-size: 11px; -unity-font-style: bold; white-space: nowrap; }
+
+/* görevli etiketi (baş üstü): rol renginde çip, rengi kod verir (StaffBadge.RoleColor) */
+.staff-tag {
+    position: absolute; translate: -50% -100%; flex-direction: row; align-items: center; height: 26px; padding: 0 9px 0 4px;
+    border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 13px; border-top-right-radius: 13px; border-bottom-left-radius: 13px; border-bottom-right-radius: 13px;
+}
+.staff-tag-icon { width: 18px; height: 18px; margin-right: 4px; -unity-background-scale-mode: scale-to-fit; }
+.staff-tag-text { font-size: 12px; -unity-font-style: bold; color: rgb(251, 243, 226); -unity-text-outline-width: 1px; -unity-text-outline-color: var(--ink); white-space: nowrap; }
+
+/* depo (v0.6) */
+.station-tag.empty { background-color: var(--brick); }
+.station-tag.empty .station-tag-text { color: rgb(251, 243, 226); }
+.depot-btns { width: 132px; flex-shrink: 0; }
+.depot-btns > .btn { min-height: 42px; margin-bottom: 6px; padding: 0 14px 6px 10px; }
+.depot-btns > .btn > Label { font-size: 15px; }
+.depot-btns .price-icon { width: 20px; height: 20px; margin-right: 5px; }
+.q-fill.low { background-color: var(--mus); }
+.q-fill.empty { background-color: var(--brick); }
+.depot-sub { font-size: 13px; color: var(--muted); -unity-font-style: bold; margin-top: 4px; white-space: normal; }
+.depot-sub.alert { color: var(--brick); }
+.depot-section { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 15px; margin: 6px 0 8px 4px; color: var(--muted); }
+
+/* sahte reklam ekranı (gerçek reklam ağı yayından önce takılacak) */
+.ad-card { width: 420px; align-items: center; }
+.ad-count { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 56px; margin: 6px 0; }
+
+/* reklamla yardımcı garson (v0.6) */
+.helper-btn { align-self: flex-start; min-height: 44px; margin-top: 6px; padding: 0 16px 6px 10px; }
+.helper-btn > Label { font-size: 14px; }
+.staff-btns { width: 140px; flex-shrink: 0; }
+.staff-btns > .btn { min-height: 42px; margin-bottom: 6px; padding: 0 14px 6px 10px; }
+.staff-btns > .btn > Label { font-size: 15px; }
+
+/* gece/gündüz (v0.6) */
+.lantern-chip {
+    margin-left: 8px; padding: 1px 8px; background-color: var(--brick); color: rgb(251, 243, 226); font-size: 12px; -unity-font-style: bold;
+    border-width: 2px; border-color: var(--ink); white-space: nowrap;
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;
+}
+.lantern-chip.done { background-color: var(--grass); }
+.lantern-tag {
+    position: absolute; translate: -50% -100%; flex-direction: row; align-items: center; height: 28px; padding: 0 10px 0 4px;
+    background-color: var(--mus); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+}
+.lantern-tag > Label { font-size: 13px; -unity-font-style: bold; }
+
+/* han (v0.8) */
+.sleep-tag { background-color: rgb(62, 95, 168); }
+.guest-fee {
+    position: absolute; bottom: -10px; right: -14px; padding: 0 5px; background-color: var(--mus); color: var(--ink);
+    border-width: 2px; border-color: var(--ink); font-size: 11px; -unity-font-style: bold;
+    border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+}
+
+/* ================= v0.9 ================= */
+.btn-sun { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); }
+.btn-sun > Label { color: var(--ink); }
+/* rehber */
+.tut-dim { position: absolute; background-color: rgba(31, 26, 23, 0.55); }
+.tut-ring { position: absolute; border-width: 4px; border-color: var(--mus); border-top-left-radius: 50%; border-top-right-radius: 50%; border-bottom-left-radius: 50%; border-bottom-right-radius: 50%; }
+.tut-tip { position: absolute; bottom: 16px; left: 50%; translate: -50% 0; width: 560px; flex-direction: row; align-items: center; padding: 12px 14px 16px 12px; }
+.tut-por { width: 66px; height: 66px; flex-shrink: 0; margin-right: 12px; -unity-background-scale-mode: scale-to-fit; border-width: 3px; border-color: var(--ink); background-color: var(--paper2); border-top-left-radius: 33px; border-top-right-radius: 33px; border-bottom-left-radius: 33px; border-bottom-right-radius: 33px; }
+.tut-col { flex-grow: 1; flex-shrink: 1; }
+.tut-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 19px; white-space: normal; color: var(--ink); }
+.tut-pips { flex-direction: row; margin-top: 6px; }
+.tut-pip { width: 30px; height: 8px; margin-right: 5px; border-width: 2px; border-color: var(--ink); background-color: var(--paper2); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+.tut-pip.on { background-color: var(--teal); }
+.tut-skip { margin-left: 10px; min-width: 90px; }
+/* şerit */
+.banner { position: absolute; left: 50%; top: 40%; translate: -50% -50%; flex-direction: row; align-items: center; padding: 12px 34px 18px 26px; rotate: -2deg;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_brick.png"); -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px; }
+.banner.sun { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); }
+.banner-ic { width: 44px; height: 44px; margin-right: 12px; -unity-background-scale-mode: scale-to-fit; }
+.banner-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 30px; color: rgb(251, 243, 226); white-space: nowrap; }
+.banner.sun .banner-text { color: var(--ink); font-size: 36px; }
+/* gün sonu + plan */
+.dayend-row { position: absolute; left: 50%; top: 50%; translate: -50% -50%; flex-direction: row; align-items: stretch; }
+.dayend-rep { align-self: flex-start; width: 320px; padding: 16px 18px 18px 16px; margin-right: 16px; rotate: -1deg; }
+.dayend-head { flex-direction: row; align-items: center; margin-bottom: 6px; }
+.dayend-line { flex-direction: row; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom-width: 2px; border-color: rgb(205, 189, 159); }
+.dayend-line > Label { font-size: 16px; -unity-font-style: bold; color: var(--ink); }
+.dayend-line > .val { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 19px; }
+.dayend-line > .val.neg { color: var(--brick); }
+.dayend-line > .val.pos { color: var(--teal); }
+.dayend-chips { flex-direction: row; flex-wrap: wrap; margin-top: 8px; }
+.dayend-chips > Label { margin: 0 6px 6px 0; }
+.dayend-plan { width: 560px; height: 500px; padding: 0 6px 10px 0; }
+.next-day { align-self: flex-end; margin: 8px 12px 0 0; min-height: 58px; }
+.next-day > Label { font-size: 22px; }
+/* ad */
+.name-line { flex-direction: row; align-items: center; margin: 6px 0 10px 0; }
+.name-field { flex-grow: 1; margin: 0; }
+.name-field > .unity-text-field__input, .name-field #unity-text-input {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 24px; color: var(--ink);
+    min-height: 56px; padding: 0 14px; background-color: rgb(255, 250, 240); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.name-dice { width: 58px; min-width: 58px; min-height: 58px; margin-left: 10px; padding: 0 0 6px 0; justify-content: center; }
+.name-dice > .btn-icon { margin: 0; }
+.name-chips { flex-direction: row; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+.name-chip { margin: 0 6px 6px 0; }
+.name-go { align-self: center; min-width: 220px; min-height: 60px; }
+.name-go > Label { font-size: 24px; }
+/* dünya etiketleri */
+.sign-text { position: absolute; translate: -50% -50%; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset");
+    font-size: 17px; color: rgb(251, 231, 184); -unity-text-outline-width: 1.5px; -unity-text-outline-color: var(--ink); white-space: nowrap; rotate: -2deg; }
+.play-tag { background-color: var(--teal); }
+.play-tag.busy { background-color: var(--plum); }
+
+/* ================= v1.0 Hazine ================= */
+.prem-tab { color: var(--plum); }
+.prem-vip { flex-direction: row; align-items: center; padding: 10px 14px; margin: 0 0 8px 0; border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+    background-color: rgb(84, 58, 104); }
+.prem-vip:hover { background-color: rgb(96, 68, 118); }
+.prem-crown { width: 60px; height: 60px; margin-right: 12px; flex-shrink: 0; -unity-text-align: middle-center; font-size: 22px; color: var(--ink);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); background-color: var(--mus); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
+.prem-vip-title { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 20px; color: rgb(251, 243, 226); }
+.prem-perks { flex-direction: row; flex-wrap: wrap; margin-top: 4px; }
+.prem-perks > .chip { margin: 0 5px 4px 0; }
+.prem-price { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 18px; color: var(--ink); padding: 8px 14px 12px 12px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px; }
+.prem-gems { flex-direction: row; justify-content: space-between; margin-bottom: 8px; }
+.prem-gem { flex-grow: 1; flex-basis: 0; margin-right: 8px; align-items: center; padding: 8px 4px 10px 4px; background-color: rgb(255, 250, 240); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.prem-gem-ic { width: 40px; height: 40px; -unity-background-scale-mode: scale-to-fit; }
+.prem-gem-num { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 17px; color: var(--ink); margin: 2px 0 4px 0; }
+.prem-gem-btn { min-height: 38px; padding: 0 8px 6px 8px; }
+.prem-gem-btn > Label { font-size: 14px; }
+.prem-hot { position: absolute; top: -10px; right: -6px; padding: 1px 7px; font-size: 11px; color: rgb(251, 243, 226); background-color: var(--brick);
+    border-width: 2.5px; border-color: var(--ink); rotate: 6deg; -unity-font-style: bold;
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+.prem-restore { align-self: center; margin: 4px 0 12px 0; }
+.prem-restore > Label, .prem-restore { font-size: 13px; }
+.prem-perk { flex-direction: row; align-items: center; padding: 8px 0; border-bottom-width: 2px; border-color: rgb(205, 189, 159); }
+.prem-perk > Label { font-size: 16px; -unity-font-style: bold; color: var(--ink); }
+.prem-perk-ic { width: 32px; height: 32px; margin-right: 12px; -unity-background-scale-mode: scale-to-fit; }
+.prem-confirm-head { flex-direction: row; align-items: center; margin-bottom: 8px; }
+.prem-confirm-img { width: 70px; height: 70px; margin-right: 14px; -unity-background-scale-mode: scale-to-fit; border-width: 3px; border-color: var(--ink); background-color: var(--paper2);
+    border-top-left-radius: 35px; border-top-right-radius: 35px; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; }
+.prem-timer { align-self: center; padding: 3px 12px; margin-bottom: 8px; color: var(--mus); background-color: var(--ink); font-size: 14px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset");
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+.prem-starter-row { flex-direction: row; justify-content: center; margin: 4px 0 12px 0; }
+.prem-starter-buy { align-self: center; min-width: 200px; min-height: 58px; }
+.prem-starter-buy > Label { font-size: 24px; }
+.sign-text.vip { color: rgb(214, 170, 255); }
+
+/* ================= v1.0 Tavernayı Büyüt ================= */
+.tier-compare { flex-direction: row; align-items: center; margin: 2px 0 10px 0; }
+.tier-shot { flex-grow: 1; flex-basis: 0; height: 150px; -unity-background-scale-mode: scale-and-crop; background-color: rgb(239, 226, 198);
+    border-width: 3px; border-color: var(--ink); border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.tier-cap { position: absolute; left: 8px; bottom: 8px; padding: 3px 10px; font-size: 14px; color: var(--ink); background-color: rgb(251, 243, 226);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+.tier-arrow { font-size: 34px; color: var(--brick); margin: 0 12px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); }
+.tier-req { flex-direction: row; flex-wrap: wrap; margin-bottom: 6px; }
+.tier-req > .chip { margin: 0 6px 6px 0; }
+.chip.ok { background-color: rgb(217, 236, 208); }
+.chip.no { background-color: rgb(243, 210, 200); }
+.tier-gains { flex-direction: row; flex-wrap: wrap; margin-bottom: 4px; }
+.tier-gain { width: 50%; flex-direction: row; align-items: center; padding: 4px 0; }
+.tier-gain > Label { font-size: 14px; -unity-font-style: bold; color: var(--ink); white-space: normal; flex-shrink: 1; }
+.tier-path { flex-direction: row; align-items: stretch; }
+.tier-col { flex-grow: 1; flex-basis: 0; padding: 10px 12px 12px 12px; background-color: rgb(255, 250, 240); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; }
+.tier-col.on, .tier-col.done { background-color: rgb(227, 240, 220); }
+.tier-col.next { background-color: rgb(255, 244, 214); }
+.tier-col.lock { background-color: rgb(235, 224, 203); }
+.tier-img { height: 110px; margin-bottom: 8px; -unity-background-scale-mode: scale-and-crop; background-color: rgb(239, 226, 198); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+.tier-line { font-size: 12.5px; -unity-font-style: bold; color: var(--ink); white-space: normal; margin-top: 2px; }
+.tier-link { width: 22px; height: 6px; align-self: center; background-color: var(--ink); }
+.tier-badge { position: absolute; top: -13px; right: 10px; padding: 2px 10px; font-size: 12px; -unity-font-style: bold; color: rgb(251, 243, 226); background-color: var(--teal);
+    border-width: 2.5px; border-color: var(--ink); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+.tier-badge.next { background-color: var(--mus); color: var(--ink); }
+.tier-badge.lock { background-color: var(--plum); }
+.tier-dust { background-color: rgb(239, 226, 198); }
+.tier-flash { background-color: rgb(255, 252, 238); }
+
+/* ================= v1.0 logo + açılış ================= */
+.logo-img { position: absolute; left: 26px; top: 12px; width: 196px; height: 224px; -unity-background-scale-mode: scale-to-fit; rotate: -2deg; }
+.intro-root { background-color: rgb(31, 26, 23); align-items: center; justify-content: center; }
+.intro-rays { position: absolute; width: 900px; height: 900px; left: 50%; top: 46%; translate: -50% -50%; -unity-background-scale-mode: scale-to-fit; }
+.intro-logo { position: absolute; width: 330px; height: 378px; left: 50%; top: 44%; translate: -50% -50%; -unity-background-scale-mode: scale-to-fit; }
+.intro-mug { position: absolute; width: 150px; height: 150px; left: 50%; top: 80%; translate: -50% -50%; -unity-background-scale-mode: scale-to-fit; }
+.intro-mug.flip { scale: -1 1; }
+.intro-foam-dot { position: absolute; width: 18px; height: 18px; background-color: rgb(255, 250, 240); border-width: 3px; border-color: rgb(31, 26, 23);
+    border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-left-radius: 9px; border-bottom-right-radius: 9px; }
+.intro-skip { position: absolute; right: 22px; bottom: 16px; font-size: 13px; color: rgba(251, 243, 226, 0.45); -unity-font-style: bold; }

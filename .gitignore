@@ -1,0 +1,47 @@
+# ---- Unity (project lives in Unity/TavernaTycoon) ----
+/Unity/TavernaTycoon/[Ll]ibrary/
+/Unity/TavernaTycoon/[Tt]emp/
+/Unity/TavernaTycoon/[Oo]bj/
+/Unity/TavernaTycoon/[Ll]ogs/
+/Unity/TavernaTycoon/[Uu]ser[Ss]ettings/
+/Unity/TavernaTycoon/[Bb]uild/
+/Unity/TavernaTycoon/[Bb]uilds/
+/Unity/TavernaTycoon/MemoryCaptures/
+/Unity/TavernaTycoon/.vs/
+/Unity/TavernaTycoon/.vscode/
+/Unity/TavernaTycoon/*.csproj
+/Unity/TavernaTycoon/*.sln
+/Unity/TavernaTycoon/*.slnx
+/Unity/TavernaTycoon/*.user
+/Unity/TavernaTycoon/*.pidb
+/Unity/TavernaTycoon/*.booproj
+/Unity/TavernaTycoon/*.svd
+/Unity/TavernaTycoon/*.pdb
+/Unity/TavernaTycoon/*.mdb
+/Unity/TavernaTycoon/*.opendb
+/Unity/TavernaTycoon/*.VC.db
+/Unity/TavernaTycoon/*.apk
+/Unity/TavernaTycoon/*.aab
+/Unity/TavernaTycoon/crashlytics-build.properties
+
+# Player builds, autotest screenshots and batch-mode logs (all regenerable)
+/Unity/Builds/
+/Unity/captures/
+/Unity/*.log
+test-results/
+
+# ---- Blender ----
+*.blend1
+*.blend2
+
+# ---- Claude Code Game Studios (per-developer / ephemeral) ----
+production/session-state/
+production/session-logs/
+project.local.yaml
+.claude/settings.local.json
+
+# ---- OS / editors ----
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp

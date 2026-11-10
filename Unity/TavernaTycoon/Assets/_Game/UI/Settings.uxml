@@ -1,0 +1,59 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Ayarlar — UI v3 (design/ui/ui_v3_ink.html §6). Ana menü ve oyun içinde ortak; SettingsPanel.cs bağlar. -->
+    <Style src="Theme.uss" />
+    <ui:VisualElement name="settings-root" class="screen overlay hidden">
+        <ui:VisualElement class="modal v3-panel settings-card">
+            <ui:Label text="AYARLAR" class="ribbon" />
+            <ui:Button name="settings-close" class="close"><ui:VisualElement class="x-ic" /></ui:Button>
+            <ui:VisualElement name="name-row" class="srow">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_home.png');" /></ui:VisualElement>
+                <ui:Label name="name-label" text="Taverna" class="row-label" />
+                <ui:Button name="rename-open" text="DEĞİŞTİR" class="toggle" />
+            </ui:VisualElement>
+            <ui:VisualElement class="srow">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_music.png');" /></ui:VisualElement>
+                <ui:Label text="Müzik" class="row-label" />
+                <ui:Slider name="music" low-value="0" high-value="1" />
+            </ui:VisualElement>
+            <ui:VisualElement class="srow">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_sound.png');" /></ui:VisualElement>
+                <ui:Label text="Ses efektleri" class="row-label" />
+                <ui:Slider name="sfx" low-value="0" high-value="1" />
+            </ui:VisualElement>
+            <ui:VisualElement class="srow">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_vibe.png');" /></ui:VisualElement>
+                <ui:Label text="Titreşim" class="row-label" />
+                <ui:Button name="vibration" text="AÇIK" class="toggle" />
+            </ui:VisualElement>
+            <ui:VisualElement class="srow">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_bell.png');" /></ui:VisualElement>
+                <ui:Label text="Bildirimler" class="row-label" />
+                <ui:Button name="notifications" text="KAPALI" class="toggle" />
+            </ui:VisualElement>
+            <ui:VisualElement class="srow">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_globe.png');" /></ui:VisualElement>
+                <ui:Label text="Dil" class="row-label" />
+                <ui:VisualElement class="tabs">
+                    <ui:Button name="lang-tr" text="TR" class="tab first" />
+                    <ui:Button name="lang-en" text="EN" class="tab" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="srow last">
+                <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_brush.png');" /></ui:VisualElement>
+                <ui:Label text="Grafik" class="row-label" />
+                <ui:VisualElement class="tabs">
+                    <ui:Button name="gfx-0" text="Düşük" class="tab first" />
+                    <ui:Button name="gfx-1" text="Orta" class="tab" />
+                    <ui:Button name="gfx-2" text="Yüksek" class="tab" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="sheet-actions">
+                <ui:Button name="to-menu" class="btn btn-paper">
+                    <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_home.png');" />
+                    <ui:Label text="ANA MENÜ" />
+                </ui:Button>
+                <ui:Button name="reset-save" text="KAYDI SIFIRLA" class="btn last" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

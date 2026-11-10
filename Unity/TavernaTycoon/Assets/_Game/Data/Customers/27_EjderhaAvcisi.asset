@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 27_EjderhaAvcisi
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 27
+  displayName: "Ejderha Avc\u0131s\u0131"
+  modelPrefab: {fileID: 4997176177617574746, guid: 26afa4b2489ef134480cd3d7bad074ce, type: 3}
+  drinks: 09000000i
+  patienceStars: 3
+  payStars: 5
+  unlockLevel: 24
+  ordersPerVisit: 1
+  spawnWeight: 0.3

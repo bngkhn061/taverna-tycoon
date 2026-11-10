@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 12_KozEt
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 12
+  displayName: "K\xF6z Et"
+  basePrice: 30
+  baseTime: 12
+  unlockLevel: 12
+  icon: {fileID: -6997711108982681987, guid: 74a143539c97ab741b83dca18371d2a9, type: 3}
+  cupPrefab: {fileID: 4688009504807405040, guid: 96b0607a499fa9d4cbacc25937ae110d, type: 3}
+  upgradeCostMultiplier: 4
+  isFood: 1

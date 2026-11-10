@@ -1,0 +1,282 @@
+{
+ "v3_panel": {
+  "w": 180,
+  "h": 140,
+  "slice": [
+   36,
+   36,
+   48,
+   48
+  ]
+ },
+ "v3_panel_mus": {
+  "w": 180,
+  "h": 140,
+  "slice": [
+   36,
+   36,
+   48,
+   48
+  ]
+ },
+ "v3_panel_brick": {
+  "w": 180,
+  "h": 140,
+  "slice": [
+   36,
+   36,
+   48,
+   48
+  ]
+ },
+ "v3_panel_teal": {
+  "w": 180,
+  "h": 140,
+  "slice": [
+   36,
+   36,
+   48,
+   48
+  ]
+ },
+ "v3_panel_plum": {
+  "w": 180,
+  "h": 140,
+  "slice": [
+   36,
+   36,
+   48,
+   48
+  ]
+ },
+ "v3_panel_off": {
+  "w": 180,
+  "h": 140,
+  "slice": [
+   36,
+   36,
+   48,
+   48
+  ]
+ },
+ "v3_circle": {
+  "w": 148,
+  "h": 148,
+  "slice": null
+ },
+ "v3_circle_mus": {
+  "w": 148,
+  "h": 148,
+  "slice": null
+ },
+ "v3i_coin": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_gem": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_star": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_star0": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_shop": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_quest": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_staff": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_hammer": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_gear": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_mug": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_wine": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_plus": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_close": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_play": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_door": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_book": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_cal": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_clock": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_bolt": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_barrel": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_plant": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_speed": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_stock": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_quality": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_lock": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_check": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_music": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_sound": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_vibe": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_globe": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_brush": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_bell": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_home": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_trash": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_moon": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_sun": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_gift": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_horn": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_person": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_arrow": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_broom": {
+  "w": 112,
+  "h": 112,
+  "slice": null
+ },
+ "v3i_shield": {
+  "w": 144,
+  "h": 160,
+  "slice": null
+ }
+}

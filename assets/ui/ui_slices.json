@@ -1,0 +1,262 @@
+{
+ "panel_wood": {
+  "w": 256,
+  "h": 192,
+  "slice": [
+   52,
+   52,
+   52,
+   76
+  ]
+ },
+ "panel_wood_plain": {
+  "w": 256,
+  "h": 192,
+  "slice": [
+   48,
+   48,
+   48,
+   76
+  ]
+ },
+ "panel_parch": {
+  "w": 296,
+  "h": 232,
+  "slice": [
+   64,
+   64,
+   64,
+   92
+  ]
+ },
+ "btn_green": {
+  "w": 256,
+  "h": 128,
+  "slice": [
+   48,
+   56,
+   48,
+   72
+  ]
+ },
+ "btn_wood": {
+  "w": 256,
+  "h": 128,
+  "slice": [
+   48,
+   56,
+   48,
+   72
+  ]
+ },
+ "btn_gold": {
+  "w": 256,
+  "h": 128,
+  "slice": [
+   48,
+   56,
+   48,
+   72
+  ]
+ },
+ "btn_red": {
+  "w": 256,
+  "h": 128,
+  "slice": [
+   48,
+   56,
+   48,
+   72
+  ]
+ },
+ "btn_round": {
+  "w": 108,
+  "h": 124,
+  "slice": null
+ },
+ "pill": {
+  "w": 216,
+  "h": 104,
+  "slice": [
+   48,
+   8,
+   48,
+   24
+  ]
+ },
+ "ribbon": {
+  "w": 496,
+  "h": 112,
+  "slice": [
+   88,
+   8,
+   88,
+   24
+  ]
+ },
+ "shield": {
+  "w": 116,
+  "h": 144,
+  "slice": null
+ },
+ "close": {
+  "w": 92,
+  "h": 108,
+  "slice": null
+ },
+ "tab_on": {
+  "w": 176,
+  "h": 84,
+  "slice": [
+   32,
+   32,
+   32,
+   48
+  ]
+ },
+ "tab_off": {
+  "w": 176,
+  "h": 84,
+  "slice": [
+   32,
+   32,
+   32,
+   48
+  ]
+ },
+ "bubble": {
+  "w": 104,
+  "h": 120,
+  "slice": null
+ },
+ "joy_base": {
+  "w": 232,
+  "h": 248,
+  "slice": null
+ },
+ "joy_knob": {
+  "w": 112,
+  "h": 128,
+  "slice": null
+ },
+ "arrow": {
+  "w": 76,
+  "h": 108,
+  "slice": null
+ },
+ "rays": {
+  "w": 616,
+  "h": 632,
+  "slice": null
+ },
+ "card": {
+  "w": 196,
+  "h": 212,
+  "slice": [
+   40,
+   40,
+   40,
+   56
+  ]
+ },
+ "icobox": {
+  "w": 84,
+  "h": 100,
+  "slice": null
+ },
+ "icon_gear": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_scroll": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_shop": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_hammer": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_book": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_play": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_door": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_music": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_sound": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_vib": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_bell": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_globe": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_gfx": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_speed": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_stock": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_star": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_lock": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_cal": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ },
+ "icon_x": {
+  "w": 80,
+  "h": 96,
+  "slice": null
+ }
+}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 05_Firinci
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 5
+  displayName: "F\u0131r\u0131nc\u0131"
+  modelPrefab: {fileID: 4183655764091480934, guid: 6d723b829d5baee4b8f3ac4fa1e71b7a, type: 3}
+  drinks: 01000000i
+  patienceStars: 3
+  payStars: 2
+  unlockLevel: 4
+  ordersPerVisit: 1
+  spawnWeight: 1

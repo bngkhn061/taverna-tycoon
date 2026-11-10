@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 17_IzgaraBalik
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 17
+  displayName: "Izgara Bal\u0131k"
+  basePrice: 50
+  baseTime: 11
+  unlockLevel: 26
+  icon: {fileID: 1993589610818027526, guid: 7f618933f013c1f4b918d2314bc91990, type: 3}
+  cupPrefab: {fileID: 7109658028932586934, guid: f0df27aec696d70449fc657e781392cb, type: 3}
+  upgradeCostMultiplier: 10
+  isFood: 1

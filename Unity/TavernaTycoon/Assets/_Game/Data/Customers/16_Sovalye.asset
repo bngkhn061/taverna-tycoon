@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 16_Sovalye
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 16
+  displayName: "\u015E\xF6valye"
+  modelPrefab: {fileID: 886188996226596245, guid: 37cf79a3716e8d8439ef441a7cdd758f, type: 3}
+  drinks: 02000000i
+  patienceStars: 3
+  payStars: 3
+  unlockLevel: 14
+  ordersPerVisit: 1
+  spawnWeight: 1

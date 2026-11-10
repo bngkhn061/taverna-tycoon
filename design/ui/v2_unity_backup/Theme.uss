@@ -1,0 +1,404 @@
+/* ==========================================================================
+   Taverna Tycoon — Arayüz v2 (YATAY). Kaynak: design/ui/ui_v2_landscape.html
+   Panel referans çözünürlüğü 844x390 (yüksekliğe göre ölçeklenir) → buradaki 1px = taslaktaki 1dp.
+   Ahşap / parşömen / buton görselleri: Images/Kit (tools/ui ile taslaktan üretilir, 2x → slice-scale 0.5)
+   ========================================================================== */
+
+:root {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Nunito.asset");
+    color: rgb(244, 232, 208);
+}
+.screen { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.hidden { display: none; }
+.title { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); }
+
+/* ---------- malzemeler (9-dilim) ---------- */
+.wood {
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/panel_wood.png");
+    -unity-slice-left: 52; -unity-slice-top: 52; -unity-slice-right: 52; -unity-slice-bottom: 76; -unity-slice-scale: 0.5px;
+}
+.wood-plain {
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/panel_wood_plain.png");
+    -unity-slice-left: 48; -unity-slice-top: 48; -unity-slice-right: 48; -unity-slice-bottom: 76; -unity-slice-scale: 0.5px;
+}
+.parch {
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/panel_parch.png");
+    -unity-slice-left: 64; -unity-slice-top: 64; -unity-slice-right: 64; -unity-slice-bottom: 92; -unity-slice-scale: 0.5px;
+    color: rgb(58, 36, 24);
+}
+.pill {
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/pill.png");
+    -unity-slice-left: 48; -unity-slice-top: 8; -unity-slice-right: 48; -unity-slice-bottom: 24; -unity-slice-scale: 0.5px;
+}
+.card {
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/card.png");
+    -unity-slice-left: 40; -unity-slice-top: 40; -unity-slice-right: 40; -unity-slice-bottom: 56; -unity-slice-scale: 0.5px;
+}
+
+/* ---------- butonlar ---------- */
+.btn {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    margin: 0; padding: 4px 16px 14px 16px; min-height: 44px; min-width: 48px;
+    border-width: 0; border-radius: 0; background-color: rgba(0, 0, 0, 0);
+    font-size: 19px; color: rgb(244, 232, 208); -unity-text-align: middle-center; letter-spacing: 0.8px;
+    -unity-text-outline-width: 0.6px; -unity-text-outline-color: rgba(30, 15, 5, 0.6);
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_wood.png");
+    -unity-slice-left: 48; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 52; -unity-slice-scale: 0.5px;
+    transition-property: scale; transition-duration: 0.08s;
+    flex-direction: row; align-items: center; justify-content: center;
+}
+.btn:hover { -unity-background-image-tint-color: rgb(255, 245, 230); }
+.btn:active { scale: 0.95 0.95; }
+.btn-green { background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_green.png"); }
+.btn-gold { background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_gold.png"); color: rgb(58, 36, 24); -unity-text-outline-width: 0; }
+.btn-red { background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_red.png"); }
+.btn-sm { min-height: 34px; padding: 2px 10px 10px 10px; font-size: 15px; -unity-slice-scale: 0.36px; }
+.btn.locked { -unity-background-image-tint-color: rgb(150, 150, 150); opacity: 0.8; }
+.btn-icon { width: 22px; height: 22px; margin-right: 6px; -unity-background-scale-mode: scale-to-fit; }
+.round {
+    width: 54px; height: 54px; padding: 0 0 6px 0; min-width: 0; min-height: 0;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_round.png");
+    -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0;
+    -unity-background-scale-mode: scale-to-fit;
+}
+.round-icon { width: 26px; height: 26px; -unity-background-scale-mode: scale-to-fit; }
+.close {
+    position: absolute; top: -14px; right: -14px; width: 44px; height: 44px; padding: 0; min-width: 0; min-height: 0;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/close.png");
+    -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* ---------- şerit başlık ---------- */
+.ribbon {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    position: absolute; top: -24px; align-self: center; height: 48px; min-width: 200px;
+    padding: 0 46px 12px 46px; font-size: 21px; letter-spacing: 1px; color: rgb(244, 232, 208);
+    -unity-text-align: middle-center; -unity-text-outline-width: 0.5px; -unity-text-outline-color: rgba(60, 10, 5, 0.6);
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/ribbon.png");
+    -unity-slice-left: 88; -unity-slice-top: 8; -unity-slice-right: 88; -unity-slice-bottom: 24; -unity-slice-scale: 0.5px;
+}
+
+/* ---------- ana menü ---------- */
+/* Ana menü: arka plan artık canlı 3D sahne (MainMenu.unity); UI kökü şeffaf kalmalı */
+.menu-bg { background-color: rgba(0, 0, 0, 0); }
+.tap-pop { position: absolute; width: 56px; height: 56px; -unity-background-scale-mode: scale-to-fit; }
+.vignette { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(20, 10, 5, 0.18); }
+.logo { position: absolute; left: 50px; top: 46px; width: 400px; padding: 22px 20px 36px 20px; align-items: center; }
+.logo-title {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    font-size: 64px; color: rgb(242, 193, 78); -unity-text-align: middle-center; margin: 0; padding: 0;
+    -unity-text-outline-width: 2.5px; -unity-text-outline-color: rgb(59, 36, 18);
+}
+.logo-ribbon { position: relative; top: 0; margin-top: 6px; font-size: 22px; letter-spacing: 7px; min-width: 230px; }
+.logo-mug { position: absolute; right: -28px; top: -34px; width: 84px; height: 84px; rotate: 14deg; -unity-background-scale-mode: scale-to-fit; }
+.menu-stack { position: absolute; right: 54px; top: 70px; width: 280px; }
+.menu-stack > .btn { margin-bottom: 14px; font-size: 24px; min-height: 58px; }
+.menu-stack > .btn-green { font-size: 30px; min-height: 70px; }
+.menu-foot { position: absolute; left: 30px; bottom: 22px; flex-direction: row; }
+.menu-foot > .round { margin-right: 12px; }
+.version { position: absolute; right: 22px; bottom: 12px; font-size: 11px; -unity-font-style: bold; color: rgba(244, 232, 208, 0.8); }
+
+/* ---------- pencereler / çekmeceler ---------- */
+.overlay { background-color: rgba(25, 14, 8, 0.6); align-items: center; justify-content: center; }
+.modal { padding: 36px 24px 22px 24px; }
+.drawer-r { position: absolute; top: 18px; bottom: 14px; right: 14px; width: 340px; padding: 36px 18px 18px 18px; }
+.drawer-l { position: absolute; top: 18px; bottom: 14px; left: 14px; width: 350px; padding: 36px 18px 18px 18px; }
+.row { flex-direction: row; align-items: center; padding: 7px 0; border-bottom-width: 1.5px; border-color: rgba(92, 58, 30, 0.22); min-height: 44px; }
+.row-label { flex-grow: 1; font-size: 14px; color: rgb(58, 36, 24); }
+.ico {
+    width: 34px; height: 34px; margin-right: 10px; align-items: center; justify-content: center;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/icobox.png"); -unity-background-scale-mode: scale-to-fit;
+}
+.ico-img { width: 18px; height: 18px; -unity-background-scale-mode: scale-to-fit; }
+.cols { flex-direction: row; }
+.col { flex-grow: 1; flex-basis: 0; }
+.col-gap { margin-right: 26px; }
+.tabs { flex-direction: row; }
+.tab {
+    margin: 0 0 0 6px; padding: 2px 10px 7px 10px; min-height: 28px; border-width: 0; background-color: rgba(0, 0, 0, 0);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    font-size: 13px; color: rgb(107, 74, 44); -unity-text-align: middle-center;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/tab_off.png");
+    -unity-slice-left: 32; -unity-slice-top: 24; -unity-slice-right: 32; -unity-slice-bottom: 34; -unity-slice-scale: 0.5px;
+}
+.tab.on { background-image: url("project://database/Assets/_Game/UI/Images/Kit/tab_on.png"); color: rgb(58, 36, 24); }
+.toggle { width: 66px; min-width: 66px; font-size: 12px; }
+.sheet-actions { flex-direction: row; margin-top: 14px; }
+.sheet-actions > .btn { flex-grow: 1; margin: 0 5px; font-size: 15px; }
+Slider { width: 120px; margin: 0; }
+Slider #unity-tracker { background-color: rgba(92, 58, 30, 0.3); border-width: 0; border-radius: 5px; height: 9px; margin-top: -4px; }
+Slider #unity-dragger { background-color: rgb(242, 193, 78); border-width: 2px; border-color: rgb(59, 36, 18); border-radius: 9px; width: 18px; height: 18px; margin-top: -8px; }
+
+/* ---------- HUD ---------- */
+.hud-top-left { position: absolute; left: 14px; top: 8px; flex-direction: row; }
+.res { flex-direction: row; align-items: center; height: 44px; padding: 0 16px 8px 4px; margin-right: 8px; min-width: 96px; }
+.res-icon { width: 34px; height: 34px; margin-left: -8px; -unity-background-scale-mode: scale-to-fit; }
+.res-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 18px; color: rgb(244, 232, 208); margin-left: 4px; }
+.plus {
+    width: 22px; height: 22px; margin-left: 8px; border-radius: 7px; border-width: 2px; border-color: rgb(45, 74, 32);
+    background-color: rgb(110, 170, 80); -unity-text-align: middle-center; font-size: 16px; color: rgb(244, 232, 208);
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); padding: 0;
+}
+
+.hud-top-right { position: absolute; right: 14px; top: 6px; flex-direction: row; align-items: center; }
+.lvl { flex-direction: row; align-items: center; margin-right: 10px; }
+.shield {
+    width: 50px; height: 56px; -unity-background-scale-mode: scale-to-fit;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/shield.png");
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    font-size: 22px; color: rgb(58, 36, 24); -unity-text-align: middle-center; padding-bottom: 6px;
+}
+.xp { width: 132px; height: 34px; margin-left: -16px; padding: 4px 10px 12px 18px; }
+.xp-track { flex-grow: 1; border-radius: 6px; background-color: rgba(0, 0, 0, 0.35); overflow: hidden; }
+.xp-fill { height: 100%; width: 0%; background-color: rgb(110, 170, 80); border-radius: 6px; }
+.xp-text { position: absolute; left: 0; right: 0; top: 0; bottom: 0; font-size: 10px; -unity-text-align: middle-center; color: rgb(244, 232, 208); }
+
+.goal {
+    position: absolute; top: 6px; left: 50%; translate: -50% 0; width: 310px; height: 54px;
+    padding: 7px 16px 16px 50px;
+}
+.goal-icon { position: absolute; left: 10px; top: 8px; width: 32px; height: 32px; -unity-background-scale-mode: scale-to-fit; }
+.goal-head { flex-direction: row; justify-content: space-between; }
+.goal-text { font-size: 12px; color: rgb(244, 232, 208); -unity-text-outline-width: 0.4px; -unity-text-outline-color: rgba(0, 0, 0, 0.5); }
+.goal-num { font-size: 12px; color: rgb(255, 224, 138); }
+.goal-bar { height: 9px; margin-top: 5px; border-radius: 5px; background-color: rgba(30, 18, 10, 0.55); overflow: hidden; }
+.goal-fill { height: 100%; width: 0%; background-color: rgb(242, 193, 78); border-radius: 5px; }
+.goal.ready .goal-fill { background-color: rgb(125, 184, 90); }
+
+.rush {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    position: absolute; top: 66px; left: 50%; translate: -50% 0; rotate: -1.5deg; height: 34px;
+    padding: 0 26px 10px 26px; font-size: 15px; letter-spacing: 1px; -unity-text-align: middle-center;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_red.png");
+    -unity-slice-left: 48; -unity-slice-top: 30; -unity-slice-right: 48; -unity-slice-bottom: 40; -unity-slice-scale: 0.4px;
+}
+
+.side { position: absolute; right: 14px; top: 72px; align-items: center; }
+.side-btn { width: 58px; height: 58px; min-width: 0; padding: 0 0 8px 0; margin-bottom: 14px; }
+.side-btn-icon { width: 30px; height: 30px; -unity-background-scale-mode: scale-to-fit; }
+.side-cap {
+    position: absolute; bottom: -8px; align-self: center; font-size: 9px; padding: 0 5px; border-radius: 6px;
+    background-color: rgb(59, 36, 18); color: rgb(244, 232, 208);
+}
+.badge {
+    position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px;
+    background-color: rgb(200, 68, 58); border-width: 2px; border-color: rgb(244, 232, 208);
+    font-size: 11px; color: rgb(255, 255, 255); -unity-text-align: middle-center;
+}
+
+.joy-zone { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.joy-base {
+    position: absolute; left: 30px; bottom: 22px; width: 116px; height: 116px; opacity: 0.55;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/joy_base.png"); -unity-background-scale-mode: scale-to-fit;
+}
+.joy-base.active { opacity: 1; }
+.joy-knob {
+    position: absolute; left: 30px; top: 30px; width: 56px; height: 56px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/joy_knob.png"); -unity-background-scale-mode: scale-to-fit;
+}
+.action { position: absolute; right: 22px; bottom: 18px; min-height: 58px; padding: 4px 24px 14px 24px; font-size: 22px; }
+
+.world-layer { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.bubble {
+    position: absolute; width: 46px; height: 54px; margin-left: -23px; margin-top: -27px; align-items: center; padding-top: 6px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/bubble.png"); -unity-background-scale-mode: scale-to-fit;
+}
+.bubble-icon { width: 30px; height: 30px; -unity-background-scale-mode: scale-to-fit; }
+.bubble-ring { position: absolute; left: -5px; top: -3px; width: 56px; height: 56px; }
+.bubble.angry { -unity-background-image-tint-color: rgb(230, 110, 100); }
+.emote { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 24px; color: rgb(200, 68, 58); }
+
+.station-tag {
+    position: absolute; height: 34px; min-width: 70px; margin-left: -35px; margin-top: -17px; padding: 0 12px 8px 8px;
+    flex-direction: row; align-items: center; justify-content: center;
+}
+.station-tag-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 14px; color: rgb(244, 232, 208); }
+
+.zone-tag {
+    position: absolute; min-width: 100px; margin-left: -50px; margin-top: -26px; padding: 3px 10px 5px 10px; align-items: center;
+    border-radius: 10px; border-width: 2px; border-color: rgb(242, 193, 78); background-color: rgba(30, 20, 14, 0.88);
+}
+.zone-title { font-size: 11px; color: rgb(244, 232, 208); -unity-text-align: middle-center; }
+.zone-cost { flex-direction: row; align-items: center; }
+.zone-cost-icon { width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit; }
+.zone-cost-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 15px; color: rgb(255, 224, 138); margin-left: 3px; }
+.zone-tag.locked { border-color: rgb(156, 148, 136); }
+.zone-tag.locked .zone-title, .zone-tag.locked .zone-cost-text { color: rgb(207, 198, 184); font-size: 12px; }
+
+.goal-arrow {
+    position: absolute; width: 30px; height: 38px; margin-left: -15px; margin-top: -60px;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/arrow.png"); -unity-background-scale-mode: scale-to-fit;
+}
+.float-text {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    position: absolute; font-size: 20px; color: rgb(255, 224, 138); -unity-text-outline-width: 1.5px; -unity-text-outline-color: rgb(59, 36, 18);
+}
+.fly-coin { position: absolute; width: 24px; height: 24px; margin-left: -12px; margin-top: -12px; -unity-background-scale-mode: scale-to-fit; }
+.confetti { position: absolute; width: 8px; height: 13px; border-radius: 2px; }
+.res.pulse { scale: 1.12 1.12; }
+.res { transition-property: scale; transition-duration: 0.12s; }
+
+/* yükseltme çekmecesi */
+.st-card { flex-direction: row; align-items: center; margin-bottom: 4px; }
+.st-thumb { width: 64px; height: 64px; margin-right: 10px; -unity-background-scale-mode: scale-to-fit; }
+.tierbar { flex-direction: row; margin-bottom: 4px; }
+.tier { flex-grow: 1; margin-right: 4px; font-size: 9px; -unity-text-align: middle-center; border-radius: 7px; border-width: 1.5px; border-color: rgb(92, 58, 30); padding: 2px 0; }
+.t1 { background-color: rgb(139, 90, 43); color: rgb(244, 232, 208); }
+.t2 { background-color: rgb(201, 151, 58); color: rgb(58, 36, 24); }
+.t3 { background-color: rgb(238, 220, 167); color: rgb(156, 138, 90); }
+.tier.cur { border-color: rgb(200, 68, 58); border-width: 2.5px; }
+.stats { font-size: 11px; color: rgb(107, 74, 44); }
+.up-name { font-size: 14px; color: rgb(58, 36, 24); }
+.up-sub { font-size: 11px; color: rgb(107, 74, 44); }
+.pips { flex-direction: row; margin-top: 4px; }
+.pip { width: 11px; height: 6px; margin-right: 2px; border-radius: 2px; background-color: rgba(92, 58, 30, 0.2); }
+.pip.on { background-color: rgb(224, 160, 64); }
+.price { min-width: 84px; }
+.price-icon { width: 16px; height: 16px; margin-right: 4px; -unity-background-scale-mode: scale-to-fit; }
+
+/* görevler */
+.q-img { width: 40px; height: 40px; margin-right: 10px; -unity-background-scale-mode: scale-to-fit; }
+.q-text { flex-grow: 1; }
+.q-name { font-size: 13px; color: rgb(58, 36, 24); white-space: normal; }
+.q-reward { flex-direction: row; align-items: center; margin-top: 2px; }
+.q-reward-icon { width: 15px; height: 15px; -unity-background-scale-mode: scale-to-fit; }
+.q-reward-text { font-size: 11px; color: rgb(58, 36, 24); margin: 0 8px 0 2px; }
+.q-bar { height: 8px; margin: 4px 10px 0 0; border-radius: 4px; background-color: rgba(92, 58, 30, 0.2); overflow: hidden; }
+.q-fill { height: 100%; background-color: rgb(110, 170, 80); }
+.small-note { font-size: 10px; color: rgb(107, 74, 44); -unity-text-align: middle-center; margin-top: 6px; }
+
+/* seviye kartı */
+.rays { position: absolute; width: 520px; height: 520px; -unity-background-scale-mode: scale-to-fit;
+        background-image: url("project://database/Assets/_Game/UI/Images/Kit/rays.png"); }
+.lvlcard { width: 440px; padding: 50px 22px 22px 22px; align-items: center; }
+.bigshield { position: absolute; top: -56px; align-self: center; width: 92px; height: 104px; font-size: 44px; padding-bottom: 12px; }
+.lvl-ribbon { position: relative; top: 0; margin: 4px 0 12px 0; font-size: 22px; }
+.unlocks { flex-direction: row; justify-content: center; margin-bottom: 14px; }
+.unl { width: 96px; height: 104px; margin: 0 6px; align-items: center; padding: 6px 4px 10px 4px; }
+.unl-tag { font-size: 8px; color: rgb(255, 255, 255); background-color: rgb(200, 68, 58); border-radius: 5px; padding: 1px 5px; }
+.unl-img { width: 50px; height: 50px; -unity-background-scale-mode: scale-to-fit; }
+.unl-name { font-size: 10px; color: rgb(58, 36, 24); -unity-text-align: middle-center; white-space: normal; }
+
+/* mağaza */
+.shop { width: 650px; }
+.shopgrid { flex-direction: row; justify-content: space-between; }
+.item { width: 140px; height: 150px; align-items: center; padding: 10px 6px 12px 6px; }
+.item-img { width: 58px; height: 58px; -unity-background-scale-mode: scale-to-fit; }
+.item-name { font-size: 11px; color: rgb(58, 36, 24); margin: 4px 0 8px 0; -unity-text-align: middle-center; white-space: normal; }
+.hot { position: absolute; top: -8px; left: -6px; rotate: -8deg; font-size: 9px; color: rgb(255, 255, 255); background-color: rgb(200, 68, 58);
+       border-radius: 6px; border-width: 2px; border-color: rgb(255, 255, 255); padding: 1px 6px; }
+
+/* basit pencere metinleri */
+.popup-row { flex-direction: row; align-items: center; justify-content: center; margin: 4px 0 6px 0; }
+.popup-img { width: 92px; height: 92px; margin-right: 14px; -unity-background-scale-mode: scale-to-fit; }
+.popup-sub { font-size: 12px; color: rgb(107, 74, 44); }
+.popup-big { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 40px; color: rgb(58, 36, 24); }
+.popup-actions { flex-direction: row; justify-content: center; margin-top: 10px; }
+.popup-actions > .btn { margin: 0 6px; }
+
+.book { width: 640px; }
+.book-grid { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+.book-cell { width: 92px; height: 34px; margin: 3px; align-items: center; justify-content: center; }
+.book-name { font-size: 10px; color: rgb(58, 36, 24); -unity-text-align: middle-center; white-space: normal; }
+.book-cell.unseen .book-name { color: rgba(58, 36, 24, 0.35); }
+
+.toast {
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset");
+    position: absolute; top: 120px; align-self: center; padding: 10px 30px 20px 30px; font-size: 26px; color: rgb(242, 193, 78);
+    -unity-text-align: middle-center;
+}
+.toggle.on { background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_green.png"); }
+
+/* --- düzeltmeler: Unity varsayılan buton görünümünü ez --- */
+.round, .close { background-color: rgba(0, 0, 0, 0); border-width: 0; align-items: center; justify-content: center; margin: 0; }
+.menu-foot > .round { margin-right: 12px; }
+.tab { min-width: 52px; height: 32px; min-height: 32px; padding: 0 12px 7px 12px; -unity-slice-scale: 0.45px; }
+
+
+/* ===================== v0.4: taşma düzeltmeleri + yönetim arayüzü ===================== */
+/* Etiketler kendi genişliğine göre ortalansın (sabit eksi kenar boşluğu taşırıyordu) */
+.zone-tag { margin-left: 0; margin-top: 0; min-width: 0; translate: -50% -100%; }
+.station-tag { margin-left: 0; margin-top: 0; min-width: 0; translate: -50% -50%; }
+.bubble { margin-left: 0; margin-top: 0; translate: -50% -100%; }
+.zone-title, .zone-cost-text, .station-tag-text { white-space: nowrap; }
+
+/* Hedef kutusu: uzun yazı kutudan taşmasın, "…" ile kısalsın */
+.goal { width: 340px; }
+.goal-head { overflow: hidden; }
+.goal-text { flex-shrink: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.goal-num { flex-shrink: 0; margin-left: 8px; white-space: nowrap; }
+.res { min-width: 0; }
+.res-text { white-space: nowrap; }
+.q-name, .up-name, .item-name, .unl-name, .book-name { overflow: hidden; text-overflow: ellipsis; }
+.up-sub, .stats { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Pencereler dar ekranda (16:9) ekrandan taşmasın */
+.modal { max-width: 96%; }
+.shop { width: 680px; }
+.book { width: 640px; }
+.tab { font-size: 12px; min-width: 46px; }
+
+/* Dar ekran düzeni (genişlik < 780dp): hedef kutusu bir alt satıra iner */
+.narrow .goal { top: 54px; width: 320px; }
+.narrow .rush { top: 112px; }
+.narrow .day-report { top: 150px; }
+
+/* Yıldız puanı */
+.lvl-col { margin-left: -16px; }
+.lvl-col > .xp { margin-left: 0; }
+.stars { flex-direction: row; margin-left: 18px; margin-top: -4px; }
+.star { width: 13px; height: 13px; margin-right: 1px; -unity-background-scale-mode: scale-to-fit; }
+.star.off { -unity-background-image-tint-color: rgba(60, 40, 25, 0.55); }
+.star.half { -unity-background-image-tint-color: rgb(230, 190, 120); opacity: 0.75; }
+
+/* Gün sonu raporu */
+.day-report { position: absolute; top: 70px; left: 50%; translate: -50% 0; padding: 18px 26px 26px 26px; align-items: center; }
+.day-title { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 18px; color: rgb(200, 68, 58); }
+.day-text { font-size: 12px; color: rgb(58, 36, 24); -unity-text-align: middle-center; }
+
+/* Kirli masa etiketi */
+.dirty-tag {
+    position: absolute; translate: -50% -100%; padding: 2px 10px 8px 10px; height: 28px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/LilitaOne.asset"); font-size: 12px; color: rgb(244, 232, 208);
+    -unity-text-align: middle-center; white-space: nowrap;
+    background-image: url("project://database/Assets/_Game/UI/Images/Kit/btn_red.png");
+    -unity-slice-left: 48; -unity-slice-top: 30; -unity-slice-right: 48; -unity-slice-bottom: 40; -unity-slice-scale: 0.3px;
+}
+
+/* Mağaza: sekmeler + yatay kaydırma */
+.shop-tabs { justify-content: center; margin-bottom: 8px; }
+.shop-tabs > .tab { min-width: 92px; font-size: 13px; }
+.shop-scroll { height: 196px; }
+.shop-scroll #unity-content-container { flex-direction: row; }
+.shop-scroll .item { margin-right: 10px; flex-shrink: 0; }
+.item { width: 134px; height: 182px; padding: 8px 6px 12px 6px; }
+.item-img { width: 62px; height: 62px; }
+.item-name { font-size: 12px; margin: 2px 0 0 0; white-space: nowrap; }
+.item-sub { font-size: 10px; color: rgb(107, 74, 44); margin-bottom: 6px; -unity-text-align: middle-center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item.owned { opacity: 0.7; }
+.item.locked .item-img { -unity-background-image-tint-color: rgb(40, 30, 25); }
+.item .btn { min-width: 96px; }
+
+/* Defter: portreli kartlar */
+.book-cell { width: 70px; height: 84px; margin: 3px; padding: 4px 2px 8px 2px; align-items: center; justify-content: flex-start; }
+.book-img { width: 46px; height: 46px; -unity-background-scale-mode: scale-to-fit; }
+.book-cell.unseen .book-img { -unity-background-image-tint-color: rgb(30, 22, 18); }
+.book-scroll { height: 270px; }
+
+/* v0.4 cila: hedef kutusu yüksekliği yazıya göre, ahşap kaydırma çubuğu */
+.goal { height: auto; min-height: 54px; padding-top: 8px; padding-bottom: 17px; }
+.goal-head { overflow: visible; height: 18px; }
+.shop-scroll .unity-scroller--horizontal { height: 12px; margin-top: 4px; border-width: 0; background-color: rgba(0, 0, 0, 0); }
+.shop-scroll .unity-scroller__low-button, .shop-scroll .unity-scroller__high-button { display: none; }
+.shop-scroll .unity-base-slider__tracker { background-color: rgba(92, 58, 30, 0.2); border-width: 0; border-radius: 6px; }
+.shop-scroll .unity-base-slider__dragger { background-color: rgb(139, 90, 43); border-width: 1.5px; border-color: rgb(59, 36, 18); border-radius: 6px; }
+/* hedef yazısı kırpılmasın: sabit satır yüksekliği */
+.goal-head { height: 20px; align-items: center; }
+.goal-text, .goal-num { height: 20px; padding: 0; margin-top: 0; margin-bottom: 0; -unity-text-align: middle-left; }
+.goal-num { -unity-text-align: middle-right; }
+/* defter kaydırma çubuğu da ahşap */
+.book-scroll .unity-scroller--vertical { width: 12px; border-width: 0; background-color: rgba(0, 0, 0, 0); }
+.book-scroll .unity-scroller__low-button, .book-scroll .unity-scroller__high-button { display: none; }
+.book-scroll .unity-base-slider__tracker { background-color: rgba(92, 58, 30, 0.2); border-width: 0; border-radius: 6px; }
+.book-scroll .unity-base-slider__dragger { background-color: rgb(139, 90, 43); border-width: 1.5px; border-color: rgb(59, 36, 18); border-radius: 6px; }

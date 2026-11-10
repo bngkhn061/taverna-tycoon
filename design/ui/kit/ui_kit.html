@@ -1,0 +1,213 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================================
+     Taverna Tycoon — Arayüz v2 (yatay). Tasarım jetonları DESIGN_RULES §4/§9.
+     Oyun ekranı: 844x390 dp (19.5:9). Bu sayfada 1 dp = 1 px.
+     ===================================================================== */
+  :root {
+    --mese: #8B5A2B; --mese-acik: #A86F37; --koyu-mese: #5C3A1E; --en-koyu: #3B2412;
+    --bal: #E0A040; --altin: #F2C14E; --altin-acik: #FFE08A; --pirinc: #C9973A;
+    --kirmizi: #C8443A; --kirmizi-koyu: #8A2A22; --yesil: #4F7F3A; --yesil-acik: #7DB85A; --yesil-koyu: #2D4A20;
+    --mavi: #3E5FA8; --mor: #7A4FA8; --krem: #F4E8D0; --parsomen: #F1E0BA; --parsomen-koyu: #D8BC86;
+    --tas: #9C9488; --gece: #2B2F4A; --elmas: #A8E0F0; --murekkep: #3A2418;
+    --page: #1E1612;
+    --title: "Lilita One", "Trebuchet MS", sans-serif;
+    --body: "Nunito", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--krem); font-family: var(--body); }
+  header.page { max-width: 1880px; margin: 0 auto; padding: 26px 24px 4px; display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+  header.page h1 { margin: 0; font: 400 34px var(--title); color: var(--altin); letter-spacing: .5px; }
+  header.page p { margin: 0; opacity: .75; font-weight: 700; }
+  .board { max-width: 1880px; margin: 0 auto; padding: 18px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(880px, 1fr)); gap: 30px 26px; }
+  figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  figcaption { font-weight: 900; color: var(--bal); letter-spacing: .3px; }
+  figcaption span { color: var(--krem); opacity: .6; font-weight: 700; margin-left: 8px; }
+
+  /* ---------- cihaz çerçevesi ---------- */
+  .device { width: 880px; height: 406px; padding: 8px; border-radius: 46px; background: #0d0907; box-shadow: 0 18px 50px rgba(0,0,0,.55), inset 0 0 0 2px #2a2018; }
+  .screen { position: relative; width: 864px; height: 390px; border-radius: 38px; overflow: hidden; background: #3A2A3E; }
+  .bg { position: absolute; inset: 0; background: url("../../assets/renders/Menu_Background_Wide.png") 50% 46% / cover; }
+  .bg.zoom { background-size: 112%; background-position: 50% 55%; }
+  .dim::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(25,14,8,.35), rgba(25,14,8,.75)); }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(15,8,4,.55)); }
+
+  /* ---------- malzemeler ---------- */
+  .wood {
+    position: relative;
+    background:
+      repeating-linear-gradient(180deg, transparent 0 13px, rgba(0,0,0,.10) 13px 14px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 3px, transparent 3px 9px),
+      linear-gradient(180deg, var(--mese-acik), var(--mese) 45%, #7A4D24);
+    border: 3px solid var(--en-koyu); border-radius: 14px;
+    box-shadow: inset 0 2px 0 rgba(255,220,170,.35), inset 0 -4px 0 rgba(0,0,0,.28), 0 4px 0 var(--en-koyu), 0 8px 14px rgba(0,0,0,.35);
+  }
+  .nails::before, .nails::after { content: ""; position: absolute; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #e9dfd3, #6b6560 70%); box-shadow: 0 1px 0 rgba(0,0,0,.5); }
+  .nails::before { left: 7px; } .nails::after { right: 7px; }
+  .parch {
+    position: relative; color: var(--murekkep);
+    background: radial-gradient(ellipse at 40% 30%, #FBF0D4, var(--parsomen) 55%, var(--parsomen-koyu));
+    border: 3px solid var(--en-koyu); border-radius: 18px;
+    box-shadow: inset 0 0 0 3px var(--bal), inset 0 0 0 5px rgba(92,58,30,.35), inset 0 0 28px rgba(150,95,40,.35), 0 10px 26px rgba(0,0,0,.5);
+  }
+  .leather { background: linear-gradient(180deg, #4A3224, #2C1D14); border: 2.5px solid var(--pirinc); border-radius: 999px; box-shadow: inset 0 2px 0 rgba(255,255,255,.12), 0 3px 0 rgba(0,0,0,.45); }
+
+  /* ---------- butonlar ---------- */
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 400 20px var(--title); letter-spacing: .8px; color: var(--krem);
+         padding: 9px 18px 11px; border-radius: 14px; border: 3px solid var(--en-koyu); cursor: pointer; text-shadow: 0 2px 0 rgba(0,0,0,.35); white-space: nowrap; }
+  .btn::before { content: ""; position: absolute; left: 6px; right: 6px; top: 4px; height: 38%; border-radius: 9px; background: linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,0)); pointer-events: none; }
+  .b-green { background: linear-gradient(180deg, var(--yesil-acik), var(--yesil) 70%); box-shadow: 0 5px 0 var(--yesil-koyu), 0 9px 14px rgba(0,0,0,.35); border-color: var(--yesil-koyu); }
+  .b-wood  { background: linear-gradient(180deg, var(--mese-acik), var(--mese) 70%); box-shadow: 0 5px 0 var(--en-koyu), 0 9px 14px rgba(0,0,0,.35); }
+  .b-gold  { background: linear-gradient(180deg, var(--altin-acik), var(--altin) 55%, var(--bal)); color: var(--murekkep); text-shadow: 0 1px 0 rgba(255,255,255,.4); box-shadow: 0 5px 0 #8A6420, 0 9px 14px rgba(0,0,0,.35); border-color: #6B4A12; }
+  .b-red   { background: linear-gradient(180deg, #E0675C, var(--kirmizi) 70%); box-shadow: 0 5px 0 var(--kirmizi-koyu), 0 9px 14px rgba(0,0,0,.35); border-color: #5E1A14; }
+  .b-off   { filter: grayscale(.85) brightness(.9); opacity: .75; }
+  .btn img, .btn svg { width: 22px; height: 22px; }
+  .close { position: absolute; top: -12px; right: -12px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(#E0675C, var(--kirmizi)); border: 3px solid #5E1A14; box-shadow: 0 3px 0 #5E1A14; }
+  .close svg { width: 14px; height: 14px; }
+  .round { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; padding: 0; }
+
+  /* ---------- başlık şeridi ---------- */
+  .ribbon { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); padding: 6px 30px 8px; font: 400 21px var(--title); color: var(--krem); letter-spacing: 1px; white-space: nowrap;
+            background: linear-gradient(180deg, #D85A4E, var(--kirmizi)); border: 3px solid var(--kirmizi-koyu); border-radius: 8px; text-shadow: 0 2px 0 rgba(0,0,0,.3); box-shadow: 0 4px 0 var(--kirmizi-koyu); }
+  .ribbon::before, .ribbon::after { content: ""; position: absolute; top: 8px; width: 18px; height: 100%; background: #A3352C; z-index: -1; border: 3px solid var(--kirmizi-koyu); }
+  .ribbon::before { left: -14px; clip-path: polygon(0 0,100% 0,100% 100%,0 100%,40% 50%); }
+  .ribbon::after { right: -14px; clip-path: polygon(0 0,100% 0,60% 50%,100% 100%,0 100%); }
+
+  /* ---------- HUD parçaları ---------- */
+  .pill { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 4px; font: 400 18px var(--title); color: var(--krem); }
+  .pill img { width: 34px; height: 34px; margin-left: -6px; filter: drop-shadow(0 2px 1px rgba(0,0,0,.4)); }
+  .plus { width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; background: linear-gradient(var(--yesil-acik), var(--yesil)); border: 2px solid var(--yesil-koyu); font: 400 16px var(--title); line-height: 1; }
+  .lvl { display: flex; align-items: center; }
+  .shield { position: relative; width: 50px; height: 56px; display: grid; place-items: center; font: 400 22px var(--title); color: var(--murekkep); z-index: 2;
+            background: linear-gradient(var(--altin-acik), var(--altin) 60%, var(--bal)); clip-path: polygon(50% 0, 100% 16%, 100% 62%, 50% 100%, 0 62%, 0 16%); }
+  .shield-wrap { filter: drop-shadow(0 0 0 var(--en-koyu)) drop-shadow(0 3px 0 var(--en-koyu)); }
+  .xp { width: 120px; height: 22px; margin-left: -12px; padding-left: 14px; border-radius: 0 12px 12px 0; position: relative; overflow: hidden; font: 800 11px var(--body); display: flex; align-items: center; }
+  .xp i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(var(--yesil-acik), var(--yesil)); }
+  .xp b { position: relative; z-index: 1; margin-left: 8px; color: var(--krem); text-shadow: 0 1px 0 rgba(0,0,0,.6); }
+
+  .goal { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 300px; padding: 7px 14px 9px 50px; }
+  .goal img { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; }
+  .goal .t { font: 800 12px var(--body); color: var(--krem); text-shadow: 0 1px 0 rgba(0,0,0,.5); display: flex; justify-content: space-between; }
+  .goal .t b { color: var(--altin-acik); }
+  .goal .bar { height: 9px; margin-top: 5px; border-radius: 6px; background: rgba(30,18,10,.55); overflow: hidden; }
+  .goal .bar i { display: block; height: 100%; background: linear-gradient(var(--altin-acik), var(--altin)); border-radius: 6px; }
+  .goal.ready { background: linear-gradient(180deg, var(--yesil-acik), var(--yesil) 70%); border-color: var(--yesil-koyu); }
+
+  .rush { position: absolute; top: 64px; left: 50%; transform: translateX(-50%) rotate(-1.5deg); padding: 4px 16px; font: 400 15px var(--title); letter-spacing: 1px; color: var(--krem);
+          background: linear-gradient(#E0675C, var(--kirmizi)); border: 2.5px solid var(--kirmizi-koyu); border-radius: 9px; box-shadow: 0 3px 0 var(--kirmizi-koyu); white-space: nowrap; }
+  .rush small { font: 900 11px var(--body); opacity: .9; margin-left: 6px; }
+
+  .side { position: absolute; right: 14px; top: 58px; display: flex; flex-direction: column; gap: 10px; }
+  .sbtn { position: relative; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; }
+  .sbtn svg { width: 28px; height: 28px; filter: drop-shadow(0 2px 0 rgba(0,0,0,.35)); }
+  .sbtn em { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); font: 900 9px var(--body); font-style: normal; color: var(--krem); background: var(--en-koyu); border-radius: 6px; padding: 0 5px; white-space: nowrap; }
+  .badge { position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--kirmizi); border: 2px solid var(--krem); font: 900 11px var(--body); display: grid; place-items: center; color: #fff; }
+
+  .joy { position: absolute; left: 34px; bottom: 26px; width: 108px; height: 108px; border-radius: 50%; background: radial-gradient(rgba(244,232,208,.10), rgba(244,232,208,.22)); border: 3px solid rgba(244,232,208,.5); }
+  .joy b { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; margin: -24px 0 0 -10px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #fff8ea, #D9C7A3); border: 3px solid var(--koyu-mese); box-shadow: 0 3px 0 rgba(0,0,0,.35); }
+  .action { position: absolute; right: 24px; bottom: 24px; padding: 12px 22px 14px; font-size: 22px; border-radius: 18px; }
+
+  .bubble { position: absolute; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--krem); border: 3px solid var(--en-koyu); box-shadow: 0 3px 0 rgba(0,0,0,.3); }
+  .bubble::after { content: ""; position: absolute; bottom: -9px; left: 50%; margin-left: -6px; border: 6px solid transparent; border-top-color: var(--en-koyu); }
+  .bubble img { width: 30px; height: 30px; }
+  .bubble .ring { position: absolute; inset: -7px; border-radius: 50%; -webkit-mask: radial-gradient(circle, transparent 60%, #000 62%); mask: radial-gradient(circle, transparent 60%, #000 62%); }
+  .float { position: absolute; font: 400 20px var(--title); color: var(--altin-acik); text-shadow: 0 2px 0 var(--en-koyu), 0 0 6px rgba(0,0,0,.5); }
+  .tag { position: absolute; padding: 3px 10px 4px; border-radius: 10px; font: 900 11px var(--body); text-align: center; color: var(--krem); background: rgba(30,20,14,.88); border: 2px solid var(--altin); line-height: 1.15; }
+  .tag b { display: flex; align-items: center; justify-content: center; gap: 3px; font: 400 15px var(--title); color: var(--altin-acik); }
+  .tag b img { width: 16px; height: 16px; }
+  .tag.lock { border-color: var(--tas); color: #cfc6b8; } .tag.lock b { color: #cfc6b8; font-size: 13px; }
+  .arrow { position: absolute; width: 30px; height: 38px; }
+
+  /* ---------- çekmeceler ve pencereler ---------- */
+  .drawer-r { position: absolute; top: 14px; bottom: 14px; right: 14px; width: 330px; padding: 34px 16px 14px; }
+  .drawer-l { position: absolute; top: 14px; bottom: 14px; left: 14px; width: 340px; padding: 34px 16px 14px; }
+  .modal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 2px dashed rgba(92,58,30,.22); }
+  .row:last-child { border-bottom: 0; }
+  .ico { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(var(--mese), var(--koyu-mese)); border: 2px solid var(--en-koyu); }
+  .ico svg { width: 18px; height: 18px; }
+  .name { font: 900 14px var(--body); }
+  .sub { font: 800 11px var(--body); color: #6B4A2C; }
+  .sub b { color: var(--yesil); }
+  .pips { display: flex; gap: 2px; margin-top: 4px; }
+  .pips i { width: 11px; height: 6px; border-radius: 2px; background: rgba(92,58,30,.2); }
+  .pips i.on { background: var(--bal); }
+  .price { min-width: 78px; font-size: 16px; padding: 6px 10px 8px; }
+  .price img { width: 18px; height: 18px; }
+  .tierbar { display: flex; gap: 6px; margin: 2px 0 6px; }
+  .tier { flex: 1; text-align: center; padding: 3px 0; border-radius: 8px; border: 2px solid var(--koyu-mese); font: 900 10px var(--body); }
+  .t1 { background: var(--mese); color: var(--krem); } .t2 { background: var(--pirinc); color: var(--murekkep); } .t3 { background: #EEDCA7; color: #9C8A5A; border-style: dashed; }
+  .card { display: flex; gap: 10px; align-items: center; margin-bottom: 4px; }
+  .thumb { width: 74px; height: 74px; border-radius: 14px; flex: none; border: 3px solid var(--en-koyu); background: url("../../assets/renders/Props_Station.png") 3% 79% / 1000% auto no-repeat, #6b6560; }
+  .stats { font: 800 11px var(--body); color: #6B4A2C; line-height: 1.45; }
+  .stats b { color: var(--murekkep); }
+  .bar2 { height: 8px; border-radius: 5px; background: rgba(92,58,30,.2); overflow: hidden; margin-top: 5px; }
+  .bar2 i { display: block; height: 100%; background: linear-gradient(var(--yesil-acik), var(--yesil)); }
+  .reward { display: inline-flex; align-items: center; gap: 3px; font: 900 11px var(--body); color: var(--murekkep); margin-right: 8px; }
+  .reward img { width: 16px; height: 16px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 8px; }
+  .tab { flex: 1; text-align: center; padding: 5px 0; border-radius: 10px; font: 400 13px var(--title); letter-spacing: .5px; border: 2px solid var(--koyu-mese); background: rgba(92,58,30,.12); color: #6B4A2C; }
+  .tab.on { background: linear-gradient(var(--altin-acik), var(--altin)); color: var(--murekkep); }
+
+  /* ana menü */
+  .logo { position: absolute; left: 50px; top: 50px; width: 390px; padding: 22px 20px 24px; text-align: center; }
+  .logo .t { font: 400 64px/0.95 var(--title); color: var(--altin); letter-spacing: 1px; text-shadow: 0 3px 0 var(--en-koyu), 0 6px 0 rgba(0,0,0,.3); }
+  .logo .r { display: inline-block; margin-top: 8px; padding: 3px 26px 5px; font: 400 22px var(--title); letter-spacing: 7px; color: var(--krem); background: linear-gradient(#D85A4E, var(--kirmizi)); border: 3px solid var(--kirmizi-koyu); border-radius: 8px; }
+  .logo .mug { position: absolute; right: -26px; top: -30px; width: 82px; transform: rotate(14deg); filter: drop-shadow(0 4px 2px rgba(0,0,0,.4)); }
+  .chain { position: absolute; top: -50px; width: 4px; height: 50px; background: repeating-linear-gradient(180deg, #8a827a 0 6px, transparent 6px 9px); }
+  .menu { position: absolute; right: 54px; top: 50%; transform: translateY(-50%); width: 270px; display: flex; flex-direction: column; gap: 16px; }
+  .menu .btn { font-size: 24px; padding: 12px 0 14px; }
+  .menu .b-green { font-size: 30px; padding: 16px 0 18px; }
+  .foot { position: absolute; left: 22px; right: 22px; bottom: 14px; display: flex; justify-content: space-between; align-items: center; font: 800 11px var(--body); opacity: .85; }
+  .daily { position: absolute; left: 60px; bottom: 30px; display: flex; gap: 10px; }
+
+  /* seviye */
+  .rays { position: absolute; inset: -40%; background: repeating-conic-gradient(from 0deg, rgba(255,220,130,.16) 0 10deg, transparent 10deg 20deg); border-radius: 50%; }
+  .lvlcard { width: 430px; padding: 40px 22px 18px; text-align: center; }
+  .bigshield { margin: -78px auto 8px; width: 92px; height: 104px; font-size: 44px; }
+  .unlocks { display: flex; justify-content: center; gap: 12px; margin: 8px 0 14px; }
+  .unl { width: 92px; padding: 8px 4px 6px; border-radius: 14px; background: rgba(255,255,255,.45); border: 2px solid var(--bal); font: 900 11px var(--body); }
+  .unl img { width: 52px; height: 52px; display: block; margin: 0 auto 2px; }
+  .newtag { display: inline-block; background: var(--kirmizi); color: #fff; font: 900 9px var(--body); padding: 1px 6px; border-radius: 6px; margin-bottom: 3px; }
+  .confetti { position: absolute; width: 8px; height: 13px; border-radius: 2px; }
+
+  /* mağaza */
+  .shopgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .item { position: relative; padding: 10px 6px 8px; border-radius: 14px; text-align: center; background: rgba(255,255,255,.45); border: 2px solid var(--bal); }
+  .item img.p { width: 56px; height: 56px; }
+  .item .n { font: 900 11px var(--body); margin: 2px 0 6px; }
+  .item .btn { font-size: 14px; padding: 4px 10px 6px; }
+  .item .btn img { width: 15px; height: 15px; }
+  .hot { position: absolute; top: -8px; left: -6px; transform: rotate(-8deg); background: var(--kirmizi); color: #fff; font: 900 9px var(--body); padding: 2px 6px; border-radius: 6px; border: 2px solid #fff; }
+
+  .note { max-width: 1880px; margin: 0 auto; padding: 0 24px 40px; color: var(--krem); opacity: .85; font-weight: 700; line-height: 1.6; }
+  .note b { color: var(--altin); }
+
+html, body { background: transparent !important; margin: 0; }
+.cell { position: absolute; }
+.btn::before { left: 5px; right: 5px; }
+</style></head><body><svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="x" viewBox="0 0 20 20"><path d="M4 4l12 12M16 4L4 16" stroke="#F4E8D0" stroke-width="4" stroke-linecap="round"/></symbol>
+    <symbol id="gear" viewBox="0 0 32 32"><path d="M16 3l3 3.5 4.5-1 .8 4.6 4.2 2-2 4.2 2 4.2-4.2 2-.8 4.6-4.5-1L16 29l-3-3.5-4.5 1-.8-4.6-4.2-2 2-4.2-2-4.2 4.2-2 .8-4.6 4.5 1z" fill="#F4E8D0" stroke="#3B2412" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="16" r="5" fill="#8B5A2B" stroke="#3B2412" stroke-width="2"/></symbol>
+    <symbol id="scroll" viewBox="0 0 32 32"><rect x="7" y="5" width="18" height="22" rx="3" fill="#F1E0BA" stroke="#3B2412" stroke-width="2.5"/><path d="M11 11h10M11 16h10M11 21h6" stroke="#8B5A2B" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="shop" viewBox="0 0 32 32"><path d="M5 12l3-7h16l3 7z" fill="#C8443A" stroke="#3B2412" stroke-width="2.4" stroke-linejoin="round"/><path d="M5 12h22" stroke="#F4E8D0" stroke-width="2"/><rect x="6" y="12" width="20" height="15" fill="#F4E8D0" stroke="#3B2412" stroke-width="2.4"/><rect x="13" y="18" width="6" height="9" fill="#8B5A2B"/></symbol>
+    <symbol id="hammer" viewBox="0 0 32 32"><path d="M18 14L6 26" stroke="#E0A040" stroke-width="5" stroke-linecap="round"/><path d="M14 7l6-3 8 8-3 6z" fill="#9C9488" stroke="#3B2412" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+    <symbol id="book" viewBox="0 0 32 32"><path d="M5 6h9a3 3 0 013 3v18a3 3 0 00-3-3H5z" fill="#3E5FA8" stroke="#3B2412" stroke-width="2.4"/><path d="M27 6h-9a3 3 0 00-3 3v18a3 3 0 013-3h9z" fill="#2B2F4A" stroke="#3B2412" stroke-width="2.4"/></symbol>
+    <symbol id="play" viewBox="0 0 32 32"><path d="M10 6l16 10-16 10z" fill="#F4E8D0" stroke="#2D4A20" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+    <symbol id="door" viewBox="0 0 32 32"><rect x="7" y="3" width="15" height="26" rx="2" fill="#F4E8D0" stroke="#3B2412" stroke-width="2.5"/><circle cx="18" cy="17" r="1.8" fill="#3B2412"/><path d="M22 16h8m-3-3 3 3-3 3" stroke="#F4E8D0" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="music" viewBox="0 0 20 20"><path d="M7 15V4l10-2v11" fill="none" stroke="#F4E8D0" stroke-width="2"/><circle cx="5" cy="15" r="2.6" fill="#F4E8D0"/><circle cx="15" cy="13" r="2.6" fill="#F4E8D0"/></symbol>
+    <symbol id="sound" viewBox="0 0 20 20"><path d="M3 7h3l5-4v14l-5-4H3z" fill="#F4E8D0"/><path d="M14 6c2 2 2 6 0 8M16.5 4c3 3 3 9 0 12" fill="none" stroke="#F4E8D0" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="vib" viewBox="0 0 20 20"><rect x="6" y="2" width="8" height="16" rx="2" fill="none" stroke="#F4E8D0" stroke-width="2"/><path d="M2 7v6M18 7v6" stroke="#F4E8D0" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="bell" viewBox="0 0 20 20"><path d="M5 14V9a5 5 0 0110 0v5l2 2H3z" fill="#F4E8D0"/><circle cx="10" cy="17.5" r="1.8" fill="#F4E8D0"/></symbol>
+    <symbol id="globe" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#F4E8D0" stroke-width="2"/><path d="M2 10h16M10 2c3 3 3 13 0 16M10 2c-3 3-3 13 0 16" fill="none" stroke="#F4E8D0" stroke-width="1.6"/></symbol>
+    <symbol id="gfx" viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="2" fill="none" stroke="#F4E8D0" stroke-width="2"/><path d="M4 14l4-5 3 3 2-2 3 4" fill="none" stroke="#F4E8D0" stroke-width="1.8"/></symbol>
+    <symbol id="speed" viewBox="0 0 20 20"><path d="M11 1L4 11h5l-1 8 7-10h-5z" fill="#F2C14E"/></symbol>
+    <symbol id="stock" viewBox="0 0 20 20"><rect x="3" y="11" width="6" height="7" rx="1" fill="#F4E8D0"/><rect x="11" y="11" width="6" height="7" rx="1" fill="#F4E8D0"/><rect x="7" y="3" width="6" height="7" rx="1" fill="#F4E8D0"/></symbol>
+    <symbol id="star" viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L1.4 7.8l6-.7z" fill="#F2C14E"/></symbol>
+    <symbol id="lock" viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="9" rx="2" fill="#6B6560"/><path d="M6.5 9V6a3.5 3.5 0 017 0v3" fill="none" stroke="#6B6560" stroke-width="2"/></symbol>
+    <symbol id="arrow" viewBox="0 0 30 38"><path d="M9 2h12v15h7L15 35 2 17h7z" fill="#F2C14E" stroke="#3B2412" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="cal" viewBox="0 0 32 32"><rect x="4" y="7" width="24" height="21" rx="3" fill="#F4E8D0" stroke="#3B2412" stroke-width="2.4"/><rect x="4" y="7" width="24" height="7" fill="#C8443A" stroke="#3B2412" stroke-width="2.4"/><path d="M10 4v6M22 4v6" stroke="#3B2412" stroke-width="2.4" stroke-linecap="round"/><path d="M11 20l3 3 7-7" fill="none" stroke="#4F7F3A" stroke-width="3" stroke-linecap="round"/></symbol>
+  </defs>
+</svg><div class="cell" style="left:10px;top:10px;width:128px;height:96px"><div style="position:absolute;left:4px;top:4px;width:120px;height:80px"><div class="wood nails" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:148px;top:10px;width:128px;height:96px"><div style="position:absolute;left:4px;top:4px;width:120px;height:80px"><div class="wood" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:286px;top:10px;width:148px;height:116px"><div style="position:absolute;left:4px;top:4px;width:140px;height:100px"><div class="parch" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:444px;top:10px;width:128px;height:64px"><div style="position:absolute;left:4px;top:4px;width:120px;height:48px"><div class="btn b-green" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:582px;top:10px;width:128px;height:64px"><div style="position:absolute;left:4px;top:4px;width:120px;height:48px"><div class="btn b-wood" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:720px;top:10px;width:128px;height:64px"><div style="position:absolute;left:4px;top:4px;width:120px;height:48px"><div class="btn b-gold" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:10px;top:136px;width:128px;height:64px"><div style="position:absolute;left:4px;top:4px;width:120px;height:48px"><div class="btn b-red" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:148px;top:136px;width:54px;height:62px"><div style="position:absolute;left:4px;top:4px;width:46px;height:46px"><div class="btn b-wood round" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:212px;top:136px;width:108px;height:52px"><div style="position:absolute;left:4px;top:4px;width:100px;height:36px"><div class="leather" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:330px;top:136px;width:248px;height:56px"><div style="position:absolute;left:4px;top:4px;width:240px;height:40px"><div style="position:relative;width:100%;height:100%"><div class="ribbon" style="top:0;left:18px;right:18px;transform:none;position:absolute;height:100%;padding:0"></div></div></div></div><div class="cell" style="left:588px;top:136px;width:58px;height:72px"><div style="position:absolute;left:4px;top:4px;width:50px;height:56px"><div class="shield-wrap"><div class="shield"></div></div></div></div><div class="cell" style="left:656px;top:136px;width:46px;height:54px"><div style="position:absolute;left:4px;top:4px;width:38px;height:38px"><div class="close" style="position:static"><svg style="width:14px;height:14px"><use href="#x"/></svg></div></div></div><div class="cell" style="left:712px;top:136px;width:88px;height:42px"><div style="position:absolute;left:4px;top:4px;width:80px;height:26px"><div class="tab on" style="height:100%"></div></div></div><div class="cell" style="left:810px;top:136px;width:88px;height:42px"><div style="position:absolute;left:4px;top:4px;width:80px;height:26px"><div class="tab" style="height:100%"></div></div></div><div class="cell" style="left:10px;top:218px;width:52px;height:60px"><div style="position:absolute;left:4px;top:4px;width:44px;height:44px"><div class="bubble" style="position:static"></div></div></div><div class="cell" style="left:72px;top:218px;width:116px;height:124px"><div style="position:absolute;left:4px;top:4px;width:108px;height:108px"><div class="joy" style="position:static;opacity:1"></div></div></div><div class="cell" style="left:198px;top:218px;width:56px;height:64px"><div style="position:absolute;left:4px;top:4px;width:48px;height:48px"><div style="width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 40% 35%, #fff8ea, #D9C7A3);border:3px solid #5C3A1E;box-shadow:0 3px 0 rgba(0,0,0,.35)"></div></div></div><div class="cell" style="left:264px;top:218px;width:38px;height:54px"><div style="position:absolute;left:4px;top:4px;width:30px;height:38px"><svg style="width:30px;height:38px"><use href="#arrow"/></svg></div></div><div class="cell" style="left:312px;top:218px;width:308px;height:316px"><div style="position:absolute;left:4px;top:4px;width:300px;height:300px"><div style="width:300px;height:300px;border-radius:50%;background:repeating-conic-gradient(from 0deg, rgba(255,220,130,.35) 0 10deg, transparent 10deg 20deg);-webkit-mask:radial-gradient(circle, #000 30%, transparent 70%);mask:radial-gradient(circle, #000 30%, transparent 70%)"></div></div></div><div class="cell" style="left:630px;top:218px;width:98px;height:106px"><div style="position:absolute;left:4px;top:4px;width:90px;height:90px"><div style="width:100%;height:100%;border-radius:14px;background:rgba(255,255,255,.45);border:2px solid #E0A040"></div></div></div><div class="cell" style="left:738px;top:218px;width:42px;height:50px"><div style="position:absolute;left:4px;top:4px;width:34px;height:34px"><div class="ico" style="width:100%;height:100%"></div></div></div><div class="cell" style="left:790px;top:218px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#gear"/></svg></div></div><div class="cell" style="left:840px;top:218px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#scroll"/></svg></div></div><div class="cell" style="left:10px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#shop"/></svg></div></div><div class="cell" style="left:60px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#hammer"/></svg></div></div><div class="cell" style="left:110px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#book"/></svg></div></div><div class="cell" style="left:160px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#play"/></svg></div></div><div class="cell" style="left:210px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#door"/></svg></div></div><div class="cell" style="left:260px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#music"/></svg></div></div><div class="cell" style="left:310px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#sound"/></svg></div></div><div class="cell" style="left:360px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#vib"/></svg></div></div><div class="cell" style="left:410px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#bell"/></svg></div></div><div class="cell" style="left:460px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#globe"/></svg></div></div><div class="cell" style="left:510px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#gfx"/></svg></div></div><div class="cell" style="left:560px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#speed"/></svg></div></div><div class="cell" style="left:610px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#stock"/></svg></div></div><div class="cell" style="left:660px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#star"/></svg></div></div><div class="cell" style="left:710px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#lock"/></svg></div></div><div class="cell" style="left:760px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#cal"/></svg></div></div><div class="cell" style="left:810px;top:544px;width:40px;height:48px"><div style="position:absolute;left:4px;top:4px;width:32px;height:32px"><svg style="width:32px;height:32px"><use href="#x"/></svg></div></div></body></html>

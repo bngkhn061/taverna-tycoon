@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 00_Bira
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 0
+  displayName: Bira
+  basePrice: 3
+  baseTime: 2
+  unlockLevel: 1
+  icon: {fileID: -3858638971443503243, guid: 6daf7af9ddd607c40af8525bdb8731ea, type: 3}
+  cupPrefab: {fileID: 4637970676098598527, guid: 82ee781a87ec27a4680b266bdd5be353, type: 3}
+  upgradeCostMultiplier: 1
+  isFood: 0

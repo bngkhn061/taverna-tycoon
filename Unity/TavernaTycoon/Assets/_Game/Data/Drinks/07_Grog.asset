@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 07_Grog
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 7
+  displayName: Goblin Grogu
+  basePrice: 22
+  baseTime: 6
+  unlockLevel: 14
+  icon: {fileID: 3819818891255956769, guid: f7022262a387ef344a9a4454b742a24d, type: 3}
+  cupPrefab: {fileID: 2495600301747347298, guid: 93b1afa7cb9bd1843b08a156173cafb4, type: 3}
+  upgradeCostMultiplier: 10
+  isFood: 0

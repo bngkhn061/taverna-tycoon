@@ -1,0 +1,153 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Theme.uss" />
+    <ui:Template name="Settings" src="Settings.uxml" />
+    <ui:VisualElement name="hud-root" class="screen" picking-mode="Ignore">
+        <!-- Joystick bölgesi en altta: üstündeki her şey dokunuşu önce alır -->
+        <ui:VisualElement name="joy-zone" class="joy-zone">
+            <ui:VisualElement name="joy-base" class="joy-base" picking-mode="Ignore">
+                <ui:VisualElement name="joy-knob" class="joy-knob" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="world-layer" class="world-layer" picking-mode="Ignore" />
+
+        <!-- Sol üst: kaynaklar -->
+        <ui:VisualElement class="hud-top-left" picking-mode="Ignore">
+            <ui:VisualElement name="coin-pill" class="res pill">
+                <ui:VisualElement name="coin-icon" class="res-icon" />
+                <ui:Label name="coins" text="0" class="res-text" />
+            </ui:VisualElement>
+            <ui:VisualElement class="res pill">
+                <ui:VisualElement name="gem-icon" class="res-icon" />
+                <ui:Label name="gems" text="0" class="res-text" />
+                <ui:Button name="open-shop-plus" text="+" class="plus" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Üst orta: sıradaki hedef -->
+        <ui:VisualElement name="goal" class="goal wood" picking-mode="Ignore">
+            <ui:VisualElement name="goal-icon" class="goal-icon" />
+            <ui:VisualElement class="goal-head">
+                <ui:Label name="goal-text" text="Sıradaki" class="goal-text" />
+                <ui:Label name="goal-num" text="" class="goal-num" />
+            </ui:VisualElement>
+            <ui:VisualElement class="goal-bar"><ui:VisualElement name="goal-fill" class="goal-fill" /></ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="rush" text="YOĞUN SAAT!" class="rush hidden" picking-mode="Ignore" />
+        <ui:VisualElement name="day-report" class="day-report parch hidden" picking-mode="Ignore">
+            <ui:Label name="day-title" text="GÜN 1 BİTTİ" class="day-title" />
+            <ui:Label name="day-text" text="" class="day-text" />
+        </ui:VisualElement>
+
+        <!-- Sağ üst: seviye + ayarlar -->
+        <ui:VisualElement class="hud-top-right" picking-mode="Ignore">
+            <ui:VisualElement class="lvl">
+                <ui:Label name="level" text="1" class="shield" />
+                <ui:VisualElement class="lvl-col">
+                    <ui:VisualElement class="xp pill">
+                        <ui:VisualElement class="xp-track"><ui:VisualElement name="level-fill" class="xp-fill" /></ui:VisualElement>
+                        <ui:Label name="xp-text" text="0 / 20" class="xp-text" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="stars" class="stars" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="open-settings" class="round" style="width: 46px; height: 46px;">
+                <ui:VisualElement class="round-icon" style="width: 22px; height: 22px; background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_gear.png');" />
+            </ui:Button>
+        </ui:VisualElement>
+
+        <!-- Sağ kenar -->
+        <ui:VisualElement class="side" picking-mode="Ignore">
+            <ui:Button name="open-quests" class="btn side-btn">
+                <ui:VisualElement class="side-btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_scroll.png');" />
+                <ui:Label name="quest-badge" text="1" class="badge hidden" picking-mode="Ignore" />
+                <ui:Label text="Görevler" class="side-cap" picking-mode="Ignore" />
+            </ui:Button>
+            <ui:Button name="open-shop" class="btn side-btn">
+                <ui:VisualElement class="side-btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_shop.png');" />
+                <ui:Label name="shop-badge" text="!" class="badge hidden" picking-mode="Ignore" />
+                <ui:Label text="Mağaza" class="side-cap" picking-mode="Ignore" />
+            </ui:Button>
+        </ui:VisualElement>
+
+        <ui:Button name="upgrade-cta" class="btn btn-gold action hidden">
+            <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_star.png');" />
+            <ui:Label text="YÜKSELT" class="title" style="font-size: 22px; color: rgb(58, 36, 24);" />
+        </ui:Button>
+
+        <!-- Yükseltme çekmecesi (sağ) -->
+        <ui:VisualElement name="upgrade-panel" class="drawer-r parch hidden">
+            <ui:Label name="upgrade-title" text="BİRA FIÇISI" class="ribbon" />
+            <ui:Button name="upgrade-close" class="close" />
+            <ui:VisualElement class="st-card">
+                <ui:VisualElement name="upgrade-thumb" class="st-thumb card" />
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:VisualElement class="tierbar">
+                        <ui:Label name="tier1" text="AHŞAP" class="tier t1" />
+                        <ui:Label name="tier2" text="PİRİNÇ · 4" class="tier t2" />
+                        <ui:Label name="tier3" text="ALTIN · 8" class="tier t3" />
+                    </ui:VisualElement>
+                    <ui:Label name="upgrade-info" text="" class="stats" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="upgrade-rows" />
+        </ui:VisualElement>
+
+        <!-- Görevler çekmecesi (sol) -->
+        <ui:VisualElement name="quests-panel" class="drawer-l parch hidden">
+            <ui:Label text="GÜNLÜK GÖREVLER" class="ribbon" />
+            <ui:Button name="quests-close" class="close" />
+            <ui:VisualElement name="quest-rows" />
+            <ui:Label name="quest-reset" text="" class="small-note" />
+        </ui:VisualElement>
+
+        <!-- Mağaza -->
+        <ui:VisualElement name="shop-root" class="screen overlay hidden">
+            <ui:VisualElement class="parch modal shop">
+                <ui:Label text="MAĞAZA" class="ribbon" />
+                <ui:Button name="shop-close" class="close" />
+                <ui:VisualElement class="tabs shop-tabs">
+                    <ui:Button name="tab-mac" text="Makineler" class="tab on" />
+                    <ui:Button name="tab-staff" text="Personel" class="tab" />
+                    <ui:Button name="tab-dec" text="Dekor" class="tab" />
+                    <ui:Button name="tab-boost" text="Hızlandır" class="tab" />
+                </ui:VisualElement>
+                <ui:ScrollView name="shop-scroll" mode="Horizontal" class="shop-scroll" />
+                <ui:Label name="shop-note" text="" class="small-note" style="margin-top: 6px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Sen yokken -->
+        <ui:VisualElement name="offline-root" class="screen overlay hidden">
+            <ui:VisualElement class="parch modal" style="width: 450px;">
+                <ui:Label text="SEN YOKKEN…" class="ribbon" />
+                <ui:VisualElement class="popup-row">
+                    <ui:VisualElement class="popup-img" style="background-image: url('project://database/Assets/_Game/Art/Icons/ICO_ParaYigini.png');" />
+                    <ui:VisualElement>
+                        <ui:Label name="offline-sub" text="" class="popup-sub" />
+                        <ui:Label name="offline-text" text="+0" class="popup-big" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="popup-actions">
+                    <ui:Button name="offline-collect" text="TOPLA" class="btn" />
+                    <ui:Button name="offline-double" text="×2 TOPLA · 5 elmas" class="btn btn-gold" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Seviye atladın -->
+        <ui:VisualElement name="levelup-root" class="screen overlay hidden">
+            <ui:VisualElement name="rays" class="rays" picking-mode="Ignore" />
+            <ui:VisualElement class="parch modal lvlcard">
+                <ui:Label name="levelup-num" text="5" class="shield bigshield" />
+                <ui:Label text="SEVİYE ATLADIN!" class="ribbon lvl-ribbon" />
+                <ui:VisualElement name="unlocks" class="unlocks" />
+                <ui:Button name="levelup-claim" text="TOPLA" class="btn btn-green" style="min-width: 180px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="fx-layer" class="world-layer" picking-mode="Ignore" />
+        <ui:Label name="toast" text="" class="toast wood hidden" picking-mode="Ignore" />
+        <ui:Instance template="Settings" class="screen" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

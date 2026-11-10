@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 10_Muhafiz
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 10
+  displayName: "Muhaf\u0131z"
+  modelPrefab: {fileID: 8904487153383200819, guid: 3ee572721c515634cbd08b536d383dd4, type: 3}
+  drinks: 00000000i
+  patienceStars: 3
+  payStars: 2
+  unlockLevel: 9
+  ordersPerVisit: 1
+  spawnWeight: 1

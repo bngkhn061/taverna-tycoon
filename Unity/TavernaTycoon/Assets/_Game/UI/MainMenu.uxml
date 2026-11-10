@@ -1,0 +1,85 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Ana menü — UI v3 (design/ui/ui_v3_ink.html §1, §9). Arka plan canlı 3D sahne; kök şeffaf. -->
+    <Style src="Theme.uss" />
+    <ui:Template name="Settings" src="Settings.uxml" />
+    <ui:VisualElement name="menu-root" class="screen menu-bg">
+        <ui:VisualElement name="menu-logo" class="logo-img" picking-mode="Ignore" style="background-image: url('project://database/Assets/_Game/UI/Images/Logo/logo_main.png');" />
+        <ui:VisualElement class="menu-stack">
+            <ui:Button name="play" class="btn play">
+                <ui:VisualElement class="btn-icon" style="width: 30px; height: 30px; background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_play.png');" />
+                <ui:Label text="OYNA" />
+            </ui:Button>
+            <ui:Button name="settings" class="btn btn-paper">
+                <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_gear.png');" />
+                <ui:Label text="AYARLAR" />
+            </ui:Button>
+            <ui:Button name="quit" class="btn btn-paper">
+                <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_door.png');" />
+                <ui:Label text="ÇIKIŞ" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:VisualElement class="menu-foot">
+            <ui:Button name="daily" class="round">
+                <ui:VisualElement class="round-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_cal.png');" />
+                <ui:Label name="daily-badge" text="!" class="badge" />
+            </ui:Button>
+            <ui:Button name="book" class="round">
+                <ui:VisualElement class="round-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_book.png');" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:Label text="v1.0" class="version" />
+
+        <!-- Günlük ödül -->
+        <ui:VisualElement name="daily-root" class="screen overlay hidden">
+            <ui:VisualElement class="modal v3-panel" style="width: 440px;">
+                <ui:Label text="GÜNLÜK ÖDÜL" class="ribbon" />
+                <ui:Button name="daily-close" class="close"><ui:VisualElement class="x-ic" /></ui:Button>
+                <ui:VisualElement class="popup-ic" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_gift.png');" />
+                <ui:Label name="daily-sub" text="Gün 1" class="popup-sub" />
+                <ui:VisualElement class="popup-amount">
+                    <ui:Label name="daily-text" text="+50" class="popup-big" style="font-size: 32px;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="popup-actions">
+                    <ui:Button name="daily-claim" text="TOPLA" class="btn last" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Koleksiyon defteri -->
+        <!-- v0.9 · Tavernana ad ver (mockup A, ilk OYNA'da) -->
+        <ui:VisualElement name="name-root" class="screen overlay hidden">
+            <ui:VisualElement class="modal v3-panel" style="width: 560px;">
+                <ui:Label text="TAVERNANA AD VER" class="ribbon" />
+                <ui:Label text="Bu ad tavernanın önündeki tabelada yazacak" class="popup-sub" />
+                <ui:VisualElement class="name-line">
+                    <ui:TextField name="name-field" class="name-field" max-length="20" />
+                    <ui:Button name="name-dice" class="btn btn-sun name-dice"><ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_star.png');" /></ui:Button>
+                </ui:VisualElement>
+                <ui:VisualElement name="name-chips" class="name-chips" />
+                <ui:Button name="name-go" class="btn name-go">
+                    <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_door.png');" />
+                    <ui:Label text="AÇILIŞ!" />
+                </ui:Button>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="book-root" class="screen overlay hidden">
+            <ui:VisualElement class="modal v3-panel book">
+                <ui:Label text="KOLEKSİYON DEFTERİ" class="ribbon" />
+                <ui:Button name="book-close" class="close"><ui:VisualElement class="x-ic" /></ui:Button>
+                <ui:Label name="book-info" text="" class="small-note" style="margin: 0 0 8px 0;" />
+                <ui:ScrollView class="book-scroll"><ui:VisualElement name="book-grid" class="book-grid" /></ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- v1.0 · Açılış animasyonu: logo zıplar, kupalar tokuşur, köpük sıçrar (~2,5 sn, dokununca geçilir) -->
+        <ui:VisualElement name="intro-root" class="screen intro-root hidden">
+            <ui:VisualElement name="intro-rays" class="intro-rays" picking-mode="Ignore" style="background-image: url('project://database/Assets/_Game/UI/Images/Logo/rays_1024.png');" />
+            <ui:VisualElement name="intro-logo" class="intro-logo" picking-mode="Ignore" style="background-image: url('project://database/Assets/_Game/UI/Images/Logo/logo_main.png');" />
+            <ui:VisualElement name="intro-mug-l" class="intro-mug" picking-mode="Ignore" style="background-image: url('project://database/Assets/_Game/UI/Images/Logo/mug_512.png');" />
+            <ui:VisualElement name="intro-mug-r" class="intro-mug flip" picking-mode="Ignore" style="background-image: url('project://database/Assets/_Game/UI/Images/Logo/mug_512.png');" />
+            <ui:VisualElement name="intro-foam" class="screen" picking-mode="Ignore" />
+            <ui:Label name="intro-skip" text="dokun · geç" class="intro-skip" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <ui:Instance template="Settings" class="screen" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

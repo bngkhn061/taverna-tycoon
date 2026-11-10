@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Taverna Tycoon — logo (son hali)</title>
+<!-- Onaylı yön "A · Barlo Rozeti" (2026-11-10). Şeffaf PNG'ler Edge headless ile alınır:
+     ?only=main (1100×1260 menü/açılış logosu) · icon (1024 uygulama ikonu) · fg / bg (Android uyarlanabilir ikon katmanları, 1024). -->
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@900&display=block" rel="stylesheet">
+<style>
+  :root { --ink: #1f1a17; --paper: #fbf3e2; --mus: #f2b631; --brick: #d4553a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: transparent; }
+  body:not(.only) { background: #241913; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px; }
+  .frame { position: relative; overflow: hidden; }
+  body:not(.only) .frame { outline: 2px dashed #555; zoom: .35; }
+  .ink { -webkit-text-stroke: 21px var(--ink); paint-order: stroke fill; }
+  .rays { position: absolute; inset: -20%; background: repeating-conic-gradient(rgba(255,255,255,.2) 0 10deg, transparent 10deg 20deg); }
+  .face { position: absolute; background: url("../../assets/ui/logo/barlo_face_1024.png") center 22% / 118% no-repeat; }
+
+  /* menü + açılış logosu: 1100 × 1260 */
+  #main { width: 1100px; height: 1260px; }
+  #main .disc { position: absolute; left: 160px; top: 20px; width: 780px; height: 780px; border-radius: 50%; overflow: hidden;
+                background: radial-gradient(circle at 50% 40%, #ffd067 0, var(--mus) 55%, #d9941b 100%);
+                border: 24px solid var(--ink); box-shadow: 24px 24px 0 var(--ink), inset 0 0 0 26px #e3a321; }
+  #main .disc .face { inset: 0 -30px -70px -30px; background-size: 112%; background-position: center 10%; }
+  #main .ribbon { position: absolute; left: 40px; right: 40px; top: 640px; height: 250px; background: var(--brick); border: 21px solid var(--ink); border-radius: 40px;
+                  box-shadow: 21px 21px 0 var(--ink); transform: rotate(-4deg); display: flex; align-items: center; justify-content: center; }
+  #main .ribbon span { font: 900 172px "Rubik"; color: var(--paper); letter-spacing: 4px; line-height: 1; margin-top: -8px; }
+  #main .tag { position: absolute; left: 50%; top: 905px; transform: translateX(-50%) rotate(3deg); background: var(--paper); color: var(--ink); border: 18px solid var(--ink);
+               border-radius: 36px; padding: 6px 70px 16px; font: 900 112px "Rubik"; box-shadow: 15px 15px 0 var(--ink); letter-spacing: 6px; }
+
+  /* uygulama ikonu: kenara kadar (köşeleri işletim sistemi yuvarlar) */
+  #icon { width: 1024px; height: 1024px; background: radial-gradient(circle at 50% 38%, #ffd067 0, var(--mus) 55%, #d9941b 100%); }
+  #icon .face { inset: 10px -60px -120px -60px; background-size: 112%; background-position: center 8%; }
+  #icon .ring { position: absolute; inset: 0; box-shadow: inset 0 0 0 36px rgba(31,26,23,.9); }
+
+  /* Android uyarlanabilir ikon: arka plan (desen) + ön plan (yüz, güvenli alan ortadaki %66) */
+  #bg { width: 1024px; height: 1024px; background: radial-gradient(circle at 50% 42%, #ffd067 0, var(--mus) 55%, #d9941b 100%); }
+  #fg { width: 1024px; height: 1024px; }
+  /* açılış animasyonu: dönen ışınlar (şeffaf, kenara doğru söner) */
+  #rays { width: 1024px; height: 1024px; }
+  #rays div { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(rgba(255,214,110,.55) 0 9deg, transparent 9deg 20deg);
+              -webkit-mask: radial-gradient(circle, #000 0, #000 35%, transparent 70%); }
+  #fg .face { inset: 150px 150px 90px 150px; background-size: 112%; background-position: center 12%; }
+</style>
+</head>
+<body>
+<div class="frame" id="main">
+  <div class="disc"><div class="rays"></div><div class="face"></div></div>
+  <div class="ribbon"><span class="ink">TAVERNA</span></div>
+  <div class="tag">TYCOON</div>
+</div>
+<div class="frame" id="icon"><div class="rays"></div><div class="face"></div></div>
+<div class="frame" id="bg"><div class="rays"></div></div>
+<div class="frame" id="fg"><div class="face"></div></div>
+<div class="frame" id="rays"><div></div></div>
+<script>
+  const only = new URLSearchParams(location.search).get("only");
+  if (only) { document.body.classList.add("only"); document.querySelectorAll(".frame").forEach(f => { if (f.id !== only) f.style.display = "none"; }); }
+</script>
+</body>
+</html>

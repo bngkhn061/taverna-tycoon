@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 10_Ekmek
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 10
+  displayName: "S\u0131cak Ekmek"
+  basePrice: 9
+  baseTime: 7
+  unlockLevel: 6
+  icon: {fileID: -971405261404874014, guid: 210571945a00dc245901299aebca8b1d, type: 3}
+  cupPrefab: {fileID: 4582830022110541171, guid: ee4163b143e14504eae43015fea4d256, type: 3}
+  upgradeCostMultiplier: 1
+  isFood: 1

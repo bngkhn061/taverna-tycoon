@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 04_Sut
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 4
+  displayName: "S\xFCt"
+  basePrice: 6
+  baseTime: 2
+  unlockLevel: 6
+  icon: {fileID: 2871491920929851553, guid: 12ad81136bed66c40a3f5cb8df3622d1, type: 3}
+  cupPrefab: {fileID: 6735063789363865811, guid: 1f843c12cd8ac6549a910ab39697a0ed, type: 3}
+  upgradeCostMultiplier: 1
+  isFood: 0

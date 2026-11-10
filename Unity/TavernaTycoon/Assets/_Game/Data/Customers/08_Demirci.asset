@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 08_Demirci
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 8
+  displayName: Demirci
+  modelPrefab: {fileID: 2335686919799884703, guid: 39f510d0641dfc64aaaf181f78714e1c, type: 3}
+  drinks: 05000000i
+  patienceStars: 3
+  payStars: 2
+  unlockLevel: 8
+  ordersPerVisit: 1
+  spawnWeight: 1

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 03_Sarap
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 3
+  displayName: "K\u0131rm\u0131z\u0131 \u015Earap"
+  basePrice: 10
+  baseTime: 5
+  unlockLevel: 5
+  icon: {fileID: -806866318681124122, guid: 22e84bc4b42000541a0eae708957d6cf, type: 3}
+  cupPrefab: {fileID: 2340225334387366460, guid: 7037539cb2df5f2428c67bc5060bf967, type: 3}
+  upgradeCostMultiplier: 4
+  isFood: 0

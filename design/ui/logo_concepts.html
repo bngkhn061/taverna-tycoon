@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Taverna Tycoon — logo yönleri</title>
+<!-- Logo + uygulama ikonu yönleri (2026-11-10). Stil: UI v3 "Mürekkep Çizgi" (kalın mürekkep kontur, düz renk, hafif eğim) +
+     oyunun 3D oyuncak renderları (assets/icons). ?only=<id> tek kare. Font: Rubik (OFL). -->
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800;900&family=Nunito:wght@800;900&display=block" rel="stylesheet">
+<style>
+  :root { --ink: #1f1a17; --paper: #fbf3e2; --paper2: #efe2c6; --mus: #f2b631; --brick: #d4553a; --teal: #2f8f8a; --plum: #6c4a7d; --wood: #8b5a2b; --wood2: #5c3a1e; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #17120f; font: 900 15px "Nunito"; color: var(--paper); width: 1306px; padding: 20px; }
+  body.only { width: 1266px; padding: 0; }
+  body.only .label, body.only .sub { display: none; }
+  .label { font: 900 22px "Rubik"; color: #f4e6c8; margin: 6px 0 2px; }
+  .sub { font: 800 14px "Nunito"; color: #b9a98d; margin-bottom: 10px; max-width: 1200px; }
+  .frame { position: relative; width: 1266px; height: 585px; overflow: hidden; border-radius: 14px; margin-bottom: 30px; display: flex; align-items: center;
+           background: radial-gradient(circle at 35% 45%, #4a3427 0, #241913 70%); }
+  body.only .frame { border-radius: 0; margin: 0; }
+  .left { flex: 1.35; display: flex; align-items: center; justify-content: center; height: 100%; }
+  .right { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; height: 100%; border-left: 3px dashed rgba(251,243,226,.15); }
+  .icons { display: flex; gap: 26px; align-items: flex-end; }
+  .cap { font: 800 13px "Nunito"; color: #b9a98d; text-align: center; margin-top: 6px; }
+  .ink { -webkit-text-stroke: 7px var(--ink); paint-order: stroke fill; }
+
+  /* ---------- A · Barlo rozeti ---------- */
+  .badgeA { position: relative; width: 340px; height: 400px; }
+  .badgeA .disc { position: absolute; left: 20px; top: 0; width: 300px; height: 300px; border-radius: 50%; background: var(--mus); border: 8px solid var(--ink);
+                  box-shadow: 8px 8px 0 var(--ink), inset 0 0 0 10px #e3a321; overflow: hidden; }
+  .badgeA .disc .face { position: absolute; inset: 10px -10px -30px -10px; background: url("../../assets/icons/ICO_Main_Barlo.png") center 20% / 118% no-repeat; }
+  .badgeA .rays { position: absolute; inset: 0; background: repeating-conic-gradient(rgba(255,255,255,.18) 0 10deg, transparent 10deg 20deg); }
+  .ribbonA { position: absolute; left: -40px; right: -40px; top: 232px; height: 96px; background: var(--brick); border: 7px solid var(--ink); border-radius: 14px;
+             box-shadow: 7px 7px 0 var(--ink); transform: rotate(-4deg); display: flex; align-items: center; justify-content: center; }
+  .ribbonA span { font: 900 58px "Rubik"; color: var(--paper); letter-spacing: 1px; }
+  .tagA { position: absolute; left: 50%; top: 330px; transform: translateX(-50%) rotate(3deg); background: var(--paper); color: var(--ink); border: 6px solid var(--ink);
+          border-radius: 12px; padding: 4px 22px; font: 900 34px "Rubik"; box-shadow: 5px 5px 0 var(--ink); }
+
+  /* ---------- B · Köpüklü kupa ---------- */
+  .wordB { position: relative; text-align: center; }
+  .wordB .t1 { font: 900 128px "Rubik"; color: var(--mus); letter-spacing: 2px; line-height: 1; }
+  .wordB .foam { position: absolute; left: 30px; right: 30px; top: -22px; height: 44px; }
+  .wordB .foam i { position: absolute; top: 0; width: 70px; height: 44px; border-radius: 50%; background: #fffaf0; border: 6px solid var(--ink); }
+  .wordB .drip { position: absolute; width: 18px; border: 6px solid var(--ink); border-top: 0; border-radius: 0 0 12px 12px; background: #fffaf0; }
+  .wordB .t2 { display: inline-block; margin-top: 14px; padding: 6px 30px 10px; font: 900 46px "Rubik"; color: var(--paper); background: var(--teal); border: 7px solid var(--ink);
+               border-radius: 14px; box-shadow: 7px 7px 0 var(--ink); transform: rotate(-3deg); letter-spacing: 6px; }
+  .wordB .mug { position: absolute; right: -150px; top: 10px; width: 170px; height: 170px; background: url("../../assets/icons/ICO_Bira.png") center / contain no-repeat; transform: rotate(14deg);
+                filter: drop-shadow(6px 6px 0 var(--ink)); }
+
+  /* ---------- C · Han tabelası ---------- */
+  .signC { position: relative; width: 600px; height: 360px; }
+  .signC .bar { position: absolute; left: 30px; right: 30px; top: 0; height: 26px; background: var(--wood2); border: 6px solid var(--ink); border-radius: 8px; }
+  .signC .chain { position: absolute; top: 20px; width: 8px; height: 60px; background: repeating-linear-gradient(var(--ink) 0 10px, #6b6560 10px 16px); }
+  .signC .board { position: absolute; left: 0; right: 0; top: 74px; height: 250px; background: linear-gradient(#9a6634, var(--wood)); border: 8px solid var(--ink); border-radius: 22px;
+                  box-shadow: 9px 9px 0 var(--ink); transform: rotate(-2deg); display: flex; flex-direction: column; align-items: center; justify-content: center;
+                  background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.08) 0 3px, transparent 3px 34px), linear-gradient(#9a6634, var(--wood)); }
+  .signC .name { font: 900 96px "Rubik"; color: var(--mus); line-height: .95; }
+  .signC .name2 { font: 900 44px "Rubik"; color: var(--paper); letter-spacing: 8px; margin-top: 4px; }
+  .signC .emb { position: absolute; width: 104px; height: 104px; top: -40px; left: 50%; transform: translateX(-50%); border-radius: 50%; background: var(--brick); border: 7px solid var(--ink);
+                box-shadow: 5px 5px 0 var(--ink); }
+  .signC .emb i { position: absolute; inset: 8px; background: url("../../assets/icons/ICO_Bira.png") center / contain no-repeat; }
+
+  /* ---------- ikonlar ---------- */
+  .ic { position: relative; overflow: hidden; border: 7px solid var(--ink); }
+  .sq { border-radius: 26%; }
+  .ci { border-radius: 50%; }
+  .ic.a { background: radial-gradient(circle at 50% 40%, #ffd067 0, var(--mus) 55%, #d9941b 100%); }
+  .ic.a::before { content: ""; position: absolute; inset: 0; background: repeating-conic-gradient(rgba(255,255,255,.18) 0 10deg, transparent 10deg 20deg); }
+  .ic.a i { position: absolute; inset: 4% -12% -20% -12%; background: url("../../assets/icons/ICO_Main_Barlo.png") center 18% / cover no-repeat; }
+  .ic.b { background: radial-gradient(circle at 50% 40%, #ff7a5c 0, var(--brick) 60%, #a83b25 100%); }
+  .ic.b i { position: absolute; inset: 8%; background: url("../../assets/icons/ICO_Bira.png") center / contain no-repeat; filter: drop-shadow(5px 5px 0 var(--ink)); transform: rotate(10deg); }
+  .ic.b::after { content: "TT"; position: absolute; right: 9%; bottom: 4%; font: 900 22% "Rubik"; }
+  .ic.c { background: #3a2a20; }
+  .ic.c .bd { position: absolute; left: 10%; right: 10%; top: 30%; bottom: 14%; background: linear-gradient(#9a6634, var(--wood)); border: 5px solid var(--ink); border-radius: 14%; }
+  .ic.c .ch { position: absolute; top: 8%; width: 4%; height: 24%; background: repeating-linear-gradient(var(--ink) 0 6px, #6b6560 6px 10px); }
+  .ic.c i { position: absolute; left: 22%; right: 22%; top: 30%; bottom: 14%; background: url("../../assets/icons/ICO_Bira.png") center / contain no-repeat; }
+</style>
+</head>
+<body>
+
+<div class="label">A · Barlo Rozeti</div>
+<div class="sub">Oyunun yüzü Barlo; altın rozet, ışın deseni, kırmızı kurdele "TAVERNA" ve krem etiket "TYCOON". İkonda Barlo'nun yüzü (mağazada en çok tıklanan tip: karakter yüzü). Menüde, açılış animasyonunda ve ikonda aynı karakter.</div>
+<div class="frame" id="a">
+  <div class="left">
+    <div class="badgeA">
+      <div class="disc"><div class="rays"></div><div class="face"></div></div>
+      <div class="ribbonA"><span class="ink">TAVERNA</span></div>
+      <div class="tagA">TYCOON</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="icons">
+      <div><div class="ic a sq" style="width:180px;height:180px"><i></i></div><div class="cap">iOS / Android</div></div>
+      <div><div class="ic a ci" style="width:120px;height:120px"><i></i></div><div class="cap">yuvarlak maske</div></div>
+      <div><div class="ic a sq" style="width:64px;height:64px;border-width:4px"><i></i></div><div class="cap">küçük</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="label">B · Köpüklü Kupa</div>
+<div class="sub">Büyük hardal "TAVERNA" yazısının üstünden köpük taşar, damlalar iner; altında yeşil "TYCOON" şeridi, yanında eğik bira kupası. İkonda kırmızı zeminde kupa. Daha "oyun mağazası" havası, karakter yok.</div>
+<div class="frame" id="b">
+  <div class="left">
+    <div class="wordB">
+      <div class="foam">
+        <i style="left:0"></i><i style="left:60px;top:-8px"></i><i style="left:125px"></i><i style="left:190px;top:-10px"></i><i style="left:255px"></i><i style="left:320px;top:-6px"></i><i style="left:385px"></i><i style="left:445px;top:-8px"></i>
+        <span class="drip" style="left:70px;top:30px;height:40px"></span><span class="drip" style="left:230px;top:30px;height:60px"></span><span class="drip" style="left:410px;top:30px;height:34px"></span>
+      </div>
+      <div class="t1 ink">TAVERNA</div>
+      <div class="t2">TYCOON</div>
+      <div class="mug"></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="icons">
+      <div><div class="ic b sq" style="width:180px;height:180px"><i></i></div><div class="cap">iOS / Android</div></div>
+      <div><div class="ic b ci" style="width:120px;height:120px"><i></i></div><div class="cap">yuvarlak maske</div></div>
+      <div><div class="ic b sq" style="width:64px;height:64px;border-width:4px"><i></i></div><div class="cap">küçük</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="label">C · Han Tabelası</div>
+<div class="sub">Oyundaki tabela gibi zincirle asılı ahşap pano; oyulmuş hardal "TAVERNA", krem "TYCOON", tepede kırmızı madalyonda kupa. İkonda koyu zeminde küçük tabela. Oyunun içindeki tabela fikriyle uyumlu.</div>
+<div class="frame" id="c">
+  <div class="left">
+    <div class="signC">
+      <div class="bar"></div>
+      <div class="chain" style="left:110px"></div><div class="chain" style="right:110px"></div>
+      <div class="board"><div class="emb"><i></i></div><div class="name ink">TAVERNA</div><div class="name2">TYCOON</div></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="icons">
+      <div><div class="ic c sq" style="width:180px;height:180px"><span class="ch" style="left:26%"></span><span class="ch" style="right:26%"></span><div class="bd"></div><i></i></div><div class="cap">iOS / Android</div></div>
+      <div><div class="ic c ci" style="width:120px;height:120px"><span class="ch" style="left:26%"></span><span class="ch" style="right:26%"></span><div class="bd"></div><i></i></div><div class="cap">yuvarlak maske</div></div>
+      <div><div class="ic c sq" style="width:64px;height:64px;border-width:4px"><div class="bd" style="border-width:3px"></div><i></i></div><div class="cap">küçük</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const only = new URLSearchParams(location.search).get("only");
+  if (only) { document.body.classList.add("only"); document.querySelectorAll(".frame").forEach(f => { if (f.id !== only) f.style.display = "none"; }); }
+</script>
+</body>
+</html>

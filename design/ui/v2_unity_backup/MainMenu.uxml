@@ -1,0 +1,66 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Theme.uss" />
+    <ui:Template name="Settings" src="Settings.uxml" />
+    <ui:VisualElement name="menu-root" class="screen menu-bg">
+        <ui:VisualElement class="vignette" picking-mode="Ignore" />
+        <ui:VisualElement class="logo wood">
+            <ui:Label text="TAVERNA" class="logo-title" />
+            <ui:Label text="TYCOON" class="ribbon logo-ribbon" />
+            <ui:VisualElement class="logo-mug" style="background-image: url('project://database/Assets/_Game/Art/Icons/ICO_Bira.png');" />
+        </ui:VisualElement>
+        <ui:VisualElement class="menu-stack">
+            <ui:Button name="play" class="btn btn-green">
+                <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_play.png');" />
+                <ui:Label text="OYNA" class="title" style="font-size: 30px;" />
+            </ui:Button>
+            <ui:Button name="settings" class="btn">
+                <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_gear.png');" />
+                <ui:Label text="AYARLAR" class="title" style="font-size: 23px;" />
+            </ui:Button>
+            <ui:Button name="quit" class="btn">
+                <ui:VisualElement class="btn-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_door.png');" />
+                <ui:Label text="ÇIKIŞ" class="title" style="font-size: 23px;" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:VisualElement class="menu-foot">
+            <ui:Button name="daily" class="round">
+                <ui:VisualElement class="round-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_cal.png');" />
+                <ui:Label name="daily-badge" text="!" class="badge" />
+            </ui:Button>
+            <ui:Button name="book" class="round">
+                <ui:VisualElement class="round-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_book.png');" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:Label text="v0.4 · Çalışma adı" class="version" />
+
+        <!-- Günlük ödül -->
+        <ui:VisualElement name="daily-root" class="screen overlay hidden">
+            <ui:VisualElement class="parch modal" style="width: 440px;">
+                <ui:Label text="GÜNLÜK ÖDÜL" class="ribbon" />
+                <ui:Button name="daily-close" class="close" />
+                <ui:VisualElement class="popup-row">
+                    <ui:VisualElement class="popup-img" style="background-image: url('project://database/Assets/_Game/Art/Icons/ICO_ParaYigini.png');" />
+                    <ui:VisualElement>
+                        <ui:Label name="daily-sub" text="Gün 1" class="popup-sub" />
+                        <ui:Label name="daily-text" text="+50" class="popup-big" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="popup-actions">
+                    <ui:Button name="daily-claim" text="TOPLA" class="btn btn-green" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Koleksiyon defteri -->
+        <ui:VisualElement name="book-root" class="screen overlay hidden">
+            <ui:VisualElement class="parch modal book">
+                <ui:Label text="KOLEKSİYON DEFTERİ" class="ribbon" />
+                <ui:Button name="book-close" class="close" />
+                <ui:Label name="book-info" text="" class="small-note" style="margin: 0 0 6px 0;" />
+                <ui:ScrollView class="book-scroll"><ui:VisualElement name="book-grid" class="book-grid" /></ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:Instance template="Settings" class="screen" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

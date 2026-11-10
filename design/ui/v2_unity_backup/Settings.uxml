@@ -1,0 +1,56 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Theme.uss" />
+    <ui:VisualElement name="settings-root" class="screen overlay hidden">
+        <ui:VisualElement class="parch modal" style="width: 580px;">
+            <ui:Label text="AYARLAR" class="ribbon" />
+            <ui:Button name="settings-close" class="close" />
+            <ui:VisualElement class="cols">
+                <ui:VisualElement class="col col-gap">
+                    <ui:VisualElement class="row">
+                        <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_music.png');" /></ui:VisualElement>
+                        <ui:Label text="Müzik" class="row-label" />
+                        <ui:Slider name="music" low-value="0" high-value="1" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="row">
+                        <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_sound.png');" /></ui:VisualElement>
+                        <ui:Label text="Ses Efektleri" class="row-label" />
+                        <ui:Slider name="sfx" low-value="0" high-value="1" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="row">
+                        <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_vib.png');" /></ui:VisualElement>
+                        <ui:Label text="Titreşim" class="row-label" />
+                        <ui:Button name="vibration" text="AÇIK" class="btn btn-sm toggle" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="col">
+                    <ui:VisualElement class="row">
+                        <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_bell.png');" /></ui:VisualElement>
+                        <ui:Label text="Bildirimler" class="row-label" />
+                        <ui:Button name="notifications" text="KAPALI" class="btn btn-sm toggle" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="row">
+                        <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_globe.png');" /></ui:VisualElement>
+                        <ui:Label text="Dil" class="row-label" />
+                        <ui:VisualElement class="tabs">
+                            <ui:Button name="lang-tr" text="TR" class="tab" />
+                            <ui:Button name="lang-en" text="EN" class="tab" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="row">
+                        <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/icon_gfx.png');" /></ui:VisualElement>
+                        <ui:Label text="Grafik" class="row-label" />
+                        <ui:VisualElement class="tabs">
+                            <ui:Button name="gfx-0" text="Düşük" class="tab" />
+                            <ui:Button name="gfx-1" text="Orta" class="tab" />
+                            <ui:Button name="gfx-2" text="Yüksek" class="tab" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="sheet-actions">
+                <ui:Button name="to-menu" text="Ana Menü" class="btn" />
+                <ui:Button name="reset-save" text="Kaydı Sıfırla" class="btn btn-red" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

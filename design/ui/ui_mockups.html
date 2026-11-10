@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arayüz Tasarımları</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ===== Tasarım jetonları (DESIGN_RULES.md §4 ve §9) ===== */
+  :root {
+    --mese: #8B5A2B; --koyu-mese: #5C3A1E; --bal: #E0A040; --tas: #9C9488; --koyu-tas: #6B6560;
+    --ates: #FF8A2A; --bez: #D9C7A3; --kirmizi: #C8443A; --yesil: #4F7F3A; --mavi: #3E5FA8;
+    --altin: #F2C14E; --lacivert: #2B2F4A; --krem: #F4E8D0; --parsomen: #EFDDB6; --parsomen-koyu: #D9BE8A;
+    --mor: #7A4FA8; --elmas: #A8E0F0; --goz: #2A2220;
+    --page: #2A1F1A; --ink: #3A2418;
+    --r-btn: 16px;
+    --font-title: "Lilita One", "Trebuchet MS", sans-serif;
+    --font-body: "Nunito", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--krem); font-family: var(--font-body); }
+  header.page { padding: 28px 24px 8px; max-width: 1600px; margin: 0 auto; }
+  header.page h1 { font-family: var(--font-title); font-weight: 400; margin: 0 0 6px; font-size: 32px; letter-spacing: .5px; color: var(--altin); }
+  header.page p { margin: 0; opacity: .8; }
+  .board { display: flex; flex-wrap: wrap; gap: 28px; padding: 24px; justify-content: center; max-width: 1600px; margin: 0 auto; }
+  figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  figcaption { font-weight: 800; color: var(--bal); letter-spacing: .4px; }
+
+  /* ===== Telefon çerçevesi (360x780 dp) ===== */
+  .phone { width: 360px; height: 780px; border-radius: 38px; overflow: hidden; position: relative;
+           border: 8px solid #120d0a; box-shadow: 0 20px 50px rgba(0,0,0,.5); background: #3A2A3E; }
+  .bg { position: absolute; inset: 0; background: url("../../assets/renders/Menu_Background.png") center 40%/cover; }
+  .bg.dim::after { content: ""; position: absolute; inset: 0; background: rgba(30,18,12,.55); backdrop-filter: blur(3px); }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 55%, transparent 45%, rgba(20,10,5,.65)); pointer-events: none; }
+
+  /* ===== Ahşap tabela ===== */
+  .wood { background:
+            repeating-linear-gradient(90deg, rgba(0,0,0,.0) 0 22px, rgba(0,0,0,.07) 22px 24px),
+            linear-gradient(180deg, #A06A35, var(--mese) 55%, #74481F);
+          border: 4px solid var(--koyu-mese); border-radius: 18px;
+          box-shadow: inset 0 3px 0 rgba(255,255,255,.18), inset 0 -5px 0 rgba(0,0,0,.25), 0 6px 0 #3d250f, 0 10px 18px rgba(0,0,0,.4); }
+  .nail { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d9cfc4, var(--koyu-tas)); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+  .parchment { background: radial-gradient(ellipse at 50% 40%, #F7E9C8, var(--parsomen) 60%, var(--parsomen-koyu));
+               color: var(--ink); border-radius: 20px; border: 4px solid var(--koyu-mese);
+               box-shadow: inset 0 0 0 3px var(--bal), inset 0 0 30px rgba(140,90,40,.35), 0 10px 24px rgba(0,0,0,.45); }
+
+  /* ===== Butonlar ===== */
+  .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+         font-family: var(--font-title); font-size: 26px; letter-spacing: 1px; color: var(--krem);
+         border-radius: var(--r-btn); border: 4px solid var(--koyu-mese); padding: 12px 18px; cursor: pointer;
+         text-shadow: 0 2px 0 rgba(0,0,0,.35); position: relative; }
+  .btn.green  { background: linear-gradient(180deg, #78B356, var(--yesil)); box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 6px 0 #2d4a20, 0 10px 16px rgba(0,0,0,.35); }
+  .btn.wood   { font-size: 22px; }
+  .btn.red    { background: linear-gradient(180deg, #E0675C, var(--kirmizi)); box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 6px 0 #7a2620, 0 10px 16px rgba(0,0,0,.35); }
+  .btn.gold   { background: linear-gradient(180deg, #FFD978, var(--altin)); color: var(--ink); text-shadow: none; box-shadow: inset 0 3px 0 rgba(255,255,255,.4), 0 5px 0 #9a7426; }
+  .btn.small  { font-size: 18px; padding: 8px 12px; }
+  .btn svg { width: 26px; height: 26px; flex: none; }
+
+  /* ===== Ana menü ===== */
+  .logo { position: absolute; top: 46px; left: 26px; right: 26px; padding: 18px 10px 22px; text-align: center; }
+  .logo .chains { position: absolute; top: -46px; width: 4px; height: 46px; background: repeating-linear-gradient(180deg, var(--koyu-tas) 0 6px, transparent 6px 9px); }
+  .logo .t1 { font-family: var(--font-title); font-size: 50px; line-height: .95; color: var(--altin);
+              text-shadow: 0 3px 0 var(--koyu-mese), 0 6px 0 rgba(0,0,0,.35); letter-spacing: 1px; }
+  .logo .ribbon { display: inline-block; margin-top: 8px; padding: 4px 26px; font-family: var(--font-title); font-size: 22px; color: var(--krem);
+                  background: var(--kirmizi); border: 3px solid #7a2620; border-radius: 6px; letter-spacing: 6px; position: relative; }
+  .logo .mug { position: absolute; right: -14px; top: -20px; width: 64px; transform: rotate(14deg); }
+  .menu-stack { position: absolute; left: 44px; right: 44px; bottom: 70px; display: flex; flex-direction: column; gap: 18px; }
+  .menu-foot { position: absolute; bottom: 20px; left: 18px; right: 18px; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 13px; color: var(--krem); opacity: .85; }
+  .roundbtn { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; }
+  .roundbtn svg { width: 26px; height: 26px; }
+
+  /* ===== Ayarlar ===== */
+  .sheet { position: absolute; left: 18px; right: 18px; top: 78px; bottom: 70px; padding: 64px 20px 20px; }
+  .sheet .title { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); padding: 8px 34px; font-family: var(--font-title); font-size: 28px; color: var(--altin); white-space: nowrap; text-shadow: 0 2px 0 var(--koyu-mese); }
+  .close { position: absolute; top: -16px; right: -12px; width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(180deg, #E0675C, var(--kirmizi)); border: 4px solid #7a2620; display: grid; place-items: center; box-shadow: 0 4px 0 #5a1b16; }
+  .close svg { width: 20px; height: 20px; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 11px 4px; border-bottom: 2px dashed rgba(92,58,30,.25); font-weight: 800; font-size: 17px; }
+  .row:last-of-type { border-bottom: 0; }
+  .row .ico { width: 34px; height: 34px; border-radius: 10px; background: var(--koyu-mese); display: grid; place-items: center; flex: none; }
+  .row .ico svg { width: 20px; height: 20px; }
+  .row .lbl { flex: 1; }
+  .slider { width: 120px; height: 14px; border-radius: 8px; background: rgba(92,58,30,.25); position: relative; border: 2px solid var(--koyu-mese); }
+  .slider i { position: absolute; inset: 0 auto 0 0; border-radius: 6px; background: var(--yesil); }
+  .slider b { position: absolute; top: 50%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--altin); border: 3px solid var(--koyu-mese); }
+  .toggle { width: 58px; height: 30px; border-radius: 16px; border: 3px solid var(--koyu-mese); background: var(--yesil); position: relative; }
+  .toggle::after { content: ""; position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--krem); }
+  .toggle.off { background: var(--koyu-tas); }
+  .toggle.off::after { right: auto; left: 2px; }
+  .seg { display: flex; border: 3px solid var(--koyu-mese); border-radius: 12px; overflow: hidden; font-size: 13px; }
+  .seg span { padding: 5px 7px; background: rgba(92,58,30,.12); font-size: 12px; }
+  .seg span.on { background: var(--bal); color: var(--ink); }
+  .sheet .actions { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+  .linkrow { text-align: center; font-weight: 800; font-size: 13px; margin-top: 12px; color: var(--koyu-mese); text-decoration: underline; }
+
+  /* ===== HUD ===== */
+  .hud-top { position: absolute; top: 14px; left: 10px; right: 10px; display: flex; gap: 8px; align-items: center; }
+  .pill { display: flex; align-items: center; gap: 6px; padding: 4px 12px 4px 4px; border-radius: 22px; background: rgba(42,31,26,.82); border: 3px solid var(--koyu-mese); font-family: var(--font-title); font-size: 19px; color: var(--krem); }
+  .pill .coin { width: 28px; height: 28px; }
+  .pill .plus { width: 22px; height: 22px; border-radius: 6px; background: var(--yesil); display: grid; place-items: center; font-size: 18px; line-height: 1; margin-left: 2px; }
+  .lvl { margin-left: auto; display: flex; align-items: center; gap: 0; }
+  .lvl .star { width: 40px; height: 40px; border-radius: 50%; background: var(--altin); border: 3px solid var(--koyu-mese); display: grid; place-items: center; font-family: var(--font-title); color: var(--ink); font-size: 20px; z-index: 1; }
+  .lvl .bar { width: 70px; height: 18px; margin-left: -8px; border-radius: 0 10px 10px 0; background: rgba(42,31,26,.85); border: 3px solid var(--koyu-mese); overflow: hidden; }
+  .lvl .bar i { display: block; height: 100%; width: 62%; background: linear-gradient(180deg, #9CD47A, var(--yesil)); }
+  .side { position: absolute; right: 10px; top: 76px; display: flex; flex-direction: column; gap: 12px; }
+  .side .sq { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; position: relative; }
+  .side .sq svg { width: 30px; height: 30px; }
+  .side .badge { position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px; border-radius: 11px; background: var(--kirmizi); border: 2px solid var(--krem); font-size: 12px; font-weight: 900; display: grid; place-items: center; padding: 0 5px; }
+  .side .cap { position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 900; background: var(--koyu-mese); padding: 0 6px; border-radius: 6px; white-space: nowrap; }
+  .bubble { position: absolute; width: 50px; height: 50px; border-radius: 50%; background: var(--krem); border: 3px solid var(--koyu-mese); display: grid; place-items: center; box-shadow: 0 4px 8px rgba(0,0,0,.35); }
+  .bubble::after { content: ""; position: absolute; bottom: -10px; left: 50%; margin-left: -7px; border: 7px solid transparent; border-top-color: var(--koyu-mese); }
+  .bubble svg { width: 28px; height: 28px; }
+  .bubble .ring { position: absolute; inset: -7px; border-radius: 50%; }
+  .rush { position: absolute; top: 70px; left: 14px; transform: rotate(-2deg); padding: 6px 20px; font-family: var(--font-title); font-size: 20px; color: var(--krem); background: var(--kirmizi); border: 3px solid #7a2620; border-radius: 10px; letter-spacing: 1px; white-space: nowrap; box-shadow: 0 4px 0 #5a1b16; }
+  .rush small { font-family: var(--font-body); font-weight: 900; font-size: 12px; margin-left: 6px; opacity: .9; }
+  .floattxt { position: absolute; font-family: var(--font-title); font-size: 22px; color: var(--altin); text-shadow: 0 2px 0 var(--koyu-mese), 0 0 6px rgba(0,0,0,.6); }
+  .joy { position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%); width: 130px; height: 130px; border-radius: 50%; background: rgba(244,232,208,.16); border: 3px solid rgba(244,232,208,.45); }
+  .joy b { position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px 0 0 -10px; border-radius: 50%; background: rgba(244,232,208,.75); border: 3px solid var(--koyu-mese); }
+  .quest { position: absolute; left: 10px; top: 122px; width: 170px; padding: 8px 10px; font-size: 12px; }
+  .quest h4 { margin: 0 0 4px; font-family: var(--font-title); font-weight: 400; font-size: 15px; color: var(--koyu-mese); }
+  .quest .q { display: flex; justify-content: space-between; font-weight: 800; margin: 2px 0; }
+  .quest .mini { height: 7px; border-radius: 4px; background: rgba(92,58,30,.2); margin: 2px 0 6px; overflow: hidden; }
+  .quest .mini i { display: block; height: 100%; background: var(--yesil); }
+
+  /* ===== Yükseltme paneli ===== */
+  .panel { position: absolute; left: 10px; right: 10px; bottom: 14px; padding: 58px 16px 16px; }
+  .panel .title { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); padding: 7px 26px; font-family: var(--font-title); font-size: 24px; color: var(--altin); white-space: nowrap; text-shadow: 0 2px 0 var(--koyu-mese); }
+  .stationcard { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .stationcard .thumb { width: 96px; height: 96px; flex: none; border-radius: 14px; border: 3px solid var(--koyu-mese);
+                        background: url("../../assets/renders/Props_Station.png") 2.5% 80% / 1000% auto no-repeat, var(--koyu-tas); }
+  .tierline { font-weight: 900; font-size: 13px; }
+  .tierline .tiers { display: flex; gap: 6px; margin-top: 6px; }
+  .tierline .tiers span { padding: 2px 8px; border-radius: 8px; border: 2px solid var(--koyu-mese); font-size: 11px; }
+  .t-wood { background: var(--mese); color: var(--krem); } .t-brass { background: #C9973A; } .t-gold { background: var(--altin); opacity: .45; }
+  .stat { font-size: 12px; font-weight: 800; opacity: .8; margin-top: 4px; }
+  .uprow { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 10px; padding: 9px 0; border-top: 2px dashed rgba(92,58,30,.25); }
+  .uprow .ico { width: 34px; height: 34px; border-radius: 10px; background: var(--koyu-mese); display: grid; place-items: center; }
+  .uprow .ico svg { width: 20px; height: 20px; }
+  .uprow .name { font-weight: 900; font-size: 15px; }
+  .uprow .from { font-size: 12px; font-weight: 800; opacity: .75; }
+  .uprow .from b { color: var(--yesil); }
+  .pips { display: flex; gap: 3px; margin-top: 4px; }
+  .pips i { width: 12px; height: 8px; border-radius: 3px; background: rgba(92,58,30,.2); }
+  .pips i.on { background: var(--bal); }
+  .price { min-width: 92px; font-size: 18px; padding: 7px 10px; }
+  .price svg { width: 20px; height: 20px; }
+  .price.locked { filter: grayscale(.9); opacity: .6; }
+  .auto { margin-top: 10px; display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 14px; background: rgba(79,127,58,.15); border: 2px solid var(--yesil); font-weight: 800; font-size: 13px; }
+  .auto .btn { width: auto; font-size: 16px; margin-left: auto; }
+
+  @media (max-width: 420px) { .phone { width: 340px; height: 740px; } .board { padding: 12px; } }
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>Arayüz Tasarımları</h1>
+  <p>Ana Menü · Ayarlar · Oyun İçi HUD · Yükseltme Paneli · Stil: ahşap tabela + parşömen (DESIGN_RULES §9)</p>
+</header>
+
+<!-- Paylaşılan SVG ikonlar -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-coin" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#F2C14E" stroke="#5C3A1E" stroke-width="2.5"/><circle cx="16" cy="16" r="9" fill="none" stroke="#C9973A" stroke-width="2.5"/><path d="M16 10v12" stroke="#C9973A" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-gem" viewBox="0 0 32 32"><path d="M8 5h16l6 8-14 16L2 13z" fill="#A8E0F0" stroke="#2B2F4A" stroke-width="2.5" stroke-linejoin="round"/><path d="M2 13h28M12 5l-2 8 6 16 6-16-2-8" fill="none" stroke="#6FB8D8" stroke-width="2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 32 32"><path d="M10 6l16 10-16 10z" fill="#F4E8D0" stroke="#2d4a20" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 32 32"><path d="M16 3l3 3.5 4.5-1 .8 4.6 4.2 2-2 4.2 2 4.2-4.2 2-.8 4.6-4.5-1L16 29l-3-3.5-4.5 1-.8-4.6-4.2-2 2-4.2-2-4.2 4.2-2 .8-4.6 4.5 1z" fill="#F4E8D0" stroke="#3d250f" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="16" r="5" fill="#8B5A2B" stroke="#3d250f" stroke-width="2"/></symbol>
+    <symbol id="i-door" viewBox="0 0 32 32"><rect x="7" y="3" width="15" height="26" rx="2" fill="#F4E8D0" stroke="#3d250f" stroke-width="2.5"/><circle cx="18" cy="17" r="1.8" fill="#3d250f"/><path d="M22 16h8m-3-3 3 3-3 3" stroke="#F4E8D0" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 20 20"><path d="M4 4l12 12M16 4L4 16" stroke="#F4E8D0" stroke-width="4" stroke-linecap="round"/></symbol>
+    <symbol id="i-music" viewBox="0 0 20 20"><path d="M7 15V4l10-2v11" fill="none" stroke="#F4E8D0" stroke-width="2"/><circle cx="5" cy="15" r="2.6" fill="#F4E8D0"/><circle cx="15" cy="13" r="2.6" fill="#F4E8D0"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 20 20"><path d="M3 7h3l5-4v14l-5-4H3z" fill="#F4E8D0"/><path d="M14 6c2 2 2 6 0 8M16.5 4c3 3 3 9 0 12" fill="none" stroke="#F4E8D0" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-vib" viewBox="0 0 20 20"><rect x="6" y="2" width="8" height="16" rx="2" fill="none" stroke="#F4E8D0" stroke-width="2"/><path d="M2 7v6M18 7v6" stroke="#F4E8D0" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 20 20"><path d="M5 14V9a5 5 0 0110 0v5l2 2H3z" fill="#F4E8D0"/><circle cx="10" cy="17.5" r="1.8" fill="#F4E8D0"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#F4E8D0" stroke-width="2"/><path d="M2 10h16M10 2c3 3 3 13 0 16M10 2c-3 3-3 13 0 16" fill="none" stroke="#F4E8D0" stroke-width="1.6"/></symbol>
+    <symbol id="i-gfx" viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="2" fill="none" stroke="#F4E8D0" stroke-width="2"/><path d="M4 14l4-5 3 3 2-2 3 4" fill="none" stroke="#F4E8D0" stroke-width="1.8"/></symbol>
+    <symbol id="i-scroll" viewBox="0 0 32 32"><rect x="7" y="5" width="18" height="22" rx="3" fill="#EFDDB6" stroke="#3d250f" stroke-width="2.5"/><path d="M11 11h10M11 16h10M11 21h6" stroke="#8B5A2B" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-shop" viewBox="0 0 32 32"><path d="M5 12l3-7h16l3 7z" fill="#C8443A" stroke="#3d250f" stroke-width="2.4" stroke-linejoin="round"/><rect x="6" y="12" width="20" height="15" fill="#F4E8D0" stroke="#3d250f" stroke-width="2.4"/><rect x="13" y="18" width="6" height="9" fill="#8B5A2B"/></symbol>
+    <symbol id="i-hammer" viewBox="0 0 32 32"><path d="M18 14L6 26" stroke="#E0A040" stroke-width="5" stroke-linecap="round"/><path d="M14 7l6-3 8 8-3 6z" fill="#9C9488" stroke="#3d250f" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 32 32"><path d="M5 6h9a3 3 0 013 3v18a3 3 0 00-3-3H5zM27 6h-9a3 3 0 00-3 3" fill="#3E5FA8" stroke="#3d250f" stroke-width="2.4"/><path d="M27 6v18h-9a3 3 0 00-3 3" fill="#2B2F4A" stroke="#3d250f" stroke-width="2.4"/></symbol>
+    <symbol id="i-mug" viewBox="0 0 32 32"><rect x="6" y="9" width="15" height="18" rx="3" fill="#8B5A2B" stroke="#3d250f" stroke-width="2.4"/><path d="M21 13h3a3 3 0 013 3v3a3 3 0 01-3 3h-3" fill="none" stroke="#3d250f" stroke-width="2.4"/><path d="M5 10c0-4 3-5 5-4 1-3 6-3 7 0 3-1 5 1 5 4z" fill="#FBF3E0" stroke="#3d250f" stroke-width="2"/></symbol>
+    <symbol id="i-cider" viewBox="0 0 32 32"><path d="M7 9h16l-2 18H9z" fill="#F2D06B" stroke="#3d250f" stroke-width="2.4" stroke-linejoin="round"/><circle cx="21" cy="8" r="4" fill="#C8443A" stroke="#3d250f" stroke-width="2"/></symbol>
+    <symbol id="i-speed" viewBox="0 0 20 20"><path d="M11 1L4 11h5l-1 8 7-10h-5z" fill="#F2C14E"/></symbol>
+    <symbol id="i-stock" viewBox="0 0 20 20"><rect x="3" y="11" width="6" height="7" rx="1" fill="#F4E8D0"/><rect x="11" y="11" width="6" height="7" rx="1" fill="#F4E8D0"/><rect x="7" y="3" width="6" height="7" rx="1" fill="#F4E8D0"/></symbol>
+    <symbol id="i-star" viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L1.4 7.8l6-.7z" fill="#F2C14E"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="9" rx="2" fill="#F4E8D0"/><path d="M6.5 9V6a3.5 3.5 0 017 0v3" fill="none" stroke="#F4E8D0" stroke-width="2"/></symbol>
+  </defs>
+</svg>
+
+<main class="board">
+
+  <!-- 1. ANA MENÜ -->
+  <figure>
+    <div class="phone">
+      <div class="bg"></div><div class="vignette"></div>
+      <div class="logo wood">
+        <span class="chains" style="left:40px"></span><span class="chains" style="right:40px"></span>
+        <span class="nail" style="left:12px;top:12px"></span><span class="nail" style="right:12px;top:12px"></span>
+        <svg class="mug" viewBox="0 0 32 32"><use href="#i-mug"/></svg>
+        <div class="t1">TAVERNA</div>
+        <div class="ribbon">TYCOON</div>
+      </div>
+      <div class="menu-stack">
+        <div class="btn green"><svg><use href="#i-play"/></svg>OYNA</div>
+        <div class="btn wood"><svg><use href="#i-gear"/></svg>AYARLAR</div>
+        <div class="btn wood"><svg><use href="#i-door"/></svg>ÇIKIŞ</div>
+      </div>
+      <div class="menu-foot">
+        <div class="roundbtn wood"><svg><use href="#i-book"/></svg></div>
+        <span>v0.1 · Çalışma adı</span>
+        <div class="roundbtn wood"><svg viewBox="0 0 20 20"><use href="#i-globe"/></svg></div>
+      </div>
+    </div>
+    <figcaption>1 · Ana Menü</figcaption>
+  </figure>
+
+  <!-- 2. AYARLAR -->
+  <figure>
+    <div class="phone">
+      <div class="bg dim"></div>
+      <div class="sheet parchment">
+        <div class="title wood">AYARLAR</div>
+        <div class="close"><svg><use href="#i-x"/></svg></div>
+        <div class="row"><span class="ico"><svg><use href="#i-music"/></svg></span><span class="lbl">Müzik</span><span class="slider"><i style="width:70%"></i><b style="left:70%"></b></span></div>
+        <div class="row"><span class="ico"><svg><use href="#i-sound"/></svg></span><span class="lbl">Ses Efektleri</span><span class="slider"><i style="width:85%"></i><b style="left:85%"></b></span></div>
+        <div class="row"><span class="ico"><svg><use href="#i-vib"/></svg></span><span class="lbl">Titreşim</span><span class="toggle"></span></div>
+        <div class="row"><span class="ico"><svg><use href="#i-bell"/></svg></span><span class="lbl">Bildirimler</span><span class="toggle off"></span></div>
+        <div class="row"><span class="ico"><svg><use href="#i-globe"/></svg></span><span class="lbl">Dil</span><span class="seg"><span class="on">TR</span><span>EN</span></span></div>
+        <div class="row"><span class="ico"><svg><use href="#i-gfx"/></svg></span><span class="lbl">Grafik</span><span class="seg"><span>Düşük</span><span class="on">Orta</span><span>Yüksek</span></span></div>
+        <div class="actions">
+          <div class="btn wood small">Destek &amp; Geri Bildirim</div>
+          <div class="btn red small">Kaydı Sıfırla</div>
+        </div>
+        <div class="linkrow">Gizlilik Politikası · Kullanım Şartları</div>
+      </div>
+    </div>
+    <figcaption>2 · Ayarlar</figcaption>
+  </figure>
+
+  <!-- 3. HUD -->
+  <figure>
+    <div class="phone">
+      <div class="bg" style="background-position: 55% 55%; background-size: 210%"></div>
+      <div class="hud-top">
+        <div class="pill"><svg class="coin"><use href="#i-coin"/></svg>1.250</div>
+        <div class="pill"><svg class="coin"><use href="#i-gem"/></svg>15<span class="plus">+</span></div>
+        <div class="lvl"><span class="star">4</span><span class="bar"><i></i></span></div>
+      </div>
+      <div class="rush">YOĞUN SAAT! <small>×2 bahşiş · 0:38</small></div>
+      <div class="quest parchment">
+        <h4>Günlük Görevler</h4>
+        <div class="q"><span>20 Bira sat</span><span>14/20</span></div><div class="mini"><i style="width:70%"></i></div>
+        <div class="q"><span>Cüce'yi mutlu et</span><span>✔</span></div><div class="mini"><i style="width:100%"></i></div>
+      </div>
+      <div class="side">
+        <div class="sq wood"><svg><use href="#i-scroll"/></svg><span class="badge">2</span><span class="cap">Görev</span></div>
+        <div class="sq wood"><svg><use href="#i-shop"/></svg><span class="cap">Mağaza</span></div>
+        <div class="sq wood"><svg><use href="#i-hammer"/></svg><span class="cap">Düzenle</span></div>
+        <div class="sq wood"><svg><use href="#i-book"/></svg><span class="cap">Defter</span></div>
+      </div>
+      <div class="bubble" style="left:32px; top:330px"><span class="ring" style="background: conic-gradient(#4F7F3A 0 70%, transparent 0); -webkit-mask: radial-gradient(circle, transparent 58%, #000 60%); mask: radial-gradient(circle, transparent 58%, #000 60%)"></span><svg><use href="#i-mug"/></svg></div>
+      <div class="bubble" style="left:158px; top:470px"><span class="ring" style="background: conic-gradient(#E0A040 0 38%, transparent 0); -webkit-mask: radial-gradient(circle, transparent 58%, #000 60%); mask: radial-gradient(circle, transparent 58%, #000 60%)"></span><svg><use href="#i-cider"/></svg></div>
+      <div class="floattxt" style="left:250px; top:400px">+12</div>
+      <div class="joy"><b></b></div>
+    </div>
+    <figcaption>3 · Oyun İçi HUD</figcaption>
+  </figure>
+
+  <!-- 4. YÜKSELTME PANELİ -->
+  <figure>
+    <div class="phone">
+      <div class="bg dim" style="background-position: 55% 55%; background-size: 210%"></div>
+      <div class="hud-top">
+        <div class="pill"><svg class="coin"><use href="#i-coin"/></svg>1.250</div>
+        <div class="pill"><svg class="coin"><use href="#i-gem"/></svg>15<span class="plus">+</span></div>
+      </div>
+      <div class="panel parchment">
+        <div class="title wood">BİRA FIÇISI</div>
+        <div class="close"><svg><use href="#i-x"/></svg></div>
+        <div class="stationcard">
+          <div class="thumb" role="img" aria-label="Bira Fıçısı"></div>
+          <div class="tierline">Kademe: Ahşap
+            <div class="tiers"><span class="t-wood">Ahşap</span><span class="t-brass">Pirinç · Sv4</span><span class="t-gold">Altın · Sv8</span></div>
+            <div class="stat">Satış: 3 altın · Süre: 2.0 sn · Stok: 3</div>
+          </div>
+        </div>
+        <div class="uprow">
+          <span class="ico"><svg><use href="#i-speed"/></svg></span>
+          <div><div class="name">Hız</div><div class="from">2.0 sn → <b>1.8 sn</b></div><div class="pips"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="btn gold price"><svg><use href="#i-coin"/></svg>21</div>
+        </div>
+        <div class="uprow">
+          <span class="ico"><svg><use href="#i-stock"/></svg></span>
+          <div><div class="name">Stok</div><div class="from">3 → <b>4 bardak</b></div><div class="pips"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="btn gold price"><svg><use href="#i-coin"/></svg>12</div>
+        </div>
+        <div class="uprow">
+          <span class="ico"><svg><use href="#i-star"/></svg></span>
+          <div><div class="name">Kalite</div><div class="from">3 → <b>3.5 altın</b></div><div class="pips"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="btn gold price"><svg><use href="#i-coin"/></svg>41</div>
+        </div>
+        <div class="auto">
+          <svg width="22" height="22" viewBox="0 0 20 20"><use href="#i-lock"/></svg>
+          <span>Otomatik Dolum<br><small>Barmen ile açılır · Sv10</small></span>
+          <div class="btn gold small price locked"><svg><use href="#i-coin"/></svg>500</div>
+        </div>
+      </div>
+    </div>
+    <figcaption>4 · Yükseltme Paneli</figcaption>
+  </figure>
+
+</main>
+</body>
+</html>

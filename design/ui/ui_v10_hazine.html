@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Taverna Tycoon — v1.0 Hazine</title>
+<!-- Onaylanan yön: B · Mürekkep Çizgi (2026-11-09). Tüm ekranlar, yatay 1266×585 dp.
+     ?only=<id> ile tek ekran çizilir (PNG almak için). Fontlar OFL: Rubik (Black, başlık; Türkçe İ/Ş/Ğ tam), Nunito (gövde).
+     UI ikonları bu dosyada elle çizildi; ürün resimleri oyunun kendi 3D render'ları (assets/icons). -->
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800;900&family=Nunito:wght@700;800;900&display=block" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f1a17; --paper: #fbf3e2; --paper2: #efe2c6; --mus: #f2b631; --brick: #d4553a; --teal: #2f8f8a;
+    --plum: #6c4a7d; --grass: #6aa84f; --muted: #6d5d4f;
+    --f1: var(--mus); --f2: var(--teal); --f3: var(--brick);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #17120f; font: 900 15px "Nunito", sans-serif; color: var(--ink); width: 1306px; padding: 20px; }
+  body.only { width: 1266px; padding: 0; background: transparent; }
+  body.only .label, body.only .sub { display: none; }
+  .label { font: 900 22px "Rubik"; color: #f4e6c8; margin: 6px 0 2px; letter-spacing: .3px; }
+  .sub { font: 800 14px "Nunito"; color: #b9a98d; margin-bottom: 10px; max-width: 1200px; }
+  .frame { position: relative; width: 1266px; height: 585px; overflow: hidden; border-radius: 14px; margin-bottom: 30px;
+           background: url("../../assets/renders/Menu_Background_Wide.png") center 62% / cover; }
+  body.only .frame { border-radius: 0; margin: 0; }
+  .dim::after { content: ""; position: absolute; inset: 0; background: rgba(31, 26, 23, .45); z-index: 9; }
+  .abs { position: absolute; }
+  .top { z-index: 10; }
+
+  /* ---------- ikon ---------- */
+  svg.ic { width: 100%; height: 100%; overflow: visible; stroke: var(--ink); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; fill: var(--paper); }
+  .on-dark svg.ic { fill: var(--paper); }
+  .i { display: inline-block; flex: none; }
+
+  /* ---------- malzeme ---------- */
+  .panel { background: var(--paper); border: 3px solid var(--ink); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink); }
+  .h { font: 900 21px "Rubik"; letter-spacing: .2px; }
+  .h-xl { font: 900 40px "Rubik"; letter-spacing: .5px; }
+  .num { font: 900 22px "Rubik"; }
+  .small { font: 800 13px "Nunito"; color: var(--muted); }
+  .bar { height: 14px; border: 3px solid var(--ink); border-radius: 8px; background: var(--paper2); position: relative; overflow: hidden; }
+  .bar > b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--teal); border-right: 3px solid var(--ink); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 50px; padding: 0 18px;
+         border: 3px solid var(--ink); border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); font: 900 19px "Rubik"; color: var(--paper); white-space: nowrap; }
+  .btn .i { width: 26px; height: 26px; }
+  .b-brick { background: var(--brick); } .b-teal { background: var(--teal); } .b-mus { background: var(--mus); color: var(--ink); }
+  .b-paper { background: var(--paper); color: var(--ink); } .b-plum { background: var(--plum); }
+  .b-off { background: #cfc3ad; color: #8a7d6c; box-shadow: 3px 3px 0 #8a7d6c; border-color: #8a7d6c; }
+  .badge { position: absolute; right: -8px; top: -8px; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 13px; background: var(--brick);
+           color: var(--paper); border: 3px solid var(--ink); font: 900 13px "Nunito"; display: flex; align-items: center; justify-content: center; }
+  .chip { white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px; border: 2.5px solid var(--ink); border-radius: 13px; background: var(--paper2); font: 900 13px "Nunito"; }
+  .chip .i { width: 17px; height: 17px; }
+  .x { width: 46px; height: 46px; padding: 9px; border: 3px solid var(--ink); border-radius: 50%; background: var(--paper); box-shadow: 3px 3px 0 var(--ink); }
+  .tilt-l { transform: rotate(-1deg); } .tilt-r { transform: rotate(1deg); }
+  .por { width: 64px; height: 64px; flex: none; border: 3px solid var(--ink); border-radius: 50%; background-color: var(--paper2); background-position: center; background-size: 118%; background-repeat: no-repeat; }
+
+  /* ---------- HUD ---------- */
+  .pill { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 10px 0 6px; margin-bottom: 9px; }
+  .pill .i { width: 32px; height: 32px; }
+  .pill .plus { width: 30px; height: 30px; margin-left: 6px; border: 2.5px solid var(--ink); border-radius: 8px; background: var(--teal); padding: 3px; }
+  .goal { left: 50%; top: 12px; width: 400px; padding: 9px 14px 12px; display: flex; gap: 12px; align-items: center; transform: translateX(-50%) rotate(-1deg); }
+  .goal .i { width: 44px; height: 44px; }
+  .lvl { right: 86px; top: 10px; display: flex; flex-direction: column; align-items: center; }
+  .lvl .shield { width: 60px; height: 66px; position: relative; display: flex; align-items: center; justify-content: center; font: 900 28px "Rubik"; color: var(--paper); }
+  .lvl .shield svg { position: absolute; inset: 0; }
+  .lvl .bar { width: 76px; height: 12px; margin-top: 2px; }
+  .stars { right: 86px; top: 98px; display: flex; gap: 1px; }
+  .stars .i { width: 16px; height: 16px; }
+  .gear { right: 18px; top: 14px; width: 54px; height: 54px; padding: 9px; }
+  .side { right: 18px; top: 126px; display: flex; flex-direction: column; gap: 14px; }
+  .sbtn { width: 82px; height: 76px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; position: relative; font: 900 12px "Nunito"; text-transform: uppercase; letter-spacing: .4px; }
+  .sbtn .i { width: 38px; height: 38px; }
+  .day { left: 18px; top: 116px; display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px 0 6px; }
+  .day .i { width: 26px; height: 26px; }
+  .act { right: 24px; bottom: 22px; height: 70px; font-size: 26px; padding: 0 24px; }
+  .act .i { width: 34px; height: 34px; }
+  .joy { left: 46px; bottom: 30px; width: 124px; height: 124px; border-radius: 50%; border: 3px solid var(--ink); background: rgba(251,243,226,.35); display: flex; align-items: center; justify-content: center; }
+  .joy > i { width: 52px; height: 52px; border-radius: 50%; border: 3px solid var(--ink); background: var(--paper); box-shadow: 3px 3px 0 var(--ink); display: block; }
+  .bubble { width: 80px; height: 84px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .bubble .i { width: 40px; height: 40px; }
+  .ring { width: 50px; height: 9px; margin-top: 4px; border: 2.5px solid var(--ink); border-radius: 6px; background: var(--paper2); position: relative; overflow: hidden; }
+  .ring > b { position: absolute; left: 0; top: 0; bottom: 0; }
+  .rush { left: 50%; top: 124px; transform: translateX(-50%) rotate(1.5deg); background: var(--brick); color: var(--paper); padding: 8px 22px; display: flex; gap: 10px; align-items: center; }
+  .rush .i { width: 28px; height: 28px; }
+  .toast { left: 50%; bottom: 112px; transform: translateX(-50%) rotate(-1deg); padding: 9px 16px; display: flex; gap: 10px; align-items: center; background: var(--mus); }
+  .toast .i { width: 26px; height: 26px; }
+  .coinfly { width: 30px; height: 30px; }
+
+  /* ---------- çekmeceler ve pencereler ---------- */
+  .drawer { top: 14px; bottom: 14px; width: 480px; display: flex; flex-direction: column; z-index: 10; }
+  .drawer.r { right: 14px; } .drawer.l { left: 14px; }
+  .dhead { display: flex; align-items: center; gap: 12px; padding: 12px 14px 10px; border-bottom: 3px solid var(--ink); }
+  .dhead .i { width: 40px; height: 40px; }
+  .dhead .h { flex: 1; }
+  .tabs { display: flex; gap: 6px; padding: 10px 12px 0; }
+  .tab { flex: 1; height: 40px; border: 3px solid var(--ink); border-bottom: 0; border-radius: 10px 10px 0 0; background: var(--paper2); display: flex; align-items: center; justify-content: center; gap: 5px; font: 900 13px "Nunito"; position: relative; }
+  .tab .i { width: 22px; height: 22px; }
+  .tab.on { background: var(--mus); }
+  .tabline { border-top: 3px solid var(--ink); margin: 0 0 0; }
+  .list { flex: 1; padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+  .item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border: 3px solid var(--ink); border-radius: 12px; background: #fffaf0; }
+  .item .por { width: 58px; height: 58px; }
+  .item .txt { flex: 1; min-width: 0; }
+  .item .t { font: 900 16px "Rubik"; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item .chips { display: flex; gap: 5px; margin-top: 4px; }
+  .item .btn { height: 44px; min-width: 112px; font-size: 18px; padding: 0 12px; }
+  .item.locked { background: #ebe0cb; }
+  .item.locked .por { filter: grayscale(1) brightness(.75); }
+  .item.owned { background: #e3f0dc; }
+  .modal { left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 10; }
+  .ribbon { position: absolute; left: 50%; top: -26px; transform: translateX(-50%) rotate(-2deg); background: var(--brick); color: var(--paper); padding: 8px 26px; white-space: nowrap; }
+
+  /* yükseltme */
+  .tiers { display: flex; gap: 8px; padding: 10px 14px; }
+  .tier { flex: 1; text-align: center; padding: 6px 4px; border: 3px solid var(--ink); border-radius: 10px; font: 900 12px "Nunito"; background: var(--paper2); }
+  .tier.on { background: var(--mus); }
+  .urow { display: flex; align-items: center; gap: 12px; padding: 10px; border: 3px solid var(--ink); border-radius: 12px; background: #fffaf0; }
+  .urow .i { width: 40px; height: 40px; }
+  .urow .txt { flex: 1; }
+  .pips { display: flex; gap: 3px; margin-top: 5px; }
+  .pips i { width: 14px; height: 10px; border: 2px solid var(--ink); border-radius: 3px; background: var(--paper2); display: block; }
+  .pips i.f { background: var(--teal); }
+
+  /* ayarlar */
+  .srow { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 2px dashed #cdbd9f; }
+  .srow .i { width: 32px; height: 32px; }
+  .srow .t { flex: 1; font: 900 17px "Nunito"; }
+  .slider { width: 190px; height: 16px; border: 3px solid var(--ink); border-radius: 9px; background: var(--paper2); position: relative; }
+  .slider > b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--teal); border-radius: 6px 0 0 6px; }
+  .slider > i { position: absolute; top: -9px; width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--ink); background: var(--paper); box-shadow: 2px 2px 0 var(--ink); display: block; }
+  .seg { display: flex; border: 3px solid var(--ink); border-radius: 10px; overflow: hidden; }
+  .seg span { padding: 5px 12px; font: 900 13px "Nunito"; background: var(--paper2); border-left: 2.5px solid var(--ink); }
+  .seg span:first-child { border-left: 0; }
+  .seg span.on { background: var(--mus); }
+  .tog { width: 58px; height: 30px; border: 3px solid var(--ink); border-radius: 15px; background: var(--teal); position: relative; }
+  .tog i { position: absolute; right: 2px; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); border: 2.5px solid var(--ink); display: block; }
+  .tog.off { background: var(--paper2); } .tog.off i { right: auto; left: 2px; }
+
+  /* menü */
+  .logo { left: 34px; top: 26px; padding: 10px 22px 14px; text-align: center; }
+  .logo .h-xl { line-height: 1; }
+  .logo .tag { display: inline-block; margin-top: 6px; background: var(--brick); color: var(--paper); border: 3px solid var(--ink); border-radius: 8px; padding: 2px 14px; font: 900 18px "Rubik"; letter-spacing: 3px; }
+  .mstack { right: 30px; bottom: 30px; display: flex; flex-direction: column; gap: 12px; align-items: stretch; width: 250px; }
+  .mstack .btn { height: 54px; }
+  .mstack .play { height: 74px; font-size: 32px; }
+  .mfoot { left: 30px; bottom: 26px; display: flex; gap: 14px; }
+  .round { width: 62px; height: 62px; border-radius: 50%; padding: 12px; position: relative; }
+
+  /* koleksiyon */
+  .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; padding: 12px 16px; }
+  .cell { border: 2.5px solid var(--ink); border-radius: 10px; background: #fffaf0; height: 74px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 3px; overflow: hidden; }
+  .cell .p { flex: 1; width: 100%; background-position: center 30%; background-size: 108%; background-repeat: no-repeat; }
+  .cell span { font: 900 10px "Nunito"; white-space: nowrap; }
+  .cell.unseen { background: #e2d6be; } .cell.unseen .p { filter: brightness(0) opacity(.28); }
+</style>
+</head>
+<body>
+
+<!-- ======================= İKONLAR (48×48, elle çizim) ======================= -->
+<svg width="0" height="0" style="position:absolute">
+ <defs>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle style="fill:var(--f1)" cx="24" cy="24" r="17"/><circle fill="none" cx="24" cy="24" r="11.5"/><path fill="none" d="M18.5 28 L20.5 19.5 L24 24.5 L27.5 19.5 L29.5 28 Z"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 48 48"><path style="fill:var(--f2)" d="M12 18 L19 10 H29 L36 18 L24 38 Z"/><path fill="none" d="M12 18 H36 M19 10 L21.5 18 L24 38 L26.5 18 L29 10"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M24 7 L28.6 18.2 L40.5 19.2 L31.4 27 L34.3 38.8 L24 32.4 L13.7 38.8 L16.6 27 L7.5 19.2 L19.4 18.2 Z"/></symbol>
+  <symbol id="i-star0" viewBox="0 0 48 48"><path d="M24 7 L28.6 18.2 L40.5 19.2 L31.4 27 L34.3 38.8 L24 32.4 L13.7 38.8 L16.6 27 L7.5 19.2 L19.4 18.2 Z"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 48 48"><path d="M11 21 V39 H37 V21"/><path fill="none" d="M20 39 V29 H28 V39"/><path style="fill:var(--f3)" d="M8 21 L12 9 H36 L40 21 Q36 25.5 32 21 Q28 25.5 24 21 Q20 25.5 16 21 Q12 25.5 8 21 Z"/><path fill="none" d="M18 9 L16 21 M24 9 V21 M30 9 L32 21"/></symbol>
+  <symbol id="i-quest" viewBox="0 0 48 48"><path fill="none" d="M14 30 V41 M34 30 V41"/><rect x="8" y="8" width="32" height="22" rx="2"/><path style="fill:var(--f1)" d="M16 12 H28 L29 25 H15 Z"/><path fill="none" d="M18.5 17 H25.5 M18.5 21 H24"/><circle style="fill:var(--f3)" cx="22" cy="12.5" r="2"/><path fill="none" d="M33 13 V25"/></symbol>
+  <symbol id="i-staff" viewBox="0 0 48 48"><path d="M17 9 L18.5 16 Q13 18.5 13.5 25 L15.5 40 H32.5 L34.5 25 Q35 18.5 29.5 16 L31 9 Q24 14 17 9 Z"/><path style="fill:var(--f1)" d="M19.5 27 H28.5 V34 H19.5 Z"/><path fill="none" d="M13.6 23 Q8 25 9 31 M34.4 23 Q40 25 39 31"/></symbol>
+  <symbol id="i-hammer" viewBox="0 0 48 48"><path fill="none" d="M22 19 L39 37"/><path style="fill:var(--f1)" d="M9 16 L19.5 7.5 L27.5 15 L17 23.5 Z"/><path fill="none" d="M36 31 L41 36 L37 40 L32 35"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path fill="none" d="M24 6.5 V12 M24 36 V41.5 M6.5 24 H12 M36 24 H41.5 M11.6 11.6 L15.5 15.5 M32.5 32.5 L36.4 36.4 M36.4 11.6 L32.5 15.5 M15.5 32.5 L11.6 36.4"/><circle cx="24" cy="24" r="11"/><circle fill="none" cx="24" cy="24" r="4.5"/></symbol>
+  <symbol id="i-mug" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M12 15 H31 V38 Q31 41 28 41 H15 Q12 41 12 38 Z"/><path fill="none" d="M31 19.5 H35.5 Q38.5 19.5 38.5 22.5 V29.5 Q38.5 32.5 35.5 32.5 H31"/><path d="M11 15.5 Q10.5 9 17 9.5 Q19.5 6 24 8 Q28.5 6 31 10 Q34.5 11 32 15.5 Z"/><path fill="none" d="M17.5 21 V35 M24.5 21 V35"/></symbol>
+  <symbol id="i-wine" viewBox="0 0 48 48"><path style="fill:var(--f3)" d="M15 8 H33 Q34 22 24 26 Q14 22 15 8 Z"/><path fill="none" d="M24 26 V38 M16 40 H32"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 64 72"><path style="fill:var(--f3)" d="M32 4 L58 12 V34 Q58 56 32 68 Q6 56 6 34 V12 Z"/><path fill="none" d="M32 10 L52 16 V34 Q52 51 32 61 Q12 51 12 34 V16 Z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 48 48"><path fill="none" style="stroke:var(--paper)" stroke-width="6" d="M24 11 V37 M11 24 H37"/></symbol>
+  <symbol id="i-close" viewBox="0 0 48 48"><path fill="none" stroke-width="5" d="M13 13 L35 35 M35 13 L13 35"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><path d="M16 10 L38 24 L16 38 Z"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path d="M12 7 H30 V41 H12 Z"/><circle fill="none" cx="25" cy="25" r="1.6"/><path fill="none" d="M30 24 H43 M38 19 L43 24 L38 29"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path d="M24 14 Q16 9 7 11 V37 Q16 35 24 40 Q32 35 41 37 V11 Q32 9 24 14 Z"/><path fill="none" d="M24 14 V40 M12 17 Q16 16.5 20 18 M12 23 Q16 22.5 20 24 M28 18 Q32 16.5 36 17"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 48 48"><rect x="8" y="11" width="32" height="29" rx="4"/><path style="fill:var(--f3)" d="M8 15 Q8 11 12 11 H36 Q40 11 40 15 V19 H8 Z"/><path fill="none" d="M16 7 V14 M32 7 V14 M17 29 L22 34 L32 24"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle style="fill:var(--f1)" cx="24" cy="26" r="15"/><path fill="none" d="M24 18 V26 L30 30 M20 7 H28 M24 7 V11"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M27 5 L11 27 H22 L19 43 L37 19 H26 Z"/></symbol>
+  <symbol id="i-barrel" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M14 9 Q24 5 34 9 Q38.5 24 34 39 Q24 43 14 39 Q9.5 24 14 9 Z"/><path fill="none" d="M11.5 17 Q24 21 36.5 17 M11.5 31 Q24 35 36.5 31"/><path d="M21 25 H27 V30 H21 Z"/></symbol>
+  <symbol id="i-plant" viewBox="0 0 48 48"><path style="fill:var(--f3)" d="M14 30 H34 L31 42 H17 Z"/><path style="fill:var(--grass, #6aa84f)" d="M24 30 Q14 26 13 15 Q22 16 24 26 Q25 14 34 10 Q36 22 24 30 Z"/></symbol>
+  <symbol id="i-speed" viewBox="0 0 48 48"><circle cx="26" cy="27" r="14"/><path fill="none" d="M26 19 V27 L32 23 M22 9 H30 M26 9 V13"/><path fill="none" style="stroke:var(--teal)" d="M5 22 H11 M3 29 H10 M6 36 H12"/></symbol>
+  <symbol id="i-stock" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M8 27 H20 V40 H8 Z M22 27 H34 V40 H22 Z M15 13 H27 V26 H15 Z"/><path fill="none" d="M36 30 H39 Q41 30 41 33 V35 Q41 37 39 37 H36"/></symbol>
+  <symbol id="i-quality" viewBox="0 0 48 48"><path style="fill:var(--f3)" d="M16 26 L11 42 L18 39 L21 45 L24 31 M32 26 L37 42 L30 39 L27 45 L24 31"/><circle style="fill:var(--f1)" cx="24" cy="19" r="13"/><path fill="none" d="M24 12 L26 17 L31 17.5 L27 21 L28.5 26 L24 23 L19.5 26 L21 21 L17 17.5 L22 17 Z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path fill="none" d="M15 22 V16 Q15 8 24 8 Q33 8 33 16 V22"/><rect style="fill:var(--f1)" x="10" y="22" width="28" height="20" rx="4"/><path fill="none" d="M24 29 V35"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><path fill="none" stroke-width="5" d="M11 25 L20 34 L37 14"/></symbol>
+  <symbol id="i-music" viewBox="0 0 48 48"><path fill="none" d="M19 34 V12 L37 8 V30"/><ellipse style="fill:var(--f2)" cx="14" cy="35" rx="6" ry="5"/><ellipse style="fill:var(--f2)" cx="32" cy="31" rx="6" ry="5"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M8 19 H15 L25 10 V38 L15 29 H8 Z"/><path fill="none" d="M31 18 Q35 24 31 30 M36 13 Q43 24 36 35"/></symbol>
+  <symbol id="i-vibe" viewBox="0 0 48 48"><rect style="fill:var(--f2)" x="15" y="7" width="18" height="34" rx="4"/><path fill="none" d="M21 35 H27 M8 16 L5 20 L8 24 L5 28 L8 32 M40 16 L43 20 L40 24 L43 28 L40 32"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle style="fill:var(--f2)" cx="24" cy="24" r="16"/><path fill="none" d="M8 24 H40 M24 8 Q14 24 24 40 Q34 24 24 8"/></symbol>
+  <symbol id="i-brush" viewBox="0 0 48 48"><path style="fill:var(--f3)" d="M11 39 Q10 31 17 29 L22 34 Q20 41 11 39 Z"/><path d="M19 30 L36 9 L41 13 L23 33 Z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M12 34 Q15 30 15 22 Q15 11 24 11 Q33 11 33 22 Q33 30 36 34 Z"/><path fill="none" d="M20 38 Q24 42 28 38 M24 7 V11"/></symbol>
+  <symbol id="i-home" viewBox="0 0 48 48"><path d="M8 23 L24 9 L40 23"/><path style="fill:var(--f1)" d="M13 21 V40 H35 V21"/><path fill="none" d="M20 40 V30 H28 V40"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path d="M13 15 H35 L33 41 H15 Z"/><path fill="none" d="M9 15 H39 M19 15 V10 H29 V15 M20 21 V35 M28 21 V35"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M30 8 Q18 12 18 25 Q18 37 31 40 Q21 44 13 37 Q6 30 8 20 Q11 9 23 7 Q27 6.5 30 8 Z"/><path fill="none" d="M34 14 L35.5 17 L38.5 18 L35.5 19 L34 22 L32.5 19 L29.5 18 L32.5 17 Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 48 48"><circle style="fill:var(--f1)" cx="24" cy="24" r="9"/><path fill="none" d="M24 5 V10 M24 38 V43 M5 24 H10 M38 24 H43 M10.5 10.5 L14 14 M34 34 L37.5 37.5 M37.5 10.5 L34 14 M14 34 L10.5 37.5"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 48 48"><rect style="fill:var(--f3)" x="9" y="20" width="30" height="21" rx="2"/><rect x="7" y="14" width="34" height="8" rx="2"/><path fill="none" d="M24 14 V41 M24 14 Q16 4 13 10 Q12 14 24 14 Q36 14 35 10 Q32 4 24 14"/></symbol>
+  <symbol id="i-horn" viewBox="0 0 48 48"><path style="fill:var(--f1)" d="M7 21 H15 L37 9 V39 L15 27 H7 Z"/><path fill="none" d="M15 27 L18 39 H23 L21 29"/></symbol>
+  <symbol id="i-person" viewBox="0 0 48 48"><circle cx="24" cy="16" r="8"/><path style="fill:var(--f2)" d="M10 41 Q10 27 24 27 Q38 27 38 41 Z"/></symbol>
+ </defs>
+</svg>
+
+<style>
+  .gbg { background: url("../../production/qa/evidence/2026-11-10-v06-ui_hud.png") center / cover; }
+  .vip { display: flex; gap: 14px; align-items: center; padding: 12px 14px; border: 3px solid var(--ink); border-radius: 14px;
+         background: linear-gradient(135deg, #3b2a55, #6c4a7d); color: var(--paper); box-shadow: 3px 3px 0 var(--ink); }
+  .vip .crown { width: 62px; height: 62px; flex: none; border: 3px solid var(--ink); border-radius: 50%; background: var(--mus); display: flex; align-items: center; justify-content: center; font: 900 24px "Rubik"; color: var(--ink); }
+  .vip .t { font: 900 20px "Rubik"; }
+  .vip .perks { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+  .vip .perks .chip { background: rgba(251,243,226,.92); color: var(--ink); }
+  .tl { font: 900 18px "Rubik"; }
+  .btn.b-tl { background: var(--mus); color: var(--ink); }
+  .sec { font: 900 14px "Rubik"; color: var(--muted); margin: 8px 2px 2px; letter-spacing: .4px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .card { border: 3px solid var(--ink); border-radius: 12px; background: #fffaf0; padding: 8px; display: flex; gap: 8px; align-items: center; }
+  .card .por { width: 50px; height: 50px; }
+  .card .n { font: 900 14px "Rubik"; } .card .s { font: 800 11px "Nunito"; color: var(--muted); }
+  .card .btn { height: 36px; font-size: 15px; padding: 0 10px; margin-left: auto; }
+  .gem { display: flex; flex-direction: column; align-items: center; gap: 4px; border: 3px solid var(--ink); border-radius: 12px; background: #fffaf0; padding: 8px 4px; position: relative; }
+  .gem .i { width: 40px; height: 40px; } .gem b { font: 900 17px "Rubik"; }
+  .gem .btn { height: 34px; font-size: 14px; padding: 0 8px; }
+  .hot { position: absolute; top: -10px; right: -6px; background: var(--brick); color: var(--paper); border: 2.5px solid var(--ink); border-radius: 10px; padding: 1px 7px; font: 900 11px "Nunito"; transform: rotate(6deg); }
+  .perk { display: flex; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 2px dashed #cdbd9f; font: 900 16px "Nunito"; }
+  .perk .i { width: 34px; height: 34px; }
+  .note { font: 800 12px "Nunito"; color: var(--muted); text-align: center; margin-top: 10px; }
+  .test { display: inline-block; background: var(--brick); color: var(--paper); border: 2.5px solid var(--ink); border-radius: 8px; padding: 2px 8px; font: 900 12px "Nunito"; }
+  .timer { display: inline-flex; gap: 6px; align-items: center; background: var(--ink); color: var(--mus); border-radius: 10px; padding: 3px 10px; font: 900 14px "Rubik"; }
+</style>
+
+<!-- ======================= I · HAZİNE SEKMESİ ======================= -->
+<div class="label">I · Dükkân › Hazine (yeni sekme, gerçek para)</div>
+<div class="sub">Sadece gerçek parayla alınanlar burada. Üstte VIP kartı, sonra (ilk 3 gün) Başlangıç Paketi, Efsanevi Personel, Premium Dekor ve Elmas paketleri. Fiyatlar örnek (TL); şimdilik test satın alma ekranıyla çalışır.</div>
+<div class="frame dim gbg" id="hazine">
+  <div class="abs panel drawer r" style="width:620px">
+    <div class="dhead"><span class="i"><svg class="ic"><use href="#i-shop"/></svg></span><span class="h">DÜKKÂN</span><span class="chip"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span>28</span><span class="x"><svg class="ic"><use href="#i-close"/></svg></span></div>
+    <div class="tabs">
+      <span class="tab">Makine</span><span class="tab">Personel</span><span class="tab">Dekor</span><span class="tab">Otomasyon</span>
+      <span class="tab on"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span>Hazine</span><span class="tab">Hızlandır</span>
+    </div>
+    <div class="tabline"></div>
+    <div class="list" style="gap:6px">
+      <div class="vip">
+        <div class="crown">VIP</div>
+        <div style="flex:1"><div class="t">VIP Üyelik</div>
+          <div class="perks"><span class="chip">Reklamsız</span><span class="chip">Kalıcı ×2 gelir</span><span class="chip">Günde 10 elmas</span><span class="chip">VIP rozet</span></div></div>
+        <span class="btn b-tl"><span class="tl">89,99 ₺/ay</span></span>
+      </div>
+      <div class="sec">SINIRLI · BAŞLANGIÇ PAKETİ <span class="timer">2g 14s</span></div>
+      <div class="card" style="background:#fff4d6"><div class="por" style="background-image:url('../../assets/icons/ICO_DEC_FiciYigini.png')"></div>
+        <div><div class="n">Başlangıç Paketi · %70 indirim</div><div class="s">5.000 altın · 100 elmas · Altın Fıçı süsü</div></div>
+        <span class="btn b-tl">39,99 ₺</span></div>
+      <div class="sec">EFSANEVİ PERSONEL</div>
+      <div class="grid2">
+        <div class="card"><div class="por" style="background-image:url('../../assets/icons/ICO_Cust_19.png')"></div><div><div class="n">Lirael · Elf Garson</div><div class="s">Çok hızlı · 4 bardak</div></div><span class="btn b-tl">79,99 ₺</span></div>
+        <div class="card"><div class="por" style="background-image:url('../../assets/icons/ICO_Staff_Asci.png')"></div><div><div class="n">Ignis · Ejder Aşçı</div><div class="s">Yemekler ×2 hızlı</div></div><span class="btn b-tl">99,99 ₺</span></div>
+      </div>
+      <div class="sec">PREMIUM DEKOR</div>
+      <div class="grid2">
+        <div class="card"><div class="por" style="background-image:url('../../assets/icons/ICO_DEC_Muhur.png')"></div><div><div class="n">Altın Tema</div><div class="s">Zemin + duvar · +40 puan</div></div><span class="btn b-tl">49,99 ₺</span></div>
+        <div class="card"><div class="por" style="background-image:url('../../assets/icons/ICO_DEC_Avize.png')"></div><div><div class="n">Kristal Avize</div><div class="s">+25 puan</div></div><span class="btn b-tl">39,99 ₺</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= I2 · ELMAS PAKETLERİ (aynı sekme, aşağı kaydırınca) ======================= -->
+<div class="label">I2 · Hazine › Elmas paketleri (sekmenin altı)</div>
+<div class="sub">Kademeli paketler, büyük pakette bonus. Elmaslar mevcut Hızlandır tekliflerinde (×2 gelir, altın paketi) harcanır; ilerlemek için gerekmez.</div>
+<div class="frame dim gbg" id="gems">
+  <div class="abs panel drawer r" style="width:620px">
+    <div class="dhead"><span class="i"><svg class="ic"><use href="#i-shop"/></svg></span><span class="h">DÜKKÂN</span><span class="chip"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span>28</span><span class="x"><svg class="ic"><use href="#i-close"/></svg></span></div>
+    <div class="tabs">
+      <span class="tab">Makine</span><span class="tab">Personel</span><span class="tab">Dekor</span><span class="tab">Otomasyon</span>
+      <span class="tab on"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span>Hazine</span><span class="tab">Hızlandır</span>
+    </div>
+    <div class="tabline"></div>
+    <div class="list" style="gap:6px">
+      <div class="sec">ELMAS</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        <div class="gem"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span><b>100</b><span class="btn b-tl">29,99 ₺</span></div>
+        <div class="gem"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span><b>550</b><span class="s small">+%10</span><span class="btn b-tl">129,99 ₺</span></div>
+        <div class="gem"><span class="hot">EN İYİ</span><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span><b>1.200</b><span class="s small">+%20</span><span class="btn b-tl">249,99 ₺</span></div>
+        <div class="gem"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span><b>3.000</b><span class="s small">+%25</span><span class="btn b-tl">549,99 ₺</span></div>
+      </div>
+      <div class="sec">PREMIUM DEKOR (devam)</div>
+      <div class="grid2">
+        <div class="card"><div class="por" style="background-image:url('../../assets/icons/ICO_DEC_Boynuz.png')"></div><div><div class="n">Ejder Heykeli</div><div class="s">+30 puan</div></div><span class="btn b-tl">59,99 ₺</span></div>
+        <div class="card"><div class="por" style="background-image:url('../../assets/icons/ICO_DEC_Flama.png')"></div><div><div class="n">Kraliyet Tabela Çerçevesi</div><div class="s">Altın tabela · +10 puan</div></div><span class="btn b-tl">29,99 ₺</span></div>
+      </div>
+      <div class="note">Satın almalar hesaba bağlıdır · "Satın almaları geri yükle" Ayarlar'da</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= J · VIP DETAY ======================= -->
+<div class="label">J · VIP detayı</div>
+<div class="sub">VIP kartına dokununca açılır. Aylık abonelik ya da tek seferlik "Ömür boyu VIP". Reklamlar kalkar: Yardımcı, personel ve ad değiştirme reklamları beklemeden ödül verir.</div>
+<div class="frame dim gbg" id="vip">
+  <div class="abs panel modal" style="width:560px;padding:36px 28px 22px">
+    <div class="ribbon panel h" style="background:var(--plum)">VIP ÜYELİK</div>
+    <div class="perk"><span class="i"><svg class="ic"><use href="#i-play"/></svg></span>Reklamsız: tüm reklam ödülleri anında</div>
+    <div class="perk"><span class="i"><svg class="ic"><use href="#i-coin"/></svg></span>Kalıcı ×2 gelir (diğer çarpanlarla birleşir)</div>
+    <div class="perk"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span>Her gün 10 elmas</div>
+    <div class="perk" style="border:0"><span class="i"><svg class="ic"><use href="#i-star"/></svg></span>Tabelada VIP rozeti, mor isim</div>
+    <div style="display:flex;gap:12px;margin-top:14px">
+      <span class="btn b-tl" style="flex:1"><span class="tl">89,99 ₺ / ay</span></span>
+      <span class="btn b-plum" style="flex:1"><span class="tl" style="color:var(--paper)">Ömür boyu · 449,99 ₺</span></span>
+    </div>
+    <div class="note">Abonelik Google Play'den yönetilir · istediğin zaman iptal</div>
+  </div>
+</div>
+
+<!-- ======================= K · TEST SATIN ALMA ======================= -->
+<div class="label">K · Test satın alma ekranı (şimdilik)</div>
+<div class="sub">Gerçek ödeme için Google Play hesabı ve ürün tanımları gerekiyor. O zamana kadar her gerçek para düğmesi bu ekranı açar; "Onayla" ürünü verir (sadece geliştirme sürümünde). Kod Unity IAP'ye bağlanacak şekilde kurulur.</div>
+<div class="frame dim gbg" id="confirm">
+  <div class="abs panel modal" style="width:500px;padding:36px 28px 22px">
+    <div class="ribbon panel h">SATIN AL</div>
+    <div style="display:flex;gap:14px;align-items:center;margin-bottom:12px">
+      <div class="por" style="width:70px;height:70px;background-image:url('../../assets/icons/ICO_Cust_19.png')"></div>
+      <div><div class="h" style="font-size:20px">Lirael · Elf Garson</div><div class="small">Çok hızlı garson · 4 bardak taşır · maaş yok</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:2px dashed #cdbd9f;border-bottom:2px dashed #cdbd9f"><span class="small">Toplam</span><span class="tl">79,99 ₺</span></div>
+    <div style="display:flex;gap:12px;margin-top:14px">
+      <span class="btn b-paper" style="flex:1">VAZGEÇ</span><span class="btn b-teal" style="flex:1">ONAYLA</span>
+    </div>
+    <div class="note"><span class="test">TEST</span> Geliştirme sürümü: gerçek ödeme alınmaz</div>
+  </div>
+</div>
+
+<!-- ======================= L · BAŞLANGIÇ PAKETİ TEKLİFİ ======================= -->
+<div class="label">L · Başlangıç paketi teklifi (bir kez, Sv3'te)</div>
+<div class="sub">Sv3'e ulaşınca bir kez kendiliğinden açılır, sonra 3 gün boyunca Hazine'de durur. Kapatmak serbest; bir daha zorla gösterilmez.</div>
+<div class="frame dim gbg" id="starter">
+  <div class="abs panel modal" style="width:560px;padding:38px 28px 22px">
+    <div class="ribbon panel h">BAŞLANGIÇ PAKETİ</div>
+    <div style="text-align:center;margin-bottom:8px"><span class="timer">Sınırlı · 2g 23s</span></div>
+    <div style="display:flex;justify-content:center;gap:18px;margin:8px 0 12px">
+      <div class="gem" style="width:110px"><span class="i"><svg class="ic"><use href="#i-coin"/></svg></span><b>5.000</b><span class="s small">altın</span></div>
+      <div class="gem" style="width:110px"><span class="i"><svg class="ic"><use href="#i-gem"/></svg></span><b>100</b><span class="s small">elmas</span></div>
+      <div class="gem" style="width:110px"><div class="por" style="width:44px;height:44px;background-image:url('../../assets/icons/ICO_DEC_FiciYigini.png')"></div><b>Altın Fıçı</b><span class="s small">süs</span></div>
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;gap:12px">
+      <span class="small" style="text-decoration:line-through">129,99 ₺</span>
+      <span class="btn b-tl" style="height:56px;padding:0 30px"><span class="tl" style="font-size:22px">39,99 ₺</span></span>
+    </div>
+    <div class="note">Hesap başına bir kez</div>
+  </div>
+</div>
+
+<script>
+  // ?only=<id>: tek ekran (PNG için)
+  const only = new URLSearchParams(location.search).get("only");
+  if (only) {
+    document.body.classList.add("only");
+    document.querySelectorAll(".frame").forEach(f => { if (f.id !== only) f.style.display = "none"; });
+  }
+</script>
+</body>
+</html>

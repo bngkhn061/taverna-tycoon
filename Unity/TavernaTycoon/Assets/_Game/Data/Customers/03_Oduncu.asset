@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 03_Oduncu
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.CustomerDef
+  number: 3
+  displayName: Oduncu
+  modelPrefab: {fileID: 4085803392949296933, guid: e6a5448fd66cdcc40a7c64ad472440fb, type: 3}
+  drinks: 00000000i
+  patienceStars: 3
+  payStars: 2
+  unlockLevel: 2
+  ordersPerVisit: 1
+  spawnWeight: 1
