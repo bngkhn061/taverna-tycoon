@@ -59,6 +59,8 @@ namespace Taverna
                 day = GameState.Data.day, income = _income, wages = paid, unpaid = wages - paid,
                 served = GameState.Data.customersServed - _servedStart, stars = Management.Stars,
             };
+            Services.Track("day_end", ("gun", r.day), ("gelir", r.income), ("maas", r.wages), ("odenmeyen", r.unpaid),
+                           ("servis", r.served), ("mutluluk", Mathf.RoundToInt(Happiness.Value)), ("seviye", GameState.Level));
             GameState.Data.day++;
             // Maaş ödenemediyse personel yeni gün küskün çalışır (Balance.SulkySpeed)
             GameState.Data.sulkyDay = wages > paid ? GameState.Data.day : 0;

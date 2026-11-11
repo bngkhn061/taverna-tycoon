@@ -51,7 +51,7 @@ namespace Taverna
                                         * (RushHour.Active ? Balance.RushSpawnMultiplier : 1f) * Automation.GuestMultiplier;
 
         /// <summary>Uygulanan müşteri çarpanı: ham çarpım, en fazla ×<see cref="Balance.SpawnBoostCap"/>. Oturak ve seviye ölçeği dışarıda.</summary>
-        public static float BoostMultiplier => Mathf.Min(Balance.SpawnBoostCap, RawBoost);
+        public static float BoostMultiplier => Balance.CapSpawnBoost(RawBoost);
 
         /// <summary>Sahnedeki (açılmış) masaların oturak sayısı.</summary>
         static int SeatCount()

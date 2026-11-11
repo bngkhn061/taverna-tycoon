@@ -31,6 +31,7 @@ namespace Taverna
             var r = CanBuyMachine(m);
             if (r != BuyResult.Ok) return r;
             GameState.TrySpend(m.price);
+            Services.Track("machine_buy", ("makine", m.drink.ToString()), ("fiyat", m.price), ("seviye", GameState.Level));
             GameState.Unlock(Catalog.MachineKey(m.drink));
             if (TavernRegistry.I) TavernRegistry.I.ApplyMachine(m.drink, true);
             Changed?.Invoke();
@@ -61,7 +62,7 @@ namespace Taverna
         /// v1.4 işe alım ücreti: katalogdaki ücret ya da görevlinin şu anki günlük maaşının 2 katı (hangisi büyükse).
         /// Maaş seviyeyle büyüdüğü için kovup sabah yeniden işe almak maaştan kâr ettirmez.
         /// </summary>
-        public static long HireCost(Catalog.Staff s) => Math.Max(s.hire, Balance.HireWageMultiplier * WageOf(s));
+        public static long HireCost(Catalog.Staff s) => Balance.HireCost(s.hire, WageOf(s));
 
         /// <summary>v1.3: Hazine'den alınan görevli izinde mi (çalışmaz, maaş almaz; geri çağrılabilir).</summary>
         public static bool OnLeave(string id) => GameState.Data.benched.Contains(id);
@@ -84,6 +85,7 @@ namespace Taverna
                 GameState.Data.unlocked.Remove(s.id);
                 StaffUpgrades.ResetLevel(s.id);
             }
+            Services.Track("staff_fire", ("gorevli", s.id), ("hazine", s.premium), ("izinde", OnLeave(s.id)));
             GameState.Save();
             if (TavernRegistry.I) TavernRegistry.I.ApplyStaff(s.id, true);
             Changed?.Invoke();
@@ -95,7 +97,9 @@ namespace Taverna
         {
             var r = CanHire(s);
             if (r != BuyResult.Ok) return r;
-            GameState.TrySpend(HireCost(s));
+            long cost = HireCost(s);
+            GameState.TrySpend(cost);
+            Services.Track("staff_hire", ("gorevli", s.id), ("ucret", cost), ("seviye", GameState.Level));
             GameState.Unlock(s.id);
             if (TavernRegistry.I) TavernRegistry.I.ApplyStaff(s.id, true);
             Changed?.Invoke();

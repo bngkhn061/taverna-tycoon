@@ -80,6 +80,7 @@ namespace Taverna
             GameState.SetZonePaid(id, Paid);
             if (Paid >= cost)
             {
+                Services.Track("zone_unlock", ("alan", id), ("bedel", cost), ("seviye", GameState.Level));
                 GameState.Unlock(id);
                 ApplyUnlocked(true);
                 Sfx.Play(SfxId.Unlock);

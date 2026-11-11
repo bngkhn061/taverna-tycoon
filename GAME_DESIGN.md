@@ -403,3 +403,13 @@ Oyunun sonu (Sv30) artık bir döngüye bağlanır: oyuncu tavernasını bırak�
 - **Gevezelik:** `n ≥ 2` iken her `U(1.0, 3.2) · lerp(1.4, 0.45, n/14)` saniyede içen bir müşteri konuşur (%22 kahkaha). Sipariş anında %30 “sipariş” sesi, serviste %45 (bahşişli) / %20 “sevinç”, kızgın çıkışta “söylenme”. Aynı anda en fazla 4 konuşma; ekran dışındakiler %35 sesle, ekrandaki yerine göre sağ/sol.
 - **Ses tipleri:** kalın (Oduncu, Demirci, Muhafız, Cüce, Şövalye, Ork), kadın (Çoban Kız, Elf, Cadı, Simyacı), minik (Buçukluk, Goblin), yaşlı (Keşiş, Büyücü), kibar (Tüccar, Vergi Memuru), diğerleri erkek. Her tipin kendi sabit perdesi var (0,93–1,05).
 
+
+## 12. Yayın altyapısı (v1.6)
+
+Reklam, satın alma ve ölçüm için şimdilik yalnızca altyapı var (sahip kararı, 2026-11-11). Gerçek hizmet hesapları sonra açılıp bağlanacak.
+
+- **Hizmetler:** oyun reklamı `IAdService`, Hazine ödemesini `IStoreService`, olayları `IAnalyticsService` üzerinden ister (`Services`). Varsayılan uygulamalar test içindir: 5 / 15 sn reklam ekranı, "TEST" onaylı mağaza, cihazdaki `analytics.jsonl`. Gerçek sağlayıcı tek satırla takılır (`docs/services-integration.md`).
+- **Yayın güvenliği:** geliştirme derlemesi olmayan sürümde gerçek sağlayıcı yoksa reklam düğmeleri (yardımcı garson, görevli seviyesi, siparişi hızlandır, ad değiştirme) gizlenir, Hazine ürünleri "YAKINDA" olur. Hiçbir ödül ya da ürün verilmez.
+- **Ölçüm olayları:** rehber (başla, adım, bitir, atla), seviye, gün sonu, alan, makine, işe alma ve kovma, etkinlik, özel sipariş, prestij, reklam, mağaza, oturum. Geliştirme derlemesinde Ayarlar'da "Ölçüm özeti" satırı görünür; bu satır yalnızca o cihazın sayılarını gösterir.
+- **Kayıt:** `save.dat` dosyası JSON ve HMAC-SHA256 imzası içerir (cihaz kimliğine bağlı). Bir önceki sürüm `save.bak` olarak kalır. İmza tutmazsa yedek açılır; ikisi de bozuksa dosyalar kenara alınır ve oyuncuya bilgi verilir. Eski PlayerPrefs kaydı ilk açılışta dosyaya taşınır (`saveVersion` 2). Oyun 30 sn'de bir ve önemli olaylarda (satın alma, seviye, gün sonu, alan) arka planda kaydeder; arka plana geçişte ve kapanışta eşzamanlı kaydeder. Bu koruma sıradan dosya düzenlemeye karşıdır, kararlı bir hileciyi durdurmaz.
+- **Kimlik:** Bn Studio, `com.bnstudio.tavernatycoon`, 1.0.0 (Android sürüm kodu 1). Android yayın derlemesi AAB çıktısı verir ve imza anahtarını ortam değişkenlerinden okur (`docs/release-checklist.md`).

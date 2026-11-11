@@ -711,3 +711,7 @@ Slider .unity-base-slider__dragger-border { display: none; }
     -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 16px; color: var(--ink); -unity-text-align: middle-center;
 }
 .tier-shot.branch-shot { -unity-background-scale-mode: scale-to-fit; }
+
+/* v1.6 yayın altyapısı: geliştirici ölçüm özeti (Ayarlar) ve "Yakında" Hazine düğmeleri */
+.metrics-note { font-size: 11px; margin-top: 6px; margin-bottom: 2px; -unity-text-align: middle-left; }
+.prem-soon { opacity: 0.8; }

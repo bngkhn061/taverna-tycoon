@@ -1,0 +1,293 @@
+# v1.6 Paket D test kanıtları (2026-11-11, Windows dev derlemesi, -autotest)
+
+## Birim testleri (EditMode): total="27" passed="27" failed="0"
+"Taverna.Tests.AnalyticsTests.MostSkippedStep_NoSkips_ReturnsZero"	"Passed"
+"Taverna.Tests.AnalyticsTests.SlowestStep_ReturnsHighestAverage"	"Passed"
+"Taverna.Tests.AnalyticsTests.ToJsonLine_EscapesStringsAndKeepsTypes"	"Passed"
+"Taverna.Tests.BalanceTests.AmbianceForStars_IsInverseOnHalfStars"	"Passed"
+"Taverna.Tests.BalanceTests.CapSpawnBoost_LimitsProductToCap"	"Passed"
+"Taverna.Tests.BalanceTests.HireCost_IsMaxOfCatalogAndTwiceWage"	"Passed"
+"Taverna.Tests.BalanceTests.SeatSpawnScale_ClampedSquareRoot"	"Passed"
+"Taverna.Tests.BalanceTests.StarsForAmbiance_RoundsDownToHalfStar"	"Passed"
+"Taverna.Tests.BalanceTests.StarsForAmbiance_Thresholds"	"Passed"
+"Taverna.Tests.BalanceTests.UnForLevel_FirstLevels_MatchCurve"	"Passed"
+"Taverna.Tests.BalanceTests.UnForLevel_GrowthRateChangesAtBreaks"	"Passed"
+"Taverna.Tests.BalanceTests.UnForLevel_IncreasesEveryLevel"	"Passed"
+"Taverna.Tests.BalanceTests.Wage_GrowsWithTavernAndStaffLevel"	"Passed"
+"Taverna.Tests.HappinessTests.EffectiveValue_DirtyTablesPenaltyIsCapped"	"Passed"
+"Taverna.Tests.HappinessTests.Ema_MovesTowardScoreByAlpha"	"Passed"
+"Taverna.Tests.HappinessTests.Ema_SpecialOrderCountsTwice"	"Passed"
+"Taverna.Tests.HappinessTests.Ema_StaysWithinZeroAndHundred"	"Passed"
+"Taverna.Tests.HappinessTests.ScoreFor_UsesPatienceThresholds"	"Passed"
+"Taverna.Tests.HappinessTests.SpawnMultiplierFor_PiecewiseLinear"	"Passed"
+"Taverna.Tests.PrestigeTests.IncomeAndUnMultipliers_GrowPerBranch"	"Passed"
+"Taverna.Tests.PrestigeTests.StartCoinsAndNames_FollowBranchNumber"	"Passed"
+"Taverna.Tests.SaveCodecTests.EncodeDecode_RoundTripsSaveData"	"Passed"
+"Taverna.Tests.SaveCodecTests.OtherDeviceKey_IsRejected"	"Passed"
+"Taverna.Tests.SaveCodecTests.Sign_IsDeterministicHex"	"Passed"
+"Taverna.Tests.SaveCodecTests.TamperedBody_IsRejected"	"Passed"
+"Taverna.Tests.SaveCodecTests.TamperedSignature_IsRejected"	"Passed"
+"Taverna.Tests.SaveCodecTests.TruncatedOrForeignContent_IsRejected"	"Passed"
+
+## Önce (değişiklikten önceki derleme, HEAD 15594a8): Sv9 300 oyun-sn (-autotest-start-level 9 -autotest-unlock salon,bahce,mutfak)
+[Playtest] [   0.0s] YAVAŞ KARE 368 ms · müşteri=0 para yığını=0 dünya UI=2 efekt UI=420 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=8 fener=6 amb=16
+[Playtest] [  20.2s] YAVAŞ KARE 185 ms · müşteri=4 para yığını=0 dünya UI=72 efekt UI=0 GC+=6 faz=0.05 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  31.9s] YAVAŞ KARE 182 ms · müşteri=6 para yığını=0 dünya UI=74 efekt UI=0 GC+=3 faz=0.08 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  39.9s] YAVAŞ KARE 173 ms · müşteri=7 para yığını=0 dünya UI=75 efekt UI=7 GC+=2 faz=0.10 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  51.9s] YAVAŞ KARE 173 ms · müşteri=6 para yığını=0 dünya UI=74 efekt UI=0 GC+=3 faz=0.12 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  63.9s] YAVAŞ KARE 158 ms · müşteri=8 para yığını=0 dünya UI=76 efekt UI=0 GC+=3 faz=0.15 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  72.0s] YAVAŞ KARE 194 ms · müşteri=8 para yığını=0 dünya UI=75 efekt UI=6 GC+=1 faz=0.17 yoğun=False masa=2 istasyon=8 fener=6 amb=23
+[Playtest] [  97.8s] YAVAŞ KARE 191 ms · müşteri=8 para yığını=1 dünya UI=76 efekt UI=0 GC+=6 faz=0.23 yoğun=False masa=2 istasyon=8 fener=6 amb=23
+[Playtest] [ 150.8s] YAVAŞ KARE 206 ms · müşteri=6 para yığını=1 dünya UI=75 efekt UI=0 GC+=14 faz=0.36 yoğun=False masa=2 istasyon=8 fener=6 amb=28
+[Playtest] [ 171.7s] YAVAŞ KARE 186 ms · müşteri=9 para yığını=0 dünya UI=79 efekt UI=56 GC+=5 faz=0.41 yoğun=False masa=4 istasyon=8 fener=6 amb=33
+[Playtest] [ 253.5s] YAVAŞ KARE 208 ms · müşteri=12 para yığını=1 dünya UI=81 efekt UI=3 GC+=23 faz=0.60 yoğun=False masa=4 istasyon=8 fener=6 amb=34
+[Playtest] [ 300.1s] SONUÇ: 300 oyun-sn · Para=233 · Seviye=9 · Servis=63 · Kızgın ayrılan=0 · Yükseltme=132 · Açılan=[salon,bahce,mutfak,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Ekmek,mac_Guvec,staff_pip,staff_gus,staff_mina,staf
+
+## (a) Yeni oyun 330 oyun-sn (1. koşu; rehber pencereye düşen gerçek bir tıklamayla 9. adımda atlandı)
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.4 REHBER: başladı · adım 1 · gün saati 0.000 · zaman durur=True
+[Playtest] [   0.0s] v1.6 TEST: kayıt= · yayın taklidi=False · geliştirme=True · reklam açık=True · mağaza açık=True · oturum 972b256593af · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 121 ms · gerçek 0.1 sn · kayıt karesi=False · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [   0.3s] v1.4 REHBER: adım 2 · gerçek 0.2 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  16.1s] YAVAŞ KARE 154 ms · gerçek 4.2 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=58 efekt UI=0 GC+=2 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [  19.0s] v1.4 REHBER: adım 3 · gerçek 4.9 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  20.1s] v1.4 REHBER: adım 4 · gerçek 5.2 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  23.5s] v1.4 REHBER: adım 5 · gerçek 6.0 sn · gün saati 0.000 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  24.7s] YAVAŞ KARE 145 ms · gerçek 6.3 sn · kayıt karesi=False · müşteri=3 para yığını=0 dünya UI=59 efekt UI=2 GC+=1 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [  31.5s] v1.4 REHBER: bot open-quests butonuna bastı (adım 5)
+[Playtest] [  31.5s] v1.4 REHBER: adım 6 · gerçek 8.0 sn · gün saati 0.019 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  31.6s] v1.4 REHBER: adım 7 · gerçek 8.0 sn · gün saati 0.019 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  39.6s] v1.4 REHBER: bot open-shop butonuna bastı (adım 7)
+[Playtest] [  39.6s] v1.4 REHBER: adım 8 · gerçek 10.0 sn · gün saati 0.038 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  47.6s] v1.4 REHBER: bot open-staff butonuna bastı (adım 8)
+[Playtest] [  47.6s] v1.4 REHBER: adım 9 · gerçek 12.0 sn · gün saati 0.057 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  66.3s] v1.4 REHBER: BİTTİ · gerçek 16.7 sn · gün saati 0.102 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  68.2s] YAVAŞ KARE 155 ms · gerçek 17.2 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=63 efekt UI=31 GC+=8 faz=0.11 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [  76.4s] YAVAŞ KARE 98 ms · gerçek 19.2 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=61 efekt UI=0 GC+=1 faz=0.13 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [ 100.0s] v1.6 REKLAM: istendi · hizmet TestAdService (test=True) · hazır=True · ödül hemen=False
+[Playtest] [ 106.4s] v1.4 REHBER SONRASI: 10 gerçek sn'de gün saati 0.102 → 0.197 (akıyor=True)
+[Playtest] [ 126.0s] v1.6 REKLAM: 5 sn sonra verilen ödül 1 · ad_shown 1 · ad_rewarded 1
+[Playtest] [ 155.5s] YAVAŞ KARE 147 ms · gerçek 39.0 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=62 efekt UI=0 GC+=10 faz=0.31 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [ 158.1s] v1.6 HAZİNE: mağaza üzerinden onay=True · Lirael alındı=True · store_request 1 · store_purchase 1 · mağaza TestStoreService
+[Playtest] [ 158.1s] Hazine (test): alındı · VIP=True · garson=1 · elmas=3 · yıldız=3
+[Playtest] [ 165.7s] YAVAŞ KARE 158 ms · gerçek 41.5 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=63 efekt UI=193 GC+=2 faz=0.34 yoğun=False masa=2 istasyon=2 fener=6 amb=3
+[Playtest] [ 174.5s] YAVAŞ KARE 138 ms · gerçek 43.7 sn · kayıt karesi=True · müşteri=7 para yığını=1 dünya UI=65 efekt UI=40 GC+=1 faz=0.36 yoğun=False masa=2 istasyon=2 fener=6 amb=3
+[Playtest] [ 277.1s] YAVAŞ KARE 170 ms · gerçek 69.4 sn · kayıt karesi=False · müşteri=8 para yığını=0 dünya UI=66 efekt UI=15 GC+=13 faz=0.60 yoğun=True masa=3 istasyon=2 fener=6 amb=3
+[Playtest] [ 303.2s] YAVAŞ KARE 144 ms · gerçek 75.9 sn · kayıt karesi=False · müşteri=10 para yığını=1 dünya UI=68 efekt UI=40 GC+=4 faz=0.67 yoğun=True masa=3 istasyon=2 fener=6 amb=4
+[Playtest] [ 330.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek 16.7 sn
+[Playtest] [ 330.1s] v1.6 ÖLÇÜM: bu süreçte 24 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (3124 bayt) · sayaçlar (tüm oturumlar) [session_start=1, tutorial_start=1, tutorial_step=8, machine_buy=1, tutorial_skip=1, ad_shown=1, ad_rewarded=1, store_request=1, store_purchase=1, level_up=2, event_start=1, zone_unlock=1, staff_hire=2, staff_fire=1, special_served=1]
+[Playtest] [ 330.1s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 1 · bitiren 0 · atlayan 1 oturum · en çok takılınan adım 2 (ort. 5 sn) · en çok atlanan adım 9
+[Playtest] [ 330.1s] v1.6 KAYIT ÖZET: kayıt çağrısı 54 · ana iş parçacığı son 0.06 ms en çok 0.66 ms · diske yazım 42 (arka plan, son 2.1 ms en çok 4.0 ms) · hata ''
+[Playtest] [ 330.1s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 16 (en uzun 170 ms) · kayıt karesiyle çakışan 1 · 83 gerçek sn
+[Playtest] [ 330.1s] SONUÇ: 330 oyun-sn · Para=34 · Seviye=3 · Servis=53 · Kızgın ayrılan=0 · Yükseltme=22 · Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3,staff_nana]
+
+## (a) Yeni oyun 330 oyun-sn (2. koşu)
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.4 REHBER: başladı · adım 1 · gün saati 0.000 · zaman durur=True
+[Playtest] [   0.0s] v1.6 TEST: kayıt= · yayın taklidi=False · geliştirme=True · reklam açık=True · mağaza açık=True · oturum 2d6367be188b · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 111 ms · gerçek 0.1 sn · kayıt karesi=False · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [   0.3s] v1.4 REHBER: adım 2 · gerçek 0.2 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  16.2s] YAVAŞ KARE 153 ms · gerçek 4.2 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=58 efekt UI=0 GC+=2 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [  17.7s] v1.4 REHBER: adım 3 · gerçek 4.5 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  18.4s] v1.4 REHBER: adım 4 · gerçek 4.7 sn · gün saati 0.000 · zaman durur=True · kendiliğinden geçen=0
+[Playtest] [  21.8s] v1.4 REHBER: adım 5 · gerçek 5.6 sn · gün saati 0.000 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  29.8s] v1.4 REHBER: bot open-quests butonuna bastı (adım 5)
+[Playtest] [  29.8s] v1.4 REHBER: adım 6 · gerçek 7.6 sn · gün saati 0.019 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  29.8s] v1.4 REHBER: adım 7 · gerçek 7.6 sn · gün saati 0.019 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  37.8s] v1.4 REHBER: bot open-shop butonuna bastı (adım 7)
+[Playtest] [  37.8s] v1.4 REHBER: adım 8 · gerçek 9.6 sn · gün saati 0.038 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  45.8s] v1.4 REHBER: bot open-staff butonuna bastı (adım 8)
+[Playtest] [  45.8s] v1.4 REHBER: adım 9 · gerçek 11.6 sn · gün saati 0.057 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  51.1s] YAVAŞ KARE 134 ms · gerçek 12.9 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=61 efekt UI=2 GC+=6 faz=0.07 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [ 145.9s] v1.4 REHBER: BİTTİ · gerçek 36.6 sn · gün saati 0.295 · zaman durur=False · kendiliğinden geçen=1
+[Playtest] [ 145.9s] v1.6 REKLAM: istendi · hizmet TestAdService (test=True) · hazır=True · ödül hemen=False
+[Playtest] [ 147.7s] YAVAŞ KARE 152 ms · gerçek 37.0 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=61 efekt UI=2 GC+=15 faz=0.30 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [ 155.9s] YAVAŞ KARE 81 ms · gerçek 39.1 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=62 efekt UI=0 GC+=1 faz=0.32 yoğun=False masa=2 istasyon=2 fener=6 amb=1
+[Playtest] [ 158.1s] v1.6 HAZİNE: mağaza üzerinden onay=True · Lirael alındı=True · store_request 5 · store_purchase 3 · mağaza TestStoreService
+[Playtest] [ 158.1s] Hazine (test): alındı · VIP=True · garson=1 · elmas=3 · yıldız=3
+[Playtest] [ 165.4s] YAVAŞ KARE 89 ms · gerçek 41.5 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=63 efekt UI=251 GC+=1 faz=0.34 yoğun=False masa=2 istasyon=2 fener=6 amb=3
+[Playtest] [ 172.0s] v1.6 REKLAM: 5 sn sonra verilen ödül 1 · ad_shown 3 · ad_rewarded 3
+[Playtest] [ 185.9s] v1.4 REHBER SONRASI: 10 gerçek sn'de gün saati 0.295 → 0.391 (akıyor=True)
+[Playtest] [ 275.4s] YAVAŞ KARE 170 ms · gerçek 69.0 sn · kayıt karesi=False · müşteri=10 para yığını=0 dünya UI=67 efekt UI=0 GC+=13 faz=0.60 yoğun=True masa=3 istasyon=2 fener=6 amb=3
+[Playtest] [ 297.5s] YAVAŞ KARE 151 ms · gerçek 74.5 sn · kayıt karesi=False · müşteri=10 para yığını=1 dünya UI=68 efekt UI=41 GC+=2 faz=0.66 yoğun=True masa=3 istasyon=2 fener=6 amb=3
+[Playtest] [ 330.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 1 · bitiş gerçek 36.6 sn
+[Playtest] [ 330.0s] v1.6 ÖLÇÜM: bu süreçte 24 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (16528 bayt) · sayaçlar (tüm oturumlar) [session_start=5, tutorial_start=2, tutorial_step=17, machine_buy=18, tutorial_skip=1, ad_shown=3, ad_rewarded=3, store_request=5, store_purchase=3, level_up=4, event_start=4, zone_unlock=10, staff_hire=25, staff_fire=4, special_served=20, session_end=4, tutorial_complete=1]
+[Playtest] [ 330.0s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 2 · bitiren 1 · atlayan 1 oturum · en çok takılınan adım 9 (ort. 25 sn) · en çok atlanan adım 9
+[Playtest] [ 330.0s] v1.6 KAYIT ÖZET: kayıt çağrısı 53 · ana iş parçacığı son 0.06 ms en çok 1.99 ms · diske yazım 46 (arka plan, son 1.7 ms en çok 3.5 ms) · hata ''
+[Playtest] [ 330.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 19 (en uzun 174 ms) · kayıt karesiyle çakışan 0 · 83 gerçek sn
+[Playtest] [ 330.0s] SONUÇ: 330 oyun-sn · Para=110 · Seviye=3 · Servis=54 · Kızgın ayrılan=0 · Yükseltme=22 · Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3,staff_nana]
+
+## (b) Sonra: Sv9 300 oyun-sn, geliştirme derlemesi (reklam + Hazine arayüz üzerinden)
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.6 TEST: kayıt= · yayın taklidi=False · geliştirme=True · reklam açık=True · mağaza açık=True · oturum 0433586d20e4 · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 312 ms · gerçek 0.3 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=420 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=8 fener=6 amb=16
+[Playtest] [  24.7s] YAVAŞ KARE 148 ms · gerçek 6.5 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=73 efekt UI=3 GC+=7 faz=0.06 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  36.0s] YAVAŞ KARE 176 ms · gerçek 9.3 sn · kayıt karesi=False · müşteri=7 para yığını=1 dünya UI=77 efekt UI=0 GC+=3 faz=0.09 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  47.8s] YAVAŞ KARE 138 ms · gerçek 12.3 sn · kayıt karesi=False · müşteri=8 para yığını=0 dünya UI=75 efekt UI=0 GC+=4 faz=0.11 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  55.8s] YAVAŞ KARE 146 ms · gerçek 14.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=75 efekt UI=5 GC+=1 faz=0.13 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  67.8s] YAVAŞ KARE 138 ms · gerçek 17.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=76 efekt UI=7 GC+=3 faz=0.16 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  76.0s] YAVAŞ KARE 170 ms · gerçek 19.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=76 efekt UI=0 GC+=2 faz=0.18 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  97.7s] YAVAŞ KARE 180 ms · gerçek 24.8 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=77 efekt UI=0 GC+=5 faz=0.23 yoğun=False masa=3 istasyon=8 fener=6 amb=22
+[Playtest] [ 100.1s] v1.6 REKLAM: istendi · hizmet TestAdService (test=True) · hazır=True · ödül hemen=False
+[Playtest] [ 126.1s] v1.6 REKLAM: 5 sn sonra verilen ödül 1 · ad_shown 2 · ad_rewarded 2
+[Playtest] [ 150.7s] YAVAŞ KARE 167 ms · gerçek 38.0 sn · kayıt karesi=False · müşteri=11 para yığını=1 dünya UI=80 efekt UI=0 GC+=13 faz=0.36 yoğun=False masa=4 istasyon=8 fener=6 amb=27
+[Playtest] [ 158.6s] v1.6 HAZİNE: mağaza üzerinden onay=True · Lirael alındı=True · store_request 2 · store_purchase 2 · mağaza TestStoreService
+[Playtest] [ 158.6s] Hazine (test): alındı · VIP=True · garson=4 · elmas=15 · yıldız=4
+[Playtest] [ 171.4s] YAVAŞ KARE 177 ms · gerçek 43.2 sn · kayıt karesi=False · müşteri=13 para yığını=0 dünya UI=83 efekt UI=19 GC+=6 faz=0.41 yoğun=False masa=4 istasyon=8 fener=6 amb=33
+[Playtest] [ 253.4s] YAVAŞ KARE 175 ms · gerçek 63.7 sn · kayıt karesi=False · müşteri=14 para yığını=1 dünya UI=84 efekt UI=11 GC+=23 faz=0.60 yoğun=False masa=5 istasyon=8 fener=6 amb=33
+[Playtest] [ 300.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+[Playtest] [ 300.1s] v1.6 ÖLÇÜM: bu süreçte 35 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (7643 bayt) · sayaçlar (tüm oturumlar) [session_start=2, tutorial_start=1, tutorial_step=8, machine_buy=8, tutorial_skip=1, ad_shown=2, ad_rewarded=2, store_request=2, store_purchase=2, level_up=2, event_start=2, zone_unlock=4, staff_hire=11, staff_fire=2, special_served=10, session_end=1]
+[Playtest] [ 300.1s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 1 · bitiren 0 · atlayan 1 oturum · en çok takılınan adım 2 (ort. 5 sn) · en çok atlanan adım 9
+[Playtest] [ 300.1s] v1.6 KAYIT ÖZET: kayıt çağrısı 253 · ana iş parçacığı son 0.07 ms en çok 1.81 ms · diske yazım 96 (arka plan, son 2.0 ms en çok 5.1 ms) · hata ''
+[Playtest] [ 300.1s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 22 (en uzun 312 ms) · kayıt karesiyle çakışan 2 · 75 gerçek sn
+[Playtest] [ 300.1s] SONUÇ: 300 oyun-sn · Para=338 · Seviye=9 · Servis=72 · Kızgın ayrılan=0 · Yükseltme=147 · Açılan=[salon,bahce,mutfak,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Ekmek,mac_Guvec,staff_pip,staff_gus,staff_mina,staff_tobi,staff_ayla,staff_brak,staff_lir,masa3,staff_nana,masa4,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masaM1]
+
+## (c) Kayıt senaryoları: -autotest-start-level 5 -autotest-v16 save (60 oyun-sn)
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.6 TEST: kayıt=save · yayın taklidi=False · geliştirme=True · reklam açık=True · mağaza açık=True · oturum bd7005d2b2db · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 141 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=140 GC+=30 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=10
+[Playtest] [  11.5s] v1.6 KAYIT ESKİ YÖNTEM: PlayerPrefs.SetString + Save (1668 karakter) 5 kez · ort. 0.1 ms · en çok 0.4 ms
+[Kayıt] eski PlayerPrefs kaydı dosyaya taşındı: C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\save.dat
+[Playtest] [  11.5s] v1.6 KAYIT TAŞIMA: kaynak=Legacy · altın 12345 (beklenen 12345) · ad 'Göç Testi' · saveVersion 2 · save.dat var=True · PlayerPrefs anahtarı kaldı=False · 2.6 ms
+[Playtest] [  11.5s] v1.6 KAYIT YAZ→OKU: kaynak=Main · altın 22222 (beklenen 22222) · save.bak var=True · eşzamanlı yazım 1.2 ms · dosya 1750 bayt
+[Playtest] [  11.5s] v1.6 KAYIT DOSYASI: ilk satır 'TAVERNA-SAVE-1' · imza 64 karakter
+[Kayıt] save.dat imzası tutmadı, save.bak açıldı.
+[Playtest] [  11.5s] v1.6 KAYIT BOZUK ANA: kaynak=Backup · altın 12345 (beklenen 12345, bir önceki sürüm) · kenara alınan save.corrupt-20261111-200111.dat · bilgi 'Kayıt dosyası bozuktu, bir önceki yedekten açıldı.'
+[Kayıt] save.dat ve save.bak imzası tutmadı, kenara alındı (save.corrupt-20261111-200111.bak).
+[Playtest] [  11.5s] v1.6 KAYIT İKİSİ DE BOZUK: kaynak=Corrupt · altın 0 · Sv1 (yeni oyun) · save.dat var=False · kenarda 3 dosya [save.corrupt-20261111-200111-1.dat, save.corrupt-20261111-200111.bak, save.corrupt-20261111-200111.dat] · bilgi 'Kayıt dosyası okunamadı (bozuk). Eski dosya saklandı: save.corrupt-20261111-200111.bak. Yeni oyun başladı.'
+[Playtest] [  11.5s] v1.6 KAYIT GERİ: kaynak=Main · Sv5 altın 11 · ad 'Test Tavernası'
+[Playtest] [  17.3s] YAVAŞ KARE 155 ms · gerçek 4.5 sn · kayıt karesi=False · müşteri=3 para yığını=0 dünya UI=64 efekt UI=10 GC+=4 faz=0.04 yoğun=False masa=5 istasyon=3 fener=6 amb=11
+[Playtest] [  30.7s] YAVAŞ KARE 182 ms · gerçek 7.8 sn · kayıt karesi=False · müşteri=6 para yığını=0 dünya UI=68 efekt UI=7 GC+=3 faz=0.07 yoğun=False masa=5 istasyon=3 fener=6 amb=11
+[Playtest] [  39.8s] YAVAŞ KARE 144 ms · gerçek 10.1 sn · kayıt karesi=False · müşteri=6 para yığını=1 dünya UI=67 efekt UI=0 GC+=1 faz=0.09 yoğun=False masa=5 istasyon=3 fener=6 amb=11
+[Playtest] [  51.7s] YAVAŞ KARE 128 ms · gerçek 13.1 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=66 efekt UI=7 GC+=3 faz=0.12 yoğun=False masa=5 istasyon=3 fener=6 amb=11
+[Playtest] [  59.8s] YAVAŞ KARE 143 ms · gerçek 15.1 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=68 efekt UI=0 GC+=2 faz=0.14 yoğun=False masa=5 istasyon=3 fener=6 amb=11
+[Playtest] [  60.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+[Playtest] [  60.0s] v1.6 ÖLÇÜM: bu süreçte 11 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (9179 bayt) · sayaçlar (tüm oturumlar) [session_start=3, tutorial_start=1, tutorial_step=8, machine_buy=10, tutorial_skip=1, ad_shown=2, ad_rewarded=2, store_request=2, store_purchase=2, level_up=2, event_start=2, zone_unlock=7, staff_hire=14, staff_fire=2, special_served=12, session_end=2]
+[Playtest] [  60.0s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 1 · bitiren 0 · atlayan 1 oturum · en çok takılınan adım 2 (ort. 5 sn) · en çok atlanan adım 9
+[Playtest] [  60.0s] v1.6 KAYIT ÖZET: kayıt çağrısı 140 · ana iş parçacığı son 0.05 ms en çok 1.34 ms · diske yazım 38 (arka plan, son 1.2 ms en çok 3.1 ms) · hata ''
+[Playtest] [  60.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 13 (en uzun 182 ms) · kayıt karesiyle çakışan 1 · 15 gerçek sn
+[Playtest] [  60.0s] SONUÇ: 60 oyun-sn · Para=42 · Seviye=5 · Servis=7 · Kızgın ayrılan=0 · Yükseltme=87 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,masa3,masa4,masaM1]
+
+## (d) Yayın taklidi: Sv9 -autotest-release-sim (240 oyun-sn)
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.6 TEST: kayıt= · yayın taklidi=True · geliştirme=True · reklam açık=False · mağaza açık=False · oturum f97b669bf130 · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 309 ms · gerçek 0.3 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=420 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=8 fener=6 amb=16
+[Playtest] [  19.7s] YAVAŞ KARE 175 ms · gerçek 5.2 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=72 efekt UI=0 GC+=6 faz=0.05 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  31.9s] YAVAŞ KARE 163 ms · gerçek 8.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=74 efekt UI=4 GC+=3 faz=0.08 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  43.9s] YAVAŞ KARE 139 ms · gerçek 11.3 sn · kayıt karesi=False · müşteri=7 para yığını=1 dünya UI=76 efekt UI=4 GC+=3 faz=0.10 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  55.9s] YAVAŞ KARE 153 ms · gerçek 14.3 sn · kayıt karesi=False · müşteri=8 para yığını=0 dünya UI=78 efekt UI=5 GC+=3 faz=0.13 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  67.8s] YAVAŞ KARE 144 ms · gerçek 17.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=75 efekt UI=0 GC+=3 faz=0.16 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  75.8s] YAVAŞ KARE 157 ms · gerçek 19.3 sn · kayıt karesi=False · müşteri=6 para yığını=1 dünya UI=74 efekt UI=0 GC+=1 faz=0.18 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  97.7s] YAVAŞ KARE 176 ms · gerçek 24.8 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=75 efekt UI=0 GC+=6 faz=0.23 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Reklam] kapalı, ödül verilmedi: bot_test
+[Hazine] mağaza kapalı, ürün verilmedi: gems_100
+[Hazine] mağaza kapalı, ürün verilmedi: staff_lirael
+[Playtest] [ 120.0s] v1.6 YAYIN: ShowAd → ödül=False (sayaç 0) · Premium.Grant(gems_100, staff_lirael) → elmas 6→6 · Lirael=False · altın 1→1
+[Playtest] [ 120.0s] v1.6 YAYIN: yardımcı garson düğmesi gizli=True · reklam açık=False · mağaza açık=False · test reklamı hazır=False
+[Playtest] [ 120.6s] YAVAŞ KARE 150 ms · gerçek 30.5 sn · kayıt karesi=True · müşteri=9 para yığını=0 dünya UI=76 efekt UI=28 GC+=6 faz=0.29 yoğun=True masa=3 istasyon=8 fener=6 amb=24
+[Playtest] [ 124.9s] v1.6 YAYIN: Personel sekmesi · reklam düğmesi 0 · görevli kartı 9
+[Playtest] [ 132.1s] v1.6 YAYIN: Hazine · YAKINDA düğmesi 12 · tıklanabilir fiyat düğmesi 0 · not 'Hazine yakında açılıyor · şimdilik satın alma yok'
+[Playtest] [ 132.6s] YAVAŞ KARE 141 ms · gerçek 33.5 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=77 efekt UI=39 GC+=5 faz=0.32 yoğun=True masa=3 istasyon=8 fener=6 amb=30
+[Playtest] [ 134.5s] v1.6 YAYIN: Premium.Request(gems_100) → pencere=True · elmas 9→9 · store_request 3 · store_purchase 2
+[Playtest] [ 143.4s] v1.6 YAYIN: Depo · HEMEN düğmesi 0 · YOLDA 1 · yolda sipariş 1
+[Playtest] [ 144.0s] YAVAŞ KARE 151 ms · gerçek 36.3 sn · kayıt karesi=False · müşteri=10 para yığını=1 dünya UI=79 efekt UI=7 GC+=2 faz=0.34 yoğun=True masa=3 istasyon=8 fener=6 amb=30
+[Playtest] [ 149.8s] v1.6 YAYIN: Ad değiştir · reklam düğmesi gizli=True
+[Playtest] [ 152.2s] YAVAŞ KARE 103 ms · gerçek 38.4 sn · kayıt karesi=False · müşteri=8 para yığını=1 dünya UI=78 efekt UI=0 GC+=1 faz=0.36 yoğun=False masa=3 istasyon=8 fener=6 amb=31
+[Playtest] [ 158.5s] v1.6 HAZİNE: mağaza üzerinden onay=False · Lirael alındı=False · store_request 4 · store_purchase 2 · mağaza TestStoreService
+[Hazine] mağaza kapalı, ürün verilmedi: staff_lirael
+[Hazine] mağaza kapalı, ürün verilmedi: staff_ignis
+[Hazine] mağaza kapalı, ürün verilmedi: frame_kraliyet
+[Hazine] mağaza kapalı, ürün verilmedi: dec_ejder
+[Hazine] mağaza kapalı, ürün verilmedi: dec_kristal
+[Hazine] mağaza kapalı, ürün verilmedi: thm_altin
+[Hazine] mağaza kapalı, ürün verilmedi: vip_month
+[Playtest] [ 158.5s] Hazine (test): alındı · VIP=False · garson=3 · elmas=12 · yıldız=3
+[Playtest] [ 171.2s] YAVAŞ KARE 168 ms · gerçek 43.1 sn · kayıt karesi=False · müşteri=13 para yığını=0 dünya UI=80 efekt UI=0 GC+=4 faz=0.41 yoğun=False masa=4 istasyon=8 fener=6 amb=31
+[Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+[Playtest] [ 240.0s] v1.6 ÖLÇÜM: bu süreçte 31 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (13238 bayt) · sayaçlar (tüm oturumlar) [session_start=4, tutorial_start=1, tutorial_step=8, machine_buy=17, tutorial_skip=1, ad_shown=2, ad_rewarded=2, store_request=4, store_purchase=2, level_up=2, event_start=3, zone_unlock=9, staff_hire=23, staff_fire=3, special_served=20, session_end=3]
+[Playtest] [ 240.0s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 1 · bitiren 0 · atlayan 1 oturum · en çok takılınan adım 2 (ort. 5 sn) · en çok atlanan adım 9
+[Playtest] [ 240.0s] v1.6 KAYIT ÖZET: kayıt çağrısı 199 · ana iş parçacığı son 0.10 ms en çok 3.13 ms · diske yazım 70 (arka plan, son 1.7 ms en çok 4.7 ms) · hata ''
+[Playtest] [ 240.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 27 (en uzun 309 ms) · kayıt karesiyle çakışan 2 · 60 gerçek sn
+[Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=189 · Seviye=9 · Servis=46 · Kızgın ayrılan=0 · Yükseltme=110 · Açılan=[salon,bahce,mutfak,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Ekmek,mac_Guvec,staff_pip,staff_gus,staff_mina,staff_tobi,staff_ayla,staff_brak,staff_lir,masa3,staff_nana,masa4]
+
+## Prestij olayı: -autotest-start-level 30 -autotest-tier 2 -autotest-v15 prestige (460 oyun-sn)
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.6 TEST: kayıt= · yayın taklidi=False · geliştirme=True · reklam açık=True · mağaza açık=True · oturum 950942ecfd08 · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 103 ms · gerçek 0.1 sn · kayıt karesi=False · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[Playtest] [  10.3s] YAVAŞ KARE 180 ms · gerçek 2.7 sn · kayıt karesi=True · müşteri=3 para yığını=0 dünya UI=58 efekt UI=1340 GC+=5 faz=0.02 yoğun=False masa=43 istasyon=20 fener=15 amb=4
+[Playtest] [  23.0s] YAVAŞ KARE 133 ms · gerçek 5.9 sn · kayıt karesi=False · müşteri=10 para yığını=1 dünya UI=102 efekt UI=0 GC+=3 faz=0.05 yoğun=False masa=43 istasyon=20 fener=15 amb=4
+[Playtest] [  35.2s] YAVAŞ KARE 133 ms · gerçek 8.9 sn · kayıt karesi=False · müşteri=16 para yığını=0 dünya UI=109 efekt UI=0 GC+=3 faz=0.08 yoğun=False masa=43 istasyon=20 fener=15 amb=4
+[Playtest] [  42.5s] v1.4 REHBER: BİTTİ · gerçek 10.7 sn · gün saati 0.101 · zaman durur=False · kendiliğinden geçen=0
+[Playtest] [  47.0s] YAVAŞ KARE 154 ms · gerçek 11.9 sn · kayıt karesi=True · müşteri=1 para yığını=0 dünya UI=58 efekt UI=40 GC+=3 faz=0.01 yoğun=False masa=2 istasyon=2 fener=6 amb=4
+[Playtest] [  63.0s] YAVAŞ KARE 156 ms · gerçek 15.9 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=63 efekt UI=0 GC+=2 faz=0.05 yoğun=False masa=2 istasyon=2 fener=6 amb=6
+[Playtest] [  82.4s] v1.4 REHBER SONRASI: 10 gerçek sn'de gün saati 0.101 → 0.095 (akıyor=False)
+[Playtest] [ 100.0s] v1.6 REKLAM: istendi · hizmet TestAdService (test=True) · hazır=True · ödül hemen=False
+[Playtest] [ 126.1s] v1.6 REKLAM: 5 sn sonra verilen ödül 1 · ad_shown 4 · ad_rewarded 4
+[Playtest] [ 181.9s] YAVAŞ KARE 153 ms · gerçek 45.6 sn · kayıt karesi=True · müşteri=6 para yığını=1 dünya UI=64 efekt UI=40 GC+=10 faz=0.33 yoğun=False masa=2 istasyon=2 fener=6 amb=6
+[Playtest] [ 230.7s] YAVAŞ KARE 166 ms · gerçek 57.8 sn · kayıt karesi=False · müşteri=6 para yığını=1 dünya UI=64 efekt UI=0 GC+=5 faz=0.45 yoğun=False masa=2 istasyon=2 fener=6 amb=6
+[Playtest] [ 295.4s] YAVAŞ KARE 170 ms · gerçek 74.0 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=67 efekt UI=5 GC+=8 faz=0.60 yoğun=True masa=3 istasyon=2 fener=6 amb=6
+[Playtest] [ 379.3s] YAVAŞ KARE 161 ms · gerçek 95.0 sn · kayıt karesi=False · müşteri=11 para yığını=2 dünya UI=72 efekt UI=8 GC+=11 faz=0.80 yoğun=False masa=4 istasyon=3 fener=6 amb=6
+[Playtest] [ 460.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek 10.7 sn
+[Playtest] [ 460.0s] v1.5 PRESTİJ ÖZET: şube 1 (Liman Kenti) · gelir ×1.25 · Ün ×1.15 · Sv4 · servis (yükleme sonrası) 81 · sahne yüklemesi 1 · salon açık=False · sahnede dekor 7 / kayıtta 8
+[Playtest] [ 460.0s] v1.6 ÖLÇÜM: bu süreçte 30 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (20522 bayt) · sayaçlar (tüm oturumlar) [session_start=6, tutorial_start=2, tutorial_step=17, machine_buy=20, tutorial_skip=1, ad_shown=4, ad_rewarded=4, store_request=5, store_purchase=3, level_up=7, event_start=5, zone_unlock=17, staff_hire=31, staff_fire=5, special_served=27, session_end=5, tutorial_complete=1, prestige=1]
+[Playtest] [ 460.0s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 2 · bitiren 1 · atlayan 1 oturum · en çok takılınan adım 9 (ort. 25 sn) · en çok atlanan adım 9
+[Playtest] [ 460.0s] v1.6 KAYIT ÖZET: kayıt çağrısı 143 · ana iş parçacığı son 0.06 ms en çok 0.41 ms · diske yazım 79 (arka plan, son 1.7 ms en çok 4.4 ms) · hata ''
+[Playtest] [ 460.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 18 (en uzun 180 ms) · kayıt karesiyle çakışan 2 · 115 gerçek sn
+[Playtest] [ 460.0s] SONUÇ: 460 oyun-sn · Para=213 · Seviye=4 · Servis=85 · Kızgın ayrılan=0 · Yükseltme=40 · Açılan=[staff_lirael,thm_zemin_altin,thm_duvar_altin,mac_Sira,masa3,staff_nana,mac_BalSarabi,masa4,staff_pip,masaM1]
+
+## Gün sonu olayı: Sv9 450 oyun-sn
+Exception/NullReference satırı: 0
+[Playtest] [   0.0s] v1.6 TEST: kayıt= · yayın taklidi=False · geliştirme=True · reklam açık=True · mağaza açık=True · oturum 01cd63ed4c35 · kayıt klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon · kaynak None
+[Playtest] [   0.0s] YAVAŞ KARE 293 ms · gerçek 0.3 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=420 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=8 fener=6 amb=16
+[Playtest] [  24.6s] YAVAŞ KARE 148 ms · gerçek 6.5 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=73 efekt UI=7 GC+=7 faz=0.06 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  35.8s] YAVAŞ KARE 149 ms · gerçek 9.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=76 efekt UI=3 GC+=3 faz=0.09 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  47.8s] YAVAŞ KARE 138 ms · gerçek 12.2 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=77 efekt UI=0 GC+=3 faz=0.11 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  55.8s] YAVAŞ KARE 154 ms · gerçek 14.3 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=74 efekt UI=7 GC+=2 faz=0.13 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  67.9s] YAVAŞ KARE 142 ms · gerçek 17.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=76 efekt UI=10 GC+=3 faz=0.16 yoğun=False masa=2 istasyon=8 fener=6 amb=22
+[Playtest] [  97.7s] YAVAŞ KARE 169 ms · gerçek 24.7 sn · kayıt karesi=False · müşteri=11 para yığını=0 dünya UI=81 efekt UI=4 GC+=7 faz=0.23 yoğun=False masa=4 istasyon=8 fener=6 amb=25
+[Playtest] [ 100.1s] v1.6 REKLAM: istendi · hizmet TestAdService (test=True) · hazır=True · ödül hemen=False
+[Playtest] [ 126.1s] v1.6 REKLAM: 5 sn sonra verilen ödül 1 · ad_shown 5 · ad_rewarded 5
+[Playtest] [ 150.7s] YAVAŞ KARE 152 ms · gerçek 38.0 sn · kayıt karesi=False · müşteri=10 para yığını=0 dünya UI=79 efekt UI=0 GC+=12 faz=0.36 yoğun=False masa=4 istasyon=8 fener=6 amb=29
+[Playtest] [ 158.1s] v1.6 HAZİNE: mağaza üzerinden onay=True · Lirael alındı=True · store_request 6 · store_purchase 4 · mağaza TestStoreService
+[Playtest] [ 158.1s] Hazine (test): alındı · VIP=True · garson=4 · elmas=12 · yıldız=4
+[Playtest] [ 170.8s] YAVAŞ KARE 178 ms · gerçek 43.0 sn · kayıt karesi=False · müşteri=13 para yığını=0 dünya UI=83 efekt UI=11 GC+=5 faz=0.41 yoğun=False masa=4 istasyon=8 fener=6 amb=33
+[Playtest] [ 225.7s] YAVAŞ KARE 177 ms · gerçek 56.7 sn · kayıt karesi=False · müşteri=13 para yığını=0 dünya UI=84 efekt UI=12 GC+=15 faz=0.54 yoğun=False masa=4 istasyon=8 fener=6 amb=34
+[Playtest] [ 253.4s] YAVAŞ KARE 166 ms · gerçek 63.6 sn · kayıt karesi=False · müşteri=13 para yığını=3 dünya UI=83 efekt UI=0 GC+=8 faz=0.60 yoğun=False masa=4 istasyon=8 fener=6 amb=34
+[Playtest] [ 336.7s] YAVAŞ KARE 170 ms · gerçek 84.5 sn · kayıt karesi=False · müşteri=12 para yığını=1 dünya UI=82 efekt UI=10 GC+=23 faz=0.80 yoğun=False masa=4 istasyon=8 fener=6 amb=34
+[Playtest] [ 420.0s] RAPOR gün 1: gelir 10335 · maaş 1 (oran %0) · ödenmeyen 638 · servis 103 · Sv 9 · kızgın 0
+[Playtest] [ 424.2s] YAVAŞ KARE 162 ms · gerçek 109.6 sn · kayıt karesi=False · müşteri=12 para yığını=0 dünya UI=83 efekt UI=7 GC+=28 faz=0.01 yoğun=False masa=4 istasyon=8 fener=6 amb=34
+[Playtest] [ 450.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+[Playtest] [ 450.0s] v1.6 ÖLÇÜM: bu süreçte 54 olay · dosya C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\analytics.jsonl (27098 bayt) · sayaçlar (tüm oturumlar) [session_start=7, tutorial_start=2, tutorial_step=17, machine_buy=27, tutorial_skip=1, ad_shown=5, ad_rewarded=5, store_request=6, store_purchase=4, level_up=7, event_start=6, zone_unlock=19, staff_hire=40, staff_fire=6, special_served=55, session_end=6, tutorial_complete=1, prestige=1, day_end=1]
+[Playtest] [ 450.0s] v1.6 ÖLÇÜM ÖZETİ: Ölçüm özeti (bu cihaz): rehber başlatan 2 · bitiren 1 · atlayan 1 oturum · en çok takılınan adım 9 (ort. 25 sn) · en çok atlanan adım 9
+[Playtest] [ 450.0s] v1.6 KAYIT ÖZET: kayıt çağrısı 286 · ana iş parçacığı son 0.07 ms en çok 0.47 ms · diske yazım 130 (arka plan, son 2.8 ms en çok 4.8 ms) · hata ''
+[Playtest] [ 450.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 26 (en uzun 293 ms) · kayıt karesiyle çakışan 1 · 116 gerçek sn
+[Playtest] [ 450.0s] SONUÇ: 450 oyun-sn · Para=44 · Seviye=9 · Servis=110 · Kızgın ayrılan=0 · Yükseltme=178 · Açılan=[salon,bahce,mutfak,mac_Sira,mac_BalSarabi,mac_Sarap,mac_Sut,mac_KaraBira,mac_Ekmek,mac_Guvec,staff_pip,staff_gus,staff_mina,staff_tobi,staff_ayla,staff_brak,staff_lir,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin]
+
+## analytics.jsonl örnek satırları (2. yeni oyun koşusu ve gün sonu)
+{"zaman":"2026-11-11T20:03:14.1526495Z","oturum":"2d6367be188b","olay":"session_start","p":{"platform":"WindowsPlayer","surum":"1.0.0","gelistirme":true}}
+{"zaman":"2026-11-11T20:03:27.5889871Z","oturum":"2d6367be188b","olay":"tutorial_start","p":{}}
+{"zaman":"2026-11-11T20:03:27.7212217Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":1,"kendiliginden":false,"sure_sn":0.132}}
+{"zaman":"2026-11-11T20:03:32.0644751Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":2,"kendiliginden":false,"sure_sn":4.344}}
+{"zaman":"2026-11-11T20:03:32.2475855Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":3,"kendiliginden":false,"sure_sn":0.184}}
+{"zaman":"2026-11-11T20:03:33.0811156Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":4,"kendiliginden":false,"sure_sn":0.833}}
+{"zaman":"2026-11-11T20:03:35.0819702Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":5,"kendiliginden":false,"sure_sn":2}}
+{"zaman":"2026-11-11T20:03:35.0984791Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":6,"kendiliginden":false,"sure_sn":0.017}}
+{"zaman":"2026-11-11T20:03:37.0985617Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":7,"kendiliginden":false,"sure_sn":2}}
+{"zaman":"2026-11-11T20:03:39.0989870Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":8,"kendiliginden":false,"sure_sn":2.001}}
+{"zaman":"2026-11-11T20:03:42.0708290Z","oturum":"2d6367be188b","olay":"machine_buy","p":{"makine":"Sira","fiyat":40,"seviye":1}}
+{"zaman":"2026-11-11T20:04:04.1044373Z","oturum":"2d6367be188b","olay":"tutorial_step","p":{"adim":9,"kendiliginden":true,"sure_sn":25.005}}
+{"zaman":"2026-11-11T20:04:04.1054421Z","oturum":"2d6367be188b","olay":"tutorial_complete","p":{"toplam_sure_sn":36.516,"kendiliginden_gecen":1}}
+{"zaman":"2026-11-11T20:04:04.1065545Z","oturum":"2d6367be188b","olay":"ad_shown","p":{"neden":"bot_test","uzun":false}}
+{"zaman":"2026-11-11T20:04:05.1467243Z","oturum":"2d6367be188b","olay":"store_request","p":{"urun":"staff_lirael","acik":true}}
+{"zaman":"2026-11-11T20:04:07.1605264Z","oturum":"2d6367be188b","olay":"store_purchase","p":{"urun":"staff_lirael"}}
+{"zaman":"2026-11-11T20:04:08.4332889Z","oturum":"2d6367be188b","olay":"level_up","p":{"seviye":2,"gun":1,"servis":20}}
+{"zaman":"2026-11-11T20:04:08.4519159Z","oturum":"2d6367be188b","olay":"event_start","p":{"etkinlik":"tellal","fiyat":100,"seviye":2}}
+{"zaman":"2026-11-11T20:04:09.2324553Z","oturum":"2d6367be188b","olay":"ad_rewarded","p":{"neden":"bot_test"}}
+{"zaman":"2026-11-11T20:04:13.1006748Z","oturum":"2d6367be188b","olay":"zone_unlock","p":{"alan":"masa3","bedel":70,"seviye":2}}
+{"zaman":"2026-11-11T20:04:41.8116814Z","oturum":"2d6367be188b","olay":"level_up","p":{"seviye":3,"gun":1,"servis":46}}
+{"zaman":"2026-11-11T20:04:45.5641757Z","oturum":"2d6367be188b","olay":"staff_hire","p":{"gorevli":"staff_nana","ucret":80,"seviye":3}}
+{"zaman":"2026-11-11T20:04:45.5651818Z","oturum":"2d6367be188b","olay":"staff_fire","p":{"gorevli":"staff_nana","hazine":false,"izinde":false}}
+{"zaman":"2026-11-11T20:04:45.5804881Z","oturum":"2d6367be188b","olay":"staff_hire","p":{"gorevli":"staff_nana","ucret":80,"seviye":3}}
+{"zaman":"2026-11-11T20:04:51.2174284Z","oturum":"2d6367be188b","olay":"zone_unlock","p":{"alan":"masa4","bedel":150,"seviye":3}}
+{"zaman":"2026-11-11T20:04:51.6679942Z","oturum":"2d6367be188b","olay":"session_end","p":{"sure_sn":98}}
+{"zaman":"2026-11-11T20:09:22.3432477Z","oturum":"01cd63ed4c35","olay":"day_end","p":{"gun":1,"gelir":10335,"maas":1,"odenmeyen":638,"servis":103,"mutluluk":96,"seviye":9}}

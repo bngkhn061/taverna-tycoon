@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="27" result="Passed" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.0469186">
+  <test-suite type="TestSuite" id="1000" name="Taverna Tycoon" fullname="Taverna Tycoon" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.046919" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1033" name="Taverna.Tests.EditMode.dll" fullname="C:/Users/bngkh/Desktop/Hypercasual/Tycoon/Unity/TavernaTycoon/Library/ScriptAssemblies/Taverna.Tests.EditMode.dll" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.042110" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="1776" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1034" name="Taverna" fullname="Taverna" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.041737" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1035" name="Tests" fullname="Taverna.Tests" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.041491" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="AnalyticsTests" fullname="Taverna.Tests.AnalyticsTests" classname="Taverna.Tests.AnalyticsTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.024854" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1004" name="MostSkippedStep_NoSkips_ReturnsZero" fullname="Taverna.Tests.AnalyticsTests.MostSkippedStep_NoSkips_ReturnsZero" methodname="MostSkippedStep_NoSkips_ReturnsZero" classname="Taverna.Tests.AnalyticsTests" runstate="Runnable" seed="1816195683" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.010195" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1003" name="SlowestStep_ReturnsHighestAverage" fullname="Taverna.Tests.AnalyticsTests.SlowestStep_ReturnsHighestAverage" methodname="SlowestStep_ReturnsHighestAverage" classname="Taverna.Tests.AnalyticsTests" runstate="Runnable" seed="1922690048" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000679" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1002" name="ToJsonLine_EscapesStringsAndKeepsTypes" fullname="Taverna.Tests.AnalyticsTests.ToJsonLine_EscapesStringsAndKeepsTypes" methodname="ToJsonLine_EscapesStringsAndKeepsTypes" classname="Taverna.Tests.AnalyticsTests" runstate="Runnable" seed="1626152515" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.002206" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1005" name="BalanceTests" fullname="Taverna.Tests.BalanceTests" classname="Taverna.Tests.BalanceTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.005378" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1013" name="AmbianceForStars_IsInverseOnHalfStars" fullname="Taverna.Tests.BalanceTests.AmbianceForStars_IsInverseOnHalfStars" methodname="AmbianceForStars_IsInverseOnHalfStars" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="1325204457" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000380" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1015" name="CapSpawnBoost_LimitsProductToCap" fullname="Taverna.Tests.BalanceTests.CapSpawnBoost_LimitsProductToCap" methodname="CapSpawnBoost_LimitsProductToCap" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="70396937" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000138" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1010" name="HireCost_IsMaxOfCatalogAndTwiceWage" fullname="Taverna.Tests.BalanceTests.HireCost_IsMaxOfCatalogAndTwiceWage" methodname="HireCost_IsMaxOfCatalogAndTwiceWage" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="519852526" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000395" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1014" name="SeatSpawnScale_ClampedSquareRoot" fullname="Taverna.Tests.BalanceTests.SeatSpawnScale_ClampedSquareRoot" methodname="SeatSpawnScale_ClampedSquareRoot" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="80976794" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000165" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1012" name="StarsForAmbiance_RoundsDownToHalfStar" fullname="Taverna.Tests.BalanceTests.StarsForAmbiance_RoundsDownToHalfStar" methodname="StarsForAmbiance_RoundsDownToHalfStar" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="1244138568" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000080" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1011" name="StarsForAmbiance_Thresholds" fullname="Taverna.Tests.BalanceTests.StarsForAmbiance_Thresholds" methodname="StarsForAmbiance_Thresholds" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="749022469" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000109" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1006" name="UnForLevel_FirstLevels_MatchCurve" fullname="Taverna.Tests.BalanceTests.UnForLevel_FirstLevels_MatchCurve" methodname="UnForLevel_FirstLevels_MatchCurve" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="1433114192" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000289" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1008" name="UnForLevel_GrowthRateChangesAtBreaks" fullname="Taverna.Tests.BalanceTests.UnForLevel_GrowthRateChangesAtBreaks" methodname="UnForLevel_GrowthRateChangesAtBreaks" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="1777159055" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000102" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1007" name="UnForLevel_IncreasesEveryLevel" fullname="Taverna.Tests.BalanceTests.UnForLevel_IncreasesEveryLevel" methodname="UnForLevel_IncreasesEveryLevel" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="548243263" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.001990" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1009" name="Wage_GrowsWithTavernAndStaffLevel" fullname="Taverna.Tests.BalanceTests.Wage_GrowsWithTavernAndStaffLevel" methodname="Wage_GrowsWithTavernAndStaffLevel" classname="Taverna.Tests.BalanceTests" runstate="Runnable" seed="1290400306" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000144" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1016" name="HappinessTests" fullname="Taverna.Tests.HappinessTests" classname="Taverna.Tests.HappinessTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.002324" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1021" name="EffectiveValue_DirtyTablesPenaltyIsCapped" fullname="Taverna.Tests.HappinessTests.EffectiveValue_DirtyTablesPenaltyIsCapped" methodname="EffectiveValue_DirtyTablesPenaltyIsCapped" classname="Taverna.Tests.HappinessTests" runstate="Runnable" seed="2123578817" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000276" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1017" name="Ema_MovesTowardScoreByAlpha" fullname="Taverna.Tests.HappinessTests.Ema_MovesTowardScoreByAlpha" methodname="Ema_MovesTowardScoreByAlpha" classname="Taverna.Tests.HappinessTests" runstate="Runnable" seed="1105715635" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000102" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1018" name="Ema_SpecialOrderCountsTwice" fullname="Taverna.Tests.HappinessTests.Ema_SpecialOrderCountsTwice" methodname="Ema_SpecialOrderCountsTwice" classname="Taverna.Tests.HappinessTests" runstate="Runnable" seed="1857644246" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000325" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1019" name="Ema_StaysWithinZeroAndHundred" fullname="Taverna.Tests.HappinessTests.Ema_StaysWithinZeroAndHundred" methodname="Ema_StaysWithinZeroAndHundred" classname="Taverna.Tests.HappinessTests" runstate="Runnable" seed="1470454335" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000145" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1020" name="ScoreFor_UsesPatienceThresholds" fullname="Taverna.Tests.HappinessTests.ScoreFor_UsesPatienceThresholds" methodname="ScoreFor_UsesPatienceThresholds" classname="Taverna.Tests.HappinessTests" runstate="Runnable" seed="728626713" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000349" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1022" name="SpawnMultiplierFor_PiecewiseLinear" fullname="Taverna.Tests.HappinessTests.SpawnMultiplierFor_PiecewiseLinear" methodname="SpawnMultiplierFor_PiecewiseLinear" classname="Taverna.Tests.HappinessTests" runstate="Runnable" seed="1017065695" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000326" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1023" name="PrestigeTests" fullname="Taverna.Tests.PrestigeTests" classname="Taverna.Tests.PrestigeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.001000" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1024" name="IncomeAndUnMultipliers_GrowPerBranch" fullname="Taverna.Tests.PrestigeTests.IncomeAndUnMultipliers_GrowPerBranch" methodname="IncomeAndUnMultipliers_GrowPerBranch" classname="Taverna.Tests.PrestigeTests" runstate="Runnable" seed="205558979" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000212" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1025" name="StartCoinsAndNames_FollowBranchNumber" fullname="Taverna.Tests.PrestigeTests.StartCoinsAndNames_FollowBranchNumber" methodname="StartCoinsAndNames_FollowBranchNumber" classname="Taverna.Tests.PrestigeTests" runstate="Runnable" seed="699887088" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000328" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1026" name="SaveCodecTests" fullname="Taverna.Tests.SaveCodecTests" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.006732" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1027" name="EncodeDecode_RoundTripsSaveData" fullname="Taverna.Tests.SaveCodecTests.EncodeDecode_RoundTripsSaveData" methodname="EncodeDecode_RoundTripsSaveData" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" seed="2092863369" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.003093" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1030" name="OtherDeviceKey_IsRejected" fullname="Taverna.Tests.SaveCodecTests.OtherDeviceKey_IsRejected" methodname="OtherDeviceKey_IsRejected" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" seed="1345167717" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.001307" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1032" name="Sign_IsDeterministicHex" fullname="Taverna.Tests.SaveCodecTests.Sign_IsDeterministicHex" methodname="Sign_IsDeterministicHex" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" seed="1694806777" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000307" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1028" name="TamperedBody_IsRejected" fullname="Taverna.Tests.SaveCodecTests.TamperedBody_IsRejected" methodname="TamperedBody_IsRejected" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" seed="1809563681" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000201" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1029" name="TamperedSignature_IsRejected" fullname="Taverna.Tests.SaveCodecTests.TamperedSignature_IsRejected" methodname="TamperedSignature_IsRejected" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" seed="304185146" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000138" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1031" name="TruncatedOrForeignContent_IsRejected" fullname="Taverna.Tests.SaveCodecTests.TruncatedOrForeignContent_IsRejected" methodname="TruncatedOrForeignContent_IsRejected" classname="Taverna.Tests.SaveCodecTests" runstate="Runnable" seed="1126387595" result="Passed" start-time="2026-11-11 19:56:52Z" end-time="2026-11-11 19:56:52Z" duration="0.000127" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

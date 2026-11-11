@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: Bn Studio
   productName: Taverna Tycoon
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -149,7 +149,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0
+  bundleVersion: 1.0.0
   preloadedAssets:
   - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   metroInputSource: 0
@@ -171,9 +171,9 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.tavernatycoon.prototype
-    Standalone: com.Unity-Technologies.com.unity.template.urp-blank
-    iPhone: com.tavernatycoon.prototype
+    Android: com.bnstudio.tavernatycoon
+    Standalone: com.bnstudio.tavernatycoon
+    iPhone: com.bnstudio.tavernatycoon
     tvOS: com.Unity-Technologies.com.unity.template.urp-blank
   buildNumber:
     Standalone: 0

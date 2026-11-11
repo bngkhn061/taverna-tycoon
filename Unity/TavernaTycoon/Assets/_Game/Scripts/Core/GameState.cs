@@ -21,6 +21,8 @@ namespace Taverna
     public class SaveData
     {
         public int version = 1;
+        /// <summary>v1.6: kayıt biçiminin sürümü (0 = v1.6 öncesi PlayerPrefs kaydı). Yazarken <see cref="GameState.CurrentSaveVersion"/>.</summary>
+        public int saveVersion;
         public long coins;
         public int gems;
         public int level = 1;
@@ -69,8 +71,21 @@ namespace Taverna
     /// </summary>
     public static class GameState
     {
-        const string Key = "taverna_save_v1";
+        /// <summary>v1.5 ve öncesinin PlayerPrefs kayıt anahtarı (v1.6'da ilk açılışta dosyaya taşınır).</summary>
+        public const string LegacyPrefsKey = "taverna_save_v1";
+        /// <summary>Kayıt biçimi sürümü: 2 = v1.6 imzalı dosya.</summary>
+        public const int CurrentSaveVersion = 2;
         public static SaveData Data { get; private set; } = new();
+
+        /// <summary>Son açılışta kayıt nereden geldi (test günlüğü, bilgi mesajı).</summary>
+        public static SaveLoadSource LoadSource { get; private set; }
+        /// <summary>Oyuncuya bir kez gösterilecek kayıt bilgisi (yedekten açıldı / bozuk kayıt kenara alındı); HUD gösterip siler.</summary>
+        public static string LoadNotice { get; set; }
+        /// <summary>Ölçüm: kayıt sayısı, son kaydın karesi, ana iş parçacığındaki süresi (ms; JSON üretimi + kuyruğa alma).</summary>
+        public static int SaveCount { get; private set; }
+        public static int LastSaveFrame { get; private set; } = -1;
+        public static double LastSaveMainMs { get; private set; }
+        public static double MaxSaveMainMs { get; private set; }
 
         public static event Action Changed;
         public static event Action<int> LeveledUp;
@@ -86,28 +101,114 @@ namespace Taverna
         public static int Level => Data.level;
         public static float LevelProgress01 => Mathf.Clamp01(Data.un / (float)Balance.UnForLevel(Data.level));
 
+        /// <summary>Kayıt klasörü ve imza anahtarı (cihaz kimliğinden) hazır değilse kurar.</summary>
+        static void EnsureStore()
+        {
+            if (SaveStore.Ready) return;
+            SaveStore.Init(Application.persistentDataPath, SaveCodec.DeriveKey(SystemInfo.deviceUniqueIdentifier));
+        }
+
+        /// <summary>
+        /// v1.6 kaydı yükler: save.dat → (imza tutmazsa) save.bak → (hiç dosya yoksa) eski PlayerPrefs kaydı taşınır → yeni oyun.
+        /// İkisi de bozuksa dosyalar kenara alınır, oyuncuya <see cref="LoadNotice"/> ile bilgi verilir ve yeni oyun başlar
+        /// (bozuk kayıt hiçbir zaman üzerine yazılmaz).
+        /// </summary>
         public static void Load()
         {
-            var json = PlayerPrefs.GetString(Key, "");
-            Data = string.IsNullOrEmpty(json) ? NewGame() : JsonUtility.FromJson<SaveData>(json) ?? NewGame();
+            EnsureStore();
+            var src = SaveStore.Read(out var json);
+            SaveData d = src is SaveLoadSource.Main or SaveLoadSource.Backup ? Parse(json) : null;
+            if (src == SaveLoadSource.None)
+            {
+                var legacy = PlayerPrefs.GetString(LegacyPrefsKey, "");
+                d = string.IsNullOrEmpty(legacy) ? null : Parse(legacy);
+                if (d != null)
+                {
+                    src = SaveLoadSource.Legacy;
+                    Data = Upgrade(d);
+                    SaveSync();
+                    if (SaveStore.LastError == null) { PlayerPrefs.DeleteKey(LegacyPrefsKey); PlayerPrefs.Save(); }
+                    Debug.Log($"[Kayıt] eski PlayerPrefs kaydı dosyaya taşındı: {SaveStore.MainPath}");
+                }
+            }
+            if (src == SaveLoadSource.Backup)
+            {
+                LoadNotice = "Kayıt dosyası bozuktu, bir önceki yedekten açıldı.";
+                Debug.LogWarning("[Kayıt] save.dat imzası tutmadı, save.bak açıldı.");
+            }
+            if (src == SaveLoadSource.Corrupt)
+            {
+                LoadNotice = $"Kayıt dosyası okunamadı (bozuk). Eski dosya saklandı: {SaveStore.LastCorruptName}. Yeni oyun başladı.";
+                Debug.LogWarning($"[Kayıt] save.dat ve save.bak imzası tutmadı, kenara alındı ({SaveStore.LastCorruptName}).");
+            }
+            LoadSource = src;
+            Data = Upgrade(d ?? NewGame());
             Changed?.Invoke();
         }
 
-        static SaveData NewGame() => new SaveData { coins = 0, level = 1 };
-
-        public static void Save()
+        static SaveData Parse(string json)
         {
-            Data.lastSeenUtc = DateTime.UtcNow.ToString("o");
-            PlayerPrefs.SetString(Key, JsonUtility.ToJson(Data));
-            PlayerPrefs.Save();
+            try { return JsonUtility.FromJson<SaveData>(json); }
+            catch (Exception e) { Debug.LogWarning("[Kayıt] JSON çözülemedi: " + e.Message); return null; }
         }
 
+        /// <summary>Eski sürüm kaydını güncel biçime getirir (şimdilik yalnızca sürüm numarası; alan eklemeleri JsonUtility ile varsayılan alır).</summary>
+        static SaveData Upgrade(SaveData d)
+        {
+            if (d.saveVersion < CurrentSaveVersion) d.saveVersion = CurrentSaveVersion;
+            return d;
+        }
+
+        static SaveData NewGame() => new SaveData { coins = 0, level = 1, saveVersion = CurrentSaveVersion };
+
+        static string Snapshot()
+        {
+            Data.lastSeenUtc = DateTime.UtcNow.ToString("o");
+            Data.saveVersion = CurrentSaveVersion;
+            return JsonUtility.ToJson(Data);
+        }
+
+        /// <summary>
+        /// Kaydeder: JSON ana iş parçacığında üretilir, imzalama ve diske yazma arka planda (<see cref="SaveStore.WriteAsync"/>).
+        /// Önemli olaylarda (satın alma, seviye, gün sonu, alan açma) ve 30 sn'de bir çağrılır.
+        /// </summary>
+        public static void Save()
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            EnsureStore();
+            SaveStore.WriteAsync(Snapshot());
+            Measure(sw);
+        }
+
+        /// <summary>Hemen ve eşzamanlı kaydeder (uygulama arka plana geçerken / kapanırken).</summary>
+        public static void SaveSync()
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            EnsureStore();
+            SaveStore.WriteSync(Snapshot());
+            Measure(sw);
+        }
+
+        static void Measure(System.Diagnostics.Stopwatch sw)
+        {
+            LastSaveMainMs = sw.Elapsed.TotalMilliseconds;
+            if (LastSaveMainMs > MaxSaveMainMs) MaxSaveMainMs = LastSaveMainMs;
+            SaveCount++;
+            LastSaveFrame = Time.frameCount;
+        }
+
+        /// <summary>Kaydı siler ve yeni oyun açar (Ayarlar › Kaydı Sıfırla, otomatik test). Eski PlayerPrefs kaydı da silinir.</summary>
         public static void ResetSave()
         {
-            PlayerPrefs.DeleteKey(Key);
+            EnsureStore();
+            SaveStore.DeleteAll();
+            PlayerPrefs.DeleteKey(LegacyPrefsKey);
             Data = NewGame();
             Changed?.Invoke();
         }
+
+        /// <summary>Test botu: verilen kaydı belleğe koyar (kayıt senaryosu sonunda oyunu eski hâline döndürmek için).</summary>
+        public static void DebugReplace(SaveData d) { Data = d ?? NewGame(); Changed?.Invoke(); }
 
         public static void AddCoins(long amount, Vector3 worldPos)
         {
@@ -135,13 +236,17 @@ namespace Taverna
         {
             if (Data.level >= Balance.MaxLevel) return;
             Data.un += Prestige.ScaleUn(amount);   // v1.5: şube başına Ün +%15
+            bool leveled = false;
             while (Data.level < Balance.MaxLevel && Data.un >= Balance.UnForLevel(Data.level))
             {
                 Data.un -= Balance.UnForLevel(Data.level);
                 Data.level++;
                 Data.gems += Boosts.LevelGemReward(Data.level);
+                leveled = true;
+                Services.Track("level_up", ("seviye", Data.level), ("gun", Data.day), ("servis", Data.customersServed));
                 LeveledUp?.Invoke(Data.level);
             }
+            if (leveled) Save();   // v1.6: seviye önemli olay, hemen kaydet
             Changed?.Invoke();
         }
 

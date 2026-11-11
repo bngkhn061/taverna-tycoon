@@ -57,8 +57,7 @@ namespace Taverna.EditorTools
             PlayerSettings.allowedAutorotateToLandscapeRight = true;
             PlayerSettings.allowedAutorotateToPortrait = false;
             PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
-            PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Android, "com.tavernatycoon.prototype");
-            PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.iOS, "com.tavernatycoon.prototype");
+            TavernaBuild.ApplyIdentity();   // v1.6: şirket, uygulama kimliği, sürüm (tek yer: TavernaBuild)
             ApplyAppIcons();
             AssetDatabase.SaveAssets();
         }

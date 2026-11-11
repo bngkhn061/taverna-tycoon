@@ -124,6 +124,7 @@ namespace Taverna
         {
             if (_done) return;
             _real += Time.unscaledDeltaTime;
+            CountSlowFrame();   // v1.6: her yavaş kare (günlük 2 sn'de bir yazar, sayım her kare)
             if (UpdateV09()) return;
             _t += Time.deltaTime;
             var p = PlayerController.I;
@@ -145,7 +146,7 @@ namespace Taverna
             {
                 _slowLogT = 2f;
                 int gc = System.GC.CollectionCount(0);
-                Log($"YAVAŞ KARE {Time.unscaledDeltaTime * 1000f:0} ms · müşteri={Customer.All.Count} para yığını={CoinPile.All.Count} " +
+                Log($"YAVAŞ KARE {Time.unscaledDeltaTime * 1000f:0} ms · gerçek {_real:0.0} sn · kayıt karesi={GameState.LastSaveFrame >= Time.frameCount - 1} · müşteri={Customer.All.Count} para yığını={CoinPile.All.Count} " +
                     $"dünya UI={HudController.DebugWorldCount} efekt UI={HudController.DebugFxCount} GC+={gc - _gc0} faz={DayCycle.Progress01:0.00} " +
                     $"yoğun={RushHour.Active} masa={Table.All.Count} istasyon={DrinkStation.All.Count} fener={Lantern.All.Count} amb={AmbianceSource.All.Count}");
                 _gc0 = gc;
@@ -165,6 +166,7 @@ namespace Taverna
             TrackV14();
             TutorialClicks(hud);
             UpdateV15(hud, p);
+            UpdateV16(hud);
             if (hud)
             {
                 if (hud.LevelCardOpen)
@@ -421,12 +423,17 @@ namespace Taverna
             // v1.0 Hazine: başlangıç teklifi görüntüsü; test satın alma (onay ekranı → ürünler sahnede)
             if (hud && !_starterShot && hud.PremiumModalVisible && GameState.Level >= Premium.StarterLevel && _uiStep >= UiSteps.Length)
             { _starterShot = true; Shot("ui_starter.png"); }
-            if (hud && _t > 150f && _premStep == 0 && !hud.PremiumModalVisible) { _premStep = 1; _premAt = _real; Premium.Request("staff_lirael"); }
+            if (hud && _t > 150f && _premStep == 0 && !hud.PremiumModalVisible) { _premStep = 1; _premAt = _real; WrapTestConfirm(); Premium.Request("staff_lirael"); }
             if (hud && _premStep == 1 && _real > _premAt + 1.2f) { _premStep = 2; Shot("ui_prem_confirm.png"); }
             if (hud && _premStep == 2 && _real > _premAt + 2.0f)
             {
                 _premStep = 3;
+                // v1.6: test onay ekranında ONAYLA (IStoreService → onPurchased → store_purchase → Premium.Grant)
+                bool viaStore = _pendingConfirm != null;
+                _pendingConfirm?.Invoke();
+                _pendingConfirm = null;
                 hud.DebugOpen("close");
+                Log($"v1.6 HAZİNE: mağaza üzerinden onay={viaStore} · Lirael alındı={Premium.Owned("staff_lirael")} · store_request {Count("store_request")} · store_purchase {Count("store_purchase")} · mağaza {Services.Store.GetType().Name}");
                 foreach (var id in new[] { "staff_lirael", "staff_ignis", "frame_kraliyet", "dec_ejder", "dec_kristal", "thm_altin", "vip_month" }) Premium.Grant(id);
                 Log($"Hazine (test): alındı · VIP={Premium.IsVip} · garson={Waiter.All.Count} · elmas={GameState.Data.gems} · yıldız={Management.Stars:0.#}");
             }
@@ -582,6 +589,7 @@ namespace Taverna
             Log($"v1.4 TELLAL ÖZET: etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} · tellal görünür={Campaigns.CrierVisible} · bugün=[{string.Join(",", GameState.Data.eventsUsed)}]");
             Log($"v1.4 REHBER ÖZET: {(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} · kendiliğinden geçen adım {Tutorial.AutoAdvanced} · bitiş gerçek {_tutEndReal:0.0} sn");
             FinishV15();
+            FinishV16();
             Log($"v1.2: mutluluk=%{Happiness.Value:0} (müşteri ×{Happiness.SpawnMultiplier:0.00}) ★{Management.Stars:0.#} etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} bugün=[{string.Join(",", GameState.Data.eventsUsed)}] masa={Table.All.Count}");
             Log($"SES: grup={Sfx.LoadedGroups} müzik={Sfx.MusicNow} kalabalık={Sfx.CrowdLevel:0.00} konuşma={Sfx.TalkCount} ortam=[{Sfx.AmbientInfo}]");
             Log($"HAN: açık={Inn.Open} giriş={Inn.CheckIns} kızgın misafir={Inn.AngryGuests} toplanan oda={Inn.RoomsCleaned} (bot {_roomsCleaned}) oda durumları=[{string.Join(",", Room.All.ConvertAll(x => x.state.ToString()))}]");

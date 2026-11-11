@@ -78,7 +78,9 @@ namespace Taverna
         {
             var s = StateOf(d);
             if (s != State.Ready) return s;
-            if (!GameState.TrySpend(Cost(d))) return State.NoMoney;
+            long cost = Cost(d);
+            if (!GameState.TrySpend(cost)) return State.NoMoney;
+            Services.Track("event_start", ("etkinlik", d.key), ("fiyat", cost), ("seviye", GameState.Level));
             if (GameState.Data.eventDay != GameState.Data.day) { GameState.Data.eventDay = GameState.Data.day; GameState.Data.eventsUsed.Clear(); }
             GameState.Data.eventsUsed.Add(d.key);
             _active = d.id;

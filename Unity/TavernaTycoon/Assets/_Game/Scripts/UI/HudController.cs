@@ -156,7 +156,7 @@ namespace Taverna
             _helperBtn.clicked += () =>
             {
                 if (Campaigns.HelperActive || Campaigns.HelperWait > 0f) { Toast("Yardımcı şu an çağrılamaz"); return; }
-                ShowAd("3 dakikalık yardımcı garson", () => { if (Campaigns.CallHelper()) { Toast("Yardımcı garson geldi! 3 dakika çalışacak"); Confetti(14); } });
+                ShowAd("helper", "3 dakikalık yardımcı garson", () => { if (Campaigns.CallHelper()) { Toast("Yardımcı garson geldi! 3 dakika çalışacak"); Confetti(14); } });
             };
             Depot.Delivered += OnDelivered;
             Depot.RanOut += OnRanOut;
@@ -172,6 +172,8 @@ namespace Taverna
             };
             _root.Q<Button>("levelup-claim").clicked += CloseLevelUp;
             _root.schedule.Execute(ShowOfflineIfAny).StartingIn(500);
+            // v1.6: kayıt yedekten açıldıysa / bozuk kayıt kenara alındıysa oyuncuya bir kez söyle
+            _root.schedule.Execute(ShowLoadNotice).StartingIn(LoadNoticeDelayMs);
 
             _settings = new SettingsPanel(_root, showToMenu: true);
             _settings.ToMenuRequested += () => { GameState.Save(); SceneManager.LoadScene(menuScene); };
@@ -193,10 +195,30 @@ namespace Taverna
             InitTiers();
             InitV12();
             InitPrestige();
+            TestAdService.Presenter = PresentTestAd;   // v1.6: test reklamının bekleme ekranı
         }
+
+        /// <summary>Kayıt bilgisi açılıştan bu kadar ms sonra gösterilir (giriş animasyonu otursun).</summary>
+        const long LoadNoticeDelayMs = 1500;
+        /// <summary>Kayıt bilgisinin ekranda kalma süresi (sn).</summary>
+        const float LoadNoticeSeconds = 6f;
+
+        /// <summary>v1.6: <see cref="GameState.LoadNotice"/> varsa uzun bir bildirim olarak gösterir ve siler.</summary>
+        void ShowLoadNotice()
+        {
+            var msg = GameState.LoadNotice;
+            if (string.IsNullOrEmpty(msg)) return;
+            GameState.LoadNotice = null;
+            Toast(msg);
+            _toastT = LoadNoticeSeconds;
+        }
+
+        /// <summary>Test botu: kayıt bilgisini hemen göster (kayıt senaryosu).</summary>
+        public void DebugShowLoadNotice() => ShowLoadNotice();
 
         void OnDisable()
         {
+            TestAdService.Presenter = null;
             GameState.Changed -= RefreshTop;
             GameState.LeveledUp -= OnLevelUp;
             GameState.CoinsGainedAt -= OnCoins;
@@ -239,6 +261,7 @@ namespace Taverna
                 case "depot": OpenDepot(); break;
                 case "events": OpenEvents(); break;
                 case "happy": _happyCard.RemoveFromClassList("hidden"); RefreshHappyCard(); break;
+                case "rename": OpenRename(); break;
                 default:
                     CloseUpgrade();
                     _questsPanel.AddToClassList("hidden");
@@ -247,6 +270,7 @@ namespace Taverna
                     _eventsPanel.AddToClassList("hidden");
                     _happyCard.AddToClassList("hidden");
                     _offlineRoot.AddToClassList("hidden");
+                    _renameRoot.AddToClassList("hidden");
                     if (PremModalOpen) _premModal.RemoveFromHierarchy();
                     if (LevelCardOpen) CloseLevelUp();
                     break;
@@ -633,8 +657,8 @@ namespace Taverna
             var second = PriceButton("btn-paper", CoinIcon, out var secondText);
             second.clicked += () =>
             {
-                if (Depot.Incoming(id) > 0)
-                    ShowAd("Siparişin hemen gelsin", () => Depot.RushDelivery(id));
+                if (Depot.Incoming(id) > 0 && Services.RewardedAdsEnabled)
+                    ShowAd("rush_delivery", "Siparişin hemen gelsin", () => Depot.RushDelivery(id));
                 else if (Depot.CanUpgradeShelf(id))
                 {
                     if (Depot.UpgradeShelf(id)) { Sfx.Play(SfxId.Buy); Confetti(8); }
@@ -660,7 +684,15 @@ namespace Taverna
                 int cost = Depot.PackCost(def);
                 orderText.text = room ? $"+{Balance.SupplyPack} · {FormatNum(cost)}" : "DOLU";
                 order.EnableInClassList("locked", !room || GameState.Coins < cost);
-                if (inc > 0)
+                if (inc > 0 && !Services.RewardedAdsEnabled)
+                {
+                    // v1.6 yayın güvenliği: reklam yokken "HEMEN" (reklamla hızlandırma) gösterilmez
+                    second.RemoveFromClassList("btn-plum"); second.AddToClassList("btn-paper");
+                    second.Q(className: "price-icon").style.backgroundImage = new StyleBackground(KitIcon("clock"));
+                    secondText.text = "YOLDA";
+                    second.AddToClassList("locked");
+                }
+                else if (inc > 0)
                 {
                     second.RemoveFromClassList("btn-paper"); second.AddToClassList("btn-plum");
                     second.Q(className: "price-icon").style.backgroundImage = new StyleBackground(KitIcon("play"));
@@ -786,6 +818,7 @@ namespace Taverna
 
         void UpdateHelperButton()
         {
+            _helperBtn.EnableInClassList("hidden", !Services.RewardedAdsEnabled);   // v1.6: reklam yoksa yardımcı çağrılmaz
             static string Mmss(float s) { int t = Mathf.CeilToInt(s); return $"{t / 60}:{t % 60:00}"; }
             if (Campaigns.HelperActive) { _helperText.text = $"YARDIMCI {Mmss(Campaigns.HelperRemaining)}"; _helperBtn.AddToClassList("locked"); }
             else if (Campaigns.HelperWait > 0f) { _helperText.text = $"YARDIMCI · {Mmss(Campaigns.HelperWait)}"; _helperBtn.AddToClassList("locked"); }
@@ -900,7 +933,7 @@ namespace Taverna
                                 : $"{s.name} kovuldu · maaşı durdu, istersen yeniden işe alabilirsin");
                 BuildShop();
             };
-            if (!max && StaffUpgrades.AdsLeft(s.id) > 0 && !leave)
+            if (!max && StaffUpgrades.AdsLeft(s.id) > 0 && !leave && Services.RewardedAdsEnabled)   // v1.6: reklam yoksa düğme yok
             {
                 float wait = StaffUpgrades.AdWait(s.id);
                 bool longAd = StaffUpgrades.AdIsLong(s);
@@ -910,8 +943,8 @@ namespace Taverna
                 ad.clicked += () =>
                 {
                     if (!StaffUpgrades.AdAvailable(s)) { Toast("Reklam hakkı yakında yenilenir"); return; }
-                    ShowAd($"{s.name} bir seviye gelişsin", () => { StaffUpgrades.GrantByAd(s.id); Confetti(10); if (!_shopRoot.ClassListContains("hidden")) BuildShop(); },
-                           longAd ? StaffUpgrades.LongAdSeconds : StaffUpgrades.ShortAdSeconds);
+                    ShowAd("staff_upgrade", $"{s.name} bir seviye gelişsin", () => { StaffUpgrades.GrantByAd(s.id); Confetti(10); if (!_shopRoot.ClassListContains("hidden")) BuildShop(); },
+                           longAd ? AdLength.Long : AdLength.Short);
                 };
                 btns.Add(ad);
             }
@@ -921,18 +954,39 @@ namespace Taverna
             _shopScroll.Add(item);
         }
 
-        // ------------------------------------------------------------------ sahte reklam (v0.6)
+        // ------------------------------------------------------------------ ödüllü reklam (v0.6 sahte ekran, v1.6 IAdService)
         bool _adOpen;
+        /// <summary>Test botu: bu süreçte verilen reklam ödülü sayısı (yayın güvenliği testi).</summary>
+        public static int DebugAdRewards;
 
         /// <summary>
-        /// Ödüllü reklam yerine geçici ekran: <paramref name="seconds"/> sn sayar (uzun reklam 15), sonra ödülü verir. Gerçek reklam ağı
-        /// (Unity Ads / AdMob) yayından önce takılacak; çağıran kod aynı kalır.
+        /// Ödüllü reklam ister (<see cref="Services.Ads"/>): reklam sonuna kadar izlenirse ödülü verir. Ölçüm: ad_shown, ad_rewarded.
+        /// v1.6 yayın güvenliği: reklam hizmeti kapalıysa (yayın derlemesi, gerçek ağ yok) hiçbir şey olmaz, ödül verilmez.
+        /// VIP reklamsız ödül alır (yalnızca reklamlar açıkken).
         /// </summary>
-        public void ShowAd(string reason, Action onReward, float seconds = 5f)
+        public void ShowAd(string placement, string reason, Action onReward, AdLength length = AdLength.Short)
         {
             if (_adOpen) return;
-            if (Premium.IsVip) { Toast("VIP: reklamsız ödül"); onReward?.Invoke(); Sfx.Play(SfxId.Claim); return; }
+            if (!Services.RewardedAdsEnabled) { Debug.LogWarning($"[Reklam] kapalı, ödül verilmedi: {placement}"); return; }
+            void Reward()
+            {
+                DebugAdRewards++;
+                Services.Track("ad_rewarded", ("neden", placement));
+                onReward?.Invoke();
+                Sfx.Play(SfxId.Claim);
+            }
+            if (Premium.IsVip) { Toast("VIP: reklamsız ödül"); Reward(); return; }
+            if (!Services.Ads.IsRewardedReady) { Toast("Reklam şu an hazır değil"); return; }
+            Services.Track("ad_shown", ("neden", placement), ("uzun", length == AdLength.Long));
             _adOpen = true;
+            Services.Ads.ShowRewarded(placement, reason, length,
+                () => { _adOpen = false; Reward(); },
+                why => { _adOpen = false; Services.Track("ad_cancelled", ("neden", placement), ("sebep", why)); });
+        }
+
+        /// <summary>Test reklamının bekleme ekranı (<see cref="TestAdService.Presenter"/>): <paramref name="seconds"/> sn sayar, sonra bitirir.</summary>
+        void PresentTestAd(string reason, float seconds, Action done)
+        {
             var overlay = new VisualElement();
             overlay.AddToClassList("screen"); overlay.AddToClassList("overlay");
             var card = new VisualElement();
@@ -955,9 +1009,7 @@ namespace Taverna
                 count.text = Mathf.CeilToInt(Mathf.Max(0f, left)).ToString();
                 if (left > 0f) return;
                 overlay.RemoveFromHierarchy();
-                _adOpen = false;
-                onReward?.Invoke();
-                Sfx.Play(SfxId.Claim);
+                done?.Invoke();
             }).Every(100).Until(() => overlay.parent == null);
         }
 

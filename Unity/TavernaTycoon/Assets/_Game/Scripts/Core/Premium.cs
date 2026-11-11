@@ -5,9 +5,10 @@ namespace Taverna
 {
     /// <summary>
     /// Hazine (v1.0, onaylı mockup design/ui/ui_v10_hazine.html, 2026-11-10): sadece gerçek parayla alınan ürünler.
-    /// Ödeme şimdilik yok: <see cref="Request"/> bir satın alma isteği yayınlar; geliştirme sürümünde HUD test onay ekranı
-    /// açar ve onaylanınca <see cref="Grant"/> çağrılır. Gerçek mağaza (Unity IAP + Google Play ürün kimlikleri) bağlanınca
-    /// yalnızca istek → onay köprüsü değişir; ürün tanımları ve ödüller burada kalır. Fiyat metinleri örnektir.
+    /// v1.6: ödeme <see cref="IStoreService"/> üzerinden (<see cref="Services.Store"/>). <see cref="Request"/> mağazadan
+    /// satın alma ister; ödeme onaylanınca <see cref="Grant"/> ürünü verir. Varsayılan <see cref="TestStoreService"/>
+    /// geliştirme sürümünde HUD test onay ekranı açar; yayın derlemesinde gerçek mağaza kayıtlı değilse ürünler "Yakında" olur
+    /// ve hiçbir ürün verilmez. Ürün tanımları ve ödüller burada kalır. Fiyat metinleri örnektir (gerçek mağaza kendi metnini verir).
     /// </summary>
     public static class Premium
     {
@@ -45,13 +46,21 @@ namespace Taverna
         public const double StarterHours = 72;
         public const float FrameAmbiance = 10f;
 
-        /// <summary>HUD dinler: geliştirme sürümünde test onay ekranı, mağazada gerçek ödeme akışı.</summary>
-        public static event Action<Product> PurchaseRequested;
+        /// <summary>v1.6: mağaza kapalıyken (yayın derlemesi, gerçek mağaza yok) satın alma istendi; HUD "Yakında" gösterir.</summary>
+        public static event Action<Product> Unavailable;
+        /// <summary>v1.6: ödeme tamamlanmadı (iptal / hata): ürün, neden.</summary>
+        public static event Action<Product, string> Failed;
         public static event Action<Product> Granted;
         public static event Action Changed;
 
-        /// <summary>Test onay ekranı sadece geliştirme sürümünde (oyuncu sürümünde ürünler bedava verilmesin).</summary>
-        public static bool TestStore => Debug.isDebugBuild;
+        /// <summary>Hazine satın alınabilir mi? (gerçek mağaza ya da geliştirme derlemesinde test mağazası)</summary>
+        public static bool Available => Services.StoreEnabled;
+
+        /// <summary>Test mağazası mı kullanılıyor? (Hazine notu "TEST SÜRÜMÜ" der)</summary>
+        public static bool TestStore => Services.Store != null && Services.Store.IsTest && Services.StoreEnabled;
+
+        /// <summary>Gösterilecek fiyat: mağazanın yerel metni, yoksa katalogdaki örnek fiyat.</summary>
+        public static string PriceOf(Product p) => Services.Store?.PriceText(p.id) ?? p.price;
 
         public static Product Find(string id) => Array.Find(List, p => p.id == id);
         static DateTime Now => DateTime.UtcNow;
@@ -127,18 +136,30 @@ namespace Taverna
         }
 
         // ---- satın alma
+        /// <summary>
+        /// Satın alma ister (mağaza üzerinden). Ölçüm: store_request; ödeme onaylanınca store_purchase ve <see cref="Grant"/>.
+        /// Mağaza kapalıysa (<see cref="Available"/> false) yalnızca <see cref="Unavailable"/> yayınlanır, ürün verilmez.
+        /// </summary>
         public static void Request(string id)
         {
             var p = Find(id);
             if (string.IsNullOrEmpty(p.id) || !CanBuy(p)) return;
-            PurchaseRequested?.Invoke(p);
+            Services.Track("store_request", ("urun", p.id), ("acik", Available));
+            if (!Available) { Unavailable?.Invoke(p); return; }
+            Services.Store.Purchase(p.id,
+                ok => { Services.Track("store_purchase", ("urun", ok)); Grant(ok); },
+                (pid, why) => { Services.Track("store_fail", ("urun", pid), ("neden", why)); Failed?.Invoke(p, why); });
         }
 
-        /// <summary>Ödeme onaylandı: ürünü ver (test onayı ya da ileride mağaza makbuzu).</summary>
+        /// <summary>
+        /// Ödeme onaylandı: ürünü ver (mağaza makbuzu ya da geliştirme derlemesinde test onayı).
+        /// v1.6 güvenlik: mağaza kapalıyken hiçbir yolla ürün verilmez.
+        /// </summary>
         public static void Grant(string id)
         {
             var p = Find(id);
             if (string.IsNullOrEmpty(p.id)) return;
+            if (!Available) { Debug.LogWarning($"[Hazine] mağaza kapalı, ürün verilmedi: {id}"); return; }
             var d = GameState.Data;
             switch (p.kind)
             {
@@ -184,7 +205,22 @@ namespace Taverna
             if (TavernRegistry.I) TavernRegistry.I.PlaceDecor(decorId, slot, true);
         }
 
-        /// <summary>Ayarlar › Satın almaları geri yükle (gerçek mağaza bağlanınca makbuzlardan; şimdilik kayıtlı olanlar zaten yüklü).</summary>
-        public static int Restore() => GameState.Data.premium.Count;
+        /// <summary>
+        /// Satın almaları geri yükle: mağazanın bildirdiği kalıcı ürünlerden kayıtta olmayanları verir; bulunan ürün sayısıyla
+        /// geri çağırır. Mağaza kapalıysa -1 ile geri çağırır.
+        /// </summary>
+        public static void Restore(Action<int> done)
+        {
+            if (!Available) { done?.Invoke(-1); return; }
+            Services.Store.Restore(ids =>
+            {
+                foreach (var id in ids)
+                {
+                    var p = Find(id);
+                    if (!string.IsNullOrEmpty(p.id) && p.kind != Kind.Gems && p.kind != Kind.VipMonth && !Owned(id)) Grant(id);
+                }
+                done?.Invoke(ids.Count);
+            });
+        }
     }
 }

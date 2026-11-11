@@ -45,7 +45,7 @@ namespace Taverna
         public static float DirtyPenalty => Mathf.Min(MaxDirtyPenalty, DirtyTables * DirtyPenaltyPerTable);
 
         /// <summary>Gösterilen / etkin mutluluk (0–100): ortalama eksi kirli masa düşüşü.</summary>
-        public static float Value => Mathf.Clamp(Average - DirtyPenalty, 0f, 100f);
+        public static float Value => EffectiveValue(Average, DirtyTables);
 
         public static float Value01 => Value / 100f;
 
@@ -53,7 +53,24 @@ namespace Taverna
         public static int Samples { get; private set; }
 
         /// <summary>Müşteri gelişi çarpanı (etkin değerden): %0 → ×0.6, %50 → ×1.0, %100 → ×1.5.</summary>
-        public static float SpawnMultiplier => Value < 50f ? Mathf.Lerp(MinSpawn, 1f, Value / 50f) : Mathf.Lerp(1f, MaxSpawn, (Value - 50f) / 50f);
+        public static float SpawnMultiplier => SpawnMultiplierFor(Value);
+
+        /// <summary>Saf işlev: verilen mutluluk değerinden (0–100) müşteri gelişi çarpanı.</summary>
+        public static float SpawnMultiplierFor(float value) => value < 50f ? Mathf.Lerp(MinSpawn, 1f, value / 50f) : Mathf.Lerp(1f, MaxSpawn, (value - 50f) / 50f);
+
+        /// <summary>
+        /// Saf işlev (v1.6, birim testi): üstel hareketli ortalamaya <paramref name="score"/> puanını <paramref name="times"/> kez
+        /// <paramref name="alpha"/> oranıyla katar; sonuç 0–100 arasında.
+        /// </summary>
+        public static float Ema(float average, float score, int times, float alpha)
+        {
+            for (int i = 0; i < times; i++) average += alpha * (score - average);
+            return Mathf.Clamp(average, 0f, 100f);
+        }
+
+        /// <summary>Saf işlev: ortalamadan kirli masa düşüşü çıkarılmış etkin değer (0–100).</summary>
+        public static float EffectiveValue(float average, int dirtyTables) =>
+            Mathf.Clamp(average - Mathf.Min(MaxDirtyPenalty, dirtyTables * DirtyPenaltyPerTable), 0f, 100f);
 
         /// <summary>-1 (kızgın) .. 1 (çok mutlu): yüz çizimi için.</summary>
         public static float Mood => Value / 50f - 1f;
@@ -75,9 +92,7 @@ namespace Taverna
         static void Record(float score, int times, Vector3 at)
         {
             float before = Value;
-            float m = Average;
-            for (int i = 0; i < times; i++) m += Alpha * (score - m);
-            Average = m;
+            Average = Ema(Average, score, times, Alpha);
             Samples += times;
             Changed?.Invoke(Value - before, at);
         }

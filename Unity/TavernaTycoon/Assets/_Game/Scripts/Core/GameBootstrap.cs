@@ -7,6 +7,8 @@ namespace Taverna
     public class GameBootstrap : MonoBehaviour
     {
         public long startingCoins = 10;
+        /// <summary>v1.6: olağan kayıt aralığı (gerçek saniye); önemli olaylar ayrıca hemen kaydeder.</summary>
+        public const float AutoSaveSeconds = 30f;
         float _saveT;
 
         void Awake()
@@ -17,6 +19,9 @@ namespace Taverna
             bool firstBoot = !_booted;
             _booted = true;
             if (AutoTest.Enabled && firstBoot) { GameState.ResetSave(); Application.runInBackground = true; }
+            // v1.6 test: "-autotest-release-sim" → geliştirme derlemesinde yayın derlemesi gibi (test reklamı / mağazası kapalı)
+            if (AutoTest.Enabled && firstBoot && System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-autotest-release-sim") >= 0)
+                Services.ReleaseSimulation = true;
             GameState.Load();
             if (!firstBoot && AutoTest.Enabled) return;   // test bayrakları yalnızca ilk açılışta
             if (GameState.Data.customersServed == 0 && GameState.Coins == 0 && GameState.Data.unlocked.Count == 0)
@@ -87,7 +92,7 @@ namespace Taverna
         void Update()
         {
             _saveT += Time.unscaledDeltaTime;
-            if (_saveT > 10f) { _saveT = 0f; GameState.Save(); }
+            if (_saveT > AutoSaveSeconds) { _saveT = 0f; GameState.Save(); }
             Depot.Tick(Time.deltaTime);
             Campaigns.Tick();
             Inn.Tick(Time.deltaTime);
@@ -97,7 +102,8 @@ namespace Taverna
             Management.TickPenalty(Time.deltaTime);
         }
 
-        void OnApplicationPause(bool paused) { if (paused) GameState.Save(); }
-        void OnApplicationQuit() => GameState.Save();
+        // v1.6: arka plana geçerken / kapanırken eşzamanlı yaz (süreç hemen öldürülebilir)
+        void OnApplicationPause(bool paused) { if (paused) { GameState.SaveSync(); _saveT = 0f; } }
+        void OnApplicationQuit() => GameState.SaveSync();
     }
 }

@@ -183,6 +183,12 @@ namespace Taverna
         /// <summary>İşe alım ücreti en az görevlinin şu anki günlük maaşının bu katı (kovup sabah geri almak kâr etmesin).</summary>
         public const int HireWageMultiplier = 2;
 
+        /// <summary>v1.4 işe alım ücreti: katalog ücreti ya da günlük maaşın <see cref="HireWageMultiplier"/> katı (büyük olan).</summary>
+        public static long HireCost(long catalogHire, long currentWage) => System.Math.Max(catalogHire, HireWageMultiplier * currentWage);
+
+        /// <summary>Geçici müşteri çarpanlarının çarpımı, <see cref="SpawnBoostCap"/> ile sınırlı.</summary>
+        public static float CapSpawnBoost(float raw) => Mathf.Min(SpawnBoostCap, raw);
+
         /// <summary>Özel sipariş görevleri: açılış seviyesi, hedefler ve büyük görevin ödül çarpanları.</summary>
         public const int SpecialQuestLevel = 3, SpecialQuestSmall = 5, SpecialQuestBig = 12;
         public const int SpecialQuestBigCoinMultiplier = 2, SpecialQuestBigExtraGems = 1;

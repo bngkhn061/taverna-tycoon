@@ -18,20 +18,27 @@ namespace Taverna
         void InitPremium()
         {
             _root.Q<Button>("tab-prem").clicked += () => SelectTab("prem");
-            Premium.PurchaseRequested += OnPurchaseRequested;
+            Premium.Unavailable += OnStoreUnavailable;
+            Premium.Failed += OnPurchaseFailed;
             Premium.Granted += OnPremiumGranted;
+            TestStoreService.Confirmer = OpenTestConfirm;   // v1.6: test mağazasının onay ekranı
         }
 
         void DisablePremium()
         {
-            Premium.PurchaseRequested -= OnPurchaseRequested;
+            Premium.Unavailable -= OnStoreUnavailable;
+            Premium.Failed -= OnPurchaseFailed;
             Premium.Granted -= OnPremiumGranted;
+            TestStoreService.Confirmer = null;
         }
+
+        /// <summary>v1.6: mağaza kapalıyken (yayın derlemesi, gerçek mağaza yok) ürün düğmesinin yazısı.</summary>
+        const string SoonText = "YAKINDA";
 
         void UpdatePremium()
         {
             // Sv3: başlangıç paketi teklifi bir kez, sakin bir anda
-            if (Premium.ShouldOfferStarter && !ModalOpen && !Tutorial.Active && !LevelCardOpen && !DayCycle.Ended && Time.timeSinceLevelLoad > 5f)
+            if (Premium.Available && Premium.ShouldOfferStarter && !ModalOpen && !Tutorial.Active && !LevelCardOpen && !DayCycle.Ended && Time.timeSinceLevelLoad > 5f)
             {
                 Premium.MarkStarterShown();
                 OpenStarterOffer();
@@ -45,8 +52,8 @@ namespace Taverna
         // ------------------------------------------------------------------ sekme
         void BuildPremiumTab()
         {
-            _shopNote.text = Premium.TestStore
-                ? "TEST SÜRÜMÜ · gerçek ödeme alınmaz · fiyatlar örnek"
+            _shopNote.text = !Premium.Available ? "Hazine yakında açılıyor · şimdilik satın alma yok"
+                : Premium.TestStore ? "TEST SÜRÜMÜ · gerçek ödeme alınmaz · fiyatlar örnek"
                 : "Satın almalar hesaba bağlıdır · ilerlemek için gerekmez";
             AddVipCard();
             if (Premium.StarterAvailable)
@@ -65,7 +72,7 @@ namespace Taverna
             row.AddToClassList("prem-gems");
             foreach (var id in new[] { "gems_100", "gems_550", "gems_1200", "gems_3000" }) row.Add(GemCard(Premium.Find(id)));
             _shopScroll.Add(row);
-            var restore = new Button(() => Toast($"Geri yüklendi: {Premium.Restore()} ürün hesabında")) { text = "SATIN ALMALARI GERİ YÜKLE" };
+            var restore = new Button(() => Premium.Restore(n => Toast(n < 0 ? "Mağaza yakında açılıyor" : $"Geri yüklendi: {n} ürün hesabında"))) { text = "SATIN ALMALARI GERİ YÜKLE" };
             restore.AddToClassList("btn"); restore.AddToClassList("btn-paper"); restore.AddToClassList("btn-sm"); restore.AddToClassList("prem-restore");
             _shopScroll.Add(restore);
         }
@@ -89,7 +96,7 @@ namespace Taverna
                 perks.Add(c);
             }
             col.Add(title); col.Add(perks);
-            var price = new Label(Premium.Owned("vip_life") ? "AKTİF" : Premium.Find("vip_month").price);
+            var price = new Label(Premium.Owned("vip_life") ? "AKTİF" : Premium.Available ? Premium.PriceOf(Premium.Find("vip_month")) : SoonText);
             price.AddToClassList("prem-price");
             card.Add(crown); card.Add(col); card.Add(price);
             _shopScroll.Add(card);
@@ -114,9 +121,11 @@ namespace Taverna
             col.Add(n); col.Add(sub);
             var b = new Button();
             b.AddToClassList("btn"); b.AddToClassList("btn-sm");
-            var l = new Label(can ? p.price : "ALINDI");
+            bool open = Premium.Available;
+            var l = new Label(!can ? "ALINDI" : open ? Premium.PriceOf(p) : SoonText);
             b.Add(l);
-            if (can) { b.AddToClassList("btn-sun"); b.clicked += () => Premium.Request(p.id); }
+            if (can && open) { b.AddToClassList("btn-sun"); b.clicked += () => Premium.Request(p.id); }
+            else if (can) { b.AddToClassList("btn-paper"); b.AddToClassList("locked"); b.AddToClassList("prem-soon"); b.SetEnabled(false); }
             else { b.AddToClassList("btn-paper"); b.AddToClassList("owned"); b.SetEnabled(false); }
             item.Add(img); item.Add(col); item.Add(b);
             _shopScroll.Add(item);
@@ -132,9 +141,11 @@ namespace Taverna
             ic.style.backgroundImage = new StyleBackground(GemIcon);
             var amount = new Label(FormatNum(p.gems));
             amount.AddToClassList("prem-gem-num");
-            var b = new Button(() => Premium.Request(p.id));
-            b.AddToClassList("btn"); b.AddToClassList("btn-sun"); b.AddToClassList("prem-gem-btn");
-            b.Add(new Label(p.price));
+            bool open = Premium.Available;
+            var b = new Button(() => { if (Premium.Available) Premium.Request(p.id); });
+            b.AddToClassList("btn"); b.AddToClassList(open ? "btn-sun" : "btn-paper"); b.AddToClassList("prem-gem-btn");
+            if (!open) { b.AddToClassList("locked"); b.AddToClassList("prem-soon"); b.SetEnabled(false); }
+            b.Add(new Label(open ? Premium.PriceOf(p) : SoonText));
             c.Add(ic); c.Add(amount); c.Add(b);
             return c;
         }
@@ -198,27 +209,36 @@ namespace Taverna
                 card.Add(row);
             }
             if (Premium.Owned("vip_life")) { card.Add(Note("Ömür boyu VIP'sin · teşekkürler!")); return; }
+            if (!Premium.Available) { card.Add(Note("Hazine yakında açılıyor")); return; }
             var actions = new VisualElement();
             actions.AddToClassList("popup-actions");
-            actions.Add(ModalButton(Premium.Find("vip_month").price, "btn-sun", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_month"); }));
-            var life = ModalButton($"Ömür boyu · {Premium.Find("vip_life").price}", "btn-plum", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_life"); });
+            actions.Add(ModalButton(Premium.PriceOf(Premium.Find("vip_month")), "btn-sun", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_month"); }));
+            var life = ModalButton($"Ömür boyu · {Premium.PriceOf(Premium.Find("vip_life"))}", "btn-plum", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_life"); });
             life.AddToClassList("last");
             actions.Add(life);
             card.Add(actions);
             card.Add(Note(Premium.IsVip ? "VIP aktif · aylık alım süreyi 30 gün uzatır" : "Abonelik Google Play'den yönetilir · istediğin zaman iptal"));
         }
 
-        void OnPurchaseRequested(Premium.Product p)
+        /// <summary>v1.6: mağaza kapalı (yayın derlemesi, gerçek mağaza yok): "Yakında" bilgisi, ürün verilmez.</summary>
+        void OnStoreUnavailable(Premium.Product p)
         {
-            if (!Premium.TestStore)
-            {
-                var o = PremCard("MAĞAZA", 460f, out var c);
-                c.Add(Note("Mağaza yakında açılıyor"));
-                var ok = ModalButton("TAMAM", "btn-paper", () => o.RemoveFromHierarchy());
-                ok.style.marginTop = 12;
-                c.Add(ok);
-                return;
-            }
+            var o = PremCard("MAĞAZA", 460f, out var c);
+            c.Add(Note("Mağaza yakında açılıyor"));
+            var ok = ModalButton("TAMAM", "btn-paper", () => o.RemoveFromHierarchy());
+            ok.style.marginTop = 12;
+            c.Add(ok);
+        }
+
+        void OnPurchaseFailed(Premium.Product p, string why)
+        {
+            if (why != "vazgeçildi") Toast($"Satın alma tamamlanmadı: {why}");
+        }
+
+        /// <summary>v1.6: <see cref="TestStoreService"/> onay ekranı (yalnızca geliştirme derlemesi): ONAYLA ödemeyi başarılı sayar.</summary>
+        void OpenTestConfirm(string productId, Action confirm, Action cancel)
+        {
+            var p = Premium.Find(productId);
             var overlay = PremCard("SATIN AL", 500f, out var card);
             var head = new VisualElement();
             head.AddToClassList("prem-confirm-head");
@@ -238,14 +258,14 @@ namespace Taverna
             var total = new VisualElement();
             total.AddToClassList("dayend-line");
             total.Add(new Label("Toplam"));
-            var price = new Label(p.price);
+            var price = new Label(Premium.PriceOf(p));
             price.AddToClassList("val");
             total.Add(price);
             card.Add(total);
             var actions = new VisualElement();
             actions.AddToClassList("popup-actions");
-            actions.Add(ModalButton("VAZGEÇ", "btn-paper", () => overlay.RemoveFromHierarchy()));
-            var ok2 = ModalButton("ONAYLA", "btn-teal", () => { overlay.RemoveFromHierarchy(); Premium.Grant(p.id); });
+            actions.Add(ModalButton("VAZGEÇ", "btn-paper", () => { overlay.RemoveFromHierarchy(); cancel?.Invoke(); }));
+            var ok2 = ModalButton("ONAYLA", "btn-teal", () => { overlay.RemoveFromHierarchy(); confirm?.Invoke(); });
             ok2.AddToClassList("last");
             actions.Add(ok2);
             card.Add(actions);
@@ -289,7 +309,7 @@ namespace Taverna
             Box(GemIcon, "100", "elmas");
             Box(LoadIcon("DEC_AltinFici"), "Altın Fıçı", "süs");
             card.Add(row);
-            var buy = ModalButton(Premium.Find("starter").price, "btn-sun", () => { overlay.RemoveFromHierarchy(); Premium.Request("starter"); });
+            var buy = ModalButton(Premium.PriceOf(Premium.Find("starter")), "btn-sun", () => { overlay.RemoveFromHierarchy(); Premium.Request("starter"); });
             buy.AddToClassList("prem-starter-buy");
             card.Add(buy);
             card.Add(Note("Hesap başına bir kez · sonra 3 gün Hazine'de durur"));

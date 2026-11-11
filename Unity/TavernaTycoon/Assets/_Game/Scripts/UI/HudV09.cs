@@ -88,7 +88,7 @@ namespace Taverna
             _root.Q<Button>("rename-ad").clicked += () =>
             {
                 if (!ValidName(out var n)) return;
-                ShowAd("Taverna adını değiştir", () =>
+                ShowAd("rename", "Taverna adını değiştir", () =>
                 {
                     GameState.Data.renameAds++;
                     if (GameState.Data.renameAds >= Balance.RenameAds) { GameState.Data.renameAds = 0; ApplyName(n); }
@@ -393,6 +393,7 @@ namespace Taverna
         void OpenRename()
         {
             _settings.Hide();
+            _root.Q<Button>("rename-ad").EnableInClassList("hidden", !Services.RewardedAdsEnabled);   // v1.6: reklam yoksa yalnızca altınla
             _renameField.value = GameState.TavernName;
             RefreshRename();
             Show(_renameRoot);

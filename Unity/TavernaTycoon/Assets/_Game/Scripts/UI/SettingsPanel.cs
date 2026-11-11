@@ -15,6 +15,8 @@ namespace Taverna
         /// <summary>v0.9: Ayarlar › Taverna adı › DEĞİŞTİR (sadece oyun içinde).</summary>
         public event Action RenameRequested;
         readonly Label _nameLabel;
+        /// <summary>v1.6: yalnızca geliştirme derlemesinde görünen "Ölçüm özeti" satırı (yerel ölçüm sayaçları).</summary>
+        readonly Label _metrics;
 
         public SettingsPanel(VisualElement host, bool showToMenu)
         {
@@ -51,6 +53,17 @@ namespace Taverna
             toMenu.EnableInClassList("hidden", !showToMenu);
             toMenu.clicked += () => ToMenuRequested?.Invoke();
 
+            if (UnityEngine.Debug.isDebugBuild && !Services.ReleaseSimulation)
+            {
+                _metrics = new Label { name = "metrics-summary" };
+                _metrics.AddToClassList("small-note");
+                _metrics.AddToClassList("metrics-note");
+                var card = _root.Q(className: "settings-card");
+                var actions = card?.Q(className: "sheet-actions");
+                if (card != null && actions != null) card.Insert(card.IndexOf(actions), _metrics);
+                else _root.Add(_metrics);
+            }
+
             var reset = _root.Q<Button>("reset-save");
             bool armed = false;
             reset.clicked += () =>
@@ -69,6 +82,8 @@ namespace Taverna
         void Refresh()
         {
             _nameLabel.text = GameState.TavernName;
+            if (_metrics != null)
+                _metrics.text = Services.LocalAnalytics != null ? Services.LocalAnalytics.SummaryText() : "Ölçüm özeti: gerçek ölçüm hizmeti bağlı (veri panelde)";
             _vib.text = GameSettings.Vibration ? "AÇIK" : "KAPALI";
             _vib.EnableInClassList("on", GameSettings.Vibration);
             _notif.text = GameSettings.Notifications ? "AÇIK" : "KAPALI";

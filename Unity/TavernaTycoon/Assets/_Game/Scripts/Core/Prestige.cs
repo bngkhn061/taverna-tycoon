@@ -113,6 +113,7 @@ namespace Taverna
             //     renameAds, staffAds, decor (bölgesi açılınca görünür), floorTheme/wallTheme, lastDaily/dailyStreak, customersServed
             _unCarry = 0f;
             TavernEvents.StopAll();
+            Services.Track("prestige", ("sube", b), ("gelir_carpani", IncomeMultiplierFor(b)));
             GameState.Save();
             return true;
         }

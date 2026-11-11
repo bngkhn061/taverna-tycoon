@@ -18,8 +18,7 @@ namespace Taverna.EditorTools
         public static void Run()
         {
             EditorSceneManager.OpenScene(TavernaSceneBuilder.GameScene, OpenSceneMode.Single);
-            PlayerPrefs.DeleteKey("taverna_save_v1");
-            PlayerPrefs.Save();
+            GameState.ResetSave();   // v1.6: kayıt dosyası (save.dat / save.bak) + eski PlayerPrefs kaydı
             SessionState.SetBool(Flag, true);
             EditorApplication.EnterPlaymode();
         }
@@ -43,7 +42,7 @@ namespace Taverna.EditorTools
                     ps.clearColor = false;
                     EditorUtility.SetDirty(ps);
                     AssetDatabase.SaveAssets();
-                    PlayerPrefs.DeleteKey("taverna_save_v1");
+                    GameState.ResetSave();
                     if (Application.isBatchMode) EditorApplication.Exit(0);
                 }
             };

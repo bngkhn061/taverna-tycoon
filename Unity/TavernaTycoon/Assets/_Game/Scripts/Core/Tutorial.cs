@@ -44,6 +44,8 @@ namespace Taverna
 
         static bool _served, _coins, _quests, _shop, _staff, _depot;
         static float _stepT;
+        /// <summary>v1.6 ölçüm: rehberin ve adımın başladığı gerçek zaman (Time.realtimeSinceStartup).</summary>
+        static float _startReal, _stepStartReal;
 
         /// <summary>Yeni oyunda (Sv1, rehber görülmemiş) başlatır. GameBootstrap çağırır.</summary>
         public static void Begin()
@@ -52,6 +54,8 @@ namespace Taverna
             _stepT = 0f;
             AutoAdvanced = 0;
             Step = !GameState.Data.tutorialDone && GameState.Level <= 1 ? 0 : -1;
+            _startReal = _stepStartReal = Time.realtimeSinceStartup;
+            if (Step == 0) Services.Track("tutorial_start");
             GameState.DrinkServed -= OnServed;
             GameState.CoinsGainedAt -= OnCoins;
             GameState.DrinkServed += OnServed;
@@ -66,7 +70,12 @@ namespace Taverna
         public static void OnStaffOpened() => _staff = true;
         public static void OnDepotOpened() => _depot = true;
 
-        public static void Skip() => Finish();
+        /// <summary>Oyuncu rehberi atladı (ölçüm: tutorial_skip, hangi adımda).</summary>
+        public static void Skip()
+        {
+            if (Active) Services.Track("tutorial_skip", ("adim", Step + 1), ("sure_sn", Time.realtimeSinceStartup - _startReal));
+            Finish();
+        }
 
         static void Finish()
         {
@@ -76,12 +85,20 @@ namespace Taverna
             Changed?.Invoke();
         }
 
-        static void Next()
+        static void Next(bool auto = false)
         {
+            float now = Time.realtimeSinceStartup;
+            // v1.6 ölçüm: biten adım (1 tabanlı), kendiliğinden mi geçti, kaç gerçek saniye sürdü
+            Services.Track("tutorial_step", ("adim", Step + 1), ("kendiliginden", auto), ("sure_sn", now - _stepStartReal));
+            _stepStartReal = now;
             Step++;
             _stepT = 0f;
             Sfx.Play(SfxId.Claim, 1.2f);
-            if (Step >= StepCount) Finish();
+            if (Step >= StepCount)
+            {
+                Services.Track("tutorial_complete", ("toplam_sure_sn", now - _startReal), ("kendiliginden_gecen", AutoAdvanced));
+                Finish();
+            }
             else Changed?.Invoke();
         }
 
@@ -135,7 +152,7 @@ namespace Taverna
             if (UiTarget != null)
             {
                 _stepT += Time.unscaledDeltaTime;
-                if (_stepT >= UiStepAutoSeconds) { AutoAdvanced++; Next(); return; }
+                if (_stepT >= UiStepAutoSeconds) { AutoAdvanced++; Next(true); return; }
             }
             var p = PlayerController.I;
             if (!p) return;
