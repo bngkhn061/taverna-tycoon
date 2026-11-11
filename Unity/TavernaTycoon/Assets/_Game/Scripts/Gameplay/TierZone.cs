@@ -15,12 +15,14 @@ namespace Taverna
 
         void Update()
         {
-            bool vis = Tiers.Visible;
+            // v1.5: kademeler bitince aynı kare "Yeni Şube" (prestij) kartını açar
+            bool branch = Tiers.Next == null && Prestige.Visible;
+            bool vis = Tiers.Visible || branch;
             if (visual && visual.activeSelf != vis) visual.SetActive(vis);
             var p = PlayerController.I;
             if (!vis || !p) { _inside = false; return; }
             bool inside = DrinkStation.FlatDistance(p.transform.position, transform.position) < radius;
-            if (inside && !_inside) Tiers.RaiseZoneEntered();
+            if (inside && !_inside) { if (branch) Prestige.RaiseZoneEntered(); else Tiers.RaiseZoneEntered(); }
             _inside = inside;
         }
     }

@@ -13,8 +13,12 @@ namespace Taverna
         {
             GameSettings.Apply();
             Sfx.Ensure();
-            if (AutoTest.Enabled) { GameState.ResetSave(); Application.runInBackground = true; }
+            // v1.5: test kaydı süreç başına bir kez sıfırlanır (prestij sahneyi yeniden yükleyince şube kaydı kalsın)
+            bool firstBoot = !_booted;
+            _booted = true;
+            if (AutoTest.Enabled && firstBoot) { GameState.ResetSave(); Application.runInBackground = true; }
             GameState.Load();
+            if (!firstBoot && AutoTest.Enabled) return;   // test bayrakları yalnızca ilk açılışta
             if (GameState.Data.customersServed == 0 && GameState.Coins == 0 && GameState.Data.unlocked.Count == 0)
                 GameState.Data.coins = startingCoins;
             // Test: "-autotest-start-level N" → yeni içeriği (örn. mutfak, Sv6) uzun oynatmadan denemek için
@@ -35,6 +39,8 @@ namespace Taverna
                     if (!GameState.Data.unlocked.Contains(id)) GameState.Data.unlocked.Add(id);
         }
 
+        static bool _booted;
+
         static int AutoTestArg(string name)
         {
             var args = System.Environment.GetCommandLineArgs();
@@ -54,12 +60,13 @@ namespace Taverna
             if (GameState.IsUnlocked("garson2")) waiters++;
             Offline.Compute(waiters);
 #if DEVELOPMENT_BUILD && !UNITY_EDITOR
-            if (AutoTest.Enabled)
+            if (AutoTest.Enabled && !FindAnyObjectByType<PlaytestBot>())   // v1.5: prestijten sonra aynı bot sürer
             {
                 var bot = new GameObject("PlaytestBot").AddComponent<PlaytestBot>();
+                DontDestroyOnLoad(bot.gameObject);
                 bot.gameSeconds = AutoTestSeconds();
                 bot.timeScale = 4f;
-                bot.onFinished = _ => StartCoroutine(QuitSoon());
+                bot.onFinished = _ => bot.StartCoroutine(QuitSoon());   // v1.5: bot sahne değişse de yaşar, bu başlatıcı yaşamayabilir
             }
 #endif
         }
@@ -71,7 +78,7 @@ namespace Taverna
             return i >= 0 && i + 1 < args.Length && float.TryParse(args[i + 1], out var s) ? s : 300f;
         }
 
-        System.Collections.IEnumerator QuitSoon()
+        static System.Collections.IEnumerator QuitSoon()
         {
             yield return new WaitForSecondsRealtime(1.5f);
             Application.Quit();

@@ -10,7 +10,7 @@ namespace Taverna
     /// Otomatik oyun testi: Barlo'yu bir "bot" oynatır (istasyon → müşteri → para → ödeme alanı → yükseltme),
     /// olayları raporlar ve sonunda arayüzle birleşik ekran görüntüsü alır. Sadece editörde çalışır.
     /// </summary>
-    public class PlaytestBot : MonoBehaviour
+    public partial class PlaytestBot : MonoBehaviour
     {
         public float gameSeconds = 420f;
         public float timeScale = 4f;
@@ -137,7 +137,7 @@ namespace Taverna
             if (target.HasValue) target = InnDoor(p.transform.position, target.Value);
             if (target.HasValue) target = KitchenLayout.Route(p.transform.position, target.Value);
             Steer(p, target);
-            if (!(_tierStep < 3 && Tiers.Visible && Tiers.Next != null && Tiers.Next.index == 1)) TryUpgrades();   // v1.0: kademe testi bitene kadar para harcama
+            if (!(_tierStep < 3 && Tiers.Visible && Tiers.Next != null && Tiers.Next.index == 1) && !(V15Mode == "prestige" && _v15Step < V15After)) TryUpgrades();   // v1.5: prestij testi bitene kadar da harcama   // v1.0: kademe testi bitene kadar para harcama
             // Teşhis: yavaş kare (>80 ms) olunca o anki durumu yaz (2 sn'de bir)
             _slowLogT -= Time.unscaledDeltaTime;
             if (Sfx.MusicNow != _music) { _music = Sfx.MusicNow; Log($"SES müzik → {_music} · faz={DayCycle.Progress01:0.00} yoğun={RushHour.Active} müşteri={Customer.All.Count} kalabalık={Sfx.CrowdLevel:0.00} ortam=[{Sfx.AmbientInfo}]"); }
@@ -164,6 +164,7 @@ namespace Taverna
             var hud = FindAnyObjectByType<HudController>();
             TrackV14();
             TutorialClicks(hud);
+            UpdateV15(hud, p);
             if (hud)
             {
                 if (hud.LevelCardOpen)
@@ -269,6 +270,7 @@ namespace Taverna
         Vector3? Decide(PlayerController p)
         {
             var pos = p.transform.position;
+            if (_v15Visit.HasValue) { _goal = "v1.5 bak"; return _v15Visit.Value; }   // v1.5: yeni makinelerin önüne git (görüntü)
             // 1) Para topla
             CoinPile nearestCoin = null;
             float best = float.MaxValue;
@@ -467,7 +469,8 @@ namespace Taverna
             // Bölgeler arası geçişte duvar boşluğunun ortasından geç
             var tv = target.Value;
             float px = p.transform.position.x;
-            if (!Inn.Upstairs(p.transform.position))
+            // v1.5: arka odalarda (mutfak, oyun salonu, mahzen) bu kapı kuralı yok — mutfakta bot geri sokağa çekiliyordu
+            if (!Inn.Upstairs(p.transform.position) && !KitchenLayout.InBack(p.transform.position))
             foreach (float gate in new[] { 3f, -3f })
                 if ((px - gate) * (tv.x - gate) < 0f && Mathf.Abs(px - gate) > 0.4f) { tv = new Vector3(gate, 0f, -0.6f); break; }
             var to = tv - p.transform.position;
@@ -578,6 +581,7 @@ namespace Taverna
             Log($"v1.4 YILDIZ ÖZET: ambiyans={AmbianceSource.Total:0} ★{Management.Stars:0.#} · sonraki ★{Management.NextStar} için {Management.AmbianceToNextStar}");
             Log($"v1.4 TELLAL ÖZET: etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} · tellal görünür={Campaigns.CrierVisible} · bugün=[{string.Join(",", GameState.Data.eventsUsed)}]");
             Log($"v1.4 REHBER ÖZET: {(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} · kendiliğinden geçen adım {Tutorial.AutoAdvanced} · bitiş gerçek {_tutEndReal:0.0} sn");
+            FinishV15();
             Log($"v1.2: mutluluk=%{Happiness.Value:0} (müşteri ×{Happiness.SpawnMultiplier:0.00}) ★{Management.Stars:0.#} etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} bugün=[{string.Join(",", GameState.Data.eventsUsed)}] masa={Table.All.Count}");
             Log($"SES: grup={Sfx.LoadedGroups} müzik={Sfx.MusicNow} kalabalık={Sfx.CrowdLevel:0.00} konuşma={Sfx.TalkCount} ortam=[{Sfx.AmbientInfo}]");
             Log($"HAN: açık={Inn.Open} giriş={Inn.CheckIns} kızgın misafir={Inn.AngryGuests} toplanan oda={Inn.RoomsCleaned} (bot {_roomsCleaned}) oda durumları=[{string.Join(",", Room.All.ConvertAll(x => x.state.ToString()))}]");

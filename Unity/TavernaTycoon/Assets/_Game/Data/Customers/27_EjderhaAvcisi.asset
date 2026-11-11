@@ -15,7 +15,7 @@ MonoBehaviour:
   number: 27
   displayName: "Ejderha Avc\u0131s\u0131"
   modelPrefab: {fileID: 4997176177617574746, guid: 26afa4b2489ef134480cd3d7bad074ce, type: 3}
-  drinks: 09000000i
+  drinks: 0900000012000000i
   patienceStars: 3
   payStars: 5
   unlockLevel: 24

@@ -57,6 +57,7 @@ namespace Taverna
         public List<string> eventsUsed = new();
         public float happiness = -1f;                    // v1.2 Mutluluk (0–100, -1 = yeni oyun → Happiness.Start)
         public int tier;                                  // v1.0 "Tavernayı Büyüt": 0 Ahşap, 1 Taş Han, 2 Saray Hanı
+        public int branch;                                // v1.5 prestij: açılan şube sayısı (0 = ilk taverna, Prestige)
         public List<string> premium = new();              // v1.0 Hazine: alınan gerçek para ürünleri (tek seferlik)
         public string vipUntilUtc = "", vipGemDate = "", starterShownUtc = "";                              // v1.0: maaşı ödenmeyen personelin küskün olduğu gün
         public string lastSeenUtc;
@@ -133,7 +134,7 @@ namespace Taverna
         public static void AddUn(int amount)
         {
             if (Data.level >= Balance.MaxLevel) return;
-            Data.un += amount;
+            Data.un += Prestige.ScaleUn(amount);   // v1.5: şube başına Ün +%15
             while (Data.level < Balance.MaxLevel && Data.un >= Balance.UnForLevel(Data.level))
             {
                 Data.un -= Balance.UnForLevel(Data.level);

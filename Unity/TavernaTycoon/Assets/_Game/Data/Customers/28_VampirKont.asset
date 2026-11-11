@@ -15,7 +15,7 @@ MonoBehaviour:
   number: 28
   displayName: Vampir Kont
   modelPrefab: {fileID: 2532023230167795050, guid: c83fd6496dab27e448f396a1c28bf364, type: 3}
-  drinks: 030000000e000000i
+  drinks: 030000000e00000012000000i
   patienceStars: 3
   payStars: 5
   unlockLevel: 25

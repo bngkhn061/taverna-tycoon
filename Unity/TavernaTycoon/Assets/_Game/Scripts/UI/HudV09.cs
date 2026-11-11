@@ -164,7 +164,7 @@ namespace Taverna
             _hudRoot.style.opacity = 0f;
             var follow = cam ? cam.GetComponent<CameraFollow>() : null;
             if (follow) follow.Intro(IntroSeconds);
-            ShowBanner($"{GameState.TavernName.ToUpper(new System.Globalization.CultureInfo("tr-TR"))} · GÜN {GameState.Data.day}", "door", false, IntroSeconds + 0.6f);
+            ShowBanner($"{GameState.TavernName.ToUpper(new System.Globalization.CultureInfo("tr-TR"))} · GÜN {GameState.Data.day}{BranchSuffix}", "door", false, IntroSeconds + 0.6f);
             _banner.style.opacity = 0f;
             Sfx.Play(SfxId.Door);
         }
@@ -290,7 +290,7 @@ namespace Taverna
 
         void OnDayStarted(int day)
         {
-            ShowBanner($"GÜN {day}", "sun", true, 2.2f);
+            ShowBanner($"GÜN {day}{BranchSuffix}", "sun", true, 2.2f);   // v1.5: şube adı
             if (Management.Sulky) Toast("Maaşlar ödenmedi: personel bugün küskün, yavaş çalışıyor");
             Sfx.Play(SfxId.Dawn);
         }

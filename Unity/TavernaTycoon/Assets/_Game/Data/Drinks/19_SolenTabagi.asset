@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 19_SolenTabagi
+  m_EditorClassIdentifier: Assembly-CSharp::Taverna.DrinkDef
+  id: 19
+  displayName: "\u015E\xF6len Taba\u011F\u0131"
+  basePrice: 110
+  baseTime: 15
+  unlockLevel: 29
+  icon: {fileID: 1495984047798481407, guid: ed1c98a63c57c9447a5f229e43930446, type: 3}
+  cupPrefab: {fileID: 3284968968747420035, guid: 9a692017f39b8c74c8cc8b39cacb1d17, type: 3}
+  upgradeCostMultiplier: 10
+  isFood: 1

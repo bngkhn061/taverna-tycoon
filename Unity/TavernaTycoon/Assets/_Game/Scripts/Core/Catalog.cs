@@ -37,6 +37,9 @@ namespace Taverna
             new() { drink = DrinkId.BalLikoru, price = 7000, zone = "mahzen", zoneName = "Şarap Mahzeni" },
             new() { drink = DrinkId.GunBatimiPuncu, price = 11000, zone = "teras", zoneName = "Çatı Terası" },
             new() { drink = DrinkId.IzgaraBalik, price = 12000, zone = "iskele", zoneName = "İskele" },
+            // v1.5 oyun sonu makineleri: en pahalı makineden (12.000) bir kademe yukarı
+            new() { drink = DrinkId.KralSerbeti, price = 14000, zone = "salon", zoneName = "Ana Salon" },
+            new() { drink = DrinkId.SolenTabagi, price = 16000, zone = "mutfak", zoneName = "Mutfak" },
         };
 
         public static string MachineKey(DrinkId d) => "mac_" + d;

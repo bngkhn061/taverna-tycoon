@@ -34,17 +34,34 @@ namespace Taverna
         void OnZoneUnlocked(string zone)
         {
             foreach (var s in staff) ApplyStaff(s.id, true);
+            PlaceSavedDecor(true);   // v1.5: yeni şubede satın alınmış dekor bölgesi açılınca geri gelir
         }
 
         void Start()
         {
             foreach (var m in machines) ApplyMachine(m.drink, false);
             foreach (var s in staff) ApplyStaff(s.id, false);
+            PlaceSavedDecor(false);
+        }
+
+        /// <summary>Kayıttaki dekorları yerleştirir; v1.5: bölgesi kapalı olan yer (prestij sonrası) açılana kadar bekler.</summary>
+        void PlaceSavedDecor(bool animate)
+        {
             foreach (var e in GameState.Data.decor)
             {
                 var parts = e.Split(':');
-                if (parts.Length == 2 && int.TryParse(parts[1], out int slot)) PlaceDecor(parts[0], slot, false);
+                if (parts.Length != 2 || !int.TryParse(parts[1], out int slot) || slot < 0 || slot >= decorSlots.Length) continue;
+                if (!Management.ZoneOpen(decorSlots[slot].zone)) continue;
+                PlaceDecor(parts[0], slot, animate);
             }
+        }
+
+        /// <summary>Yer kayıtta bir dekora ait mi (yerleşmemiş olsa da)?</summary>
+        static bool SavedSlot(int slot)
+        {
+            string suffix = ":" + slot;
+            foreach (var e in GameState.Data.decor) if (e.EndsWith(suffix)) return true;
+            return false;
         }
 
         public void ApplyMachine(DrinkId d, bool animate)
@@ -93,7 +110,7 @@ namespace Taverna
             for (int i = 0; i < decorSlots.Length; i++)
             {
                 var s = decorSlots[i];
-                if (s.item != item || _usedSlots.Contains(i)) continue;
+                if (s.item != item || _usedSlots.Contains(i) || SavedSlot(i)) continue;
                 if (!Management.ZoneOpen(s.zone)) continue;
                 return i;
             }

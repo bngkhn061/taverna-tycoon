@@ -87,6 +87,14 @@ namespace Taverna
             }
         }
 
+        /// <summary>Test botu (v1.5 prestij testi): alanı parasız açar.</summary>
+        public void DebugUnlock()
+        {
+            if (GameState.IsUnlocked(id)) return;
+            GameState.Unlock(id);
+            ApplyUnlocked(false);
+        }
+
         void ApplyUnlocked(bool animate)
         {
             foreach (var t in unlockTargets)

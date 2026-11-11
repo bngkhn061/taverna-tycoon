@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v1.4** (2026-11-10, Paket A: rehber zamanı, mutluluk ortalaması, yıldız eşikleri, işe alım ücreti, tellal etkinliği, müşteri çarpanı sınırı, özel sipariş görevleri).
+> Sürüm: **v1.5** (2026-11-11, Paket C: oyun sonu — Sv27 Kral Şerbeti, Sv28 Kraliyet Ziyareti etkinliği, Sv29 Şölen Tabağı, Sv30 prestij "Yeni Şube").
+> Önceki: v1.4 (2026-11-10, Paket A: rehber zamanı, mutluluk ortalaması, yıldız eşikleri, işe alım ücreti, tellal etkinliği, müşteri çarpanı sınırı, özel sipariş görevleri).
 
 ---
 
@@ -159,6 +160,10 @@ Her içeceğin bir **Üretim İstasyonu** vardır. İstasyon kendi kendine üret
 | Goblin Grogu | Goblin Kazanı | 22 | 6 sn |
 | Elf Çiyi | Kristal Çeşme | 35 | 7 sn |
 | Ejder Ateşi | Ejder Ocağı | 60 | 9 sn |
+| **Kral Şerbeti** (v1.5, Sv27, Ana Salon, makine 14.000) | Şerbet Çeşmesi (mermer kaide, altın havuz, taç) | 95 | 13 sn |
+| **Şölen Tabağı** (v1.5, Sv29, Mutfak, yemek, makine 16.000) | Şölen Ocağı (şişte kuzu) | 110 | 15 sn |
+
+v1.5 eğrisi: Kral Şerbeti en pahalı içecekten (Yıllanmış Şarap 80 / 12 sn) bir kademe yukarı; Şölen Tabağı en pahalı yemekten (Izgara Balık 50) ve en yavaş yemekten (Elmalı Turta 14 sn) bir kademe yukarı. Makine bedelleri en pahalı makineden (12.000) 2.000'er artar. Kral Şerbeti'ni yalnızca zengin müşteriler ister: Ejderha Avcısı, Vampir Kont, Gizli Kral. Şölen Tabağı'nı mutfak açıkken her müşteri yemek siparişi olarak isteyebilir (%35). Mutfakta beş ocak arka duvarda 1.5 m aralıkla durur (x −3, −1.5, 0, 1.5, 3; z 9.45); Şerbet Çeşmesi Salon arka duvarının sol ucunda (x 5.05), Salon meşalesi Süt ile oyun salonu kapısı arasına, oradaki saksı yeri salonun ön sağ köşesine taşındı. Tüm içecek ve yemekler `Editor/TavernaData.cs`'te.
 
 ### 4.1 İstasyon Yükseltmeleri (3 eksen × 10 seviye)
 - **Hız:** Üretim süresi her seviyede %10 azalır.
@@ -270,6 +275,9 @@ Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinli
 | Bira Festivali | Sv5 | 150 + 80·Sv | satış fiyatı ×1.5 |
 | Tüccar Kervanı | Sv6, Ana Salon | 200 + 100·Sv | zengin müşteri ×5, bahşiş ×2, gelme ×1.2 |
 | Zar Turnuvası | Sv13, Oyun Salonu | 250 + 120·Sv | oyun masası ücreti ×2.5, tur ×1.4 hızlı |
+| **Kraliyet Ziyareti** (v1.5) | Sv28, Ana Salon | 2.000 + 500·Sv (Sv28 16.000, Sv30 17.000) | tüm satış fiyatları ×2, bahşiş ×2, Gizli Kral'ın gelme ağırlığı ×40 (taban 0.05 → 2) |
+
+v1.5: çarpanlar etkinlik başına tanımlı (`TavernEvents.PriceMultiplier / TipMultiplier / CustomerWeight`); aynı anda tek etkinlik kuralı sayesinde Kraliyet Ziyareti Festival'in fiyatıyla ya da Kervan'ın bahşişiyle birleşmez. Ölçüm (bot, Sv29): Kral Şerbeti fiyatı 284 → 567; Gizli Kral etkinlikten önceki 60 oyun-sn'de 0, etkinlikteki 120 oyun-sn'de 8 kez geldi.
 
 v1.4: parayla "Tellal tut" (Dükkân › Hızlandır) kaldırıldı; şeridi de etkinlik şeridi oldu. Reklamla gelen yardımcı garson aynen kalır.
 
@@ -319,13 +327,40 @@ Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirme
 
 ---
 
-## 9. Prestij: Yeni Şube (Sv30)
-- Oyuncu yeni bir yerde, sıfırdan yeni bir taverna açar: **Liman Kenti**, sonra **Dağ Geçidi**.
-- Yeni haritada farklı görünüm ve 2–3 yeni müşteri tipi olur.
-- **Kalıcı:** Kraliyet Mührü bonusları, koleksiyon defteri, kozmetik dekorlar.
-- **Sıfırlanan:** Para, seviyeler, istasyonlar.
-- Yeni şube daha hızlı ilerler (+%25 gelir, şube başına artar).
-- *Lansman sonrası içerik. İlk sürümde sadece altyapısı ve "Yakında" ekranı olacak.*
+## 9. Prestij: Yeni Şube (Sv30) — v1.5 uygulandı
+
+Oyunun sonu (Sv30) artık bir döngüye bağlanır: oyuncu tavernasını bırakıp sıfırdan yeni bir şube açar ve kalıcı bir hız kazanır. Kod: `Scripts/Core/Prestige.cs`, arayüz `Scripts/UI/HudPrestige.cs`.
+
+**Şartlar** (üçü birden): **Seviye 30** · **Saray Hanı** kademesi (en üst kademe, `Tiers`) · kasada **150.000 altın** (`Prestige.RequiredCoins`; harcanır, zaten sıfırlanır).
+
+**Akış:**
+- Sv30'a gelen oyuncunun "Sıradaki Hedef" kutusu (açılabilir alan hedefi yokken) prestij şartlarından eksik olanı gösterir: kademe eksikse "Yeni Şube için: Saray Hanı kademesi" ve kademe bedeli, altın eksikse "Yeni Şube: Liman Kenti · 89,4B / 150B", hepsi tamamsa "Yeni Şube hazır! Büyüt karesine git". Ok "Tavernayı Büyüt" karesini gösterir.
+- Kademeler bitince aynı kare (Meyhane ön koridoru) **Yeni Şube kartını** açar. Kartta: önce / sonra (şimdiki şube adı ve seviye → yeni şube adı · Sv1), şart çipleri, **KALIR** ve **SIFIRLANIR** sütunları, kazanımlar, "SONRA" ve "150B · ŞUBE AÇ" düğmeleri.
+- **İki dokunuşla onay:** ilk dokunuş düğmeyi kırmızı "EMİN MİSİN? ONAYLA"ya çevirir (not: "Son dokunuş: şube açılır, geri dönüşü yok"); ikinci dokunuş şubeyi açar. Şart tutmazken düğme kilitli görünür, dokunuş "Şartlar henüz tamam değil" der. Kart yeniden açılırsa onay sıfırlanır.
+- Şube açılınca kayıt sıfırlanır, oyun sahnesi **yeniden yüklenir**; "YENİ ŞUBE · LİMAN KENTİ" şeridi ve konfeti. Rehber tekrar başlamaz (rehber görüldü bilgisi kalır).
+
+| Sıfırlanır | Kalır |
+|---|---|
+| Altın (yeni şube `500 × şube no` ile başlar), seviye ve Ün, gün sayısı (1) | Elmas |
+| Açılan alanlar, masalar, han odaları, makineler | Hazine ürünleri (`premium`), izindeki Hazine görevlileri (`benched`), VIP |
+| Makine yükseltmeleri ve depo (raflar, teslimat, tedarikçi anlaşması) | Hazine görevlileri (Lirael, Ignis) ve seviyeleri |
+| Personel: işe alımlar ve seviyeleri | Koleksiyon defteri (görülen müşteriler) |
+| Otomasyon ve Usta | Taverna adı, ayarlar, rehber görüldü bilgisi |
+| Taverna kademesi (Ahşap Meyhane) | Reklam hakkı sayaçları (ad değiştirme, görevli reklam seviyeleri) |
+| Mutluluk (%60'a döner) | Zemin / duvar temaları (satın alınmış ve seçili) |
+| Günlük etkinlik kullanımı, maaş küskünlüğü | Satın alınmış dekorlar: kayıtta kalır, **bölgesi yeniden açılınca** yerine gelir (o yer başka dekora verilmez) |
+| Günlük görevler (yeni şubenin seviyesine göre yeniden üretilir) | Günlük ödül serisi, toplam servis sayacı |
+
+**Kazanım** (kayıtta `branch`, 0 = ilk taverna):
+- Kalıcı gelir **+%25 / şube** (`Prestige.IncomeMultiplier = 1 + 0.25 × şube`), `Boosts.IncomeMultiplier` zincirine girer (servis ödemesi, han, oyun masaları).
+- Ün kazanımı **+%15 / şube** (`Prestige.UnMultiplier = 1 + 0.15 × şube`, `GameState.AddUn`'da; küsurat sonraki kazanca taşınır).
+- Başlangıç altını `500 × şube no` (Liman Kenti 500, Dağ Geçidi 1.000).
+
+**Şube adları:** 0 Köy Meyhanesi · 1 Liman Kenti · 2 Dağ Geçidi · sonrası "N. Şube". HUD'da seviye kalkanının solunda küçük sarı şube rozeti (şube numarası, şube ≥ 1 iken); gün başı ve giriş şeridinde şube adı ("GÜN 3 · LİMAN KENTİ").
+
+**Harita aynı kalır.** v1.5'te her şube aynı haritada kurulur; ayrı görünümlü yeni şube haritaları ve yeni müşteri tipleri **lansman sonrası** içeriktir.
+
+Ölçüm (bot, 2026-11-11): şube 1'de yükleme sonrası 60 gerçek saniyede 36 servis, rehber açılmadı; 600 oyun-sn'de Sv5'e çıktı. "×2 GELİR" şeridi artık yalnızca elmasla alınan 10 dakikalık hızlandırmada görünür (kalıcı çarpanlar — Usta, VIP, şube — şerit açmaz).
 
 ---
 
@@ -349,13 +384,14 @@ Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirme
 |---|---|---|
 | Karakterler | Barlo, Pip, 30 müşteri | ✅ |
 | Personel | Garson Mina, Garson Tobi, Barmen Gus, Temizlikçi Nana, Fedai Brak, Sahne Ozanı Lir | ✅ |
-| İçecekler | 10 bardak (dolu) | ✅ |
-| Üretim istasyonları | 10 istasyon × 3 görsel kademe (Ahşap / Pirinç / Altın) | ✅ |
+| İçecekler | 10 bardak (dolu) · v1.5: Kral Şerbeti (altın taçlı kadeh), Şölen Tabağı (kızarmış but, üzüm, ekmek) + ikonları (`tools/blender/build_sections3.py`) | ✅ |
+| Üretim istasyonları | 10 istasyon × 3 görsel kademe (Ahşap / Pirinç / Altın) · v1.5: Şerbet Çeşmesi ve Şölen Ocağı × 3 kademe (`PR_Station_Serbet_T1..3`, `PR_Station_Solen_T1..3`, önizleme `assets/renders/Props_Sections3.png`) | ✅ |
 | Mobilya | Tezgâh, Servis tezgâhı, 3 masa, 3 oturak, Bardak leğeni, Para sandığı | ✅ |
 | Dekor | Şömine, Avize, Meşale, Mum, Saksı, Halı, Flama, Kalkan & Kılıç, Geyik Boynuzu, Fıçı Yığını, Ozan Sahnesi, Kraliyet Mührü | ✅ |
 | Yapı | Zemin karosu, Duvar, Köşe, Kapı, Pencere, Kilitli alan çiti + Satılık tabelası, Ödeme karesi | ✅ |
 | Oyun içi objeler | Altın para, para yığını, elmas | ✅ |
 | UI | Ana menü, Ayarlar, HUD, Yükseltme paneli (`design/ui/ui_mockups.html`) + menü arka planı | ✅ |
+| UI (v1.5) | Yeni Şube kartı (önce / sonra, kalır / sıfırlanır, iki dokunuşla onay), şube rozeti, şube şeridi, Kraliyet Ziyareti satırı (ikon: Gizli Kral portresi) | ✅ |
 | UI (sonra) | Seviye Atladın, Sen Yokken…, Koleksiyon Defteri, Mağaza, Düzenleme modu | ⬜ |
 | Hareket | İskelet (BODY_S/M/L) + temel animasyon seti | ⬜ |
 | Ses (v1.1) | 38 efekt (Kenney CC0 + katmanlama), 3 müzik (RandomMind CC0), 6 ses tipi × 14 oyuncak-dil konuşma, 5 ortam döngüsü (`tools/audio/build_audio.py`, önizleme `design/audio/ses_onizleme.html`) | ✅ |

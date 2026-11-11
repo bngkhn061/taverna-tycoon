@@ -192,6 +192,7 @@ namespace Taverna
             InitPremium();
             InitTiers();
             InitV12();
+            InitPrestige();
         }
 
         void OnDisable()
@@ -209,6 +210,7 @@ namespace Taverna
             DisableV09();
             DisablePremium();
             DisableTiers();
+            DisablePrestige();
             DisableV12();
             Management.Changed -= RefreshTop;
             PlayerController.JoystickInput = Vector2.zero;
@@ -233,6 +235,7 @@ namespace Taverna
                 case "vip": OpenVipDetail(); break;
                 case "tier": OpenTierCard(); break;
                 case "tier-path": OpenTierPath(); break;
+                case "branch": OpenBranchCard(); break;
                 case "depot": OpenDepot(); break;
                 case "events": OpenEvents(); break;
                 case "happy": _happyCard.RemoveFromClassList("hidden"); RefreshHappyCard(); break;
@@ -262,6 +265,7 @@ namespace Taverna
             _level.text = GameState.Level.ToString();
             _levelFill.style.width = Length.Percent(GameState.LevelProgress01 * 100f);
             _xpText.text = $"{GameState.Data.un} / {Balance.UnForLevel(GameState.Level)}";
+            RefreshBranchBadge();
             if (_shopCoins != null) _shopCoins.text = FormatNum(GameState.Coins);
             if (_panelStation) BuildUpgradeRows();
             if (!_shopRoot.ClassListContains("hidden")) BuildShop();
@@ -1028,6 +1032,7 @@ namespace Taverna
                 return;
             }
             _shopBadge.EnableInClassList("hidden", true);
+            if (UpdateBranchGoal(zz)) return;   // v1.5: Sv30'da prestij şartları (kademe eksikse o da burada)
             if (UpdateTierGoal(zz)) return;
             var z = zz;
             _goal.style.display = z ? DisplayStyle.Flex : DisplayStyle.None;
@@ -1228,7 +1233,8 @@ namespace Taverna
         void UpdateRush()
         {
             // v1.4: tellal artık etkinlik; şeridi etkinlik şeridi (HudV12)
-            bool on = RushHour.Active || Boosts.IncomeMultiplier > 1f;
+            // v1.5: yalnızca elmasla alınan 10 dk ×2 gelir (kalıcı çarpanlar — Usta, VIP, şube — şerit açmaz)
+            bool on = RushHour.Active || Boosts.IncomeRemaining > 0f;
             _rush.EnableInClassList("hidden", !on);
             if (RushHour.Active) _rush.text = $"YOĞUN SAAT!  ×2 bahşiş · {Mathf.CeilToInt(RushHour.Remaining)} sn";
             else if (on) _rush.text = $"×2 GELİR · {Mathf.CeilToInt(Boosts.IncomeRemaining / 60f)} dk";

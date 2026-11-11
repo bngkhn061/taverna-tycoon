@@ -10,7 +10,8 @@ namespace Taverna
     public static class Boosts
     {
         static float _incomeUntil;
-        public static float IncomeMultiplier => (Time.unscaledTime < _incomeUntil ? 2f : 1f) * Automation.IncomeMultiplier * Premium.IncomeMultiplier;
+        public static float IncomeMultiplier => (Time.unscaledTime < _incomeUntil ? 2f : 1f) * Automation.IncomeMultiplier * Premium.IncomeMultiplier
+                                                 * Prestige.IncomeMultiplier;   // v1.5: şube başına kalıcı +%25
         public static float IncomeRemaining => Mathf.Max(0f, _incomeUntil - Time.unscaledTime);
 
         public struct Offer

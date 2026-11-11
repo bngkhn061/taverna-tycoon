@@ -36,6 +36,9 @@ namespace Taverna.EditorTools
             (DrinkId.GunBatimiPuncu, "GunBatimiPuncu", "Gün Batımı Punçu", 70, 10f, 20, 10f),
             // v1.0 İskele (Sv26): yemek
             (DrinkId.IzgaraBalik, "IzgaraBalik", "Izgara Balık", 50, 11f, 26, 10f),
+            // v1.5 oyun sonu: en pahalı içecekten (Yıllanmış Şarap 80 / 12 sn) ve yemekten (Balık 50, Turta 14 sn) bir kademe yukarı
+            (DrinkId.KralSerbeti, "KralSerbeti", "Kral Şerbeti", 95, 13f, 27, 10f),
+            (DrinkId.SolenTabagi, "SolenTabagi", "Şölen Tabağı", 110, 15f, 29, 10f),
         };
 
         public static readonly System.Collections.Generic.Dictionary<DrinkId, string> StationKey = new()
@@ -45,10 +48,14 @@ namespace Taverna.EditorTools
             { DrinkId.ElfCiyi, "Kristal" }, { DrinkId.EjderAtesi, "Ejder" },
             { DrinkId.Ekmek, "Firin" }, { DrinkId.Guvec, "Kazan" }, { DrinkId.KozEt, "Mangal" }, { DrinkId.Turta, "Tatli" },
             { DrinkId.YillanmisSarap, "Yillanmis" }, { DrinkId.BalLikoru, "Likor" }, { DrinkId.GunBatimiPuncu, "Punc" }, { DrinkId.IzgaraBalik, "Balik" },
+            { DrinkId.KralSerbeti, "Serbet" }, { DrinkId.SolenTabagi, "Solen" },
         };
 
         static readonly DrinkId[] AllDrinks =
             { DrinkId.Bira, DrinkId.Sira, DrinkId.BalSarabi, DrinkId.Sarap, DrinkId.Sut, DrinkId.KaraBira, DrinkId.Cay, DrinkId.Grog, DrinkId.ElfCiyi, DrinkId.EjderAtesi, DrinkId.YillanmisSarap, DrinkId.BalLikoru };
+
+        /// <summary>v1.5: Gizli Kral her içeceği ister, Kral Şerbeti dahil.</summary>
+        static readonly DrinkId[] KingDrinks = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Append(AllDrinks, DrinkId.KralSerbeti));
 
         // no, dosya anahtarı, ad, içecekler, sabır★, ödeme💰, açılış, sipariş sayısı
         static readonly (int no, string key, string name, DrinkId[] drinks, int pat, int pay, int unlock, int orders)[] Customers =
@@ -79,10 +86,10 @@ namespace Taverna.EditorTools
             (24, "Kervanci", "Kervancı", new[] { DrinkId.Cay, DrinkId.GunBatimiPuncu }, 4, 3, 20, 1),
             (25, "KorsanKaptan", "Korsan Kaptan", new[] { DrinkId.Bira, DrinkId.Grog, DrinkId.GunBatimiPuncu, DrinkId.IzgaraBalik }, 2, 4, 21, 1),
             (26, "Trol", "Trol", new[] { DrinkId.Grog }, 4, 4, 22, 3),
-            (27, "EjderhaAvcisi", "Ejderha Avcısı", new[] { DrinkId.EjderAtesi }, 3, 5, 24, 1),
-            (28, "VampirKont", "Vampir Kont", new[] { DrinkId.Sarap, DrinkId.YillanmisSarap }, 3, 5, 25, 1),
+            (27, "EjderhaAvcisi", "Ejderha Avcısı", new[] { DrinkId.EjderAtesi, DrinkId.KralSerbeti }, 3, 5, 24, 1),
+            (28, "VampirKont", "Vampir Kont", new[] { DrinkId.Sarap, DrinkId.YillanmisSarap, DrinkId.KralSerbeti }, 3, 5, 25, 1),
             (29, "HayaletSovalye", "Hayalet Şövalye", new[] { DrinkId.Sarap }, 5, 4, 26, 1),
-            (30, "KilikKral", "Gizli Kral", AllDrinks, 2, 5, 28, 1),
+            (30, "KilikKral", "Gizli Kral", KingDrinks, 2, 5, 28, 1),
         };
 
         public static GameDatabase Build()
@@ -101,7 +108,8 @@ namespace Taverna.EditorTools
                 a.icon = TavernaImport.Icon(d.key);
                 a.cupPrefab = TavernaImport.Prefab($"PR_Drink_{d.key}");
                 // Yemekler: mutfak (Ekmek..Turta) + iskele balığı. (v1.0 düzeltme: mahzen/teras içecekleri yemek sayılıyordu)
-                a.isFood = (d.id >= DrinkId.Ekmek && d.id <= DrinkId.Turta) || d.id == DrinkId.IzgaraBalik;
+                // v1.5: Şölen Tabağı (mutfak, Sv29) de yemek
+                a.isFood = (d.id >= DrinkId.Ekmek && d.id <= DrinkId.Turta) || d.id == DrinkId.IzgaraBalik || d.id == DrinkId.SolenTabagi;
                 EditorUtility.SetDirty(a);
                 drinks[i] = a;
             }

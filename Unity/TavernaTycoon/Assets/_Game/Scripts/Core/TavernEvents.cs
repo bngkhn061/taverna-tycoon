@@ -9,13 +9,21 @@ namespace Taverna
     /// aynı anda tek etkinlik. Bölgesi açık değilse (kervan: Ana Salon, turnuva: Oyun Salonu) başlatılamaz.
     /// Etkiler çarpan olarak okunur: müşteri gelişi, satış fiyatı, zengin müşteri ve bahşiş, oyun masası ücreti.
     /// v1.4: Tellal (Sv2, 40 + 30·Sv, müşteri ×1.3) eski parayla "Tellal tut" satın alımının yerini aldı.
+    /// v1.5: Kraliyet Ziyareti (Sv28, 2.000 + 500·Sv, Ana Salon): fiyat ×2, bahşiş ×2, Gizli Kral ağırlığı ×40.
     /// </summary>
     public static class TavernEvents
     {
-        public enum Id { Konser, Festival, Kervan, Turnuva, Tellal }
+        public enum Id { Konser, Festival, Kervan, Turnuva, Tellal, Kraliyet }
 
         /// <summary>v1.4 Tellal etkinliği: müşteri gelişi çarpanı (eski parayla "Tellal tut" satın alımının yerine).</summary>
         public const float TellalSpawn = 1.3f;
+
+        /// <summary>v1.5 Kraliyet Ziyareti (Sv28): satış fiyatı ve bahşiş çarpanı.</summary>
+        public const float RoyalPrice = 2f, RoyalTip = 2f;
+        /// <summary>v1.5 Kraliyet Ziyareti: Gizli Kral'ın (müşteri 30) gelme ağırlığı çarpanı (taban ağırlık 0.05 → 2).</summary>
+        public const float RoyalKingWeight = 40f;
+        /// <summary>Gizli Kral müşterisinin numarası (CHARACTERS.md §B).</summary>
+        public const int KingCustomerNumber = 30;
 
         public struct Def
         {
@@ -35,6 +43,8 @@ namespace Taverna
             new() { id = Id.Festival, key = "festival", name = "Bira Festivali", desc = "Tüm satışlar ×1.5 fiyat", icon = "Bira", level = 5, baseCost = 150, perLevel = 80 },
             new() { id = Id.Kervan, key = "kervan", name = "Tüccar Kervanı", desc = "Zengin müşteriler gelir · bahşiş ×2", icon = "Cust_09", level = 6, zone = "salon", zoneName = "Ana Salon", baseCost = 200, perLevel = 100 },
             new() { id = Id.Turnuva, key = "turnuva", name = "Zar Turnuvası", desc = "Oyun masaları ×2.5 ücret, hızlı tur", icon = "ZarMasasi", level = 13, zone = "oyun", zoneName = "Oyun Salonu", baseCost = 250, perLevel = 120 },
+            // v1.5: oyun sonu etkinliği, en pahalısı (Sv28: 2.000 + 500×28 = 16.000)
+            new() { id = Id.Kraliyet, key = "kraliyet", name = "Kraliyet Ziyareti", desc = "Satışlar ×2 · bahşiş ×2 · Gizli Kral gelir", icon = "Cust_30", level = 28, zone = "salon", zoneName = "Ana Salon", baseCost = 2000, perLevel = 500 },
         };
 
         public static event Action Changed;
@@ -83,9 +93,11 @@ namespace Taverna
 
         // ---- çarpanlar
         public static float SpawnMultiplier => Is(Id.Konser) ? 1.6f : Is(Id.Kervan) ? 1.2f : Is(Id.Tellal) ? TellalSpawn : 1f;
-        public static float PriceMultiplier => Is(Id.Festival) ? 1.5f : 1f;
-        public static float TipMultiplier => Is(Id.Kervan) ? 2f : 1f;
+        public static float PriceMultiplier => Is(Id.Festival) ? 1.5f : Is(Id.Kraliyet) ? RoyalPrice : 1f;
+        public static float TipMultiplier => Is(Id.Kervan) ? 2f : Is(Id.Kraliyet) ? RoyalTip : 1f;
         public static float RichWeight => Is(Id.Kervan) ? 5f : 1f;
+        /// <summary>v1.5: müşteriye özel ağırlık (Kraliyet Ziyareti'nde Gizli Kral ×40). Aynı anda tek etkinlik olduğu için çarpanlar karışmaz.</summary>
+        public static float CustomerWeight(int number) => Is(Id.Kraliyet) && number == KingCustomerNumber ? RoyalKingWeight : 1f;
         public static float GameFeeMultiplier => Is(Id.Turnuva) ? 2.5f : 1f;
         public static float GameRoundSpeed => Is(Id.Turnuva) ? 1.4f : 1f;
 
@@ -95,6 +107,7 @@ namespace Taverna
             Id.Festival => "fiyat ×1.5",
             Id.Kervan => "bahşiş ×2",
             Id.Tellal => $"müşteri ×{TellalSpawn:0.0}",
+            Id.Kraliyet => $"fiyat ×{RoyalPrice:0} · bahşiş ×{RoyalTip:0}",
             _ => "oyun ücreti ×2.5",
         };
     }

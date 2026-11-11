@@ -104,6 +104,7 @@ namespace Taverna
                 float w = c.spawnWeight;
                 // Zengin müşteriler (ödeme ★4+) yıldızlı tavernayı sever
                 if (c.payStars >= 4) w *= Mathf.Max(0.3f, Management.Stars / 2.5f) * Tiers.RichWeight * TavernEvents.RichWeight;   // v1.0: kademe zengin müşteriyi sıklaştırır
+                w *= TavernEvents.CustomerWeight(c.number);   // v1.5 Kraliyet Ziyareti: Gizli Kral çok sık
                 if (_newSince.TryGetValue(c.number, out var since) && Time.time - since < 180f) w *= 3f;
                 if (Night.IsNight && Night.IsNightCreature(c)) w *= Night.NightCreatureWeight; // gece fantastik müşteriler
                 pool.Add((c, w));

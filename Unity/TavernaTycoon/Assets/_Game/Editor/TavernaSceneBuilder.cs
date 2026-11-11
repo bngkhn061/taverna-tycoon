@@ -519,7 +519,7 @@ namespace Taverna.EditorTools
             var lanterns = Group("Lanterns");
             AddLantern(lanterns, "TorchL", "", -1.05f, 2.7f, 3f);
             AddLantern(lanterns, "TorchR", "", 0.95f, 2.7f, 3f);
-            AddLantern(lanterns, "SalonTorchA", "salon", 3.9f, 2.7f, 3.5f);
+            AddLantern(lanterns, "SalonTorchA", "salon", 6.45f, 2.7f, 3.5f);   // v1.5: meşaleyle birlikte
             AddLantern(lanterns, "SalonTorchB", "salon", 10.4f, 2.7f, 3.5f);
             AddLantern(lanterns, "GardenTorchA", "bahce", -9.0f, 2.7f, 3.5f);
             AddLantern(lanterns, "GardenTorchB", "bahce", -4.6f, 2.7f, 3.5f);
@@ -636,7 +636,7 @@ namespace Taverna.EditorTools
             P("PR_Decor_Somine", decor, 0f, 2.72f);
             P("PR_Decor_Mesale", decor, -1.05f, 2.95f);
             P("PR_Decor_Mesale", decor, 0.95f, 2.95f);
-            P("PR_Decor_Mesale", decor, 3.9f, 2.95f);
+            P("PR_Decor_Mesale", decor, 6.45f, 2.95f);   // v1.5: 3.9 → 6.45 (yeni x 8.7, Süt ile oyun salonu kapısı arası; sol uçta Kral Şerbeti)
             P("PR_Decor_Mesale", decor, 10.4f, 2.95f);
             P("PR_Decor_Mesale", decor, -9.0f, 2.95f);   // bahçe çitindeki fenerler
             P("PR_Decor_Mesale", decor, -4.6f, 2.95f);
@@ -672,7 +672,14 @@ namespace Taverna.EditorTools
                 st.SetActive(d == DrinkId.Bira);
             }
             _layout = false; // mutfak yeni haritada doğrudan yerleşir
-            foreach (var (d, x) in new[] { (DrinkId.Ekmek, -2.4f), (DrinkId.Guvec, -0.8f), (DrinkId.KozEt, 0.8f), (DrinkId.Turta, 2.4f) })
+            // v1.5: Kral Şerbeti çeşmesi Salon arka duvarının sol ucunda (köşe x 4.1 ile Şarap x 6.16 arası; meşale Süt–kapı arasına, saksı yeri ön köşeye taşındı)
+            {
+                var st = Station(db, DrinkId.KralSerbeti, stations, 5.05f, 4.4f);   // kademe sütunu (4.35, 4.85) ile çakışmasın
+                machineEntries.Add(new TavernRegistry.MachineEntry { drink = DrinkId.KralSerbeti, root = st });
+                st.SetActive(false);
+            }
+            // v1.5: beş ocak — aralık 1.6 → 1.5 m (Şölen Tabağı sağ uçta); aşçı durakları makinelerin önünden (StaffWork) okunur
+            foreach (var (d, x) in new[] { (DrinkId.Ekmek, -3.0f), (DrinkId.Guvec, -1.5f), (DrinkId.KozEt, 0f), (DrinkId.Turta, 1.5f), (DrinkId.SolenTabagi, 3.0f) })
             {
                 var st = Station(db, d, stations, x, 9.45f);
                 machineEntries.Add(new TavernRegistry.MachineEntry { drink = d, root = st });
@@ -1543,7 +1550,9 @@ namespace Taverna.EditorTools
                 list.Add(new TavernRegistry.DecorSlot { item = item, zone = zone, pos = new Vector3(MX(x), y, MZ(z)), rotY = rot });
             // Saksı: köşeler
             A("dec_saksi", "", -2.6f, 1.0f); A("dec_saksi", "", -2.65f, -1.7f);   // (−2.6, 2.6) mutfak kapısının önüne düşüyordu
-            A("dec_saksi", "salon", 3.55f, -1.6f); A("dec_saksi", "salon", 3.55f, 2.55f);   // (10.6, 2.55) merdivene düşüyordu
+            A("dec_saksi", "salon", 3.55f, -1.6f);
+            // (10.6, 2.55) merdivene düşüyordu; v1.5: (3.55, 2.55) Kral Şerbeti çeşmesinin yeri → salonun ön sağ köşesi (ham koordinat, sıra korunur)
+            list.Add(new TavernRegistry.DecorSlot { item = "dec_saksi", zone = "salon", pos = new Vector3(14.6f, 0f, -4.6f), rotY = 0f });
             A("dec_saksi", "bahce", -10.5f, 2.5f); A("dec_saksi", "bahce", -3.6f, 2.5f); A("dec_saksi", "bahce", -10.5f, -1.6f);
             // Mumluk: masa üstleri
             A("dec_mum", "", -1.1f, 0.3f, 0f, 0.64f); A("dec_mum", "", -1.1f, -1.5f, 0f, 0.64f); A("dec_mum", "", 0.6f, -0.7f, 0f, 0.64f);
