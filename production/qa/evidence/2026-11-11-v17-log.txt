@@ -1,0 +1,180 @@
+# Taverna Tycoon v1.7 (Paket B) — otomatik test özeti, 2026-11-11/12
+# Derleme: Builds/Windows (geliştirme), 1266x585 pencere. Bayraklar: -autotest -autotest-lang <kod> [...]
+
+EditMode birim testleri: total="74" passed="74" failed="0" (27 eski + LocalizationTests + NotificationTests; bozuk ko.json ile denendi: 2 test düştü, tablo geri yüklendi)
+Anahtar: 594 · dil başına 594 çeviri (en de fr es pt-BR ru zh-Hans ja ko) · yer tutucu sorunu 0 · yazı tipi zincirinde eksik karakter 0 (cmap denetimi)
+Derleme (Windows, geliştirme): Complete build size 217.4 mb; Noto Sans SC 8.1 mb + KR 4.6 mb + JP 4.4 mb = 17.1 mb yazı tipi artışı
+
+== de-day · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: de · tablo 594 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: de → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: de · OYNA 'SPIELEN'
+  [Playtest] [  80.5s] v1.7 DİL (oyun içi): de → ja · istisna yok
+  [Playtest] [  82.5s] v1.7 DİL geri: de
+  [Playtest] [ 419.9s] Gün bitti (plan ekranı) · gün 1 · para 0
+  [Playtest] [ 419.9s] Sonraki güne geçildi
+  [Playtest] [ 470.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 470.0s] SONUÇ: 470 oyun-sn · Para=375 · Seviye=9 · Servis=165 · Kızgın ayrılan=0 · Yükseltme=143 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,staff_tobi,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,staff_nana,salon,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_
+
+== de-fresh · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: de · tablo 592 çeviri · sistem dili English
+  [Playtest] [  70.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [  70.0s] SONUÇ: 70 oyun-sn · Para=16 · Seviye=1 · Servis=5 · Kızgın ayrılan=0 · Yükseltme=1 · Açılan=[]
+
+== de-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: de · tablo 590 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=213 · Seviye=6 · Servis=62 · Kızgın ayrılan=0 · Yükseltme=92 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,masa4,masaM1,staff_nana,salon,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,mac_Sarap]
+
+== de-prestige · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: de · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 200.0s] v1.4 REHBER ÖZET: açık · adım 7 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 200.0s] v1.5 PRESTİJ ÖZET: şube 0 (Dorftaverne) · gelir ×1.00 · Ün ×1.00 · Sv1 · servis (yükleme sonrası) 10 · sahne yüklemesi 0 · salon açık=True · sahnede dekor 1 / kayıtta 1
+  [Playtest] [ 200.0s] SONUÇ: 200 oyun-sn · Para=160678 · Seviye=1 · Servis=10 · Kızgın ayrılan=0 · Yükseltme=0 · Açılan=[masaG,iskeleD,iskele,sahne,masaM1,mahzen,masaS4,oda4,bilek,masaH,masaS2,masaB1,avluD,masaJ,mahzenD,masaB3,masaS3,oyun,masaB5,masaS6,bahce,mahzenC,masaS1,masaI,terasD,masaF,mutfak,s
+
+== en-long · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: en · tablo 594 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: en → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: en · OYNA 'PLAY'
+  [Playtest] [ 147.5s] v1.4 REHBER: BİTTİ · gerçek 37.0 sn · gün saati 0.295 · zaman durur=False · kendiliğinden geçen=1
+  [Playtest] [ 177.2s] v1.7 DİL (oyun içi): en → ja · istisna yok
+  [Playtest] [ 179.2s] v1.7 DİL geri: en
+  [Playtest] [ 330.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 1 · bitiş gerçek 37.0 sn
+  [Playtest] [ 330.0s] SONUÇ: 330 oyun-sn · Para=45 · Seviye=3 · Servis=53 · Kızgın ayrılan=0 · Yükseltme=27 · Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3,staff_nana,mac_BalSarabi]
+
+== en-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: en · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=150 · Seviye=6 · Servis=60 · Kızgın ayrılan=0 · Yükseltme=79 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,salon,mac_Sarap]
+
+== en-prestige · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: en · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 200.0s] v1.4 REHBER ÖZET: açık · adım 7 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 200.0s] v1.5 PRESTİJ ÖZET: şube 0 (Village Tavern) · gelir ×1.00 · Ün ×1.00 · Sv1 · servis (yükleme sonrası) 9 · sahne yüklemesi 0 · salon açık=True · sahnede dekor 1 / kayıtta 1
+  [Playtest] [ 200.0s] SONUÇ: 200 oyun-sn · Para=160314 · Seviye=1 · Servis=9 · Kızgın ayrılan=0 · Yükseltme=0 · Açılan=[masaG,iskeleD,iskele,sahne,masaM1,mahzen,masaS4,oda4,bilek,masaH,masaS2,masaB1,avluD,masaJ,mahzenD,masaB3,masaS3,oyun,masaB5,masaS6,bahce,mahzenC,masaS1,masaI,terasD,masaF,mutfak,sa
+
+== es-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: es · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=350 · Seviye=6 · Servis=61 · Kızgın ayrılan=0 · Yükseltme=74 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,staff_nana,masa4,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masaM1]
+
+== fr-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: fr · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=38 · Seviye=6 · Servis=58 · Kızgın ayrılan=0 · Yükseltme=82 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,staff_nana,masa4,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,salon]
+
+== ja-fresh · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ja · tablo 592 çeviri · sistem dili English
+  [Playtest] [  70.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [  70.0s] SONUÇ: 70 oyun-sn · Para=0 · Seviye=1 · Servis=6 · Kızgın ayrılan=0 · Yükseltme=2 · Açılan=[]
+
+== ja-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ja · tablo 590 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=423 · Seviye=6 · Servis=69 · Kızgın ayrılan=0 · Yükseltme=92 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,masa4,masaM1,staff_nana,salon,masaM2,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,mac_Sarap]
+
+== ja-prestige · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ja · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 200.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 200.0s] v1.5 PRESTİJ ÖZET: şube 0 (村の酒場) · gelir ×1.00 · Ün ×1.00 · Sv1 · servis (yükleme sonrası) 17 · sahne yüklemesi 0 · salon açık=True · sahnede dekor 1 / kayıtta 1
+  [Playtest] [ 200.0s] SONUÇ: 200 oyun-sn · Para=160376 · Seviye=1 · Servis=17 · Kızgın ayrılan=0 · Yükseltme=0 · Açılan=[masaG,iskeleD,iskele,sahne,masaM1,mahzen,masaS4,oda4,bilek,masaH,masaS2,masaB1,avluD,masaJ,mahzenD,masaB3,masaS3,oyun,masaB5,masaS6,bahce,mahzenC,masaS1,masaI,terasD,masaF,mutfak,s
+
+== ko-fresh · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ko · tablo 592 çeviri · sistem dili English
+  [Playtest] [  70.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [  70.0s] SONUÇ: 70 oyun-sn · Para=0 · Seviye=1 · Servis=7 · Kızgın ayrılan=0 · Yükseltme=2 · Açılan=[]
+
+== ko-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ko · tablo 590 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=352 · Seviye=6 · Servis=66 · Kızgın ayrılan=0 · Yükseltme=94 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,masa4,masaM1,staff_nana,salon,mac_Sarap,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,mac_Sut]
+
+== ko-prestige · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ko · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 200.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 200.0s] v1.5 PRESTİJ ÖZET: şube 0 (마을 주점) · gelir ×1.00 · Ün ×1.00 · Sv1 · servis (yükleme sonrası) 11 · sahne yüklemesi 0 · salon açık=True · sahnede dekor 1 / kayıtta 1
+  [Playtest] [ 200.0s] SONUÇ: 200 oyun-sn · Para=160550 · Seviye=1 · Servis=11 · Kızgın ayrılan=0 · Yükseltme=0 · Açılan=[masaG,iskeleD,iskele,sahne,masaM1,mahzen,masaS4,oda4,bilek,masaH,masaS2,masaB1,avluD,masaJ,mahzenD,masaB3,masaS3,oyun,masaB5,masaS6,bahce,mahzenC,masaS1,masaI,terasD,masaF,mutfak,s
+
+== pt-BR-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: pt-BR · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 240.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.0s] SONUÇ: 240 oyun-sn · Para=356 · Seviye=7 · Servis=67 · Kızgın ayrılan=0 · Yükseltme=90 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,masa4,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masaM1]
+
+== ru-day · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ru · tablo 594 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: ru → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: ru · OYNA 'ИГРАТЬ'
+  [Playtest] [  80.5s] v1.7 DİL (oyun içi): ru → ja · istisna yok
+  [Playtest] [  82.5s] v1.7 DİL geri: ru
+  [Playtest] [ 419.9s] Gün bitti (plan ekranı) · gün 1 · para 0
+  [Playtest] [ 419.9s] Sonraki güne geçildi
+  [Playtest] [ 470.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 470.0s] SONUÇ: 470 oyun-sn · Para=373 · Seviye=10 · Servis=163 · Kızgın ayrılan=0 · Yükseltme=146 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,staff_tobi,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,staff_nana,salon,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar
+
+== ru-fresh · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ru · tablo 592 çeviri · sistem dili English
+  [Playtest] [  70.1s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [  70.1s] SONUÇ: 70 oyun-sn · Para=0 · Seviye=1 · Servis=6 · Kızgın ayrılan=0 · Yükseltme=2 · Açılan=[]
+
+== ru-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ru · tablo 594 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: ru → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: ru · OYNA 'ИГРАТЬ'
+  [Playtest] [  80.5s] v1.7 DİL (oyun içi): ru → ja · istisna yok
+  [Playtest] [  82.5s] v1.7 DİL geri: ru
+  [Playtest] [ 240.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.1s] SONUÇ: 240 oyun-sn · Para=239 · Seviye=6 · Servis=59 · Kızgın ayrılan=0 · Yükseltme=83 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,staff_nana,masa4,salon,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masaM1]
+
+== ru-prestige · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: ru · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 200.1s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 200.1s] v1.5 PRESTİJ ÖZET: şube 0 (Деревенский кабак) · gelir ×1.00 · Ün ×1.00 · Sv2 · servis (yükleme sonrası) 25 · sahne yüklemesi 0 · salon açık=True · sahnede dekor 1 / kayıtta 1
+  [Playtest] [ 200.1s] SONUÇ: 200 oyun-sn · Para=160523 · Seviye=2 · Servis=25 · Kızgın ayrılan=0 · Yükseltme=0 · Açılan=[masaG,iskeleD,iskele,sahne,masaM1,mahzen,masaS4,oda4,bilek,masaH,masaS2,masaB1,avluD,masaJ,mahzenD,masaB3,masaS3,oyun,masaB5,masaS6,bahce,mahzenC,masaS1,masaI,terasD,masaF,mutfak,s
+
+== tr-long · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: tr · tablo 0 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: tr → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: tr · OYNA 'OYNA'
+  [Playtest] [ 147.5s] v1.4 REHBER: BİTTİ · gerçek 37.0 sn · gün saati 0.295 · zaman durur=False · kendiliğinden geçen=1
+  [Playtest] [ 177.2s] v1.7 DİL (oyun içi): tr → ja · istisna yok
+  [Playtest] [ 179.2s] v1.7 DİL geri: tr
+  [Playtest] [ 330.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 1 · bitiş gerçek 37.0 sn
+  [Playtest] [ 330.1s] SONUÇ: 330 oyun-sn · Para=17 · Seviye=3 · Servis=52 · Kızgın ayrılan=0 · Yükseltme=27 · Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,masa3,staff_nana,masa4]
+
+== tr-sv9 · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: tr · tablo 0 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: tr → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: tr · OYNA 'OYNA'
+  [Playtest] [  80.5s] v1.7 DİL (oyun içi): tr → ja · istisna yok
+  [Playtest] [  82.5s] v1.7 DİL geri: tr
+  [Playtest] [ 300.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 300.0s] SONUÇ: 300 oyun-sn · Para=428 · Seviye=9 · Servis=99 · Kızgın ayrılan=0 · Yükseltme=120 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,staff_tobi,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,s
+
+== zh-Hans-day · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: zh-Hans · tablo 594 çeviri · sistem dili English
+  [Playtest] v1.7 DİL DEĞİŞTİ: zh-Hans → ja · ayar düğmesi '日本語' · OYNA 'プレイ'
+  [Playtest] v1.7 DİL GERİ: zh-Hans · OYNA '开始'
+  [Playtest] [  80.5s] v1.7 DİL (oyun içi): zh-Hans → ja · istisna yok
+  [Playtest] [  82.5s] v1.7 DİL geri: zh-Hans
+  [Playtest] [ 420.0s] Gün bitti (plan ekranı) · gün 1 · para 0
+  [Playtest] [ 420.0s] Sonraki güne geçildi
+  [Playtest] [ 470.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 470.0s] SONUÇ: 470 oyun-sn · Para=578 · Seviye=9 · Servis=162 · Kızgın ayrılan=0 · Yükseltme=146 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,staff_tobi,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,staff_nana,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,
+
+== zh-Hans-fresh · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: zh-Hans · tablo 592 çeviri · sistem dili English
+  [Playtest] [  70.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [  70.0s] SONUÇ: 70 oyun-sn · Para=0 · Seviye=1 · Servis=6 · Kızgın ayrılan=0 · Yükseltme=2 · Açılan=[]
+
+== zh-Hans-lv · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: zh-Hans · tablo 590 çeviri · sistem dili English
+  [Playtest] [ 240.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 240.1s] SONUÇ: 240 oyun-sn · Para=330 · Seviye=6 · Servis=67 · Kızgın ayrılan=0 · Yükseltme=97 · Açılan=[mac_Sira,mac_BalSarabi,staff_pip,staff_gus,staff_mina,masa3,masa4,masaM1,salon,staff_nana,mac_Sarap,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin]
+
+== zh-Hans-prestige · istisna/NullReference satırı: 0
+  [Playtest] v1.7 DİL: zh-Hans · tablo 592 çeviri · sistem dili English
+  [Playtest] [ 200.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+  [Playtest] [ 200.0s] v1.5 PRESTİJ ÖZET: şube 0 (乡村酒馆) · gelir ×1.00 · Ün ×1.00 · Sv2 · servis (yükleme sonrası) 25 · sahne yüklemesi 0 · salon açık=True · sahnede dekor 1 / kayıtta 1
+  [Playtest] [ 200.0s] SONUÇ: 200 oyun-sn · Para=160361 · Seviye=2 · Servis=25 · Kızgın ayrılan=0 · Yükseltme=0 · Açılan=[masaG,iskeleD,iskele,sahne,masaM1,mahzen,masaS4,oda4,bilek,masaH,masaS2,masaB1,avluD,masaJ,mahzenD,masaB3,masaS3,oyun,masaB5,masaS6,bahce,mahzenC,masaS1,masaI,terasD,masaF,mutfak,s
+  [Playtest] [ 200.0s] v1.4 REHBER: BİTTİ · gerçek 50.1 sn · gün saati 0.294 · zaman durur=False · kendiliğinden geçen=1
+

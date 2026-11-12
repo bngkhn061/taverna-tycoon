@@ -38,13 +38,13 @@ namespace Taverna
         public static readonly Def[] List =
         {
             // v1.4: Tellal ilk etkinlik (Sv2); sokakta zil çalan tellal görünür (Campaigns)
-            new() { id = Id.Tellal, key = "tellal", name = "Tellal", desc = "Müşteri gelişi ×1.3 · sokakta tellal bağırır", icon = "Cust_15", level = 2, baseCost = 40, perLevel = 30 },
-            new() { id = Id.Konser, key = "konser", name = "Ozan Konseri", desc = "Müşteri gelişi ×1.6 · ozan çalar", icon = "Staff_OzanSahne", level = 4, baseCost = 120, perLevel = 60 },
-            new() { id = Id.Festival, key = "festival", name = "Bira Festivali", desc = "Tüm satışlar ×1.5 fiyat", icon = "Bira", level = 5, baseCost = 150, perLevel = 80 },
-            new() { id = Id.Kervan, key = "kervan", name = "Tüccar Kervanı", desc = "Zengin müşteriler gelir · bahşiş ×2", icon = "Cust_09", level = 6, zone = "salon", zoneName = "Ana Salon", baseCost = 200, perLevel = 100 },
-            new() { id = Id.Turnuva, key = "turnuva", name = "Zar Turnuvası", desc = "Oyun masaları ×2.5 ücret, hızlı tur", icon = "ZarMasasi", level = 13, zone = "oyun", zoneName = "Oyun Salonu", baseCost = 250, perLevel = 120 },
+            new() { id = Id.Tellal, key = "tellal", name = Loc.N("Tellal"), desc = Loc.N("Müşteri gelişi ×1.3 · sokakta tellal bağırır"), icon = "Cust_15", level = 2, baseCost = 40, perLevel = 30 },
+            new() { id = Id.Konser, key = "konser", name = Loc.N("Ozan Konseri"), desc = Loc.N("Müşteri gelişi ×1.6 · ozan çalar"), icon = "Staff_OzanSahne", level = 4, baseCost = 120, perLevel = 60 },
+            new() { id = Id.Festival, key = "festival", name = Loc.N("Bira Festivali"), desc = Loc.N("Tüm satışlar ×1.5 fiyat"), icon = "Bira", level = 5, baseCost = 150, perLevel = 80 },
+            new() { id = Id.Kervan, key = "kervan", name = Loc.N("Tüccar Kervanı"), desc = Loc.N("Zengin müşteriler gelir · bahşiş ×2"), icon = "Cust_09", level = 6, zone = "salon", zoneName = Loc.N("Ana Salon"), baseCost = 200, perLevel = 100 },
+            new() { id = Id.Turnuva, key = "turnuva", name = Loc.N("Zar Turnuvası"), desc = Loc.N("Oyun masaları ×2.5 ücret, hızlı tur"), icon = "ZarMasasi", level = 13, zone = "oyun", zoneName = Loc.N("Oyun Salonu"), baseCost = 250, perLevel = 120 },
             // v1.5: oyun sonu etkinliği, en pahalısı (Sv28: 2.000 + 500×28 = 16.000)
-            new() { id = Id.Kraliyet, key = "kraliyet", name = "Kraliyet Ziyareti", desc = "Satışlar ×2 · bahşiş ×2 · Gizli Kral gelir", icon = "Cust_30", level = 28, zone = "salon", zoneName = "Ana Salon", baseCost = 2000, perLevel = 500 },
+            new() { id = Id.Kraliyet, key = "kraliyet", name = Loc.N("Kraliyet Ziyareti"), desc = Loc.N("Satışlar ×2 · bahşiş ×2 · Gizli Kral gelir"), icon = "Cust_30", level = 28, zone = "salon", zoneName = Loc.N("Ana Salon"), baseCost = 2000, perLevel = 500 },
         };
 
         public static event Action Changed;
@@ -105,12 +105,12 @@ namespace Taverna
 
         public static string Effect(Id id) => id switch
         {
-            Id.Konser => "müşteri ×1.6",
-            Id.Festival => "fiyat ×1.5",
-            Id.Kervan => "bahşiş ×2",
-            Id.Tellal => $"müşteri ×{TellalSpawn:0.0}",
-            Id.Kraliyet => $"fiyat ×{RoyalPrice:0} · bahşiş ×{RoyalTip:0}",
-            _ => "oyun ücreti ×2.5",
+            Id.Konser => Loc.T("müşteri ×1.6"),
+            Id.Festival => Loc.T("fiyat ×1.5"),
+            Id.Kervan => Loc.T("bahşiş ×2"),
+            Id.Tellal => Loc.F("müşteri ×{0:0.0}", TellalSpawn),
+            Id.Kraliyet => Loc.F("fiyat ×{0:0} · bahşiş ×{1:0}", RoyalPrice, RoyalTip),
+            _ => Loc.T("oyun ücreti ×2.5"),
         };
     }
 }

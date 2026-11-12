@@ -59,6 +59,8 @@ namespace Taverna.EditorTools
             PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
             TavernaBuild.ApplyIdentity();   // v1.6: şirket, uygulama kimliği, sürüm (tek yer: TavernaBuild)
             ApplyAppIcons();
+            // v1.7 bildirimler: iOS izni açılışta değil, oyuncu Ayarlar'da düğmeyi açınca istenir (Notifications.SetEnabled)
+            Unity.Notifications.NotificationSettings.iOSSettings.RequestAuthorizationOnAppLaunch = false;
             AssetDatabase.SaveAssets();
         }
 
@@ -766,17 +768,17 @@ namespace Taverna.EditorTools
             };
             // ================================================================ ÖDEME ALANLARI (hedef zinciri)
             var zones = Group("PayZones");
-            Zone(zones, "masa3", "Yeni Masa", 50, 2, "", -1.3f, -1.3f, new[] { tC });
-            Zone(zones, "masa4", "Yeni Masa", 110, 3, "", 2.0f, -1.3f, new[] { tD });
-            Zone(zones, "salon", "Ana Salonu Aç", 350, 4, "", 2.5f, -0.45f, new GameObject[0], new[] { wallRight.gameObject });
-            Zone(zones, "bahce", "Bahçeyi Aç", 1600, 8, "", -2.45f, -0.4f, new GameObject[0], new[] { wallLeft.gameObject });
-            Zone(zones, "masaE", "Uzun Masa", 300, 5, "salon", 7.2f, 0.4f, new[] { tE });
-            Zone(zones, "masaF", "Yeni Masa", 380, 6, "salon", 4.4f, -0.9f, new[] { tF });
-            Zone(zones, "masaG", "Yeni Masa", 420, 7, "salon", 9.6f, -0.9f, new[] { tG });
-            Zone(zones, "masaH", "Bahçe Masası", 450, 8, "bahce", -4.6f, 0.6f, new[] { tH });
-            Zone(zones, "masaI", "Bahçe Masası", 650, 8, "bahce", -8.4f, 0.6f, new[] { tI });
-            Zone(zones, "masaJ", "Bahçe Masası", 800, 8, "bahce", -6.5f, -1.0f, new[] { tJ });
-            Zone(zones, "sahne", "Ozan Sahnesi", 2500, 11, "bahce", -6.5f, 1.55f, new[] { sahne });
+            Zone(zones, "masa3", Loc.N("Yeni Masa"), 50, 2, "", -1.3f, -1.3f, new[] { tC });
+            Zone(zones, "masa4", Loc.N("Yeni Masa"), 110, 3, "", 2.0f, -1.3f, new[] { tD });
+            Zone(zones, "salon", Loc.N("Ana Salonu Aç"), 350, 4, "", 2.5f, -0.45f, new GameObject[0], new[] { wallRight.gameObject });
+            Zone(zones, "bahce", Loc.N("Bahçeyi Aç"), 1600, 8, "", -2.45f, -0.4f, new GameObject[0], new[] { wallLeft.gameObject });
+            Zone(zones, "masaE", Loc.N("Uzun Masa"), 300, 5, "salon", 7.2f, 0.4f, new[] { tE });
+            Zone(zones, "masaF", Loc.N("Yeni Masa"), 380, 6, "salon", 4.4f, -0.9f, new[] { tF });
+            Zone(zones, "masaG", Loc.N("Yeni Masa"), 420, 7, "salon", 9.6f, -0.9f, new[] { tG });
+            Zone(zones, "masaH", Loc.N("Bahçe Masası"), 450, 8, "bahce", -4.6f, 0.6f, new[] { tH });
+            Zone(zones, "masaI", Loc.N("Bahçe Masası"), 650, 8, "bahce", -8.4f, 0.6f, new[] { tI });
+            Zone(zones, "masaJ", Loc.N("Bahçe Masası"), 800, 8, "bahce", -6.5f, -1.0f, new[] { tJ });
+            Zone(zones, "sahne", Loc.N("Ozan Sahnesi"), 2500, 11, "bahce", -6.5f, 1.55f, new[] { sahne });
             // ================================================================ v1.2 ÖN SIRA MASALARI (oyuncu testi: "masalar çok artmalı")
             // Bina sokağa doğru 3 m büyüdü (ön cephe z = −2 → −5). Ham koordinat; müşteri girişten koridora (cz) yürür, oradan oturağa.
             _layout = false;
@@ -791,19 +793,19 @@ namespace Taverna.EditorTools
             }
             var frontRow = new (string id, float x, float z, Transform ent, float cz, long cost, int lv, string req, string label)[]
             {
-                ("masaM1", -2.5f, -3.0f, ent1, -3.9f, 160, 3, "", "Yeni Masa"),
-                ("masaM2", 2.5f, -3.0f, ent1, -3.9f, 240, 4, "", "Yeni Masa"),
-                ("masaS1", 5.4f, -2.8f, ent2, -3.55f, 320, 5, "salon", "Yeni Masa"),
-                ("masaS2", 13.6f, -2.8f, ent2, -3.55f, 400, 5, "salon", "Yeni Masa"),
-                ("masaS3", 7.5f, -2.8f, ent2, -3.55f, 480, 6, "salon", "Yeni Masa"),
-                ("masaS4", 11.5f, -2.8f, ent2, -3.55f, 560, 6, "salon", "Yeni Masa"),
-                ("masaS5", 6.45f, -4.3f, ent2, -3.55f, 650, 7, "salon", "Yeni Masa"),
-                ("masaS6", 12.55f, -4.3f, ent2, -3.55f, 750, 7, "salon", "Yeni Masa"),
-                ("masaB1", -8.0f, -2.8f, ent3, -3.55f, 900, 8, "bahce", "Bahçe Masası"),
-                ("masaB2", -10.2f, -2.8f, ent3, -3.55f, 1000, 8, "bahce", "Bahçe Masası"),
-                ("masaB3", -12.4f, -2.8f, ent3, -3.55f, 1100, 9, "bahce", "Bahçe Masası"),
-                ("masaB4", -9.1f, -4.3f, ent3, -3.55f, 1200, 9, "bahce", "Bahçe Masası"),
-                ("masaB5", -11.3f, -4.3f, ent3, -3.55f, 1350, 10, "bahce", "Bahçe Masası"),
+                ("masaM1", -2.5f, -3.0f, ent1, -3.9f, 160, 3, "", Loc.N("Yeni Masa")),
+                ("masaM2", 2.5f, -3.0f, ent1, -3.9f, 240, 4, "", Loc.N("Yeni Masa")),
+                ("masaS1", 5.4f, -2.8f, ent2, -3.55f, 320, 5, "salon", Loc.N("Yeni Masa")),
+                ("masaS2", 13.6f, -2.8f, ent2, -3.55f, 400, 5, "salon", Loc.N("Yeni Masa")),
+                ("masaS3", 7.5f, -2.8f, ent2, -3.55f, 480, 6, "salon", Loc.N("Yeni Masa")),
+                ("masaS4", 11.5f, -2.8f, ent2, -3.55f, 560, 6, "salon", Loc.N("Yeni Masa")),
+                ("masaS5", 6.45f, -4.3f, ent2, -3.55f, 650, 7, "salon", Loc.N("Yeni Masa")),
+                ("masaS6", 12.55f, -4.3f, ent2, -3.55f, 750, 7, "salon", Loc.N("Yeni Masa")),
+                ("masaB1", -8.0f, -2.8f, ent3, -3.55f, 900, 8, "bahce", Loc.N("Bahçe Masası")),
+                ("masaB2", -10.2f, -2.8f, ent3, -3.55f, 1000, 8, "bahce", Loc.N("Bahçe Masası")),
+                ("masaB3", -12.4f, -2.8f, ent3, -3.55f, 1100, 9, "bahce", Loc.N("Bahçe Masası")),
+                ("masaB4", -9.1f, -4.3f, ent3, -3.55f, 1200, 9, "bahce", Loc.N("Bahçe Masası")),
+                ("masaB5", -11.3f, -4.3f, ent3, -3.55f, 1350, 10, "bahce", Loc.N("Bahçe Masası")),
             };
             foreach (var f in frontRow)
             {
@@ -813,7 +815,7 @@ namespace Taverna.EditorTools
             _layout = true;
 
             _layout = false;
-            Zone(zones, "mutfak", "Mutfağı Aç", 700, 6, "", KitchenLayout.DoorX, 4.05f, new GameObject[0], new[] { wallKitchen.gameObject });
+            Zone(zones, "mutfak", Loc.N("Mutfağı Aç"), 700, 6, "", KitchenLayout.DoorX, 4.05f, new GameObject[0], new[] { wallKitchen.gameObject });
             var hk = BuildInn(zones);
             var gameRoom = BuildGameRoom(zones, ent2, hub2, wallGame.gameObject);
             BuildCellar(zones, ent3, hub3, wallCellar.gameObject, db, stations, machineEntries);
@@ -984,7 +986,7 @@ namespace Taverna.EditorTools
             upTrig.arrive = Inn.UpArrive;
             upTrig.goesUp = true;
             var desk = P("PR_Furniture_Resepsiyon", inn, 14.35f, 1.5f, 90f);
-            Zone(zones, "merdiven", "Hanı Aç (merdiven)", 3000, 10, "salon", Inn.StairsFoot.x - 0.1f, 3.6f, new[] { stairs, desk });
+            Zone(zones, "merdiven", Loc.N("Hanı Aç (merdiven)"), 3000, 10, "salon", Inn.StairsFoot.x - 0.1f, 3.6f, new[] { stairs, desk });
 
             // --- Üst kat
             var up = Group("Upstairs");
@@ -1132,9 +1134,9 @@ namespace Taverna.EditorTools
 
             var torchA = AddLantern(room, "GameTorchA", "salon", 6.0f, 9.7f, 3.5f);
             var torchB = AddLantern(room, "GameTorchB", "salon", 13.0f, 9.7f, 3.5f);
-            Zone(zones, "oyun", "Oyun Salonu", 4000, 13, "salon", KitchenLayout.GameDoorX, 4.05f, new[] { zar, torchA, torchB }, new[] { doorWall });
-            Zone(zones, "kart", "Kart Masası", 3000, 15, "oyun", 10.6f, 6.35f, new[] { kart });
-            Zone(zones, "bilek", "Bilek Güreşi", 4500, 16, "oyun", 13.4f, 6.35f, new[] { bilek });
+            Zone(zones, "oyun", Loc.N("Oyun Salonu"), 4000, 13, "salon", KitchenLayout.GameDoorX, 4.05f, new[] { zar, torchA, torchB }, new[] { doorWall });
+            Zone(zones, "kart", Loc.N("Kart Masası"), 3000, 15, "oyun", 10.6f, 6.35f, new[] { kart });
+            Zone(zones, "bilek", Loc.N("Bilek Güreşi"), 4500, 16, "oyun", 13.4f, 6.35f, new[] { bilek });
             foreach (var t in shell.GetComponentsInChildren<Transform>(true)) GameObjectUtility.SetStaticEditorFlags(t.gameObject, StaticEditorFlags.BatchingStatic);
             _layout = lay;
             return room;
@@ -1332,12 +1334,12 @@ namespace Taverna.EditorTools
             var tA = Table("Table_CellarA", "PR_Furniture_MasaYuvarlak", room, -12.6f, 7.3f, 6f, ent, hub, new[] { S(-13.25f, 7.3f), S(-11.95f, 7.3f) });
             var tB = Table("Table_CellarB", "PR_Furniture_MasaYuvarlak", room, -7.6f, 7.3f, 6f, ent, hub, new[] { S(-8.25f, 7.3f), S(-6.95f, 7.3f) });
             var torch = AddLantern(room, "CellarTorch", "bahce", -11.6f, 9.7f, 4f);
-            Zone(zones, "mahzen", "Şarap Mahzeni", 6000, 17, "bahce", KitchenLayout.CellarDoorX, 4.05f, new[] { tA, tB, torch }, new[] { doorWall });
+            Zone(zones, "mahzen", Loc.N("Şarap Mahzeni"), 6000, 17, "bahce", KitchenLayout.CellarDoorX, 4.05f, new[] { tA, tB, torch }, new[] { doorWall });
             // v1.2: mahzen 2 → 4 masa (ön sıra, kapı tarafı)
             var tC2 = Table("Table_CellarC", "PR_Furniture_MasaYuvarlak", room, -12.9f, 5.95f, 6f, ent, hub, new[] { S(-13.55f, 5.95f), S(-12.25f, 5.95f) });
             var tD2 = Table("Table_CellarD", "PR_Furniture_MasaYuvarlak", room, -8.0f, 5.95f, 6f, ent, hub, new[] { S(-8.65f, 5.95f), S(-7.35f, 5.95f) });
-            Zone(zones, "mahzenC", "Mahzen Masası", 2500, 17, "mahzen", -12.9f, 5.95f, new[] { tC2 });
-            Zone(zones, "mahzenD", "Mahzen Masası", 3200, 18, "mahzen", -8.0f, 5.95f, new[] { tD2 });
+            Zone(zones, "mahzenC", Loc.N("Mahzen Masası"), 2500, 17, "mahzen", -12.9f, 5.95f, new[] { tC2 });
+            Zone(zones, "mahzenD", Loc.N("Mahzen Masası"), 3200, 18, "mahzen", -8.0f, 5.95f, new[] { tD2 });
             _layout = lay;
         }
 
@@ -1392,13 +1394,13 @@ namespace Taverna.EditorTools
             });
             var torchA = AddLantern(room, "TerraceTorchA", "teras", 6.8f, 42.6f, 4f);
             var torchB = AddLantern(room, "TerraceTorchB", "teras", 13.6f, 40.8f, 4f);
-            Zone(zones, "teras", "Çatı Terası", 7000, 20, "merdiven", 4.5f, 37.5f, new[] { t1, t2, t3, torchA, torchB }, new[] { _terraceDoor.gameObject });
+            Zone(zones, "teras", Loc.N("Çatı Terası"), 7000, 20, "merdiven", 4.5f, 37.5f, new[] { t1, t2, t3, torchA, torchB }, new[] { _terraceDoor.gameObject });
             // v1.2: teras 3 → 4 masa (barın önü; iki yandaki koridordan oturulur)
             var t4 = Table("Table_TerraceD", "PR_Furniture_MasaYuvarlak", room, 10.9f, 41.8f, 8f, ent, hub, new[]
             {
                 Seat(10.25f, 41.8f, Via(9.45f, (9.45f, 41.8f))), Seat(11.55f, 41.8f, Via(12.3f, (12.3f, 41.8f))),
             });
-            Zone(zones, "terasD", "Teras Masası", 3500, 20, "teras", 10.9f, 41.8f, new[] { t4 });
+            Zone(zones, "terasD", Loc.N("Teras Masası"), 3500, 20, "teras", 10.9f, 41.8f, new[] { t4 });
             _layout = lay;
         }
 
@@ -1435,12 +1437,12 @@ namespace Taverna.EditorTools
             var tC = Table("Table_YardC", "PR_Furniture_MasaYuvarlak", room, 19.3f, 3.3f, 6f, ent, hub, new[] { Seat(18.65f, 3.3f, (18.65f, 2.0f)), Seat(19.95f, 3.3f, (19.95f, 2.0f)) });
             var lA = AddLantern(room, "YardTorchA", "avlu", 15.9f, 4.8f, 4f);
             var lB = AddLantern(room, "YardTorchB", "avlu", 23.2f, 1.5f, 4f);
-            Zone(zones, "avlu", "Arka Avlu", 8000, 23, "salon", 14.45f, KitchenLayout.YardDoorZ, new[] { tA, tB, tC, lA, lB }, new[] { door });
+            Zone(zones, "avlu", Loc.N("Arka Avlu"), 8000, 23, "salon", 14.45f, KitchenLayout.YardDoorZ, new[] { tA, tB, tC, lA, lB }, new[] { door });
             // v1.2: avlu 3 → 5 masa
             var tD = Table("Table_YardD", "PR_Furniture_MasaYuvarlak", room, 16.9f, 3.3f, 6f, ent, hub, new[] { Seat(16.25f, 3.3f, (16.25f, 2.0f)), Seat(17.55f, 3.3f, (17.55f, 2.0f)) });
             var tE = Table("Table_YardE", "PR_Furniture_MasaYuvarlak", room, 21.7f, 3.3f, 6f, ent, hub, new[] { Seat(21.05f, 3.3f, (21.05f, 2.0f)), Seat(22.35f, 3.3f, (22.35f, 2.0f)) });
-            Zone(zones, "avluD", "Avlu Masası", 3800, 23, "avlu", 16.9f, 3.3f, new[] { tD });
-            Zone(zones, "avluE", "Avlu Masası", 4500, 24, "avlu", 21.7f, 3.3f, new[] { tE });
+            Zone(zones, "avluD", Loc.N("Avlu Masası"), 3800, 23, "avlu", 16.9f, 3.3f, new[] { tD });
+            Zone(zones, "avluE", Loc.N("Avlu Masası"), 4500, 24, "avlu", 21.7f, 3.3f, new[] { tE });
             _layout = lay;
         }
 
@@ -1493,10 +1495,10 @@ namespace Taverna.EditorTools
             var tC = Table("Table_DockC", "PR_Furniture_MasaYuvarlak", room, -19.0f, 3.3f, 7f, ent, hub, new[] { Seat(-19.65f, 3.3f, (-18.3f, 1.9f), (-19.65f, 2.2f)), Seat(-18.35f, 3.3f, (-18.3f, 1.9f)) });
             var lA = AddLantern(room, "DockTorchA", "iskele", -20.8f, 5.4f, 4f);
             var lB = AddLantern(room, "DockTorchB", "iskele", -15.5f, -1.2f, 4f);
-            Zone(zones, "iskele", "İskele", 9000, 26, "bahce", -14.4f, KitchenLayout.DockDoorZ, new[] { tA, tB, tC, lA, lB }, new[] { gate });
+            Zone(zones, "iskele", Loc.N("İskele"), 9000, 26, "bahce", -14.4f, KitchenLayout.DockDoorZ, new[] { tA, tB, tC, lA, lB }, new[] { gate });
             // v1.2: iskele 3 → 4 masa
             var tD = Table("Table_DockD", "PR_Furniture_MasaYuvarlak", room, -16.6f, 2.9f, 7f, ent, hub, new[] { Seat(-17.25f, 2.9f, (-17.25f, 1.9f)), Seat(-15.95f, 2.9f, (-15.95f, 1.9f)) });
-            Zone(zones, "iskeleD", "İskele Masası", 5000, 26, "iskele", -16.6f, 2.9f, new[] { tD });
+            Zone(zones, "iskeleD", Loc.N("İskele Masası"), 5000, 26, "iskele", -16.6f, 2.9f, new[] { tD });
             _layout = lay;
         }
 

@@ -12,7 +12,12 @@ namespace Taverna
         public static readonly List<PayZone> All = new();
 
         public string id = "zone";
-        public string label = "Yeni Masa";
+        public string label = Loc.N("Yeni Masa");
+        /// <summary>Oda numaralı etiket ("Oda 3", sahne kurucusu üretir) ayrıştırılır.</summary>
+        const string RoomPrefix = "Oda ";
+        /// <summary>v1.7: etkin dildeki etiket (sahnedeki <see cref="label"/> Türkçe anahtar; "Oda N" kalıbı ayrı çevrilir).</summary>
+        public string DisplayLabel => label != null && label.StartsWith(RoomPrefix) && int.TryParse(label.Substring(RoomPrefix.Length), out var n)
+            ? Loc.F("Oda {0}", n) : Loc.T(label);
         public long cost = 50;
         public int requiredLevel = 1;
         [Tooltip("Bu alan, önce şu alan açılınca görünür (ör. 'salon').")]

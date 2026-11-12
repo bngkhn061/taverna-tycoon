@@ -127,24 +127,63 @@ namespace Taverna.EditorTools
         /// Rubik Türkçeyi kendisi tam içerir. Lilita One (UI v2) eski ekranlar için duruyor;
         /// İ/Ş/Ğ harfleri onda yok, Nunito'dan düşer.
         /// </summary>
+        /// <summary>v1.7 CJK yazı tiplerinin örnekleme boyutu (px): 1024'lük atlasta ~300 karakter sığar; arayüzün en büyük yazısı (32px) için yeterli.</summary>
+        public const int CjkSamplingSize = 48;
+        /// <summary>v1.7 CJK atlas dolgusu (örnekleme boyutunun ~%10'u, Latin yazı tipleriyle aynı oran).</summary>
+        public const int CjkPadding = 5;
+        /// <summary>Latin yazı tiplerinin örnekleme boyutu ve dolgusu (v0.x'ten beri).</summary>
+        public const int LatinSamplingSize = 90, LatinPadding = 9;
+        /// <summary>Çalışma anında CJK sırasını değiştiren varlık (bkz. LocFontSet).</summary>
+        public const string LocFontsPath = Root + "/Resources/Loc/LocFonts.asset";
+
+        /// <summary>
+        /// v1.7 yedek zinciri (döngüsüz): Nunito → [NunitoExt, Rubik]; Rubik → [NunitoExt (₺), SC, JP, KR]; LilitaOne → [Nunito].
+        /// Rusça gövde metni Nunito'da yok → Rubik'ten düşer. CJK sırası çalışırken etkin dile göre değişir (LocFonts.Apply).
+        /// CJK yazı tipleri dinamik ve çoklu atlaslı; derlemede atlas verisi temizlenir (yalnızca kullanılan karakterler çizilir).
+        /// </summary>
         public static void BuildFonts()
         {
             var ext = MakeFontAsset(FontsDir + "/Nunito-Black-LatinExt.ttf", FontsDir + "/NunitoExt.asset", null);
+            var sc = MakeFontAsset(FontsDir + "/NotoSansSC-Bold.otf", FontsDir + "/NotoSansSC.asset", null, CjkSamplingSize, CjkPadding);
+            var jp = MakeFontAsset(FontsDir + "/NotoSansJP-Bold.otf", FontsDir + "/NotoSansJP.asset", null, CjkSamplingSize, CjkPadding);
+            var kr = MakeFontAsset(FontsDir + "/NotoSansKR-Bold.otf", FontsDir + "/NotoSansKR.asset", null, CjkSamplingSize, CjkPadding);
+            var rubik = MakeFontAsset(FontsDir + "/Rubik-Black.ttf", FontsDir + "/Rubik.asset", null);
+            if (rubik)
+            {
+                rubik.fallbackFontAssetTable = new System.Collections.Generic.List<UnityEngine.TextCore.Text.FontAsset>();
+                foreach (var f in new[] { ext, sc, jp, kr }) if (f) rubik.fallbackFontAssetTable.Add(f);
+                EditorUtility.SetDirty(rubik);
+            }
             var nunito = MakeFontAsset(FontsDir + "/Nunito-Black-Latin.ttf", FontsDir + "/Nunito.asset", ext);
+            if (nunito && rubik) { nunito.fallbackFontAssetTable.Add(rubik); EditorUtility.SetDirty(nunito); }
             MakeFontAsset(FontsDir + "/LilitaOne-Regular.ttf", FontsDir + "/LilitaOne.asset", nunito);
-            MakeFontAsset(FontsDir + "/Rubik-Black.ttf", FontsDir + "/Rubik.asset", nunito);
+
+            // Çalışma anı: CJK sırası etkin dile göre (Resources'tan yüklenir)
+            var set = AssetDatabase.LoadAssetAtPath<LocFontSet>(LocFontsPath);
+            if (!set)
+            {
+                Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.dataPath, "..", Root + "/Resources/Loc")));
+                set = ScriptableObject.CreateInstance<LocFontSet>();
+                AssetDatabase.CreateAsset(set, LocFontsPath);
+            }
+            set.host = rubik;
+            set.baseFallbacks = ext ? new System.Collections.Generic.List<UnityEngine.TextCore.Text.FontAsset> { ext } : new();
+            set.sc = sc; set.jp = jp; set.kr = kr;
+            EditorUtility.SetDirty(set);
             AssetDatabase.SaveAssets();
         }
 
-        static UnityEngine.TextCore.Text.FontAsset MakeFontAsset(string ttf, string outPath, UnityEngine.TextCore.Text.FontAsset fallback)
+        static UnityEngine.TextCore.Text.FontAsset MakeFontAsset(string ttf, string outPath, UnityEngine.TextCore.Text.FontAsset fallback,
+            int samplingSize = LatinSamplingSize, int padding = LatinPadding)
         {
             var fa = AssetDatabase.LoadAssetAtPath<UnityEngine.TextCore.Text.FontAsset>(outPath);
             if (!fa)
             {
                 var font = AssetDatabase.LoadAssetAtPath<Font>(ttf);
                 if (!font) { Debug.LogWarning("[Taverna] Font bulunamadı: " + ttf); return null; }
-                fa = UnityEngine.TextCore.Text.FontAsset.CreateFontAsset(font, 90, 9,
-                    UnityEngine.TextCore.LowLevel.GlyphRenderMode.SDFAA, 1024, 1024);
+                fa = UnityEngine.TextCore.Text.FontAsset.CreateFontAsset(font, samplingSize, padding,
+                    UnityEngine.TextCore.LowLevel.GlyphRenderMode.SDFAA, 1024, 1024,
+                    UnityEngine.TextCore.Text.AtlasPopulationMode.Dynamic, true);
                 fa.name = Path.GetFileNameWithoutExtension(outPath);
                 AssetDatabase.CreateAsset(fa, outPath);
                 if (fa.atlasTextures != null && fa.atlasTextures.Length > 0 && fa.atlasTextures[0])

@@ -64,6 +64,8 @@ namespace Taverna
         {
             if (!cam) cam = Camera.main;
             _root = GetComponent<UIDocument>().rootVisualElement;
+            Loc.Localize(_root);   // v1.7: UXML'deki sabit metinler etkin dile
+            Loc.Changed += OnLanguageChanged;
             _world = _root.Q("world-layer");
             _fx = _root.Q("fx-layer");
             _coins = _root.Q<Label>("coins");
@@ -155,8 +157,8 @@ namespace Taverna
             _helperText = _root.Q<Label>("helper-text");
             _helperBtn.clicked += () =>
             {
-                if (Campaigns.HelperActive || Campaigns.HelperWait > 0f) { Toast("Yardımcı şu an çağrılamaz"); return; }
-                ShowAd("helper", "3 dakikalık yardımcı garson", () => { if (Campaigns.CallHelper()) { Toast("Yardımcı garson geldi! 3 dakika çalışacak"); Confetti(14); } });
+                if (Campaigns.HelperActive || Campaigns.HelperWait > 0f) { Toast(Loc.T("Yardımcı şu an çağrılamaz")); return; }
+                ShowAd("helper", Loc.T("3 dakikalık yardımcı garson"), () => { if (Campaigns.CallHelper()) { Toast(Loc.T("Yardımcı garson geldi! 3 dakika çalışacak")); Confetti(14); } });
             };
             Depot.Delivered += OnDelivered;
             Depot.RanOut += OnRanOut;
@@ -166,7 +168,7 @@ namespace Taverna
             _root.Q<Button>("offline-collect").clicked += () => CollectOffline(1f);
             _offlineDouble.clicked += () =>
             {
-                if (GameState.Data.gems < 5) { Toast("Yeterli elmas yok"); return; }
+                if (GameState.Data.gems < 5) { Toast(Loc.T("Yeterli elmas yok")); return; }
                 GameState.Data.gems -= 5;
                 CollectOffline(2f);
             };
@@ -216,8 +218,32 @@ namespace Taverna
         /// <summary>Test botu: kayıt bilgisini hemen göster (kayıt senaryosu).</summary>
         public void DebugShowLoadNotice() => ShowLoadNotice();
 
+        /// <summary>
+        /// v1.7: dil değişti → UXML metinleri, ayarlar, kurulurken yazılan dünya etiketleri ve açık paneller yeniden kurulur
+        /// (sahne yeniden yüklenmez; her kare güncellenen metinler kendiliğinden yenilenir).
+        /// </summary>
+        void OnLanguageChanged()
+        {
+            Loc.Localize(_root);
+            _settings.Refresh();
+            foreach (var kv in _zoneTags) kv.Value.box.RemoveFromHierarchy();
+            _zoneTags.Clear();
+            foreach (var kv in _staffTags) kv.Value.RemoveFromHierarchy();
+            _staffTags.Clear();
+            foreach (var kv in _lanternTags) kv.Value.RemoveFromHierarchy();
+            _lanternTags.Clear();
+            RefreshTop();
+            OnQuestsChanged();
+            if (!_questsPanel.ClassListContains("hidden")) BuildQuests();
+            if (!_depotPanel.ClassListContains("hidden")) BuildDepot();
+            if (_panelStation) OpenUpgrade(_panelStation);
+            OnTutorialChanged();
+            if (!_happyCard.ClassListContains("hidden")) RefreshHappyCard();
+        }
+
         void OnDisable()
         {
+            Loc.Changed -= OnLanguageChanged;
             TestAdService.Presenter = null;
             GameState.Changed -= RefreshTop;
             GameState.LeveledUp -= OnLevelUp;
@@ -297,8 +323,8 @@ namespace Taverna
         }
 
         public static string FormatNum(long v) =>
-            v >= 1_000_000 ? (v / 1_000_000f).ToString("0.#") + "M" :
-            v >= 10_000 ? (v / 1000f).ToString("0.#") + "B" :
+            v >= 1_000_000 ? Loc.F("{0}M", (v / 1_000_000f).ToString("0.#")) :
+            v >= 10_000 ? Loc.F("{0}B", (v / 1000f).ToString("0.#")) :
             v.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"));
 
         // UI v3: para ve elmas elle çizilmiş ikonlar (Resources/Kit/v3i_*.png); ürün resimleri hâlâ 3D render
@@ -395,7 +421,7 @@ namespace Taverna
             if (_dayClock != null)
             {
                 int left = Mathf.Max(0, Mathf.CeilToInt(DayCycle.RemainingSeconds));
-                _dayClock.text = $"GÜN {GameState.Data.day} · {left / 60}:{left % 60:00}";
+                _dayClock.text = Loc.F("GÜN {0} · {1}:{2:00}", GameState.Data.day, left / 60, left % 60);
             }
             if (!_levelRoot.ClassListContains("hidden"))
             {
@@ -489,7 +515,7 @@ namespace Taverna
                 t.box.EnableInClassList("empty", empty);
                 t.box.EnableInClassList("low", low);
                 t.box.EnableInClassList("blink", (empty || low) && Mathf.Repeat(Time.unscaledTime, 0.9f) < 0.45f);
-                t.text.text = empty ? "Malzeme yok!" : low ? $"{s.Stock}/{s.MaxStock} · malzeme {sup}" : $"{s.Stock}/{s.MaxStock}";
+                t.text.text = empty ? Loc.T("Malzeme yok!") : low ? Loc.F("{0}/{1} · malzeme {2}", s.Stock, s.MaxStock, sup) : $"{s.Stock}/{s.MaxStock}";
                 t.ring.Set(s.Stock >= s.MaxStock ? 1f : s.Progress01, new Color(0.95f, 0.76f, 0.31f));
             }
             var dead = new List<DrinkStation>();
@@ -505,7 +531,7 @@ namespace Taverna
                 {
                     var box = new VisualElement { pickingMode = PickingMode.Ignore };
                     box.AddToClassList("zone-tag");
-                    var title = new Label(z.label);
+                    var title = new Label(z.DisplayLabel);
                     title.AddToClassList("zone-title");
                     var row = new VisualElement();
                     row.AddToClassList("zone-cost");
@@ -528,7 +554,7 @@ namespace Taverna
                 t.box.EnableInClassList("locked", locked);
                 var ico = t.cost.parent[0];
                 ico.style.backgroundImage = locked ? new StyleBackground(KitIcon("lock")) : new StyleBackground(CoinIcon);
-                t.cost.text = locked ? $"Seviye {z.requiredLevel}" : FormatNum(z.Remaining);
+                t.cost.text = locked ? Loc.F("Seviye {0}", z.requiredLevel) : FormatNum(z.Remaining);
             }
             var dead = new List<PayZone>();
             foreach (var kv in _zoneTags)
@@ -549,7 +575,7 @@ namespace Taverna
                     var ic = new VisualElement();
                     ic.AddToClassList("staff-tag-icon");
                     ic.style.backgroundImage = new StyleBackground(KitIcon(StaffBadge.RoleIcon(b.role)));
-                    var l = new Label($"{b.displayName} · {StaffBadge.RoleName(b.role)}");
+                    var l = new Label($"{Loc.T(b.displayName)} · {StaffBadge.RoleName(b.role)}");
                     l.AddToClassList("staff-tag-text");
                     box.Add(ic); box.Add(l);
                     _world.Add(box);
@@ -576,14 +602,14 @@ namespace Taverna
         void OnDelivered(DrinkId id, int n)
         {
             var def = GameDatabase.I.Drink(id);
-            if (n > 0) Toast($"Teslimat geldi: {(def ? def.displayName : id.ToString())} +{n}");
+            if (n > 0) Toast(Loc.F("Teslimat geldi: {0} +{1}", (def ? Loc.T(def.displayName) : id.ToString()), n));
             Sfx.Play(SfxId.Claim);
         }
 
         void OnRanOut(DrinkId id)
         {
             var def = GameDatabase.I.Drink(id);
-            Toast($"{(def ? def.displayName : id.ToString())} malzemesi bitti! Depodan sipariş ver");
+            Toast(Loc.F("{0} malzemesi bitti! Depodan sipariş ver", (def ? Loc.T(def.displayName) : id.ToString())));
             Sfx.Play(SfxId.Error);
         }
 
@@ -620,7 +646,7 @@ namespace Taverna
             }
             AddDeliveryRow();
             AddAutoOrderRow();
-            _depotUpdaters.Add(() => _depotInfo.text = $"teslimat {Depot.DeliverySeconds:0} sn");
+            _depotUpdaters.Add(() => _depotInfo.text = Loc.F("teslimat {0:0} sn", Depot.DeliverySeconds));
             foreach (var u in _depotUpdaters) u();
         }
 
@@ -652,17 +678,17 @@ namespace Taverna
             {
                 var r = Depot.Order(id);
                 if (r == Depot.OrderResult.Ok) { Sfx.Play(SfxId.Buy); GameSettings.Vibrate(); }
-                else Toast(r == Depot.OrderResult.Full ? "Raf dolu" : "Yeterli altın yok");
+                else Toast(r == Depot.OrderResult.Full ? Loc.T("Raf dolu") : Loc.T("Yeterli altın yok"));
             };
             var second = PriceButton("btn-paper", CoinIcon, out var secondText);
             second.clicked += () =>
             {
                 if (Depot.Incoming(id) > 0 && Services.RewardedAdsEnabled)
-                    ShowAd("rush_delivery", "Siparişin hemen gelsin", () => Depot.RushDelivery(id));
+                    ShowAd("rush_delivery", Loc.T("Siparişin hemen gelsin"), () => Depot.RushDelivery(id));
                 else if (Depot.CanUpgradeShelf(id))
                 {
                     if (Depot.UpgradeShelf(id)) { Sfx.Play(SfxId.Buy); Confetti(8); }
-                    else Toast("Yeterli altın yok");
+                    else Toast(Loc.T("Yeterli altın yok"));
                 }
             };
             btns.Add(order); btns.Add(second);
@@ -672,31 +698,31 @@ namespace Taverna
             _depotUpdaters.Add(() =>
             {
                 int sup = Depot.Supply(id), cap = Depot.Capacity(id), inc = Depot.Incoming(id);
-                name.text = $"{def.displayName} · {sup}/{cap}";
+                name.text = $"{Loc.T(def.displayName)} · {sup}/{cap}";
                 float f = cap > 0 ? sup / (float)cap : 0f;
                 fill.style.width = Length.Percent(f * 100f);
                 fill.EnableInClassList("empty", sup == 0);
                 fill.EnableInClassList("low", sup > 0 && f <= Balance.AutoOrderThreshold);
                 sub.EnableInClassList("alert", sup == 0);
-                sub.text = inc > 0 ? $"Yolda +{inc} · {Mathf.CeilToInt(Depot.Eta(id))} sn" :
-                           sup == 0 ? "Malzeme bitti! Sipariş ver" : $"Paket {Balance.SupplyPack} birim";
+                sub.text = inc > 0 ? Loc.F("Yolda +{0} · {1} sn", inc, Mathf.CeilToInt(Depot.Eta(id))) :
+                           sup == 0 ? Loc.T("Malzeme bitti! Sipariş ver") : Loc.F("Paket {0} birim", Balance.SupplyPack);
                 bool room = Depot.HasRoom(id);
                 int cost = Depot.PackCost(def);
-                orderText.text = room ? $"+{Balance.SupplyPack} · {FormatNum(cost)}" : "DOLU";
+                orderText.text = room ? $"+{Balance.SupplyPack} · {FormatNum(cost)}" : Loc.T("DOLU");
                 order.EnableInClassList("locked", !room || GameState.Coins < cost);
                 if (inc > 0 && !Services.RewardedAdsEnabled)
                 {
                     // v1.6 yayın güvenliği: reklam yokken "HEMEN" (reklamla hızlandırma) gösterilmez
                     second.RemoveFromClassList("btn-plum"); second.AddToClassList("btn-paper");
                     second.Q(className: "price-icon").style.backgroundImage = new StyleBackground(KitIcon("clock"));
-                    secondText.text = "YOLDA";
+                    secondText.text = Loc.T("YOLDA");
                     second.AddToClassList("locked");
                 }
                 else if (inc > 0)
                 {
                     second.RemoveFromClassList("btn-paper"); second.AddToClassList("btn-plum");
                     second.Q(className: "price-icon").style.backgroundImage = new StyleBackground(KitIcon("play"));
-                    secondText.text = "HEMEN";
+                    secondText.text = Loc.T("HEMEN");
                     second.RemoveFromClassList("locked");
                 }
                 else
@@ -705,7 +731,7 @@ namespace Taverna
                     bool can = Depot.CanUpgradeShelf(id);
                     int up = can ? Balance.DepotUpgradeCost(def, Depot.DepotLevel(id)) : 0;
                     second.Q(className: "price-icon").style.backgroundImage = new StyleBackground(can ? CoinIcon : KitIcon("check"));
-                    secondText.text = can ? $"RAF · {FormatNum(up)}" : "RAF MAX";
+                    secondText.text = can ? Loc.F("RAF · {0}", FormatNum(up)) : Loc.T("RAF MAX");
                     second.EnableInClassList("locked", !can || GameState.Coins < up);
                 }
             });
@@ -714,16 +740,16 @@ namespace Taverna
         void AddDeliveryRow()
         {
             var row = SimpleRow(KitIcon("clock"), out var name, out var sub, out var btn, out var btnText);
-            btn.clicked += () => { if (Depot.UpgradeDelivery()) { Sfx.Play(SfxId.Buy); Confetti(8); } else Toast("Yeterli altın yok"); };
+            btn.clicked += () => { if (Depot.UpgradeDelivery()) { Sfx.Play(SfxId.Buy); Confetti(8); } else Toast(Loc.T("Yeterli altın yok")); };
             _depotRows.Add(row);
             _depotUpdaters.Add(() =>
             {
                 int lv = GameState.Data.deliveryLv;
                 bool max = lv >= Balance.MaxDeliveryLevel;
-                name.text = $"Teslimat · Sv {lv}";
-                sub.text = max ? $"{Balance.DeliverySeconds(lv):0} sn (en hızlı)" : $"{Balance.DeliverySeconds(lv):0} sn → {Balance.DeliverySeconds(lv + 1):0} sn";
+                name.text = Loc.F("Teslimat · Sv {0}", lv);
+                sub.text = max ? Loc.F("{0:0} sn (en hızlı)", Balance.DeliverySeconds(lv)) : Loc.F("{0:0} sn → {1:0} sn", Balance.DeliverySeconds(lv), Balance.DeliverySeconds(lv + 1));
                 int cost = max ? 0 : Balance.DeliveryUpgradeCost(lv);
-                btnText.text = max ? "MAX" : FormatNum(cost);
+                btnText.text = max ? Loc.T("MAX") : FormatNum(cost);
                 btn.EnableInClassList("locked", max || GameState.Coins < cost);
             });
         }
@@ -733,16 +759,16 @@ namespace Taverna
             var row = SimpleRow(KitIcon("quest"), out var name, out var sub, out var btn, out var btnText);
             btn.clicked += () =>
             {
-                if (!Depot.AutoOrderAvailable) { Toast($"Seviye {Balance.AutoOrderLevel} gerekli"); return; }
-                if (Depot.BuyAutoOrder()) { Sfx.Play(SfxId.Buy); Confetti(12); } else if (!GameState.Data.autoOrder) Toast("Yeterli altın yok");
+                if (!Depot.AutoOrderAvailable) { Toast(Loc.F("Seviye {0} gerekli", Balance.AutoOrderLevel)); return; }
+                if (Depot.BuyAutoOrder()) { Sfx.Play(SfxId.Buy); Confetti(12); } else if (!GameState.Data.autoOrder) Toast(Loc.T("Yeterli altın yok"));
             };
             _depotRows.Add(row);
             _depotUpdaters.Add(() =>
             {
                 bool on = GameState.Data.autoOrder, avail = Depot.AutoOrderAvailable;
-                name.text = "Tedarikçi anlaşması";
-                sub.text = on ? "Raf azalınca kendiliğinden sipariş verir" : $"Raf %{Balance.AutoOrderThreshold * 100:0}'in altına inince otomatik sipariş";
-                btnText.text = on ? "AKTİF" : avail ? FormatNum(Balance.AutoOrderPrice) : $"SV {Balance.AutoOrderLevel}";
+                name.text = Loc.T("Tedarikçi anlaşması");
+                sub.text = on ? Loc.T("Raf azalınca kendiliğinden sipariş verir") : Loc.F("Raf %{0:0}'in altına inince otomatik sipariş", Balance.AutoOrderThreshold * 100);
+                btnText.text = on ? Loc.T("AKTİF") : avail ? FormatNum(Balance.AutoOrderPrice) : Loc.F("SV {0}", Balance.AutoOrderLevel);
                 btn.EnableInClassList("locked", on || !avail || GameState.Coins < Balance.AutoOrderPrice);
             });
         }
@@ -790,13 +816,13 @@ namespace Taverna
             {
                 _wasDarkHud = dark;
                 _dayIcon.style.backgroundImage = new StyleBackground(KitIcon(dark ? "moon" : "sun"));
-                if (dark) { Toast("Akşam oldu! Fenerleri yak"); Sfx.Play(SfxId.Nightfall); }
-                else Toast("Sabah oldu");
+                if (dark) { Toast(Loc.T("Akşam oldu! Fenerleri yak")); Sfx.Play(SfxId.Nightfall); }
+                else Toast(Loc.T("Sabah oldu"));
             }
             var (lit, total) = Night.LanternCount();
             _lanternCount.EnableInClassList("hidden", !dark || total == 0);
             _lanternCount.EnableInClassList("done", lit >= total);
-            _lanternCount.text = $"Fener {lit}/{total}";
+            _lanternCount.text = Loc.F("Fener {0}/{1}", lit, total);
             foreach (var l in Lantern.All)
             {
                 if (!_lanternTags.TryGetValue(l, out var tag))
@@ -807,7 +833,7 @@ namespace Taverna
                     ic.AddToClassList("staff-tag-icon");
                     ic.style.backgroundImage = new StyleBackground(KitIcon("sun"));
                     tag.Add(ic);
-                    tag.Add(new Label("Yak!"));
+                    tag.Add(new Label(Loc.T("Yak!")));
                     _world.Add(tag);
                     _lanternTags[l] = tag;
                 }
@@ -820,9 +846,9 @@ namespace Taverna
         {
             _helperBtn.EnableInClassList("hidden", !Services.RewardedAdsEnabled);   // v1.6: reklam yoksa yardımcı çağrılmaz
             static string Mmss(float s) { int t = Mathf.CeilToInt(s); return $"{t / 60}:{t % 60:00}"; }
-            if (Campaigns.HelperActive) { _helperText.text = $"YARDIMCI {Mmss(Campaigns.HelperRemaining)}"; _helperBtn.AddToClassList("locked"); }
-            else if (Campaigns.HelperWait > 0f) { _helperText.text = $"YARDIMCI · {Mmss(Campaigns.HelperWait)}"; _helperBtn.AddToClassList("locked"); }
-            else { _helperText.text = "YARDIMCI ÇAĞIR"; _helperBtn.RemoveFromClassList("locked"); }
+            if (Campaigns.HelperActive) { _helperText.text = Loc.F("YARDIMCI {0}", Mmss(Campaigns.HelperRemaining)); _helperBtn.AddToClassList("locked"); }
+            else if (Campaigns.HelperWait > 0f) { _helperText.text = Loc.F("YARDIMCI · {0}", Mmss(Campaigns.HelperWait)); _helperBtn.AddToClassList("locked"); }
+            else { _helperText.text = Loc.T("YARDIMCI ÇAĞIR"); _helperBtn.RemoveFromClassList("locked"); }
         }
 
         void AddShopSection(string title)
@@ -834,7 +860,7 @@ namespace Taverna
 
         /// <summary>v1.4 dekor kartı eki: sonraki yıldıza kalan ambiyans (5★'da boş).</summary>
         static string StarHint() => Management.NextStar == 0 ? ""
-            : $" · ★{Management.NextStar}{(Management.NextStar == 2 ? "'ye" : "'e")} {Management.AmbianceToNextStar}";
+            : Loc.F(" · ★{0}{1} {2}", Management.NextStar, Loc.IsTurkish ? (Management.NextStar == 2 ? "'ye" : "'e") : "", Management.AmbianceToNextStar);
 
         /// <summary>Dükkân > Dekor: zemin/duvar teması kartı (satın al · kullan · seçili).</summary>
         void AddThemeItem(Themes.Theme t)
@@ -854,17 +880,17 @@ namespace Taverna
             ico.Add(ii);
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            var n = new Label(t.name);
+            var n = new Label(Loc.T(t.name));
             n.AddToClassList("item-name");
-            var sub = new Label($"{(t.kind == Themes.Kind.Floor ? "Zemin" : "Duvar")}" + (t.ambiance > 0 ? $" · +{t.ambiance:0} ambiyans" + StarHint() : " · varsayılan"));
+            var sub = new Label((t.kind == Themes.Kind.Floor ? Loc.T("Zemin") : Loc.T("Duvar")) +(t.ambiance > 0 ? Loc.F(" · +{0:0} ambiyans", t.ambiance) + StarHint() : Loc.T(" · varsayılan")));
             sub.AddToClassList("item-sub");
             col.Add(n); col.Add(sub);
             Button b;
             Label text;
-            if (current) { b = PriceButton("btn-paper", KitIcon("check"), out text); text.text = "SEÇİLİ"; b.AddToClassList("owned"); b.SetEnabled(false); }
-            else if (owned) { b = PriceButton("btn-paper", KitIcon("brush"), out text); text.text = "KULLAN"; }
-            else if (can == Management.BuyResult.LevelLow) { b = PriceButton("btn-paper", KitIcon("lock"), out text); text.text = $"SV {t.level}"; b.AddToClassList("locked"); }
-            else if (can == Management.BuyResult.Premium) { b = PriceButton("btn-plum", GemIcon, out text); text.text = "HAZİNE"; }
+            if (current) { b = PriceButton("btn-paper", KitIcon("check"), out text); text.text = Loc.T("SEÇİLİ"); b.AddToClassList("owned"); b.SetEnabled(false); }
+            else if (owned) { b = PriceButton("btn-paper", KitIcon("brush"), out text); text.text = Loc.T("KULLAN"); }
+            else if (can == Management.BuyResult.LevelLow) { b = PriceButton("btn-paper", KitIcon("lock"), out text); text.text = Loc.F("SV {0}", t.level); b.AddToClassList("locked"); }
+            else if (can == Management.BuyResult.Premium) { b = PriceButton("btn-plum", GemIcon, out text); text.text = Loc.T("HAZİNE"); }
             else { b = PriceButton("btn-teal", CoinIcon, out text); text.text = FormatNum(t.price); b.EnableInClassList("locked", can != Management.BuyResult.Ok); }
             b.AddToClassList("btn-sm");
             b.clicked += () =>
@@ -893,28 +919,28 @@ namespace Taverna
             if (icon) img.style.backgroundImage = new StyleBackground(icon);
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            var n = new Label($"{s.name} · {s.roleName} · Sv {lv}/{StaffUpgrades.MaxLevel}");
+            var n = new Label(Loc.F("{0} · {1} · Sv {2}/{3}", s.name, Loc.T(s.roleName), lv, StaffUpgrades.MaxLevel));
             n.AddToClassList("item-name");
-            var sub = new Label(max ? StaffUpgrades.EffectText(s, lv) + " (en yüksek)" : $"{StaffUpgrades.EffectText(s, lv)} → {StaffUpgrades.EffectText(s, lv + 1)}");
+            var sub = new Label(max ? StaffUpgrades.EffectText(s, lv) + Loc.T(" (en yüksek)") : $"{StaffUpgrades.EffectText(s, lv)} → {StaffUpgrades.EffectText(s, lv + 1)}");
             sub.AddToClassList("item-sub");
             col.Add(n); col.Add(sub);
             var btns = new VisualElement();
             btns.AddToClassList("staff-btns");
             int cost = StaffUpgrades.Cost(s, lv);
             var buy = PriceButton("btn-teal", max ? KitIcon("check") : CoinIcon, out var buyText);
-            buyText.text = max ? "MAX" : FormatNum(cost);
+            buyText.text = max ? Loc.T("MAX") : FormatNum(cost);
             buy.EnableInClassList("locked", max || GameState.Coins < cost);
             buy.clicked += () =>
             {
                 if (StaffUpgrades.TryBuy(s)) { Sfx.Play(SfxId.Buy); Confetti(10); GameSettings.Vibrate(); BuildShop(); }
-                else Toast(max ? "En yüksek seviyede" : "Yeterli altın yok");
+                else Toast(max ? Loc.T("En yüksek seviyede") : Loc.T("Yeterli altın yok"));
             };
             btns.Add(buy);
             // v1.3: kov (normal) ya da izne gönder / geri çağır (Hazine); ilk dokunuş sorar, ikincisi yapar
             var fire = new Button();
             fire.AddToClassList("btn"); fire.AddToClassList("btn-sm"); fire.AddToClassList("btn-brick"); fire.AddToClassList("fire-btn");
             bool leave = Management.OnLeave(s.id);
-            string fireText = s.premium ? (leave ? "GERİ ÇAĞIR" : "İZNE GÖNDER") : "KOV";
+            string fireText = s.premium ? (leave ? Loc.T("GERİ ÇAĞIR") : Loc.T("İZNE GÖNDER")) : Loc.T("KOV");
             var fireLabel = new Label(fireText);
             fire.Add(fireLabel);
             bool armed = false;
@@ -923,14 +949,14 @@ namespace Taverna
                 if (!armed && !(s.premium && leave))
                 {
                     armed = true;
-                    fireLabel.text = "EMİN MİSİN?";
+                    fireLabel.text = Loc.T("EMİN MİSİN?");
                     fire.schedule.Execute(() => { armed = false; fireLabel.text = fireText; }).StartingIn(2500);
                     return;
                 }
                 if (!Management.Fire(s)) return;
                 Sfx.Play(SfxId.Pop, 0.8f);
-                Toast(s.premium ? (Management.OnLeave(s.id) ? $"{s.name} izne çıktı" : $"{s.name} işe döndü")
-                                : $"{s.name} kovuldu · maaşı durdu, istersen yeniden işe alabilirsin");
+                Toast(s.premium ? (Management.OnLeave(s.id) ? Loc.F("{0} izne çıktı", s.name) : Loc.F("{0} işe döndü", s.name))
+                                : Loc.F("{0} kovuldu · maaşı durdu, istersen yeniden işe alabilirsin", s.name));
                 BuildShop();
             };
             if (!max && StaffUpgrades.AdsLeft(s.id) > 0 && !leave && Services.RewardedAdsEnabled)   // v1.6: reklam yoksa düğme yok
@@ -938,12 +964,12 @@ namespace Taverna
                 float wait = StaffUpgrades.AdWait(s.id);
                 bool longAd = StaffUpgrades.AdIsLong(s);
                 var ad = PriceButton("btn-plum", KitIcon("play"), out var adText);
-                adText.text = wait > 0f ? $"{Mathf.CeilToInt(wait / 60f)} dk" : $"{(longAd ? "UZUN " : "")}REKLAM {StaffUpgrades.AdsLeft(s.id)}/{StaffUpgrades.MaxAdLevels}";
+                adText.text = wait > 0f ? Loc.F("{0} dk", Mathf.CeilToInt(wait / 60f)) : (longAd ? Loc.F("UZUN REKLAM {0}/{1}", StaffUpgrades.AdsLeft(s.id), StaffUpgrades.MaxAdLevels) : Loc.F("REKLAM {0}/{1}", StaffUpgrades.AdsLeft(s.id), StaffUpgrades.MaxAdLevels));
                 ad.EnableInClassList("locked", wait > 0f);
                 ad.clicked += () =>
                 {
-                    if (!StaffUpgrades.AdAvailable(s)) { Toast("Reklam hakkı yakında yenilenir"); return; }
-                    ShowAd("staff_upgrade", $"{s.name} bir seviye gelişsin", () => { StaffUpgrades.GrantByAd(s.id); Confetti(10); if (!_shopRoot.ClassListContains("hidden")) BuildShop(); },
+                    if (!StaffUpgrades.AdAvailable(s)) { Toast(Loc.T("Reklam hakkı yakında yenilenir")); return; }
+                    ShowAd("staff_upgrade", Loc.F("{0} bir seviye gelişsin", s.name), () => { StaffUpgrades.GrantByAd(s.id); Confetti(10); if (!_shopRoot.ClassListContains("hidden")) BuildShop(); },
                            longAd ? AdLength.Long : AdLength.Short);
                 };
                 btns.Add(ad);
@@ -975,8 +1001,8 @@ namespace Taverna
                 onReward?.Invoke();
                 Sfx.Play(SfxId.Claim);
             }
-            if (Premium.IsVip) { Toast("VIP: reklamsız ödül"); Reward(); return; }
-            if (!Services.Ads.IsRewardedReady) { Toast("Reklam şu an hazır değil"); return; }
+            if (Premium.IsVip) { Toast(Loc.T("VIP: reklamsız ödül")); Reward(); return; }
+            if (!Services.Ads.IsRewardedReady) { Toast(Loc.T("Reklam şu an hazır değil")); return; }
             Services.Track("ad_shown", ("neden", placement), ("uzun", length == AdLength.Long));
             _adOpen = true;
             Services.Ads.ShowRewarded(placement, reason, length,
@@ -991,13 +1017,13 @@ namespace Taverna
             overlay.AddToClassList("screen"); overlay.AddToClassList("overlay");
             var card = new VisualElement();
             card.AddToClassList("modal"); card.AddToClassList("v3-panel"); card.AddToClassList("ad-card");
-            var rib = new Label("REKLAM");
+            var rib = new Label(Loc.T("REKLAM"));
             rib.AddToClassList("ribbon"); rib.AddToClassList("ribbon-plum");
             var why = new Label(reason);
             why.AddToClassList("item-name");
             var count = new Label(Mathf.CeilToInt(seconds).ToString());
             count.AddToClassList("ad-count");
-            var note = new Label("Test sürümü: gerçek reklam yerine bekleme ekranı");
+            var note = new Label(Loc.T("Test sürümü: gerçek reklam yerine bekleme ekranı"));
             note.AddToClassList("small-note");
             card.Add(rib); card.Add(why); card.Add(count); card.Add(note);
             overlay.Add(card);
@@ -1075,7 +1101,7 @@ namespace Taverna
                 shopReady = ok;
                 _goal.style.display = DisplayStyle.Flex;
                 _goalIcon.style.backgroundImage = new StyleBackground(def.icon);
-                _goalText.text = ok ? $"{def.displayName} makinesi alınabilir! Mağaza" : $"Sıradaki: {def.displayName} makinesi";
+                _goalText.text = ok ? Loc.F("{0} makinesi alınabilir! Mağaza", Loc.T(def.displayName)) : Loc.F("Sıradaki: {0} makinesi", Loc.T(def.displayName));
                 _goalNum.text = $"{FormatNum(Math.Min(GameState.Coins, m.price))} / {FormatNum(m.price)}";
                 _goalFill.style.width = Length.Percent(Mathf.Clamp01(GameState.Coins / (float)Mathf.Max(1, m.price)) * 100f);
                 _goal.EnableInClassList("ready", ok);
@@ -1093,13 +1119,13 @@ namespace Taverna
             bool ready = z.LevelOk && GameState.Coins >= z.Remaining;
             if (!z.LevelOk)
             {
-                _goalText.text = $"Sıradaki: {z.label}";
-                _goalNum.text = $"Seviye {z.requiredLevel}";
+                _goalText.text = Loc.F("Sıradaki: {0}", z.DisplayLabel);
+                _goalNum.text = Loc.F("Seviye {0}", z.requiredLevel);
                 _goalFill.style.width = Length.Percent(GameState.Level == z.requiredLevel - 1 ? GameState.LevelProgress01 * 100f : 0f);
             }
             else
             {
-                _goalText.text = ready ? $"{z.label} hazır! Kareye git" : $"Sıradaki: {z.label}";
+                _goalText.text = ready ? Loc.F("{0} hazır! Kareye git", z.DisplayLabel) : Loc.F("Sıradaki: {0}", z.DisplayLabel);
                 _goalNum.text = $"{FormatNum(Math.Min(GameState.Coins, z.Remaining))} / {FormatNum(z.Remaining)}";
                 _goalFill.style.width = Length.Percent(Mathf.Clamp01(GameState.Coins / (float)Mathf.Max(1, z.Remaining)) * 100f);
             }
@@ -1158,7 +1184,7 @@ namespace Taverna
             {
                 if (!_dirtyTags.TryGetValue(t, out var l))
                 {
-                    l = new Label("Temizle!") { pickingMode = PickingMode.Ignore };
+                    l = new Label(Loc.T("Temizle!")) { pickingMode = PickingMode.Ignore };
                     l.AddToClassList("dirty-tag");
                     _world.Add(l);
                     _dirtyTags[t] = l;
@@ -1172,7 +1198,7 @@ namespace Taverna
         }
 
         // ------------------------------------------------------------------ han (v0.8)
-        void OnStairs(bool up) => Toast(up ? "Üst kat · Han odaları" : "Salon");
+        void OnStairs(bool up) => Toast(up ? Loc.T("Üst kat · Han odaları") : Loc.T("Salon"));
 
         /// <summary>Resepsiyonda bekleyen misafir: yatak simgesi + sabır halkası + gecelik ücret; odalarda Zzz / Topla!</summary>
         void UpdateInnTags()
@@ -1216,7 +1242,7 @@ namespace Taverna
                     _roomTags[r] = l;
                 }
                 bool dirty = r.state == Room.State.Dirty, sleep = r.state == Room.State.Occupied;
-                l.text = dirty ? "Topla!" : "Zzz";
+                l.text = dirty ? Loc.T("Topla!") : Loc.T("Zzz");
                 l.EnableInClassList("sleep-tag", sleep);
                 bool on = ToPanel(r.bedPoint.position + Vector3.up * 0.9f, out var p);
                 Place(l, p, on && (dirty || sleep));
@@ -1242,24 +1268,24 @@ namespace Taverna
             ico.Add(ii);
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            string[] tiers = { "Saman yatak", "Yün yatak", "Kuştüyü yatak" };
-            var n = new Label($"Oda {i + 1} · {tiers[c]}");
+            string[] tiers = { Loc.T("Saman yatak"), Loc.T("Yün yatak"), Loc.T("Kuştüyü yatak") };
+            var n = new Label(Loc.F("Oda {0} · {1}", i + 1, tiers[c]));
             n.AddToClassList("item-name");
-            var sub = new Label(!open ? "Üst katta ödeme karesiyle açılır"
-                : Inn.CanUpgrade(i) ? $"Gecelik {Inn.Fee(i)} → {Inn.Fees[c + 1]}" : $"Gecelik {Inn.Fee(i)} · en iyi yatak");
+            var sub = new Label(!open ? Loc.T("Üst katta ödeme karesiyle açılır")
+                : Inn.CanUpgrade(i) ? Loc.F("Gecelik {0} → {1}", Inn.Fee(i), Inn.Fees[c + 1]) : Loc.F("Gecelik {0} · en iyi yatak", Inn.Fee(i)));
             sub.AddToClassList("item-sub");
             col.Add(n); col.Add(sub);
             Label text;
             Button b;
-            if (!open) { b = PriceButton("btn-paper", KitIcon("lock"), out text); text.text = "KAPALI"; b.AddToClassList("locked"); }
-            else if (!Inn.CanUpgrade(i)) { b = PriceButton("btn-paper", KitIcon("check"), out text); text.text = "EN İYİ"; b.AddToClassList("owned"); b.SetEnabled(false); }
+            if (!open) { b = PriceButton("btn-paper", KitIcon("lock"), out text); text.text = Loc.T("KAPALI"); b.AddToClassList("locked"); }
+            else if (!Inn.CanUpgrade(i)) { b = PriceButton("btn-paper", KitIcon("check"), out text); text.text = Loc.T("EN İYİ"); b.AddToClassList("owned"); b.SetEnabled(false); }
             else { b = PriceButton("btn-teal", CoinIcon, out text); text.text = FormatNum(Inn.UpgradeCost(i)); b.EnableInClassList("locked", GameState.Data.coins < Inn.UpgradeCost(i)); }
             b.AddToClassList("btn-sm");
             b.clicked += () =>
             {
-                if (!open) { Toast("Bu oda henüz açılmadı"); return; }
+                if (!open) { Toast(Loc.T("Bu oda henüz açılmadı")); return; }
                 if (Inn.UpgradeComfort(i)) { Sfx.Play(SfxId.Buy); Confetti(14); }
-                else Toast(Inn.CanUpgrade(i) ? "Yeterli altın yok" : "En iyi yatak zaten");
+                else Toast(Inn.CanUpgrade(i) ? Loc.T("Yeterli altın yok") : Loc.T("En iyi yatak zaten"));
                 BuildShop();
             };
             item.Add(ico); item.Add(col); item.Add(b);
@@ -1269,7 +1295,7 @@ namespace Taverna
         void OnZoneUnlocked(string id)
         {
             Confetti(28);
-            Toast("YENİ ALAN AÇILDI!");
+            Toast(Loc.T("YENİ ALAN AÇILDI!"));
         }
 
         void Toast(string text)
@@ -1288,8 +1314,8 @@ namespace Taverna
             // v1.5: yalnızca elmasla alınan 10 dk ×2 gelir (kalıcı çarpanlar — Usta, VIP, şube — şerit açmaz)
             bool on = RushHour.Active || Boosts.IncomeRemaining > 0f;
             _rush.EnableInClassList("hidden", !on);
-            if (RushHour.Active) _rush.text = $"YOĞUN SAAT!  ×2 bahşiş · {Mathf.CeilToInt(RushHour.Remaining)} sn";
-            else if (on) _rush.text = $"×2 GELİR · {Mathf.CeilToInt(Boosts.IncomeRemaining / 60f)} dk";
+            if (RushHour.Active) _rush.text = Loc.F("YOĞUN SAAT!  ×2 bahşiş · {0} sn", Mathf.CeilToInt(RushHour.Remaining));
+            else if (on) _rush.text = Loc.F("×2 GELİR · {0} dk", Mathf.CeilToInt(Boosts.IncomeRemaining / 60f));
         }
 
         // ------------------------------------------------------------------ görevler
@@ -1342,7 +1368,7 @@ namespace Taverna
                 row.EnableInClassList("done", q.Done);
                 if (q.Done)
                 {
-                    var claim = new Button { text = "TOPLA" };
+                    var claim = new Button { text = Loc.T("TOPLA") };
                     claim.AddToClassList("btn");
                     claim.AddToClassList("btn-sm");
                     claim.style.minWidth = 104;
@@ -1358,7 +1384,7 @@ namespace Taverna
                 _questRows.Add(row);
             }
             var left = DateTime.Today.AddDays(1) - DateTime.Now;
-            _questReset.text = $"yenilenme {left.Hours:00}:{left.Minutes:00}";
+            _questReset.text = Loc.F("yenilenme {0:00}:{1:00}", left.Hours, left.Minutes);
         }
 
         static void AddReward(VisualElement parent, Sprite icon, string text)
@@ -1399,7 +1425,7 @@ namespace Taverna
             switch (_shopTab)
             {
                 case "mac":
-                    _shopNote.text = "Seviye atladıkça yeni makineler açılır · satın alınca yerine kurulur";
+                    _shopNote.text = Loc.T("Seviye atladıkça yeni makineler açılır · satın alınca yerine kurulur");
                     foreach (var m in Catalog.Machines)
                     {
                         var def = GameDatabase.I.Drink(m.drink);
@@ -1408,56 +1434,56 @@ namespace Taverna
                         int lv = Management.MachineLevel(m.drink);
                         string sub = can switch
                         {
-                            Management.BuyResult.Owned => "Kuruldu",
-                            Management.BuyResult.LevelLow => $"Seviye {lv}'te açılır",
-                            Management.BuyResult.ZoneLocked => $"Önce {m.zoneName}",
-                            _ => $"Satış {def.basePrice} altın · {def.baseTime:0} sn",
+                            Management.BuyResult.Owned => Loc.T("Kuruldu"),
+                            Management.BuyResult.LevelLow => Loc.F("Seviye {0}'te açılır", lv),
+                            Management.BuyResult.ZoneLocked => Loc.F("Önce {0}", Loc.T(m.zoneName)),
+                            _ => Loc.F("Satış {0} altın · {1:0} sn", def.basePrice, def.baseTime),
                         };
                         var mm = m;
-                        AddShopItem(def.icon, def.displayName, sub, can, m.price, false,
-                            () => Management.BuyMachine(mm), lv, m.zoneName);
+                        AddShopItem(def.icon, Loc.T(def.displayName), sub, can, m.price, false,
+                            () => Management.BuyMachine(mm), lv, Loc.T(m.zoneName));
                     }
                     break;
                 case "staff":
-                    _shopNote.text = $"Personel her gün maaş alır · şu an günlük maaş: {FormatNum(Management.DailyWages)} altın";
+                    _shopNote.text = Loc.F("Personel her gün maaş alır · şu an günlük maaş: {0} altın", FormatNum(Management.DailyWages));
                     foreach (var s in Catalog.StaffList)
                     {
                         var can = Management.CanHire(s);
                         if (can == Management.BuyResult.Owned) { AddStaffUpgradeItem(s); continue; }
                         if (s.premium) continue;   // efsanevi personel sadece Hazine'de
-                        string sub = can == Management.BuyResult.Owned ? $"Çalışıyor · {Management.WageOf(s)}/gün" :
-                                     can == Management.BuyResult.LevelLow ? $"Seviye {s.level}'te açılır" :
-                                     can == Management.BuyResult.ZoneLocked ? $"Önce {s.zoneName} açılmalı" : $"{s.desc}";
+                        string sub = can == Management.BuyResult.Owned ? Loc.F("Çalışıyor · {0}/gün", Management.WageOf(s)) :
+                                     can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}'te açılır", s.level) :
+                                     can == Management.BuyResult.ZoneLocked ? Loc.F("Önce {0} açılmalı", Loc.T(s.zoneName)) : $"{Loc.T(s.desc)}";
                         var ss = s;
-                        AddShopItem(LoadIcon(s.icon), $"{s.name} · {s.roleName}", sub, can, Management.HireCost(s), false,
-                            () => Management.Hire(ss), s.level, s.zoneName ?? "", $"Maaş {Management.WageOf(s)}/gün");
+                        AddShopItem(LoadIcon(s.icon), $"{s.name} · {Loc.T(s.roleName)}", sub, can, Management.HireCost(s), false,
+                            () => Management.Hire(ss), s.level, Loc.T(s.zoneName) ?? "", Loc.F("Maaş {0}/gün", Management.WageOf(s)));
                     }
                     break;
                 case "dec":
                     // v1.1 (oyuncu testi: "artı puan neye?"): ambiyansın neye yaradığı açıkça
                     // v1.4: artan eşikli yıldız ölçeği (Balance.StarThresholds)
                     _shopNote.text = Management.NextStar == 0
-                        ? $"Ambiyans {AmbianceSource.Total:0} · ★5, en yüksek yıldız · ★ zengin müşteri ve bahşiş getirir"
-                        : $"Ambiyans {AmbianceSource.Total:0} · şu an ★{Management.Stars:0.#} · sonraki yıldıza {Management.AmbianceToNextStar} ambiyans · ★ = zengin müşteri, bahşiş";
+                        ? Loc.F("Ambiyans {0:0} · ★5, en yüksek yıldız · ★ zengin müşteri ve bahşiş getirir", AmbianceSource.Total)
+                        : Loc.F("Ambiyans {0:0} · şu an ★{1:0.#} · sonraki yıldıza {2} ambiyans · ★ = zengin müşteri, bahşiş", AmbianceSource.Total, Management.Stars, Management.AmbianceToNextStar);
                     // Zemin ve duvar temaları (v0.6): bir kez alınır, istenince ücretsiz seçilir
                     if (Inn.Open)
                     {
-                        AddShopSection("HAN ODALARI");
+                        AddShopSection(Loc.T("HAN ODALARI"));
                         for (int i = 0; i < Inn.RoomCount; i++) AddRoomItem(i);
                     }
-                    AddShopSection("ZEMİN VE DUVAR");
+                    AddShopSection(Loc.T("ZEMİN VE DUVAR"));
                     foreach (var t in Themes.List) AddThemeItem(t);
-                    AddShopSection("SÜSLER");
+                    AddShopSection(Loc.T("SÜSLER"));
                     foreach (var d in Catalog.DecorList)
                     {
                         if (d.premium) continue;   // premium süsler Hazine'de
                         var can = Management.CanBuyDecor(d);
                         int owned = Management.DecorOwned(d.id);
-                        string sub = can == Management.BuyResult.LevelLow ? $"Seviye {d.level}'te açılır" :
-                                     can == Management.BuyResult.NoSlot ? (owned > 0 ? $"{owned} adet · yer kalmadı" : "Yeni alan açılınca") :
-                                     $"+{d.ambiance:0} ambiyans" + StarHint() + (owned > 0 ? $" · {owned} adet" : "");
+                        string sub = can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}'te açılır", d.level) :
+                                     can == Management.BuyResult.NoSlot ? (owned > 0 ? Loc.F("{0} adet · yer kalmadı", owned) : Loc.T("Yeni alan açılınca")) :
+                                     Loc.F("+{0:0} ambiyans", d.ambiance) + StarHint() + (owned > 0 ? Loc.F(" · {0} adet", owned) : "");
                         var dd = d;
-                        AddShopItem(LoadIcon(d.icon), d.name, sub, can, d.price, false, () => Management.BuyDecor(dd), d.level, "");
+                        AddShopItem(LoadIcon(d.icon), Loc.T(d.name), sub, can, d.price, false, () => Management.BuyDecor(dd), d.level, "");
                     }
                     break;
                 case "auto":
@@ -1468,14 +1494,14 @@ namespace Taverna
                     BuildPremiumTab();
                     break;
                 default:
-                    _shopNote.text = "Elmaslar görevlerden, seviye ve günlük ödüllerden kazanılır · ilerlemek için gerekmez";
+                    _shopNote.text = Loc.T("Elmaslar görevlerden, seviye ve günlük ödüllerden kazanılır · ilerlemek için gerekmez");
                     // v1.4: "Tellal tut" buradan kalktı, Etkinlikler'e taşındı
                     foreach (var o in Boosts.Offers)
                     {
                         var oo = o;
-                        string name = o.id == "coins" ? $"{FormatNum(Boosts.CoinPackAmount)} Altın" : o.name;
+                        string name = o.id == "coins" ? Loc.F("{0} Altın", FormatNum(Boosts.CoinPackAmount)) : Loc.T(o.name);
                         var can = GameState.Data.gems >= o.gems ? Management.BuyResult.Ok : Management.BuyResult.NoMoney;
-                        AddShopItem(LoadIcon(o.icon), name, o.hot ? "EN İYİ" : "", can, o.gems, true,
+                        AddShopItem(LoadIcon(o.icon), name, o.hot ? Loc.T("EN İYİ") : "", can, o.gems, true,
                             () => Boosts.Buy(oo.id) ? Management.BuyResult.Ok : Management.BuyResult.NoMoney, 0, "");
                     }
                     break;
@@ -1512,21 +1538,21 @@ namespace Taverna
             {
                 b.AddToClassList("owned");
                 pi.style.backgroundImage = new StyleBackground(KitIcon("check"));
-                b.Add(new Label(gems ? "ALINDI" : "VAR"));
+                b.Add(new Label(gems ? Loc.T("ALINDI") : Loc.T("VAR")));
                 b.SetEnabled(false);
             }
             else if (levelLocked)
             {
                 b.AddToClassList("locked");
                 pi.style.backgroundImage = new StyleBackground(KitIcon("lock"));
-                b.Add(new Label(state == Management.BuyResult.LevelLow ? $"SV {level}" : "KİLİTLİ"));
+                b.Add(new Label(state == Management.BuyResult.LevelLow ? Loc.F("SV {0}", level) : Loc.T("KİLİTLİ")));
                 b.clicked += () => Toast(Management.BuyMessage(state, level, zone));
             }
             else
             {
                 b.AddToClassList("btn-teal");
                 pi.style.backgroundImage = new StyleBackground(gems ? GemIcon : CoinIcon);
-                b.Add(new Label(price == 0 ? "Bedava" : FormatNum(price)));
+                b.Add(new Label(price == 0 ? Loc.T("Bedava") : FormatNum(price)));
                 b.EnableInClassList("locked", state != Management.BuyResult.Ok);
                 b.clicked += () =>
                 {
@@ -1546,8 +1572,8 @@ namespace Taverna
         {
             if (Offline.Pending <= 0) return;
             int m = Offline.Minutes;
-            string sure = m >= 60 ? $"{m / 60} sa {m % 60} dk" : $"{m} dk";
-            _offlineSub.text = $"{sure} boyunca taverna çalıştı";
+            string sure = m >= 60 ? Loc.F("{0} sa {1} dk", m / 60, m % 60) : Loc.F("{0} dk", m);
+            _offlineSub.text = Loc.F("{0} boyunca taverna çalıştı", sure);
             _offlineText.text = $"+{FormatNum(Offline.Pending)}";
             _offlineDouble.EnableInClassList("locked", GameState.Data.gems < 5);
             Show(_offlineRoot);
@@ -1576,16 +1602,16 @@ namespace Taverna
             int level = _levelQueue.Dequeue();
             _levelNum.text = level.ToString();
             _unlocks.Clear();
-            AddUnlock("ödül", GemIcon, $"+{Boosts.LevelGemReward(level)} Elmas");
+            AddUnlock(Loc.T("ödül"), GemIcon, Loc.F("+{0} Elmas", Boosts.LevelGemReward(level)));
             foreach (var d in GameDatabase.I.drinks)
-                if (d && d.unlockLevel == level) AddUnlock("yeni içecek", d.icon, d.displayName);
+                if (d && d.unlockLevel == level) AddUnlock(Loc.T("yeni içecek"), d.icon, Loc.T(d.displayName));
             foreach (var m in Catalog.Machines)
                 if (m.drink != DrinkId.Bira && Management.MachineLevel(m.drink) == level)
-                    AddUnlock("yeni makine", GameDatabase.I.Drink(m.drink).icon, "Dükkânda");
+                    AddUnlock(Loc.T("yeni makine"), GameDatabase.I.Drink(m.drink).icon, Loc.T("Dükkânda"));
             foreach (var st in Catalog.StaffList)
-                if (st.level == level) AddUnlock("işe alınabilir", LoadIcon(st.icon), st.name);
+                if (st.level == level) AddUnlock(Loc.T("işe alınabilir"), LoadIcon(st.icon), st.name);
             foreach (var c in GameDatabase.I.customers)
-                if (c && c.unlockLevel == level) AddUnlock("yeni müşteri", LoadIcon($"Cust_{c.number:00}"), c.displayName);
+                if (c && c.unlockLevel == level) AddUnlock(Loc.T("yeni müşteri"), LoadIcon($"Cust_{c.number:00}"), Loc.T(c.displayName));
             _levelRoot.RemoveFromClassList("hidden");
             Confetti(40);
         }
@@ -1702,7 +1728,7 @@ namespace Taverna
             if (!s) return;
             _panelStation = s;
             _depotPanel.AddToClassList("hidden");
-            _upgradeTitle.text = s.drink.displayName.ToUpper(new System.Globalization.CultureInfo("tr-TR"));
+            _upgradeTitle.text = Loc.Upper(Loc.T(s.drink.displayName));
             _upgradeThumb.style.backgroundImage = new StyleBackground(s.drink.icon);
             BuildUpgradeRows();
             _upgradePanel.RemoveFromClassList("hidden");
@@ -1720,11 +1746,11 @@ namespace Taverna
             if (!s) return;
             int tier = Balance.VisualTier(Mathf.Max(s.Save.speed, Mathf.Max(s.Save.stock, s.Save.quality)));
             for (int i = 0; i < 3; i++) _tiers[i].EnableInClassList("cur", i == tier - 1);
-            _upgradeInfo.text = $"Satış {s.Price} altın · Süre {s.ProduceTime:0.0} sn · Stok {s.MaxStock}";
+            _upgradeInfo.text = Loc.F("Satış {0} altın · Süre {1:0.0} sn · Stok {2}", s.Price, s.ProduceTime, s.MaxStock);
             _upgradeRows.Clear();
-            AddRow(s, UpgradeStat.Hiz, "Hız", "speed", lv => $"{Balance.ProduceTime(s.drink, lv):0.0} sn");
-            AddRow(s, UpgradeStat.Stok, "Stok", "stock", lv => $"{Balance.MaxStock(lv)} bardak");
-            AddRow(s, UpgradeStat.Kalite, "Kalite", "quality", lv => $"{Balance.SellPrice(s.drink, lv)} altın");
+            AddRow(s, UpgradeStat.Hiz, Loc.T("Hız"), "speed", lv => Loc.F("{0:0.0} sn", Balance.ProduceTime(s.drink, lv)));
+            AddRow(s, UpgradeStat.Stok, Loc.T("Stok"), "stock", lv => Loc.F("{0} bardak", Balance.MaxStock(lv)));
+            AddRow(s, UpgradeStat.Kalite, Loc.T("Kalite"), "quality", lv => Loc.F("{0} altın", Balance.SellPrice(s.drink, lv)));
         }
 
         void AddRow(DrinkStation s, UpgradeStat stat, string name, string icon, Func<int, string> describe)
@@ -1742,9 +1768,9 @@ namespace Taverna
             ii.style.backgroundImage = new StyleBackground(KitIcon(icon));
             ico.Add(ii);
             var text = new VisualElement { style = { flexGrow = 1 } };
-            var n = new Label($"{name} · Sv {lv}");
+            var n = new Label(Loc.F("{0} · Sv {1}", name, lv));
             n.AddToClassList("up-name");
-            var f = new Label(maxed ? describe(lv) + " (en yüksek)" : $"{describe(lv)} → {describe(lv + 1)}");
+            var f = new Label(maxed ? describe(lv) + Loc.T(" (en yüksek)") : $"{describe(lv)} → {describe(lv + 1)}");
             f.AddToClassList("up-sub");
             var pips = new VisualElement();
             pips.AddToClassList("pips");
@@ -1766,7 +1792,7 @@ namespace Taverna
                 ci.style.backgroundImage = new StyleBackground(CoinIcon);
                 buy.Add(ci);
             }
-            buy.Add(new Label(maxed ? "TAMAM" : FormatNum(cost)));
+            buy.Add(new Label(maxed ? Loc.T("TAMAM") : FormatNum(cost)));
             buy.EnableInClassList("locked", maxed || GameState.Coins < cost);
             buy.clicked += () => { if (s.TryUpgrade(stat)) { GameSettings.Vibrate(); Confetti(8); BuildUpgradeRows(); } };
             row.Add(ico); row.Add(text); row.Add(buy);

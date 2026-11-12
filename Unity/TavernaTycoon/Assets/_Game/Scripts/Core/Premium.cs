@@ -25,19 +25,19 @@ namespace Taverna
 
         public static readonly Product[] List =
         {
-            new() { id = "vip_month", name = "VIP Üyelik", desc = "Reklamsız · kalıcı ×2 gelir · günde 10 elmas", price = "89,99 ₺/ay", kind = Kind.VipMonth, icon = "Kit:star" },
-            new() { id = "vip_life", name = "Ömür boyu VIP", desc = "VIP ayrıcalıkları süresiz", price = "449,99 ₺", kind = Kind.VipLife, icon = "Kit:star" },
-            new() { id = "starter", name = "Başlangıç Paketi", desc = "5.000 altın · 100 elmas · Altın Fıçı süsü", price = "39,99 ₺", kind = Kind.Starter, icon = "DEC_AltinFici" },
-            new() { id = "staff_lirael", name = "Lirael · Elf Garson", desc = "Çok hızlı · 4 bardak taşır · maaş yok", price = "79,99 ₺", kind = Kind.Staff, grant = "staff_lirael", icon = "Staff_Lirael" },
-            new() { id = "staff_ignis", name = "Ignis · Ejder Aşçı", desc = "Yemekler ×2 hızlı pişer · maaş yok", price = "99,99 ₺", kind = Kind.Staff, grant = "staff_ignis", icon = "Staff_Ignis" },
-            new() { id = "thm_altin", name = "Altın Tema", desc = "Altın mermer zemin + altın duvar · +40 puan", price = "49,99 ₺", kind = Kind.Theme, icon = "Prem_AltinTema" },
-            new() { id = "dec_kristal", name = "Kristal Avize", desc = "+25 puan", price = "39,99 ₺", kind = Kind.Decor, grant = "dec_kristal", icon = "DEC_KristalAvize" },
-            new() { id = "dec_ejder", name = "Ejder Heykeli", desc = "+30 puan", price = "59,99 ₺", kind = Kind.Decor, grant = "dec_ejder", icon = "DEC_EjderHeykeli" },
-            new() { id = "frame_kraliyet", name = "Kraliyet Tabela Çerçevesi", desc = "Altın tabela · +10 puan", price = "29,99 ₺", kind = Kind.Frame, icon = "Prem_Cerceve" },
-            new() { id = "gems_100", name = "100 Elmas", desc = "", price = "29,99 ₺", kind = Kind.Gems, gems = 100, icon = "Kit:gem" },
-            new() { id = "gems_550", name = "550 Elmas", desc = "+%10", price = "129,99 ₺", kind = Kind.Gems, gems = 550, icon = "Kit:gem" },
-            new() { id = "gems_1200", name = "1.200 Elmas", desc = "+%20 · EN İYİ", price = "249,99 ₺", kind = Kind.Gems, gems = 1200, icon = "Kit:gem" },
-            new() { id = "gems_3000", name = "3.000 Elmas", desc = "+%25", price = "549,99 ₺", kind = Kind.Gems, gems = 3000, icon = "Kit:gem" },
+            new() { id = "vip_month", name = Loc.N("VIP Üyelik"), desc = Loc.N("Reklamsız · kalıcı ×2 gelir · günde 10 elmas"), price = "89,99 ₺", kind = Kind.VipMonth, icon = "Kit:star" },
+            new() { id = "vip_life", name = Loc.N("Ömür boyu VIP"), desc = Loc.N("VIP ayrıcalıkları süresiz"), price = "449,99 ₺", kind = Kind.VipLife, icon = "Kit:star" },
+            new() { id = "starter", name = Loc.N("Başlangıç Paketi"), desc = Loc.N("5.000 altın · 100 elmas · Altın Fıçı süsü"), price = "39,99 ₺", kind = Kind.Starter, icon = "DEC_AltinFici" },
+            new() { id = "staff_lirael", name = Loc.N("Lirael · Elf Garson"), desc = Loc.N("Çok hızlı · 4 bardak taşır · maaş yok"), price = "79,99 ₺", kind = Kind.Staff, grant = "staff_lirael", icon = "Staff_Lirael" },
+            new() { id = "staff_ignis", name = Loc.N("Ignis · Ejder Aşçı"), desc = Loc.N("Yemekler ×2 hızlı pişer · maaş yok"), price = "99,99 ₺", kind = Kind.Staff, grant = "staff_ignis", icon = "Staff_Ignis" },
+            new() { id = "thm_altin", name = Loc.N("Altın Tema"), desc = Loc.N("Altın mermer zemin + altın duvar · +40 puan"), price = "49,99 ₺", kind = Kind.Theme, icon = "Prem_AltinTema" },
+            new() { id = "dec_kristal", name = Loc.N("Kristal Avize"), desc = Loc.N("+25 puan"), price = "39,99 ₺", kind = Kind.Decor, grant = "dec_kristal", icon = "DEC_KristalAvize" },
+            new() { id = "dec_ejder", name = Loc.N("Ejder Heykeli"), desc = Loc.N("+30 puan"), price = "59,99 ₺", kind = Kind.Decor, grant = "dec_ejder", icon = "DEC_EjderHeykeli" },
+            new() { id = "frame_kraliyet", name = Loc.N("Kraliyet Tabela Çerçevesi"), desc = Loc.N("Altın tabela · +10 puan"), price = "29,99 ₺", kind = Kind.Frame, icon = "Prem_Cerceve" },
+            new() { id = "gems_100", name = Loc.N("100 Elmas"), desc = "", price = "29,99 ₺", kind = Kind.Gems, gems = 100, icon = "Kit:gem" },
+            new() { id = "gems_550", name = Loc.N("550 Elmas"), desc = "+%10", price = "129,99 ₺", kind = Kind.Gems, gems = 550, icon = "Kit:gem" },
+            new() { id = "gems_1200", name = Loc.N("1.200 Elmas"), desc = Loc.N("+%20 · EN İYİ"), price = "249,99 ₺", kind = Kind.Gems, gems = 1200, icon = "Kit:gem" },
+            new() { id = "gems_3000", name = Loc.N("3.000 Elmas"), desc = "+%25", price = "549,99 ₺", kind = Kind.Gems, gems = 3000, icon = "Kit:gem" },
         };
 
         public const int VipDailyGems = 10;
@@ -60,7 +60,12 @@ namespace Taverna
         public static bool TestStore => Services.Store != null && Services.Store.IsTest && Services.StoreEnabled;
 
         /// <summary>Gösterilecek fiyat: mağazanın yerel metni, yoksa katalogdaki örnek fiyat.</summary>
-        public static string PriceOf(Product p) => Services.Store?.PriceText(p.id) ?? p.price;
+        // v1.7: aylık VIP fiyatına etkin dilde "/ay" eki eklenir (katalogdaki fiyatta ek yok).
+        public static string PriceOf(Product p)
+        {
+            var raw = Services.Store?.PriceText(p.id) ?? p.price;
+            return p.kind == Kind.VipMonth && !string.IsNullOrEmpty(raw) ? Loc.F("{0}/ay", raw) : raw;
+        }
 
         public static Product Find(string id) => Array.Find(List, p => p.id == id);
         static DateTime Now => DateTime.UtcNow;

@@ -14,15 +14,15 @@ namespace Taverna
     {
         public static readonly string[] Texts =
         {
-            "Bira fıçısına yürü, bardak dolsun!",
-            "İlk müşterin geliyor! Fıçının önünde bekle, bardak dolsun",
-            "Birayı bekleyen müşterine götür",
-            "Masaya bırakılan parayı topla",
-            "Görev panosu açıldı! Görevler altın ve elmas verir, bir bak",
-            "Ödeme karesinin üstünde dur: altınla yeni masa aç",
-            "Dükkân açıldı! Yeni makine = yeni içecek, daha çok müşteri",
-            "Personel: görevliler sana yardım eder, her gün maaş alır",
-            "Depo: makineler malzeme harcar, azalınca buradan sipariş ver",
+            Loc.N("Bira fıçısına yürü, bardak dolsun!"),
+            Loc.N("İlk müşterin geliyor! Fıçının önünde bekle, bardak dolsun"),
+            Loc.N("Birayı bekleyen müşterine götür"),
+            Loc.N("Masaya bırakılan parayı topla"),
+            Loc.N("Görev panosu açıldı! Görevler altın ve elmas verir, bir bak"),
+            Loc.N("Ödeme karesinin üstünde dur: altınla yeni masa aç"),
+            Loc.N("Dükkân açıldı! Yeni makine = yeni içecek, daha çok müşteri"),
+            Loc.N("Personel: görevliler sana yardım eder, her gün maaş alır"),
+            Loc.N("Depo: makineler malzeme harcar, azalınca buradan sipariş ver"),
         };
         public const int StepCount = 9;
 

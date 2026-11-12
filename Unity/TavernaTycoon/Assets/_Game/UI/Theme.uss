@@ -715,3 +715,12 @@ Slider .unity-base-slider__dragger-border { display: none; }
 /* v1.6 yayın altyapısı: geliştirici ölçüm özeti (Ayarlar) ve "Yakında" Hazine düğmeleri */
 .metrics-note { font-size: 11px; margin-top: 6px; margin-bottom: 2px; -unity-text-align: middle-left; }
 .prem-soon { opacity: 0.8; }
+
+/* v1.7 dil seçici (Ayarlar › Dil): 10 dil, iki sütun, her dil kendi adıyla */
+.lang-open { min-width: 150px; }
+.lang-card { width: 520px; }
+.lang-grid { flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding-top: 4px; }
+.lang-item { width: 49%; min-height: 44px; margin: 0 0 8px 0; font-size: 17px; }
+
+/* v1.7 uzun çeviriler: yan düğme yazısı harf aralığı olmadan sığsın (Rusça "ПЕРСОНАЛ", Almanca "AUFTRÄGE") */
+.side-cap { letter-spacing: 0; white-space: nowrap; -unity-text-align: middle-center; }

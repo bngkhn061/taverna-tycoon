@@ -14,10 +14,10 @@ namespace Taverna
 
         public static readonly Def[] List =
         {
-            new() { id = "kasa", name = "Kasa", desc = "Masalardaki para kendiliğinden toplanır", icon = "coin", level = Balance.KasaLevel, price = Balance.KasaPrice },
-            new() { id = "depo", name = "Depo", desc = "Azalan malzeme otomatik sipariş edilir", icon = "stock", level = Balance.AutoOrderLevel, price = Balance.AutoOrderPrice },
-            new() { id = "han", name = "Han resepsiyonu", desc = "Misafir kendi giriş yapar", icon = "bell", level = 12, price = 6000 },
-            new() { id = "oyun", name = "Oyun salonu", desc = "Oyun masaları kendi döner", icon = "gift", level = 14, price = 8000 },
+            new() { id = "kasa", name = Loc.N("Kasa"), desc = Loc.N("Masalardaki para kendiliğinden toplanır"), icon = "coin", level = Balance.KasaLevel, price = Balance.KasaPrice },
+            new() { id = "depo", name = Loc.N("Depo"), desc = Loc.N("Azalan malzeme otomatik sipariş edilir"), icon = "stock", level = Balance.AutoOrderLevel, price = Balance.AutoOrderPrice },
+            new() { id = "han", name = Loc.N("Han resepsiyonu"), desc = Loc.N("Misafir kendi giriş yapar"), icon = "bell", level = 12, price = 6000 },
+            new() { id = "oyun", name = Loc.N("Oyun salonu"), desc = Loc.N("Oyun masaları kendi döner"), icon = "gift", level = 14, price = 8000 },
         };
 
         /// <summary>Usta geliştirmeleri: kademe başı etki ve fiyatlar.</summary>

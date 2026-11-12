@@ -8,7 +8,9 @@ namespace Taverna
     {
         readonly VisualElement _root;
         readonly Button _vib, _notif;
-        readonly Button[] _lang, _gfx;
+        readonly Button[] _gfx;
+        readonly Button _langOpen;
+        readonly VisualElement _langPicker;
 
         public event Action ToMenuRequested;
         public event Action ResetRequested;
@@ -36,11 +38,14 @@ namespace Taverna
             _vib = _root.Q<Button>("vibration");
             _vib.clicked += () => { GameSettings.Vibration = !GameSettings.Vibration; Refresh(); };
             _notif = _root.Q<Button>("notifications");
-            _notif.clicked += () => { GameSettings.Notifications = !GameSettings.Notifications; Refresh(); };
+            // v1.7: açılınca izin istenir ve bildirimler planlanır; kapanınca hepsi iptal (Notifications)
+            _notif.clicked += () => { Notifications.SetEnabled(!GameSettings.Notifications); Refresh(); };
 
-            _lang = new[] { _root.Q<Button>("lang-tr"), _root.Q<Button>("lang-en") };
-            _lang[0].clicked += () => { GameSettings.Language = "TR"; Refresh(); };
-            _lang[1].clicked += () => { GameSettings.Language = "EN"; Refresh(); };
+            // v1.7 dil seçici: 10 dil, her biri kendi adıyla; seçim hemen uygulanır (Loc.Changed → açık arayüzler yenilenir)
+            _langOpen = _root.Q<Button>("lang-open");
+            _langPicker = _root.Q("lang-picker");
+            _langOpen.clicked += () => { BuildLangGrid(); _langPicker.RemoveFromClassList("hidden"); Sfx.Play(SfxId.Pop); };
+            _root.Q<Button>("lang-close").clicked += () => _langPicker.AddToClassList("hidden");
 
             _gfx = new[] { _root.Q<Button>("gfx-0"), _root.Q<Button>("gfx-1"), _root.Q<Button>("gfx-2") };
             for (int i = 0; i < _gfx.Length; i++)
@@ -69,9 +74,9 @@ namespace Taverna
             reset.clicked += () =>
             {
                 // İki adımlı onay: yanlışlıkla silmeyi önler
-                if (!armed) { armed = true; reset.text = "EMİN MİSİN? TEKRAR"; return; }
+                if (!armed) { armed = true; reset.text = Loc.T("EMİN MİSİN? TEKRAR"); return; }
                 armed = false;
-                reset.text = "KAYDI SIFIRLA";
+                reset.text = Loc.T("KAYDI SIFIRLA");
                 GameState.ResetSave();
                 ResetRequested?.Invoke();
                 Hide();
@@ -79,22 +84,49 @@ namespace Taverna
             Refresh();
         }
 
-        void Refresh()
+        /// <summary>Düğme metinlerini ve seçili durumları yeniler (dil değişince sahibi de çağırır).</summary>
+        public void Refresh()
         {
             _nameLabel.text = GameState.TavernName;
             if (_metrics != null)
-                _metrics.text = Services.LocalAnalytics != null ? Services.LocalAnalytics.SummaryText() : "Ölçüm özeti: gerçek ölçüm hizmeti bağlı (veri panelde)";
-            _vib.text = GameSettings.Vibration ? "AÇIK" : "KAPALI";
+                _metrics.text = Services.LocalAnalytics != null ? Services.LocalAnalytics.SummaryText() : Loc.T("Ölçüm özeti: gerçek ölçüm hizmeti bağlı (veri panelde)");
+            _vib.text = GameSettings.Vibration ? Loc.T("AÇIK") : Loc.T("KAPALI");
             _vib.EnableInClassList("on", GameSettings.Vibration);
-            _notif.text = GameSettings.Notifications ? "AÇIK" : "KAPALI";
+            _notif.text = GameSettings.Notifications ? Loc.T("AÇIK") : Loc.T("KAPALI");
             _notif.EnableInClassList("on", GameSettings.Notifications);
-            _lang[0].EnableInClassList("on", GameSettings.Language == "TR");
-            _lang[1].EnableInClassList("on", GameSettings.Language == "EN");
+            int li = Loc.IndexOf(Loc.Lang);
+            _langOpen.text = li >= 0 ? Loc.NativeNames[li] : Loc.Lang;
+            if (!_langPicker.ClassListContains("hidden")) BuildLangGrid();
             for (int i = 0; i < _gfx.Length; i++) _gfx[i].EnableInClassList("on", GameSettings.Graphics == i);
         }
 
+        /// <summary>Dil seçicinin düğmeleri: <see cref="Loc.Codes"/> sırasıyla, dilin kendi adı; etkin dil vurgulu.</summary>
+        void BuildLangGrid()
+        {
+            var grid = _root.Q("lang-grid");
+            grid.Clear();
+            for (int i = 0; i < Loc.Codes.Length; i++)
+            {
+                string code = Loc.Codes[i];
+                var b = new Button { text = Loc.NativeNames[i], name = "lang-" + code };
+                b.AddToClassList("toggle");
+                b.AddToClassList("lang-item");
+                b.EnableInClassList("on", code == Loc.Lang);
+                b.clicked += () =>
+                {
+                    Sfx.Play(SfxId.Pop);
+                    Loc.SetLanguage(code);   // Changed → sahibi arayüzü yeniler (bu paneli de)
+                    Refresh();
+                };
+                grid.Add(b);
+            }
+        }
+
+        /// <summary>Test botu: dil seçiciyi açar.</summary>
+        public void DebugOpenLanguages() { BuildLangGrid(); _langPicker.RemoveFromClassList("hidden"); }
+
         public bool Visible => !_root.ClassListContains("hidden");
         public void Show() { Refresh(); _root.RemoveFromClassList("hidden"); }
-        public void Hide() => _root.AddToClassList("hidden");
+        public void Hide() { _langPicker.AddToClassList("hidden"); _root.AddToClassList("hidden"); }
     }
 }

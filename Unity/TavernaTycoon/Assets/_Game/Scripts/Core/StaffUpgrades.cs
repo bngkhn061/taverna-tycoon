@@ -96,13 +96,13 @@ namespace Taverna
         /// <summary>Kartta gösterilen etki metni.</summary>
         public static string EffectText(Catalog.Staff s, int lv) => s.role switch
         {
-            Catalog.Role.Garson => $"Hız +%{8 * lv} · taşıma +{(lv >= 2 ? 1 : 0) + (lv >= 4 ? 1 : 0)}",
-            Catalog.Role.Barmen => $"Makineler +%{40 + 5 * lv} hız",
-            Catalog.Role.Temizlikci => $"Hız +%{10 * lv}",
-            Catalog.Role.Fenerci => $"Hız +%{8 * lv}",
-            Catalog.Role.Asci => $"Yemekler +%{40 + 5 * lv} hız",
-            Catalog.Role.Hizmetci => $"Hız +%{10 * lv}",
-            _ => $"Sabır +%{25 + 5 * lv}",
+            Catalog.Role.Garson => Loc.F("Hız +%{0} · taşıma +{1}", 8 * lv, (lv >= 2 ? 1 : 0) + (lv >= 4 ? 1 : 0)),
+            Catalog.Role.Barmen => Loc.F("Makineler +%{0} hız", 40 + 5 * lv),
+            Catalog.Role.Temizlikci => Loc.F("Hız +%{0}", 10 * lv),
+            Catalog.Role.Fenerci => Loc.F("Hız +%{0}", 8 * lv),
+            Catalog.Role.Asci => Loc.F("Yemekler +%{0} hız", 40 + 5 * lv),
+            Catalog.Role.Hizmetci => Loc.F("Hız +%{0}", 10 * lv),
+            _ => Loc.F("Sabır +%{0}", 25 + 5 * lv),
         };
     }
 }

@@ -23,15 +23,15 @@ namespace Taverna
 
         public static readonly Tier[] List =
         {
-            new() { index = 0, name = "Ahşap Meyhane", level = 1, cost = 0, price = 1f, ambiance = 0f, zones = new (string, string)[0],
-                    looks = "Ahşap direkler, mum avizeler", guests = "Köy ve kasaba müşterileri" },
-            new() { index = 1, name = "Taş Han", level = 15, cost = 35000, price = 1.5f, ambiance = 30f,
-                    zones = new[] { ("salon", "Ana Salon"), ("bahce", "Bahçe"), ("mutfak", "Mutfak"), ("merdiven", "Han"), ("oyun", "Oyun Salonu") },
-                    looks = "Taş sütun ve kemerler, demir avizeler", guests = "Şövalye, tüccar, maceracı daha sık" },
+            new() { index = 0, name = Loc.N("Ahşap Meyhane"), level = 1, cost = 0, price = 1f, ambiance = 0f, zones = new (string, string)[0],
+                    looks = Loc.N("Ahşap direkler, mum avizeler"), guests = Loc.N("Köy ve kasaba müşterileri") },
+            new() { index = 1, name = Loc.N("Taş Han"), level = 15, cost = 35000, price = 1.5f, ambiance = 30f,
+                    zones = new[] { ("salon", Loc.N("Ana Salon")), ("bahce", Loc.N("Bahçe")), ("mutfak", Loc.N("Mutfak")), ("merdiven", Loc.N("Han")), ("oyun", Loc.N("Oyun Salonu")) },
+                    looks = Loc.N("Taş sütun ve kemerler, demir avizeler"), guests = Loc.N("Şövalye, tüccar, maceracı daha sık") },
             // Saray: yeni bölümler (şarap mahzeni, çatı terası) sıradaki partide gelir; o zamana kadar şart tutmaz
-            new() { index = 2, name = "Saray Hanı", level = 22, cost = 120000, price = 2.25f, ambiance = 60f,
-                    zones = new[] { ("mahzen", "Şarap Mahzeni"), ("teras", "Çatı Terası") },
-                    looks = "Mermer, altın süsler, kadife perdeler", guests = "Soylular, büyücüler, Gizli Kral" },
+            new() { index = 2, name = Loc.N("Saray Hanı"), level = 22, cost = 120000, price = 2.25f, ambiance = 60f,
+                    zones = new[] { ("mahzen", Loc.N("Şarap Mahzeni")), ("teras", Loc.N("Çatı Terası")) },
+                    looks = Loc.N("Mermer, altın süsler, kadife perdeler"), guests = Loc.N("Soylular, büyücüler, Gizli Kral") },
         };
 
         public static event Action Changed;
@@ -52,15 +52,15 @@ namespace Taverna
 
         public static List<(string label, bool ok)> Requirements(Tier t)
         {
-            var r = new List<(string, bool)> { ($"Seviye {t.level}", GameState.Level >= t.level) };
+            var r = new List<(string, bool)> { (Loc.F("Seviye {0}", t.level), GameState.Level >= t.level) };
             bool all = true;
             foreach (var z in t.zones) if (!GameState.IsUnlocked(z.id)) all = false;
             if (t.zones.Length > 0)
             {
-                if (all) r.Add(("Tüm alanlar açık", true));
-                else foreach (var z in t.zones) if (!GameState.IsUnlocked(z.id)) r.Add(($"{z.name} açık değil", false));
+                if (all) r.Add((Loc.T("Tüm alanlar açık"), true));
+                else foreach (var z in t.zones) if (!GameState.IsUnlocked(z.id)) r.Add((Loc.F("{0} açık değil", Loc.T(z.name)), false));
             }
-            r.Add(($"Altın {HudController.FormatNum(Math.Min(GameState.Coins, t.cost))} / {HudController.FormatNum(t.cost)}", GameState.Coins >= t.cost));
+            r.Add((Loc.F("Altın {0} / {1}", HudController.FormatNum(Math.Min(GameState.Coins, t.cost)), HudController.FormatNum(t.cost)), GameState.Coins >= t.cost));
             return r;
         }
 

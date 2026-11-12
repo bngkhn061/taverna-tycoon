@@ -9,7 +9,8 @@ namespace Taverna
         public static float Sfx { get => PlayerPrefs.GetFloat("set_sfx", 0.85f); set { PlayerPrefs.SetFloat("set_sfx", value); Apply(); } }
         public static bool Vibration { get => PlayerPrefs.GetInt("set_vib", 1) == 1; set => PlayerPrefs.SetInt("set_vib", value ? 1 : 0); }
         public static bool Notifications { get => PlayerPrefs.GetInt("set_notif", 0) == 1; set => PlayerPrefs.SetInt("set_notif", value ? 1 : 0); }
-        public static string Language { get => PlayerPrefs.GetString("set_lang", "TR"); set => PlayerPrefs.SetString("set_lang", value); }
+        /// <summary>v1.7: dil kodu (<see cref="Loc.Codes"/>); boşsa ilk açılış sayılır ve sistem dili seçilir. Eski "TR"/"EN" değerleri <see cref="Loc.Normalize"/> ile okunur.</summary>
+        public static string Language { get => PlayerPrefs.GetString("set_lang", ""); set => PlayerPrefs.SetString("set_lang", value); }
         /// <summary>0 Düşük, 1 Orta, 2 Yüksek</summary>
         public static int Graphics { get => PlayerPrefs.GetInt("set_gfx", 1); set { PlayerPrefs.SetInt("set_gfx", value); Apply(); } }
 

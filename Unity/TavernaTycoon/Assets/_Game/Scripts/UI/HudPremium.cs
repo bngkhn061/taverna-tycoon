@@ -33,7 +33,7 @@ namespace Taverna
         }
 
         /// <summary>v1.6: mağaza kapalıyken (yayın derlemesi, gerçek mağaza yok) ürün düğmesinin yazısı.</summary>
-        const string SoonText = "YAKINDA";
+        static string SoonText => Loc.T("YAKINDA");
 
         void UpdatePremium()
         {
@@ -52,27 +52,27 @@ namespace Taverna
         // ------------------------------------------------------------------ sekme
         void BuildPremiumTab()
         {
-            _shopNote.text = !Premium.Available ? "Hazine yakında açılıyor · şimdilik satın alma yok"
-                : Premium.TestStore ? "TEST SÜRÜMÜ · gerçek ödeme alınmaz · fiyatlar örnek"
-                : "Satın almalar hesaba bağlıdır · ilerlemek için gerekmez";
+            _shopNote.text = !Premium.Available ? Loc.T("Hazine yakında açılıyor · şimdilik satın alma yok")
+                : Premium.TestStore ? Loc.T("TEST SÜRÜMÜ · gerçek ödeme alınmaz · fiyatlar örnek")
+                : Loc.T("Satın almalar hesaba bağlıdır · ilerlemek için gerekmez");
             AddVipCard();
             if (Premium.StarterAvailable)
             {
                 var left = Premium.StarterLeft;
-                AddShopSection($"SINIRLI · BAŞLANGIÇ PAKETİ · {(int)left.TotalHours / 24}g {left.Hours}s");
-                AddPremiumItem(Premium.Find("starter"), "%70 indirim");
+                AddShopSection(Loc.F("SINIRLI · BAŞLANGIÇ PAKETİ · {0}g {1}s", (int)left.TotalHours / 24, left.Hours));
+                AddPremiumItem(Premium.Find("starter"), Loc.T("%70 indirim"));
             }
-            AddShopSection("EFSANEVİ PERSONEL");
+            AddShopSection(Loc.T("EFSANEVİ PERSONEL"));
             AddPremiumItem(Premium.Find("staff_lirael"));
             AddPremiumItem(Premium.Find("staff_ignis"));
-            AddShopSection("PREMIUM DEKOR");
+            AddShopSection(Loc.T("PREMIUM DEKOR"));
             foreach (var id in new[] { "thm_altin", "dec_kristal", "dec_ejder", "frame_kraliyet" }) AddPremiumItem(Premium.Find(id));
-            AddShopSection("ELMAS");
+            AddShopSection(Loc.T("ELMAS"));
             var row = new VisualElement();
             row.AddToClassList("prem-gems");
             foreach (var id in new[] { "gems_100", "gems_550", "gems_1200", "gems_3000" }) row.Add(GemCard(Premium.Find(id)));
             _shopScroll.Add(row);
-            var restore = new Button(() => Premium.Restore(n => Toast(n < 0 ? "Mağaza yakında açılıyor" : $"Geri yüklendi: {n} ürün hesabında"))) { text = "SATIN ALMALARI GERİ YÜKLE" };
+            var restore = new Button(() => Premium.Restore(n => Toast(n < 0 ? Loc.T("Mağaza yakında açılıyor") : Loc.F("Geri yüklendi: {0} ürün hesabında", n)))) { text = Loc.T("SATIN ALMALARI GERİ YÜKLE") };
             restore.AddToClassList("btn"); restore.AddToClassList("btn-paper"); restore.AddToClassList("btn-sm"); restore.AddToClassList("prem-restore");
             _shopScroll.Add(restore);
         }
@@ -81,22 +81,22 @@ namespace Taverna
         {
             var card = new Button(OpenVipDetail);
             card.AddToClassList("prem-vip");
-            var crown = new Label("VIP");
+            var crown = new Label(Loc.T("VIP"));
             crown.AddToClassList("prem-crown");
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            var title = new Label(Premium.IsVip ? (Premium.Owned("vip_life") ? "VIP · ömür boyu" : "VIP · aktif") : "VIP Üyelik");
+            var title = new Label(Premium.IsVip ? (Premium.Owned("vip_life") ? Loc.T("VIP · ömür boyu") : Loc.T("VIP · aktif")) : Loc.T("VIP Üyelik"));
             title.AddToClassList("prem-vip-title");
             var perks = new VisualElement();
             perks.AddToClassList("prem-perks");
-            foreach (var t in new[] { "Reklamsız", "Kalıcı ×2 gelir", $"Günde {Premium.VipDailyGems} elmas", "VIP rozet" })
+            foreach (var t in new[] { Loc.T("Reklamsız"), Loc.T("Kalıcı ×2 gelir"), Loc.F("Günde {0} elmas", Premium.VipDailyGems), Loc.T("VIP rozet") })
             {
                 var c = new Label(t);
                 c.AddToClassList("chip");
                 perks.Add(c);
             }
             col.Add(title); col.Add(perks);
-            var price = new Label(Premium.Owned("vip_life") ? "AKTİF" : Premium.Available ? Premium.PriceOf(Premium.Find("vip_month")) : SoonText);
+            var price = new Label(Premium.Owned("vip_life") ? Loc.T("AKTİF") : Premium.Available ? Premium.PriceOf(Premium.Find("vip_month")) : SoonText);
             price.AddToClassList("prem-price");
             card.Add(crown); card.Add(col); card.Add(price);
             _shopScroll.Add(card);
@@ -114,15 +114,15 @@ namespace Taverna
             if (icon) img.style.backgroundImage = new StyleBackground(icon);
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            var n = new Label(badge != null ? $"{p.name} · {badge}" : p.name);
+            var n = new Label(badge != null ? $"{Loc.T(p.name)} · {badge}" : Loc.T(p.name));
             n.AddToClassList("item-name");
-            var sub = new Label(p.desc);
+            var sub = new Label(Loc.T(p.desc));
             sub.AddToClassList("item-sub");
             col.Add(n); col.Add(sub);
             var b = new Button();
             b.AddToClassList("btn"); b.AddToClassList("btn-sm");
             bool open = Premium.Available;
-            var l = new Label(!can ? "ALINDI" : open ? Premium.PriceOf(p) : SoonText);
+            var l = new Label(!can ? Loc.T("ALINDI") : open ? Premium.PriceOf(p) : SoonText);
             b.Add(l);
             if (can && open) { b.AddToClassList("btn-sun"); b.clicked += () => Premium.Request(p.id); }
             else if (can) { b.AddToClassList("btn-paper"); b.AddToClassList("locked"); b.AddToClassList("prem-soon"); b.SetEnabled(false); }
@@ -135,7 +135,7 @@ namespace Taverna
         {
             var c = new VisualElement();
             c.AddToClassList("prem-gem");
-            if (p.id == "gems_1200") { var hot = new Label("EN İYİ"); hot.AddToClassList("prem-hot"); c.Add(hot); }
+            if (p.id == "gems_1200") { var hot = new Label(Loc.T("EN İYİ")); hot.AddToClassList("prem-hot"); c.Add(hot); }
             var ic = new VisualElement();
             ic.AddToClassList("prem-gem-ic");
             ic.style.backgroundImage = new StyleBackground(GemIcon);
@@ -195,9 +195,9 @@ namespace Taverna
 
         void OpenVipDetail()
         {
-            var overlay = PremCard("VIP ÜYELİK", 560f, out var card, "ribbon-plum");
-            foreach (var (icon, text) in new[] { ("play", "Reklamsız: tüm reklam ödülleri anında"), ("coin", "Kalıcı ×2 gelir (diğer çarpanlarla birleşir)"),
-                                                 ("gem", $"Her gün {Premium.VipDailyGems} elmas"), ("star", "Tabelada VIP rozeti, mor isim") })
+            var overlay = PremCard(Loc.T("VIP ÜYELİK"), 560f, out var card, "ribbon-plum");
+            foreach (var (icon, text) in new[] { ("play", Loc.T("Reklamsız: tüm reklam ödülleri anında")), ("coin", Loc.T("Kalıcı ×2 gelir (diğer çarpanlarla birleşir)")),
+                                                 ("gem", Loc.F("Her gün {0} elmas", Premium.VipDailyGems)), ("star", Loc.T("Tabelada VIP rozeti, mor isim")) })
             {
                 var row = new VisualElement();
                 row.AddToClassList("prem-perk");
@@ -208,38 +208,38 @@ namespace Taverna
                 row.Add(new Label(text));
                 card.Add(row);
             }
-            if (Premium.Owned("vip_life")) { card.Add(Note("Ömür boyu VIP'sin · teşekkürler!")); return; }
-            if (!Premium.Available) { card.Add(Note("Hazine yakında açılıyor")); return; }
+            if (Premium.Owned("vip_life")) { card.Add(Note(Loc.T("Ömür boyu VIP'sin · teşekkürler!"))); return; }
+            if (!Premium.Available) { card.Add(Note(Loc.T("Hazine yakında açılıyor"))); return; }
             var actions = new VisualElement();
             actions.AddToClassList("popup-actions");
             actions.Add(ModalButton(Premium.PriceOf(Premium.Find("vip_month")), "btn-sun", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_month"); }));
-            var life = ModalButton($"Ömür boyu · {Premium.PriceOf(Premium.Find("vip_life"))}", "btn-plum", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_life"); });
+            var life = ModalButton(Loc.F("Ömür boyu · {0}", Premium.PriceOf(Premium.Find("vip_life"))), "btn-plum", () => { overlay.RemoveFromHierarchy(); Premium.Request("vip_life"); });
             life.AddToClassList("last");
             actions.Add(life);
             card.Add(actions);
-            card.Add(Note(Premium.IsVip ? "VIP aktif · aylık alım süreyi 30 gün uzatır" : "Abonelik Google Play'den yönetilir · istediğin zaman iptal"));
+            card.Add(Note(Premium.IsVip ? Loc.T("VIP aktif · aylık alım süreyi 30 gün uzatır") : Loc.T("Abonelik Google Play'den yönetilir · istediğin zaman iptal")));
         }
 
         /// <summary>v1.6: mağaza kapalı (yayın derlemesi, gerçek mağaza yok): "Yakında" bilgisi, ürün verilmez.</summary>
         void OnStoreUnavailable(Premium.Product p)
         {
-            var o = PremCard("MAĞAZA", 460f, out var c);
-            c.Add(Note("Mağaza yakında açılıyor"));
-            var ok = ModalButton("TAMAM", "btn-paper", () => o.RemoveFromHierarchy());
+            var o = PremCard(Loc.T("MAĞAZA"), 460f, out var c);
+            c.Add(Note(Loc.T("Mağaza yakında açılıyor")));
+            var ok = ModalButton(Loc.T("TAMAM"), "btn-paper", () => o.RemoveFromHierarchy());
             ok.style.marginTop = 12;
             c.Add(ok);
         }
 
         void OnPurchaseFailed(Premium.Product p, string why)
         {
-            if (why != "vazgeçildi") Toast($"Satın alma tamamlanmadı: {why}");
+            if (why != "vazgeçildi") Toast(Loc.F("Satın alma tamamlanmadı: {0}", why));
         }
 
         /// <summary>v1.6: <see cref="TestStoreService"/> onay ekranı (yalnızca geliştirme derlemesi): ONAYLA ödemeyi başarılı sayar.</summary>
         void OpenTestConfirm(string productId, Action confirm, Action cancel)
         {
             var p = Premium.Find(productId);
-            var overlay = PremCard("SATIN AL", 500f, out var card);
+            var overlay = PremCard(Loc.T("SATIN AL"), 500f, out var card);
             var head = new VisualElement();
             head.AddToClassList("prem-confirm-head");
             var img = new VisualElement();
@@ -248,33 +248,33 @@ namespace Taverna
             if (icon) img.style.backgroundImage = new StyleBackground(icon);
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            var n = new Label(p.name);
+            var n = new Label(Loc.T(p.name));
             n.AddToClassList("item-name");
-            var d = new Label(p.desc);
+            var d = new Label(Loc.T(p.desc));
             d.AddToClassList("item-sub");
             col.Add(n); col.Add(d);
             head.Add(img); head.Add(col);
             card.Add(head);
             var total = new VisualElement();
             total.AddToClassList("dayend-line");
-            total.Add(new Label("Toplam"));
+            total.Add(new Label(Loc.T("Toplam")));
             var price = new Label(Premium.PriceOf(p));
             price.AddToClassList("val");
             total.Add(price);
             card.Add(total);
             var actions = new VisualElement();
             actions.AddToClassList("popup-actions");
-            actions.Add(ModalButton("VAZGEÇ", "btn-paper", () => { overlay.RemoveFromHierarchy(); cancel?.Invoke(); }));
-            var ok2 = ModalButton("ONAYLA", "btn-teal", () => { overlay.RemoveFromHierarchy(); confirm?.Invoke(); });
+            actions.Add(ModalButton(Loc.T("VAZGEÇ"), "btn-paper", () => { overlay.RemoveFromHierarchy(); cancel?.Invoke(); }));
+            var ok2 = ModalButton(Loc.T("ONAYLA"), "btn-teal", () => { overlay.RemoveFromHierarchy(); confirm?.Invoke(); });
             ok2.AddToClassList("last");
             actions.Add(ok2);
             card.Add(actions);
-            card.Add(Note("TEST · geliştirme sürümü: gerçek ödeme alınmaz"));
+            card.Add(Note(Loc.T("TEST · geliştirme sürümü: gerçek ödeme alınmaz")));
         }
 
         void OnPremiumGranted(Premium.Product p)
         {
-            Toast(p.kind == Premium.Kind.Gems ? $"+{p.gems} elmas!" : $"{p.name} alındı!");
+            Toast(p.kind == Premium.Kind.Gems ? Loc.F("+{0} elmas!", p.gems) : Loc.F("{0} alındı!", Loc.T(p.name)));
             Confetti(26);
             Sfx.Play(SfxId.Buy);
             if (!_shopRoot.ClassListContains("hidden")) BuildShop();
@@ -284,9 +284,9 @@ namespace Taverna
         /// <summary>Sv3: başlangıç paketi teklifi (bir kez kendiliğinden; sonra 72 saat Hazine'de).</summary>
         public void OpenStarterOffer()
         {
-            var overlay = PremCard("BAŞLANGIÇ PAKETİ", 560f, out var card);
+            var overlay = PremCard(Loc.T("BAŞLANGIÇ PAKETİ"), 560f, out var card);
             var left = Premium.StarterLeft;
-            var timer = new Label($"Sınırlı · {(int)left.TotalHours / 24}g {left.Hours}s");
+            var timer = new Label(Loc.F("Sınırlı · {0}g {1}s", (int)left.TotalHours / 24, left.Hours));
             timer.AddToClassList("prem-timer");
             card.Add(timer);
             var row = new VisualElement();
@@ -305,14 +305,14 @@ namespace Taverna
                 b.Add(ic); b.Add(t); b.Add(l);
                 row.Add(b);
             }
-            Box(CoinIcon, "5.000", "altın");
-            Box(GemIcon, "100", "elmas");
-            Box(LoadIcon("DEC_AltinFici"), "Altın Fıçı", "süs");
+            Box(CoinIcon, "5.000", Loc.T("altın"));
+            Box(GemIcon, "100", Loc.T("elmas"));
+            Box(LoadIcon("DEC_AltinFici"), Loc.T("Altın Fıçı"), Loc.T("süs"));
             card.Add(row);
             var buy = ModalButton(Premium.PriceOf(Premium.Find("starter")), "btn-sun", () => { overlay.RemoveFromHierarchy(); Premium.Request("starter"); });
             buy.AddToClassList("prem-starter-buy");
             card.Add(buy);
-            card.Add(Note("Hesap başına bir kez · sonra 3 gün Hazine'de durur"));
+            card.Add(Note(Loc.T("Hesap başına bir kez · sonra 3 gün Hazine'de durur")));
         }
     }
 }

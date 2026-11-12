@@ -57,7 +57,7 @@ namespace Taverna
         {
             // İstasyonlar etkinleştikten sonra: görevler açık içeceklere göre üretilir
             Quests.Init();
-            if (AutoTest.Enabled && string.IsNullOrEmpty(GameState.Data.tavernName)) GameState.Data.tavernName = "Test Tavernası";
+            if (AutoTest.Enabled && string.IsNullOrEmpty(GameState.Data.tavernName)) GameState.Data.tavernName = Loc.T("Test Tavernası");
             if (AutoTest.Enabled && GameState.Level > 1) GameState.Data.tutorialDone = true;
             Tutorial.Begin();
             int waiters = 0;

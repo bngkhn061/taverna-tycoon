@@ -24,7 +24,7 @@ namespace Taverna
         public State state { get; private set; }
         public float Progress01 => state == State.Playing ? 1f - _t / roundSeconds : 0f;
         public Vector3 TagPos => transform.position + Vector3.up * 1.25f;
-        public string Title => kind switch { Kind.Zar => "Zar", Kind.Kart => "Kart", _ => "Bilek güreşi" };
+        public string Title => kind switch { Kind.Zar => Loc.T("Zar"), Kind.Kart => Loc.T("Kart"), _ => Loc.T("Bilek güreşi") };
 
         Table _table;
         float _t, _autoT;

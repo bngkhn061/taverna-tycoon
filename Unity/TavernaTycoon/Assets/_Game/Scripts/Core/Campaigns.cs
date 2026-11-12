@@ -67,7 +67,7 @@ namespace Taverna
             _helper.name = "Yardimci_Garson";
             _helper.transform.position = PlayerController.I ? PlayerController.I.transform.position + Vector3.right : template.transform.position;
             var badge = _helper.GetComponent<StaffBadge>();
-            if (badge) { badge.displayName = "Yardımcı"; badge.staffId = ""; }
+            if (badge) { badge.displayName = Loc.N("Yardımcı"); badge.staffId = ""; }
             _helper.SetActive(true);
             _helperUntil = Time.unscaledTime + HelperSeconds;
             _helperReadyAt = _helperUntil + HelperCooldownSeconds;

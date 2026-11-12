@@ -10,7 +10,7 @@ namespace Taverna
     public class SignTier : MonoBehaviour
     {
         public static readonly int[] Levels = { 1, 5, 10, 15, 20 };
-        public static readonly string[] Names = { "Tahta levha", "Boyalı tabela", "Demir çerçeve", "Yaldızlı tabela", "Görkemli tabela" };
+        public static readonly string[] Names = { Loc.N("Tahta levha"), Loc.N("Boyalı tabela"), Loc.N("Demir çerçeve"), Loc.N("Yaldızlı tabela"), Loc.N("Görkemli tabela") };
 
         /// <summary>Şu an görünen kademe (0..4).</summary>
         public static int Current { get; private set; }

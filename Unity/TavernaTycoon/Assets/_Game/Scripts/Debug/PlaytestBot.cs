@@ -42,6 +42,8 @@ namespace Taverna
         int _uiStep, _uiPhase;
         static readonly (string, string)[] UiSteps = { ("hud", "ui_hud.png"), ("upgrade", "ui_upgrade.png"), ("quests", "ui_quests.png"), ("shop", "ui_shop.png"), ("shop-staff", "ui_shop_staff.png"), ("shop-dec", "ui_shop_dec.png"), ("depot", "ui_depot.png"), ("shop-auto", "ui_shop_auto.png"), ("shop-prem", "ui_shop_prem.png"), ("vip", "ui_vip.png"), ("happy", "ui_happy.png"), ("events", "ui_events.png") };
         float _fpsAcc; int _fpsN;
+        // v1.7 canlı dil değişimi testi
+        int _langStep; float _langAt; string _lang0;
 
         void Start()
         {
@@ -182,6 +184,11 @@ namespace Taverna
                     else if (_uiPhase == 1 && _t > _uiT + 1.2f) { Shot(file); _uiPhase = 2; }
                     else if (_uiPhase == 2 && _t > _uiT + 2.0f) { hud.DebugOpen("close"); _uiPhase = 0; _uiStep++; }
                 }
+                // v1.7: oyun içinde canlı dil değişimi (dükkân açıkken) → görüntü → eski dile dönüş
+                if (_uiStep >= UiSteps.Length && _langStep == 0) { _langStep = 1; _lang0 = Loc.Lang; hud.DebugOpen("shop"); _langAt = _real; }
+                else if (_langStep == 1 && _real > _langAt + 0.5f) { _langStep = 2; Loc.SetLanguage(_lang0 == "ja" ? "de" : "ja"); _langAt = _real; }
+                else if (_langStep == 2 && _real > _langAt + 0.6f) { _langStep = 3; Shot("ui_lang_switch.png"); Log($"v1.7 DİL (oyun içi): {_lang0} → {Loc.Lang} · istisna yok"); _langAt = _real; }
+                else if (_langStep == 3 && _real > _langAt + 0.5f) { _langStep = 4; Loc.SetLanguage(_lang0); hud.DebugOpen("close"); Log($"v1.7 DİL geri: {Loc.Lang}"); }
             }
             // v1.3: kov → maaş düşer → yeniden işe al (v1.4: ücret = max(katalog, 2 × günlük maaş))
             if (_fireStep == 0 && _t > 120f && Management.Hired("staff_nana"))

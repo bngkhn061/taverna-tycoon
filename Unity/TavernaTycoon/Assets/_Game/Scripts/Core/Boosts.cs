@@ -23,10 +23,10 @@ namespace Taverna
 
         public static readonly Offer[] Offers =
         {
-            new() { id = "x2", name = "10 dk ×2 Gelir", icon = "ParaYigini", gems = 10, hot = true },
-            new() { id = "refill", name = "Anında Dolum", icon = "Bira", gems = 5 },
-            new() { id = "rush", name = "Yoğun Saati Başlat", icon = "EjderAtesi", gems = 8 },
-            new() { id = "coins", name = "Altın Kesesi", icon = "Para", gems = 15 },
+            new() { id = "x2", name = Loc.N("10 dk ×2 Gelir"), icon = "ParaYigini", gems = 10, hot = true },
+            new() { id = "refill", name = Loc.N("Anında Dolum"), icon = "Bira", gems = 5 },
+            new() { id = "rush", name = Loc.N("Yoğun Saati Başlat"), icon = "EjderAtesi", gems = 8 },
+            new() { id = "coins", name = Loc.N("Altın Kesesi"), icon = "Para", gems = 15 },
         };
 
         /// <summary>v1.1 (oyuncu testi "15 elmasa çok altın veriyor"): erken seviyede küçük, ilerledikçe hızlanır (Sv1 160, Sv5 770, Sv10 2000).</summary>

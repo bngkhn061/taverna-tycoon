@@ -209,12 +209,12 @@ namespace Taverna
 
         public static string BuyMessage(BuyResult r, int level = 0, string zone = "") => r switch
         {
-            BuyResult.NoMoney => "Yeterli altın yok",
-            BuyResult.LevelLow => $"Seviye {level} gerekli",
-            BuyResult.ZoneLocked => $"Önce {zone} açılmalı",
-            BuyResult.Owned => "Zaten var",
-            BuyResult.NoSlot => "Boş yer kalmadı",
-            BuyResult.Premium => "Hazine'de satılıyor",
+            BuyResult.NoMoney => Loc.T("Yeterli altın yok"),
+            BuyResult.LevelLow => Loc.F("Seviye {0} gerekli", level),
+            BuyResult.ZoneLocked => Loc.F("Önce {0} açılmalı", zone),
+            BuyResult.Owned => Loc.T("Zaten var"),
+            BuyResult.NoSlot => Loc.T("Boş yer kalmadı"),
+            BuyResult.Premium => Loc.T("Hazine'de satılıyor"),
             _ => "",
         };
     }

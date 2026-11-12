@@ -82,17 +82,17 @@ namespace Taverna
             _root.Q<Button>("rename-coins").clicked += () =>
             {
                 if (!ValidName(out var n)) return;
-                if (!GameState.TrySpend(Balance.RenameCost)) { Toast("Yeterli altın yok"); return; }
+                if (!GameState.TrySpend(Balance.RenameCost)) { Toast(Loc.T("Yeterli altın yok")); return; }
                 ApplyName(n);
             };
             _root.Q<Button>("rename-ad").clicked += () =>
             {
                 if (!ValidName(out var n)) return;
-                ShowAd("rename", "Taverna adını değiştir", () =>
+                ShowAd("rename", Loc.T("Taverna adını değiştir"), () =>
                 {
                     GameState.Data.renameAds++;
                     if (GameState.Data.renameAds >= Balance.RenameAds) { GameState.Data.renameAds = 0; ApplyName(n); }
-                    else { GameState.Save(); RefreshRename(); Toast($"Bir reklam daha: {GameState.Data.renameAds}/{Balance.RenameAds}"); }
+                    else { GameState.Save(); RefreshRename(); Toast(Loc.F("Bir reklam daha: {0}/{1}", GameState.Data.renameAds, Balance.RenameAds)); }
                 });
             };
             _settings.RenameRequested += OpenRename;
@@ -131,7 +131,7 @@ namespace Taverna
             {
                 _wageWarnDay = GameState.Data.day;
                 long w = Management.DailyWages;
-                if (w > 0 && GameState.Coins < w) Toast($"Gün sonu maaş: {FormatNum(w)} altın · kasada tut, yoksa personel küser");
+                if (w > 0 && GameState.Coins < w) Toast(Loc.F("Gün sonu maaş: {0} altın · kasada tut, yoksa personel küser", FormatNum(w)));
             }
             if (_signPoint)
             {
@@ -164,7 +164,7 @@ namespace Taverna
             _hudRoot.style.opacity = 0f;
             var follow = cam ? cam.GetComponent<CameraFollow>() : null;
             if (follow) follow.Intro(IntroSeconds);
-            ShowBanner($"{GameState.TavernName.ToUpper(new System.Globalization.CultureInfo("tr-TR"))} · GÜN {GameState.Data.day}{BranchSuffix}", "door", false, IntroSeconds + 0.6f);
+            ShowBanner(Loc.F("{0} · GÜN {1}{2}", Loc.Upper(GameState.TavernName), GameState.Data.day, BranchSuffix), "door", false, IntroSeconds + 0.6f);
             _banner.style.opacity = 0f;
             Sfx.Play(SfxId.Door);
         }
@@ -198,7 +198,7 @@ namespace Taverna
         // ------------------------------------------------------------------ gün sonu + plan (F) ve sabah (G)
         void OpenDayEnd(DayCycle.Report r)
         {
-            _dayendTitle.text = $"GÜN {r.day} BİTTİ";
+            _dayendTitle.text = Loc.F("GÜN {0} BİTTİ", r.day);
             _dayendRows.Clear();
             void Line(string label, string value, string cls)
             {
@@ -211,15 +211,15 @@ namespace Taverna
                 row.Add(l); row.Add(v);
                 _dayendRows.Add(row);
             }
-            Line("Gelir", $"+{FormatNum(r.income)}", "");
-            Line("Maaşlar", $"−{FormatNum(r.wages)}", "neg");
-            if (r.unpaid > 0) Line("Ödenemeyen maaş", $"−{FormatNum(r.unpaid)}", "neg");
+            Line(Loc.T("Gelir"), $"+{FormatNum(r.income)}", "");
+            Line(Loc.T("Maaşlar"), $"−{FormatNum(r.wages)}", "neg");
+            if (r.unpaid > 0) Line(Loc.T("Ödenemeyen maaş"), $"−{FormatNum(r.unpaid)}", "neg");
             long net = r.income - r.wages;
-            Line("Net kazanç", (net >= 0 ? "+" : "−") + FormatNum(System.Math.Abs(net)), net >= 0 ? "pos" : "neg");
-            Line("Kasadaki altın", FormatNum(GameState.Coins), "");
+            Line(Loc.T("Net kazanç"), (net >= 0 ? "+" : "−") + FormatNum(System.Math.Abs(net)), net >= 0 ? "pos" : "neg");
+            Line(Loc.T("Kasadaki altın"), FormatNum(GameState.Coins), "");
             _dayendChips.Clear();
-            var chipsText = new List<string> { $"{r.served} servis", $"★ {r.stars:0.#}", $"Sv {GameState.Level}" };
-            if (r.unpaid > 0) chipsText.Add("Personel yarın küskün (−%20 hız)");
+            var chipsText = new List<string> { Loc.F("{0} servis", r.served), $"★ {r.stars:0.#}", Loc.F("Sv {0}", GameState.Level) };
+            if (r.unpaid > 0) chipsText.Add(Loc.T("Personel yarın küskün (−%20 hız)"));
             foreach (var c in chipsText)
             {
                 var chip = new Label(c);
@@ -260,7 +260,7 @@ namespace Taverna
             if (_planTab == "depot")
             {
                 BuildDepot();
-                _planNote.text = "Gece verilen siparişler sabah hepsi birden gelir";
+                _planNote.text = Loc.T("Gece verilen siparişler sabah hepsi birden gelir");
             }
             else
             {
@@ -290,8 +290,8 @@ namespace Taverna
 
         void OnDayStarted(int day)
         {
-            ShowBanner($"GÜN {day}{BranchSuffix}", "sun", true, 2.2f);   // v1.5: şube adı
-            if (Management.Sulky) Toast("Maaşlar ödenmedi: personel bugün küskün, yavaş çalışıyor");
+            ShowBanner(Loc.F("GÜN {0}{1}", day, BranchSuffix), "sun", true, 2.2f);   // v1.5: şube adı
+            if (Management.Sulky) Toast(Loc.T("Maaşlar ödenmedi: personel bugün küskün, yavaş çalışıyor"));
             Sfx.Play(SfxId.Dawn);
         }
 
@@ -301,8 +301,8 @@ namespace Taverna
             bool on = Tutorial.Active;
             _tutLayer.EnableInClassList("hidden", !on);
             if (!on) return;
-            _tutText.text = Tutorial.Texts[Tutorial.Step];
-            _tutStep.text = $"ADIM {Tutorial.Step + 1} / {Tutorial.StepCount}";
+            _tutText.text = Loc.T(Tutorial.Texts[Tutorial.Step]);
+            _tutStep.text = Loc.F("ADIM {0} / {1}", Tutorial.Step + 1, Tutorial.StepCount);
             for (int i = 0; i < _tutPips.childCount; i++) _tutPips[i].EnableInClassList("on", i <= Tutorial.Step);
         }
 
@@ -351,7 +351,7 @@ namespace Taverna
                     _gameTags[g] = l;
                 }
                 bool ready = g.state == GameTable.State.Ready, playing = g.state == GameTable.State.Playing;
-                l.text = playing ? $"{g.Title} · {Mathf.RoundToInt(g.Progress01 * 100f)}%" : $"{g.Title}: Oyna!";
+                l.text = playing ? $"{Loc.T(g.Title)} · {Mathf.RoundToInt(g.Progress01 * 100f)}%" : Loc.F("{0}: Oyna!", Loc.T(g.Title));
                 l.EnableInClassList("busy", playing);
                 bool on = ToPanel(g.TagPos, out var p);
                 Place(l, p, on && (ready || playing) && !(ready && Automation.Has("oyun")));
@@ -365,19 +365,19 @@ namespace Taverna
         void BuildAutomationTab()
         {
             int owned = Automation.OwnedCount;
-            _shopNote.text = $"USTA · {owned}/{Automation.List.Length} otomasyon" + (Automation.UstaOpen ? " · Usta geliştirmeleri açık" : " · ilk otomasyonla Usta geliştirmeleri açılır");
-            AddShopSection("OTOMASYON");
+            _shopNote.text = Loc.F("USTA · {0}/{1} otomasyon", owned, Automation.List.Length) + (Automation.UstaOpen ? Loc.T(" · Usta geliştirmeleri açık") : Loc.T(" · ilk otomasyonla Usta geliştirmeleri açılır"));
+            AddShopSection(Loc.T("OTOMASYON"));
             foreach (var d in Automation.List)
             {
                 var dd = d;
                 var can = Automation.CanBuy(d);
-                string sub = can == Management.BuyResult.Owned ? $"Açık · {d.desc}" : can == Management.BuyResult.LevelLow ? $"Seviye {d.level}'te açılır · {d.desc}" : d.desc;
-                AddShopItem(KitIcon(d.icon), d.name, sub, can, d.price, false, () => Automation.Buy(dd), d.level, "");
+                string sub = can == Management.BuyResult.Owned ? Loc.F("Açık · {0}", Loc.T(d.desc)) : can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}'te açılır · {1}", d.level, Loc.T(d.desc)) : Loc.T(d.desc);
+                AddShopItem(KitIcon(d.icon), Loc.T(d.name), sub, can, d.price, false, () => Automation.Buy(dd), d.level, "");
             }
             if (!Automation.UstaOpen) return;
-            AddShopSection("USTA GELİŞTİRMELERİ");
-            AddUstaItem("gelir", "Altın Kese", $"Tüm gelir +%{Mathf.RoundToInt(Automation.UstaIncomePerLv * 100)} (kalıcı)", Automation.UstaIncomeLv, "coin");
-            AddUstaItem("musteri", "Ünlü Taverna", $"Müşteri sıklığı +%{Mathf.RoundToInt(Automation.UstaGuestPerLv * 100)} (kalıcı)", Automation.UstaGuestLv, "horn");
+            AddShopSection(Loc.T("USTA GELİŞTİRMELERİ"));
+            AddUstaItem("gelir", Loc.T("Altın Kese"), Loc.F("Tüm gelir +%{0} (kalıcı)", Mathf.RoundToInt(Automation.UstaIncomePerLv * 100)), Automation.UstaIncomeLv, "coin");
+            AddUstaItem("musteri", Loc.T("Ünlü Taverna"), Loc.F("Müşteri sıklığı +%{0} (kalıcı)", Mathf.RoundToInt(Automation.UstaGuestPerLv * 100)), Automation.UstaGuestLv, "horn");
         }
 
         void AddUstaItem(string which, string name, string effect, int lv, string icon)
@@ -385,7 +385,7 @@ namespace Taverna
             bool max = lv >= Automation.UstaMaxLevel;
             long price = Automation.UstaPrice(lv);
             var state = max ? Management.BuyResult.Owned : GameState.Coins >= price ? Management.BuyResult.Ok : Management.BuyResult.NoMoney;
-            AddShopItem(KitIcon(icon), $"{name} · Kademe {lv}/{Automation.UstaMaxLevel}", max ? "En yüksek kademe" : effect, state, price, false,
+            AddShopItem(KitIcon(icon), Loc.F("{0} · Kademe {1}/{2}", name, lv, Automation.UstaMaxLevel), max ? Loc.T("En yüksek kademe") : effect, state, price, false,
                 () => Automation.BuyUsta(which), 0, "");
         }
 
@@ -399,13 +399,13 @@ namespace Taverna
             Show(_renameRoot);
         }
 
-        void RefreshRename() => _renameAdText.text = $"REKLAM {GameState.Data.renameAds}/{Balance.RenameAds}";
+        void RefreshRename() => _renameAdText.text = Loc.F("REKLAM {0}/{1}", GameState.Data.renameAds, Balance.RenameAds);
 
         bool ValidName(out string n)
         {
             n = (_renameField.value ?? "").Trim();
-            if (n.Length < 3) { Toast("Ad en az 3 harf olmalı"); return false; }
-            if (n == GameState.TavernName) { Toast("Bu zaten tavernanın adı"); return false; }
+            if (n.Length < 3) { Toast(Loc.T("Ad en az 3 harf olmalı")); return false; }
+            if (n == GameState.TavernName) { Toast(Loc.T("Bu zaten tavernanın adı")); return false; }
             return true;
         }
 
@@ -416,7 +416,7 @@ namespace Taverna
             GameState.NotifyChanged();
             _signLabel.text = n;
             _renameRoot.AddToClassList("hidden");
-            Toast($"Yeni ad: {n}");
+            Toast(Loc.F("Yeni ad: {0}", n));
             Confetti(18);
             Sfx.Play(SfxId.Buy);
         }

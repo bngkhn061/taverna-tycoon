@@ -28,7 +28,7 @@ namespace Taverna
                 Prestige.JustBranched = false;
                 _root.schedule.Execute(() =>
                 {
-                    ShowBanner($"YENİ ŞUBE · {Upper(Prestige.CurrentName)}", "home", true, 3.2f);
+                    ShowBanner(Loc.F("YENİ ŞUBE · {0}", Upper(Prestige.CurrentName)), "home", true, 3.2f);
                     Confetti(40);
                     Sfx.Play(SfxId.LevelUp);
                 }).StartingIn(600);
@@ -37,7 +37,7 @@ namespace Taverna
 
         void DisablePrestige() => Prestige.ZoneEntered -= OpenBranchCard;
 
-        static string Upper(string s) => s.ToUpper(new System.Globalization.CultureInfo("tr-TR"));
+        static string Upper(string s) => Loc.Upper(s);
 
         void RefreshBranchBadge()
         {
@@ -61,9 +61,9 @@ namespace Taverna
             _goal.style.display = DisplayStyle.Flex;
             _goalIcon.style.backgroundImage = new StyleBackground(KitIcon("home"));
             string next = Prestige.BranchName(Prestige.Branch + 1);
-            if (ready) _goalText.text = "Yeni Şube hazır! Büyüt karesine git";
-            else if (tierMissing) _goalText.text = $"Yeni Şube için: {Tiers.List[Tiers.List.Length - 1].name} kademesi";
-            else _goalText.text = $"Yeni Şube: {next}";
+            if (ready) _goalText.text = Loc.T("Yeni Şube hazır! Büyüt karesine git");
+            else if (tierMissing) _goalText.text = Loc.F("Yeni Şube için: {0} kademesi", Loc.T(Tiers.List[Tiers.List.Length - 1].name));
+            else _goalText.text = Loc.F("Yeni Şube: {0}", next);
             if (tierMissing)
             {
                 var n = Tiers.Next;
@@ -91,16 +91,16 @@ namespace Taverna
         {
             if (TierAnimOpen || DayCycle.Ended) return;
             int b = Prestige.Branch, nb = b + 1;
-            var overlay = PremCard("YENİ ŞUBE", 780f, out var card);
+            var overlay = PremCard(Loc.T("YENİ ŞUBE"), 780f, out var card);
             card.AddToClassList("branch-card");
 
             var compare = new VisualElement();
             compare.AddToClassList("tier-compare");
-            compare.Add(BranchShot(Tiers.CurrentIndex, $"{Prestige.CurrentName} · Sv{GameState.Level}"));
+            compare.Add(BranchShot(Tiers.CurrentIndex, Loc.F("{0} · Sv{1}", Prestige.CurrentName, GameState.Level)));
             var arrow = new Label("➜");
             arrow.AddToClassList("tier-arrow");
             compare.Add(arrow);
-            compare.Add(BranchShot(0, $"{Prestige.BranchName(nb)} · Sv1"));
+            compare.Add(BranchShot(0, Loc.F("{0} · Sv1", Prestige.BranchName(nb))));
             card.Add(compare);
 
             var req = new VisualElement();
@@ -116,19 +116,19 @@ namespace Taverna
 
             var cols = new VisualElement();
             cols.AddToClassList("branch-cols");
-            cols.Add(BranchCol("KALIR", "keep", new[]
+            cols.Add(BranchCol(Loc.T("KALIR"), "keep", new[]
             {
-                "Elmas ve Hazine ürünleri (VIP dahil)",
-                "Koleksiyon defteri, taverna adı, ayarlar",
-                "Zemin / duvar temaları, dekorlar (bölgesi açılınca)",
-                "Reklam hakları ve rehber bilgisi",
+                Loc.T("Elmas ve Hazine ürünleri (VIP dahil)"),
+                Loc.T("Koleksiyon defteri, taverna adı, ayarlar"),
+                Loc.T("Zemin / duvar temaları, dekorlar (bölgesi açılınca)"),
+                Loc.T("Reklam hakları ve rehber bilgisi"),
             }));
-            cols.Add(BranchCol("SIFIRLANIR", "reset", new[]
+            cols.Add(BranchCol(Loc.T("SIFIRLANIR"), "reset", new[]
             {
-                "Altın, seviye, Ün ve gün sayısı",
-                "Alanlar, masalar, makineler, yükseltmeler, depo",
-                "Personel, otomasyon ve Usta",
-                $"Taverna kademesi · mutluluk %{Happiness.Start:0}",
+                Loc.T("Altın, seviye, Ün ve gün sayısı"),
+                Loc.T("Alanlar, masalar, makineler, yükseltmeler, depo"),
+                Loc.T("Personel, otomasyon ve Usta"),
+                Loc.F("Taverna kademesi · mutluluk %{0:0}", Happiness.Start),
             }));
             card.Add(cols);
 
@@ -136,10 +136,10 @@ namespace Taverna
             gains.AddToClassList("tier-gains");
             foreach (var (icon, text) in new[]
                      {
-                         ("coin", $"Kalıcı gelir ×{Prestige.IncomeMultiplierFor(nb):0.##} (şube başına +%{Prestige.IncomePerBranch * 100f:0})"),
-                         ("star", $"Ün kazanımı ×{Prestige.UnMultiplierFor(nb):0.##} (şube başına +%{Prestige.UnPerBranch * 100f:0})"),
-                         ("home", $"{Prestige.BranchName(nb)} {FormatNum(Prestige.StartCoins(nb))} altınla açılır"),
-                         ("person", "Harita aynı kalır · yeni şube haritaları yakında"),
+                         ("coin", Loc.F("Kalıcı gelir ×{0:0.##} (şube başına +%{1:0})", Prestige.IncomeMultiplierFor(nb), Prestige.IncomePerBranch * 100f)),
+                         ("star", Loc.F("Ün kazanımı ×{0:0.##} (şube başına +%{1:0})", Prestige.UnMultiplierFor(nb), Prestige.UnPerBranch * 100f)),
+                         ("home", Loc.F("{0} {1} altınla açılır", Prestige.BranchName(nb), FormatNum(Prestige.StartCoins(nb)))),
+                         ("person", Loc.T("Harita aynı kalır · yeni şube haritaları yakında")),
                      })
             {
                 var g = new VisualElement();
@@ -155,15 +155,15 @@ namespace Taverna
 
             var actions = new VisualElement();
             actions.AddToClassList("popup-actions");
-            actions.Add(ModalButton("SONRA", "btn-paper", () => { overlay.RemoveFromHierarchy(); _branchTap = null; }));
+            actions.Add(ModalButton(Loc.T("SONRA"), "btn-paper", () => { overlay.RemoveFromHierarchy(); _branchTap = null; }));
             bool can = Prestige.CanPrestige;
             _branchArmed = false;
-            var go = ModalButton($"{FormatNum(Prestige.RequiredCoins)} · ŞUBE AÇ", can ? "btn-sun" : "btn-paper", null);
+            var go = ModalButton(Loc.F("{0} · ŞUBE AÇ", FormatNum(Prestige.RequiredCoins)), can ? "btn-sun" : "btn-paper", null);
             go.AddToClassList("last");
             go.EnableInClassList("locked", !can);
             _branchTap = () =>
             {
-                if (!Prestige.CanPrestige) { Toast("Şartlar henüz tamam değil"); return; }
+                if (!Prestige.CanPrestige) { Toast(Loc.T("Şartlar henüz tamam değil")); return; }
                 if (!_branchArmed)
                 {
                     // 1. dokunuş: onay iste (geri dönüşü yok)
@@ -171,8 +171,8 @@ namespace Taverna
                     go.RemoveFromClassList("btn-sun");
                     go.AddToClassList("btn-red");
                     var l = go.Q<Label>();
-                    if (l != null) l.text = "EMİN MİSİN? ONAYLA";
-                    _branchNote.text = "Son dokunuş: şube açılır, geri dönüşü yok.";
+                    if (l != null) l.text = Loc.T("EMİN MİSİN? ONAYLA");
+                    _branchNote.text = Loc.T("Son dokunuş: şube açılır, geri dönüşü yok.");
                     Sfx.Play(SfxId.Pop);
                     return;
                 }
@@ -184,12 +184,12 @@ namespace Taverna
             go.clicked += () => _branchTap?.Invoke();
             actions.Add(go);
             card.Add(actions);
-            _branchNote = Note("İki dokunuşla onaylanır. Şube açılınca eski tavernaya dönülmez.");
+            _branchNote = Note(Loc.T("İki dokunuşla onaylanır. Şube açılınca eski tavernaya dönülmez."));
             card.Add(_branchNote);
         }
 
         /// <summary>Test botu: hedef kutusundaki metin.</summary>
-        public string DebugGoalText => _goal.style.display == DisplayStyle.None ? "(gizli)" : $"{_goalText.text} · {_goalNum.text}";
+        public string DebugGoalText => _goal.style.display == DisplayStyle.None ? Loc.T("(gizli)") : $"{_goalText.text} · {_goalNum.text}";
 
         /// <summary>Test botu: şube kartındaki onay düğmesine bir kez dokun.</summary>
         public void DebugBranchTap() => _branchTap?.Invoke();

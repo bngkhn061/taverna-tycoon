@@ -57,7 +57,7 @@ namespace Taverna
 
         void OnSignUpgraded(int tier)
         {
-            Toast($"Tabelan yenilendi: {SignTier.Names[tier]}!");
+            Toast(Loc.F("Tabelan yenilendi: {0}!", Loc.T(SignTier.Names[tier])));
             Sfx.Play(SfxId.Unlock);
             Confetti(18);
         }
@@ -75,7 +75,7 @@ namespace Taverna
             float v = Happiness.Value;
             _happyFill.style.width = Length.Percent(v);
             _happyFill.style.backgroundColor = (Color)(v >= 50f ? new Color32(106, 168, 79, 255) : v >= 25f ? new Color32(242, 182, 49, 255) : new Color32(212, 85, 58, 255));
-            _happyNum.text = $"%{Mathf.RoundToInt(v)}";
+            _happyNum.text = Loc.F("%{0}", Mathf.RoundToInt(v));   // v1.7: yüzde işaretinin yeri dile göre
             _happyFace.SetMood(Happiness.Mood);
 
             // Uçan mutluluk yazıları
@@ -111,7 +111,7 @@ namespace Taverna
             if (act.HasValue)
             {
                 int left = Mathf.CeilToInt(TavernEvents.Remaining);
-                _eventBanner.text = $"{TavernEvents.Get(act.Value).name.ToUpper(new System.Globalization.CultureInfo("tr-TR"))} · {left / 60}:{left % 60:00} · {TavernEvents.Effect(act.Value)}";
+                _eventBanner.text = $"{Loc.Upper(Loc.T(TavernEvents.Get(act.Value).name))} · {left / 60}:{left % 60:00} · {TavernEvents.Effect(act.Value)}";
                 _eventBanner.style.top = RushHour.Active ? 196f : 146f;
             }
             if (!_eventsPanel.ClassListContains("hidden"))
@@ -121,9 +121,13 @@ namespace Taverna
             }
         }
 
-        /// <summary>Sayının bulunma eki ("2'de", "4'te", "6'da", "10'da"); ünsüz benzeşmesi ve ünlü uyumu.</summary>
+        /// <summary>
+        /// Sayının bulunma eki ("2'de", "4'te", "6'da", "10'da"); ünsüz benzeşmesi ve ünlü uyumu.
+        /// v1.7: yalnızca Türkçede ek üretir; diğer dillerde boş (çeviri kalıbı eki gerektirmez).
+        /// </summary>
         static string Locative(int n)
         {
+            if (!Loc.IsTurkish) return "";
             int d = n % 10;
             if (d == 0) return n % 100 == 0 ? "'de" : (n / 10 % 10) switch { 1 or 3 or 6 or 9 => "'da", _ => "'de" };
             return d switch { 3 or 4 or 5 => "'te", 6 or 9 => "'da", _ => "'de" };
@@ -136,8 +140,8 @@ namespace Taverna
             // v1.4: fark = ortalamanın bu müşteriyle değişimi (α·(puan − M)); küçük farklar tek ondalık
             float ad = Mathf.Abs(d);
             if (ad < HappyFloatMin) { if (!_happyCard.ClassListContains("hidden")) RefreshHappyCard(); return; }
-            string num = ad < 1f ? ad.ToString("0.0", new System.Globalization.CultureInfo("tr-TR")) : Mathf.RoundToInt(ad).ToString();
-            var l = new Label((d > 0 ? "+" : "−") + num + " mutluluk") { pickingMode = PickingMode.Ignore };
+            string num = ad < 1f ? ad.ToString("0.0", Loc.Culture) : Mathf.RoundToInt(ad).ToString();
+            var l = new Label(Loc.F("{0}{1} mutluluk", d > 0 ? "+" : "−", num)) { pickingMode = PickingMode.Ignore };
             l.AddToClassList("float-happy");
             l.EnableInClassList("down", d < 0f);
             _world.Add(l);
@@ -149,12 +153,12 @@ namespace Taverna
         {
             // v1.4: mutluluk = son müşterilerin puan ortalaması (GAME_DESIGN.md §7.2)
             _happyCardText.text =
-                $"Her müşteri puan verir: çabuk {Happiness.FastScore:0} · zamanında {Happiness.NormalScore:0} · geç {Happiness.SlowScore:0} · kızgın {Happiness.AngryScore:0}\n" +
-                $"Mutluluk son müşterilerin ortalaması · Barlo'ya özel: {Happiness.SpecialScore:0}, iki kez sayılır\n" +
-                $"Kirli masa: masa başına −{Happiness.DirtyPenaltyPerTable:0} (en fazla −{Happiness.MaxDirtyPenalty:0}) · şu an −{Happiness.DirtyPenalty:0}\n" +
-                $"Şu an %{Mathf.RoundToInt(Happiness.Value)}: müşteri gelişi ×{Happiness.SpawnMultiplier:0.0#}\n" +
-                $"Toplam müşteri çarpanı ×{CustomerSpawner.BoostMultiplier:0.0#} (en fazla ×{Balance.SpawnBoostCap:0})\n" +
-                "★ yıldızlar ayrı: ambiyansla artar, zengin müşteri ve bahşiş getirir.";
+                Loc.F("Her müşteri puan verir: çabuk {0:0} · zamanında {1:0} · geç {2:0} · kızgın {3:0}\n", Happiness.FastScore, Happiness.NormalScore, Happiness.SlowScore, Happiness.AngryScore) +
+                Loc.F("Mutluluk son müşterilerin ortalaması · Barlo'ya özel: {0:0}, iki kez sayılır\n", Happiness.SpecialScore) +
+                Loc.F("Kirli masa: masa başına −{0:0} (en fazla −{1:0}) · şu an −{2:0}\n", Happiness.DirtyPenaltyPerTable, Happiness.MaxDirtyPenalty, Happiness.DirtyPenalty) +
+                Loc.F("Şu an %{0}: müşteri gelişi ×{1:0.0#}\n", Mathf.RoundToInt(Happiness.Value), Happiness.SpawnMultiplier) +
+                Loc.F("Toplam müşteri çarpanı ×{0:0.0#} (en fazla ×{1:0})\n", CustomerSpawner.BoostMultiplier, Balance.SpawnBoostCap) +
+                Loc.T("★ yıldızlar ayrı: ambiyansla artar, zengin müşteri ve bahşiş getirir.");
         }
 
         // ------------------------------------------------------------------ etkinlikler
@@ -185,15 +189,15 @@ namespace Taverna
                 if (icon) img.style.backgroundImage = new StyleBackground(icon);
                 var col = new VisualElement();
                 col.AddToClassList("ev-col");
-                var n = new Label(d.name);
+                var n = new Label(Loc.T(d.name));
                 n.AddToClassList("item-name");
                 string sub = st switch
                 {
-                    TavernEvents.State.LevelLow => $"Seviye {d.level}{Locative(d.level)} açılır",
-                    TavernEvents.State.ZoneLocked => $"Önce {d.zoneName} açılmalı",
-                    TavernEvents.State.UsedToday => "Bugün yapıldı · yarın yine",
-                    TavernEvents.State.Busy => $"{d.desc} · başka etkinlik sürüyor",
-                    _ => $"3 dk · {d.desc}",
+                    TavernEvents.State.LevelLow => Loc.F("Seviye {0}{1} açılır", d.level, Locative(d.level)),
+                    TavernEvents.State.ZoneLocked => Loc.F("Önce {0} açılmalı", Loc.T(d.zoneName)),
+                    TavernEvents.State.UsedToday => Loc.T("Bugün yapıldı · yarın yine"),
+                    TavernEvents.State.Busy => Loc.F("{0} · başka etkinlik sürüyor", Loc.T(d.desc)),
+                    _ => Loc.F("3 dk · {0}", Loc.T(d.desc)),
                 };
                 var s = new Label(sub);
                 s.AddToClassList("item-sub");
@@ -219,7 +223,7 @@ namespace Taverna
                     case TavernEvents.State.UsedToday:
                         b.AddToClassList("locked");
                         pi.style.backgroundImage = new StyleBackground(KitIcon(st == TavernEvents.State.UsedToday ? "check" : "lock"));
-                        b.Add(new Label(st == TavernEvents.State.LevelLow ? $"SV {d.level}" : st == TavernEvents.State.UsedToday ? "YARIN" : "KİLİTLİ"));
+                        b.Add(new Label(st == TavernEvents.State.LevelLow ? Loc.F("SV {0}", d.level) : st == TavernEvents.State.UsedToday ? Loc.T("YARIN") : Loc.T("KİLİTLİ")));
                         break;
                     default:
                         b.AddToClassList("btn-teal");
@@ -236,9 +240,9 @@ namespace Taverna
                                 Confetti(16);
                                 GameSettings.Vibrate();
                                 _eventsPanel.AddToClassList("hidden");
-                                Toast($"{dd.name} başladı! {TavernEvents.Effect(dd.id)}");
+                                Toast(Loc.F("{0} başladı! {1}", Loc.T(dd.name), TavernEvents.Effect(dd.id)));
                             }
-                            else Toast(r == TavernEvents.State.NoMoney ? "Yeterli altın yok" : r == TavernEvents.State.Busy ? "Önce süren etkinlik bitsin" : "Şu an başlatılamaz");
+                            else Toast(r == TavernEvents.State.NoMoney ? Loc.T("Yeterli altın yok") : r == TavernEvents.State.Busy ? Loc.T("Önce süren etkinlik bitsin") : Loc.T("Şu an başlatılamaz"));
                         };
                         break;
                 }

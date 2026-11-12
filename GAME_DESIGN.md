@@ -413,3 +413,14 @@ Reklam, satın alma ve ölçüm için şimdilik yalnızca altyapı var (sahip ka
 - **Ölçüm olayları:** rehber (başla, adım, bitir, atla), seviye, gün sonu, alan, makine, işe alma ve kovma, etkinlik, özel sipariş, prestij, reklam, mağaza, oturum. Geliştirme derlemesinde Ayarlar'da "Ölçüm özeti" satırı görünür; bu satır yalnızca o cihazın sayılarını gösterir.
 - **Kayıt:** `save.dat` dosyası JSON ve HMAC-SHA256 imzası içerir (cihaz kimliğine bağlı). Bir önceki sürüm `save.bak` olarak kalır. İmza tutmazsa yedek açılır; ikisi de bozuksa dosyalar kenara alınır ve oyuncuya bilgi verilir. Eski PlayerPrefs kaydı ilk açılışta dosyaya taşınır (`saveVersion` 2). Oyun 30 sn'de bir ve önemli olaylarda (satın alma, seviye, gün sonu, alan) arka planda kaydeder; arka plana geçişte ve kapanışta eşzamanlı kaydeder. Bu koruma sıradan dosya düzenlemeye karşıdır, kararlı bir hileciyi durdurmaz.
 - **Kimlik:** Bn Studio, `com.bnstudio.tavernatycoon`, 1.0.0 (Android sürüm kodu 1). Android yayın derlemesi AAB çıktısı verir ve imza anahtarını ortam değişkenlerinden okur (`docs/release-checklist.md`).
+
+## 13. Diller ve bildirimler (v1.7)
+
+- **Diller:** Türkçe (kaynak), İngilizce, Basitleştirilmiş Çince, İspanyolca, Brezilya Portekizcesi, Almanca, Fransızca, Rusça, Japonca, Korece. Ayarlar › Dil, 10 dili kendi adıyla gösteren bir seçici açar (ana menüden de Ayarlar ile erişilir); seçim hemen uygulanır, sahne yeniden yüklenmez. İlk açılışta dil sistem dilinden seçilir, eşleşme yoksa İngilizce.
+- **Sistem:** anahtar Türkçe cümlenin kendisidir (`Loc.T` / `Loc.F` / veri tablolarında `Loc.N`), tablolar `Resources/Loc/<dil>.json`. UXML metinleri yüklenirken çevrilir. Oyuncunun yazdığı taverna adı çevrilmez, varsayılan ad çevrilir. Sayılar dilden bağımsız; "B / M" kısaltmaları dile göre. Ayrıntı ve anahtar / dil ekleme adımları: `docs/localization.md`. Çeviriler model üretimidir, yayından önce anadili konuşan biri gözden geçirmeli.
+- **Yazı tipleri:** Rusça Rubik'ten, Çince / Japonca / Korece Noto Sans SC / JP / KR Bold'dan (OFL) çizilir; etkin dilin CJK yazı tipi öne geçer (Han karakterleri dile uygun biçimde).
+- **Bildirimler** (`com.unity.mobile.notifications` 2.5.0): Ayarlar › Bildirimler varsayılan kapalı. Oyuncu açınca izin istenir (Android 13+, iOS), açılışta istenmez. Uygulama arka plana geçince planlanır, ön plana dönünce iptal edilir:
+  - Kasa doldu: şimdi + çevrimdışı üst sınırı (`Offline.CapMinutes`, 120 dk).
+  - Günlük ödül hazır: ertesi gün aynı saat.
+  - Hatırlatma: 3 gün sonra.
+  - 22:00–09:00 arası bildirim yok (09:00'a kayar); günde en fazla bir bildirim (aynı güne düşen sonraki atlanır). Metinler etkin dilde. Planlama saf bir işlev (`Notifications.Plan`), birim testli; cihazda henüz denenmedi.

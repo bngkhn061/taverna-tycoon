@@ -134,19 +134,19 @@ namespace Taverna
 
         public static string Text(QuestSave q) => q.type switch
         {
-            QuestType.ServeDrink => $"{q.target} {DrinkName(q.drink)} sat",
-            QuestType.ServeCustomers => $"{q.target} müşteriye servis yap",
-            QuestType.EarnCoins => $"{q.target} altın kazan",
-            QuestType.Upgrade => $"{q.target} yükseltme yap",
-            QuestType.RushHour => "Bir Yoğun Saat atlat",
-            QuestType.SpecialOrder or QuestType.SpecialOrderBig => $"{q.target} özel sipariş yetiştir",
-            _ => "Yeni bir alan aç",
+            QuestType.ServeDrink => Loc.F("{0} {1} sat", q.target, DrinkName(q.drink)),
+            QuestType.ServeCustomers => Loc.F("{0} müşteriye servis yap", q.target),
+            QuestType.EarnCoins => Loc.F("{0} altın kazan", q.target),
+            QuestType.Upgrade => Loc.F("{0} yükseltme yap", q.target),
+            QuestType.RushHour => Loc.T("Bir Yoğun Saat atlat"),
+            QuestType.SpecialOrder or QuestType.SpecialOrderBig => Loc.F("{0} özel sipariş yetiştir", q.target),
+            _ => Loc.T("Yeni bir alan aç"),
         };
 
         static string DrinkName(DrinkId id)
         {
             var d = GameDatabase.I ? GameDatabase.I.Drink(id) : null;
-            return d ? d.displayName : id.ToString();
+            return d ? Loc.T(d.displayName) : id.ToString();
         }
     }
 }

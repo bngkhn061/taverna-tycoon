@@ -30,8 +30,8 @@ namespace Taverna
         /// <inheritdoc/>
         public void ShowRewarded(string placement, string reason, AdLength length, Action onRewarded, Action<string> onCancelled)
         {
-            if (!Services.TestProvidersAllowed) { onCancelled?.Invoke("test reklamı yayın derlemesinde kapalı"); return; }
-            if (Presenter == null) { onCancelled?.Invoke("reklam ekranı yok"); return; }
+            if (!Services.TestProvidersAllowed) { onCancelled?.Invoke(Loc.T("test reklamı yayın derlemesinde kapalı")); return; }
+            if (Presenter == null) { onCancelled?.Invoke(Loc.T("reklam ekranı yok")); return; }
             Presenter(reason, SecondsFor(length), () => onRewarded?.Invoke());
         }
     }

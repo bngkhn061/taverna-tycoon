@@ -21,6 +21,8 @@ namespace Taverna
             Sfx.Ensure();
             GameState.Load();
             _root = GetComponent<UIDocument>().rootVisualElement;
+            Loc.Localize(_root);   // v1.7: UXML'deki sabit metinler etkin dile
+            Loc.Changed += OnLanguageChanged;
             _settings = new SettingsPanel(_root, showToMenu: false);
             _root.Q<Button>("play").clicked += () =>
             {
@@ -63,6 +65,18 @@ namespace Taverna
 
             StartIntro();
             if (AutoTest.Enabled) StartCoroutine(AutoRun());
+        }
+
+        void OnDisable() => Loc.Changed -= OnLanguageChanged;
+
+        /// <summary>v1.7: dil değişti → UXML metinleri, ayarlar ve açık pencereler yeniden (sahne yeniden yüklenmez).</summary>
+        void OnLanguageChanged()
+        {
+            Loc.Localize(_root);
+            _settings.Refresh();
+            if (!_root.Q("book-root").ClassListContains("hidden")) BuildBook();
+            if (!_root.Q("daily-root").ClassListContains("hidden")) OpenDaily();
+            BuildNameChips();
         }
 
         // ------------------------------------------------------------------ v1.0: açılış animasyonu (oturumda bir kez)
@@ -159,8 +173,8 @@ namespace Taverna
         // ------------------------------------------------------------------ v0.9: taverna adı + oyuna giriş
         static readonly string[] NameIdeas =
         {
-            "Yorgun Ejder", "Altın Fıçı", "Kör Baykuş", "Sarhoş Cüce", "Kızıl Tilki", "Uyuyan Dev",
-            "Gümüş Kupa", "Neşeli Domuz", "Üç Fıçı", "Mavi Ay", "Kayıp Şövalye", "Bal Arısı",
+            Loc.N("Yorgun Ejder"), Loc.N("Altın Fıçı"), Loc.N("Kör Baykuş"), Loc.N("Sarhoş Cüce"), Loc.N("Kızıl Tilki"), Loc.N("Uyuyan Dev"),
+            Loc.N("Gümüş Kupa"), Loc.N("Neşeli Domuz"), Loc.N("Üç Fıçı"), Loc.N("Mavi Ay"), Loc.N("Kayıp Şövalye"), Loc.N("Bal Arısı"),
         };
 
         TextField _nameField;
@@ -168,25 +182,16 @@ namespace Taverna
         void SetupNameModal()
         {
             _nameField = _root.Q<TextField>("name-field");
-            var chips = _root.Q("name-chips");
-            chips.Clear();
-            for (int i = 0; i < 4; i++)
-            {
-                var n = NameIdeas[i];
-                var b = new Button(() => { _nameField.value = n; Sfx.Play(SfxId.Pop); }) { text = n };
-                b.AddToClassList("chip");
-                b.AddToClassList("name-chip");
-                chips.Add(b);
-            }
+            BuildNameChips();
             _root.Q<Button>("name-dice").clicked += () =>
             {
-                _nameField.value = NameIdeas[Random.Range(0, NameIdeas.Length)];
+                _nameField.value = Loc.T(NameIdeas[Random.Range(0, NameIdeas.Length)]);
                 Sfx.Play(SfxId.Pop, Random.Range(0.9f, 1.3f));
             };
             _root.Q<Button>("name-go").clicked += () =>
             {
                 var n = (_nameField.value ?? "").Trim();
-                if (n.Length < 3) n = GameState.DefaultTavernName;
+                if (n.Length < 3) n = Loc.T(GameState.DefaultTavernName);
                 GameState.Data.tavernName = n;
                 GameState.Save();
                 Sfx.Play(SfxId.Buy);
@@ -194,9 +199,24 @@ namespace Taverna
             };
         }
 
+        /// <summary>Hazır ad önerileri (etkin dilde; dil değişince yeniden kurulur).</summary>
+        void BuildNameChips()
+        {
+            var chips = _root.Q("name-chips");
+            chips.Clear();
+            for (int i = 0; i < 4; i++)
+            {
+                var n = Loc.T(NameIdeas[i]);
+                var b = new Button(() => { _nameField.value = n; Sfx.Play(SfxId.Pop); }) { text = n };
+                b.AddToClassList("chip");
+                b.AddToClassList("name-chip");
+                chips.Add(b);
+            }
+        }
+
         void OpenNameModal()
         {
-            _nameField.value = GameState.DefaultTavernName;
+            _nameField.value = Loc.T(GameState.DefaultTavernName);
             _root.Q("name-root").RemoveFromClassList("hidden");
         }
 
@@ -275,8 +295,8 @@ namespace Taverna
         {
             int s = Boosts.DailyAvailable ? Boosts.NextStreak : Mathf.Max(1, GameState.Data.dailyStreak);
             var r = Boosts.DailyReward(s);
-            _root.Q<Label>("daily-sub").text = Boosts.DailyAvailable ? $"Gün {s} / 7 · seriyi bozma!" : "Bugünün ödülü alındı · yarın gel";
-            _root.Q<Label>("daily-text").text = $"+{HudController.FormatNum(r.coins)}  +{r.gems} elmas";
+            _root.Q<Label>("daily-sub").text = Boosts.DailyAvailable ? Loc.F("Gün {0} / 7 · seriyi bozma!", s) : Loc.T("Bugünün ödülü alındı · yarın gel");
+            _root.Q<Label>("daily-text").text = Loc.F("+{0}  +{1} elmas", HudController.FormatNum(r.coins), r.gems);
             _root.Q<Button>("daily-claim").EnableInClassList("locked", !Boosts.DailyAvailable);
             _root.Q("daily-root").RemoveFromClassList("hidden");
             Sfx.Play(SfxId.Pop);
@@ -299,13 +319,13 @@ namespace Taverna
                 var img = new VisualElement();
                 img.AddToClassList("book-img");
                 img.style.backgroundImage = new StyleBackground(Resources.Load<Sprite>($"Icons/ICO_Cust_{c.number:00}"));
-                var l = new Label(s ? c.displayName : "???");
+                var l = new Label(s ? Loc.T(c.displayName) : "???");
                 l.AddToClassList("book-name");
                 cell.Add(img);
                 cell.Add(l);
                 grid.Add(cell);
             }
-            _root.Q<Label>("book-info").text = $"{seen} / 30 müşteri ağırlandı · hepsini topla: kalıcı +%10 bahşiş";
+            _root.Q<Label>("book-info").text = Loc.F("{0} / 30 müşteri ağırlandı · hepsini topla: kalıcı +%10 bahşiş", seen);
         }
 
         System.Collections.IEnumerator AutoRun()
@@ -336,7 +356,21 @@ namespace Taverna
             _settings.Show();
             yield return new WaitForSecondsRealtime(0.5f);
             AutoTest.Shot("app_settings.png"); yield return null; yield return null; // çekim kare sonunda alınır: önce kareyi bitir
+            yield return new WaitForSecondsRealtime(0.3f);
+            _settings.DebugOpenLanguages();   // v1.7 dil seçici
             yield return new WaitForSecondsRealtime(0.4f);
+            AutoTest.Shot("app_lang.png"); yield return null; yield return null;
+            Debug.Log($"[Playtest] v1.7 DİL: {Loc.Lang} · tablo {Loc.Count} çeviri · sistem dili {Application.systemLanguage}");
+            // v1.7 canlı dil değişimi: seçiciden başka dile geç (sahne yeniden yüklenmeden), görüntü al, eski dile dön
+            string lang0 = Loc.Lang, other = lang0 == "ja" ? "de" : "ja";
+            Loc.SetLanguage(other);
+            yield return new WaitForSecondsRealtime(0.4f);
+            AutoTest.Shot("app_lang_switch.png"); yield return null; yield return null;
+            Debug.Log($"[Playtest] v1.7 DİL DEĞİŞTİ: {lang0} → {Loc.Lang} · ayar düğmesi '{_root.Q<Button>("lang-open").text}' · OYNA '{_root.Q<Button>("play").Q<Label>()?.text ?? _root.Q<Button>("play").text}'");
+            Loc.SetLanguage(lang0);
+            yield return new WaitForSecondsRealtime(0.3f);
+            Debug.Log($"[Playtest] v1.7 DİL GERİ: {Loc.Lang} · OYNA '{_root.Q<Button>("play").Q<Label>()?.text ?? _root.Q<Button>("play").text}'");
+            yield return new WaitForSecondsRealtime(0.2f);
             _settings.Hide();
             OpenDaily();
             yield return new WaitForSecondsRealtime(0.5f);

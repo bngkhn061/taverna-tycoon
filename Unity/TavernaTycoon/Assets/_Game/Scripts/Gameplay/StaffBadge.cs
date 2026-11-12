@@ -36,13 +36,13 @@ namespace Taverna
         /// <summary>Etikette görünen rol adı.</summary>
         public static string RoleName(Catalog.Role r) => r switch
         {
-            Catalog.Role.Garson => "Garson",
-            Catalog.Role.Barmen => "Barmen",
-            Catalog.Role.Temizlikci => "Temizlikçi",
-            Catalog.Role.Fenerci => "Fenerci",
-            Catalog.Role.Asci => "Aşçı",
-            Catalog.Role.Hizmetci => "Hizmetçi",
-            _ => "Ozan",
+            Catalog.Role.Garson => Loc.T("Garson"),
+            Catalog.Role.Barmen => Loc.T("Barmen"),
+            Catalog.Role.Temizlikci => Loc.T("Temizlikçi"),
+            Catalog.Role.Fenerci => Loc.T("Fenerci"),
+            Catalog.Role.Asci => Loc.T("Aşçı"),
+            Catalog.Role.Hizmetci => Loc.T("Hizmetçi"),
+            _ => Loc.T("Ozan"),
         };
 
         /// <summary>Rol ikonu (Resources/Kit/v3i_*).</summary>

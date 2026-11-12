@@ -24,7 +24,7 @@ namespace Taverna
         /// <summary>Yeni şubenin başlangıç altını = bu × şube numarası.</summary>
         public const long StartCoinsPerBranch = 500;
 
-        static readonly string[] Names = { "Köy Meyhanesi", "Liman Kenti", "Dağ Geçidi" };
+        static readonly string[] Names = { Loc.N("Köy Meyhanesi"), Loc.N("Liman Kenti"), Loc.N("Dağ Geçidi") };
 
         /// <summary>Barlo "Tavernayı Büyüt" karesine bastı ve kademeler bitmiş (HUD şube kartını açar).</summary>
         public static event Action ZoneEntered;
@@ -36,7 +36,7 @@ namespace Taverna
         public static int Branch => Mathf.Max(0, GameState.Data.branch);
 
         /// <summary>Şube adı: 0 Köy Meyhanesi, 1 Liman Kenti, 2 Dağ Geçidi, sonrası "N. Şube".</summary>
-        public static string BranchName(int b) => b >= 0 && b < Names.Length ? Names[b] : $"{b}. Şube";
+        public static string BranchName(int b) => b >= 0 && b < Names.Length ? Loc.T(Names[b]) : Loc.F("{0}. Şube", b);
         public static string CurrentName => BranchName(Branch);
 
         /// <summary>Kalıcı gelir çarpanı: 1 + 0.25 × şube.</summary>
@@ -69,9 +69,9 @@ namespace Taverna
             var top = Tiers.List[Tiers.List.Length - 1];
             return new List<(string, bool)>
             {
-                ($"Seviye {RequiredLevel}", GameState.Level >= RequiredLevel),
-                (TopTier ? $"{top.name} kademesi" : $"{top.name} kademesi gerekli", TopTier),
-                ($"Altın {HudController.FormatNum(Math.Min(GameState.Coins, RequiredCoins))} / {HudController.FormatNum(RequiredCoins)}", GameState.Coins >= RequiredCoins),
+                (Loc.F("Seviye {0}", RequiredLevel), GameState.Level >= RequiredLevel),
+                (TopTier ? Loc.F("{0} kademesi", Loc.T(top.name)) : Loc.F("{0} kademesi gerekli", Loc.T(top.name)), TopTier),
+                (Loc.F("Altın {0} / {1}", HudController.FormatNum(Math.Min(GameState.Coins, RequiredCoins)), HudController.FormatNum(RequiredCoins)), GameState.Coins >= RequiredCoins),
             };
         }
 

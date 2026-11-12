@@ -40,10 +40,10 @@ namespace Taverna
         /// <inheritdoc/>
         public void Purchase(string productId, Action<string> onPurchased, Action<string, string> onFailed)
         {
-            if (!Services.TestProvidersAllowed) { onFailed?.Invoke(productId, "test mağazası yayın derlemesinde kapalı"); return; }
-            if (!_ids.Contains(productId)) { onFailed?.Invoke(productId, "bilinmeyen ürün"); return; }
-            if (Confirmer == null) { onFailed?.Invoke(productId, "onay ekranı yok"); return; }
-            Confirmer(productId, () => onPurchased?.Invoke(productId), () => onFailed?.Invoke(productId, "vazgeçildi"));
+            if (!Services.TestProvidersAllowed) { onFailed?.Invoke(productId, Loc.T("test mağazası yayın derlemesinde kapalı")); return; }
+            if (!_ids.Contains(productId)) { onFailed?.Invoke(productId, Loc.T("bilinmeyen ürün")); return; }
+            if (Confirmer == null) { onFailed?.Invoke(productId, Loc.T("onay ekranı yok")); return; }
+            Confirmer(productId, () => onPurchased?.Invoke(productId), () => onFailed?.Invoke(productId, Loc.T("vazgeçildi")));
         }
 
         /// <inheritdoc/>

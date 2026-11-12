@@ -92,8 +92,8 @@ namespace Taverna
         public static event Action<long, Vector3> CoinsGainedAt;
         public static event Action<DrinkId> DrinkServed;
         public static event Action<string> ZoneUnlocked;
-        public const string DefaultTavernName = "Barlo'nun Tavernası";
-        public static string TavernName => string.IsNullOrWhiteSpace(Data.tavernName) ? DefaultTavernName : Data.tavernName;
+        public static readonly string DefaultTavernName = Loc.N("Barlo'nun Tavernası");
+        public static string TavernName => string.IsNullOrWhiteSpace(Data.tavernName) ? Loc.T(DefaultTavernName) : Data.tavernName;   // v1.7: varsayılan ad çevrilir, oyuncunun yazdığı çevrilmez
 
         public static void RaiseServed(DrinkId id) { DrinkServed?.Invoke(id); Changed?.Invoke(); }
 
@@ -133,12 +133,12 @@ namespace Taverna
             }
             if (src == SaveLoadSource.Backup)
             {
-                LoadNotice = "Kayıt dosyası bozuktu, bir önceki yedekten açıldı.";
+                LoadNotice = Loc.T("Kayıt dosyası bozuktu, bir önceki yedekten açıldı.");
                 Debug.LogWarning("[Kayıt] save.dat imzası tutmadı, save.bak açıldı.");
             }
             if (src == SaveLoadSource.Corrupt)
             {
-                LoadNotice = $"Kayıt dosyası okunamadı (bozuk). Eski dosya saklandı: {SaveStore.LastCorruptName}. Yeni oyun başladı.";
+                LoadNotice = Loc.F("Kayıt dosyası okunamadı (bozuk). Eski dosya saklandı: {0}. Yeni oyun başladı.", SaveStore.LastCorruptName);
                 Debug.LogWarning($"[Kayıt] save.dat ve save.bak imzası tutmadı, kenara alındı ({SaveStore.LastCorruptName}).");
             }
             LoadSource = src;

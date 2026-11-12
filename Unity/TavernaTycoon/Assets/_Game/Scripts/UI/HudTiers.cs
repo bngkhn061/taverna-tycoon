@@ -49,7 +49,7 @@ namespace Taverna
             bool ready = Tiers.CanUpgrade;
             _goal.style.display = DisplayStyle.Flex;
             _goalIcon.style.backgroundImage = new StyleBackground(KitIcon("home"));
-            _goalText.text = ready ? $"{n.name} hazır! Büyüt karesine git" : $"Tavernayı Büyüt: {n.name}";
+            _goalText.text = ready ? Loc.F("{0} hazır! Büyüt karesine git", Loc.T(n.name)) : Loc.F("Tavernayı Büyüt: {0}", Loc.T(n.name));
             _goalNum.text = $"{FormatNum(System.Math.Min(GameState.Coins, n.cost))} / {FormatNum(n.cost)}";
             _goalFill.style.width = Length.Percent(Mathf.Clamp01(GameState.Coins / (float)n.cost) * 100f);
             _goal.EnableInClassList("ready", ready);
@@ -66,7 +66,7 @@ namespace Taverna
             var n = Tiers.Next;
             if (n == null || TierAnimOpen || DayCycle.Ended) return;
             var cur = Tiers.Current;
-            var overlay = PremCard("TAVERNAYI BÜYÜT", 700f, out var card);
+            var overlay = PremCard(Loc.T("TAVERNAYI BÜYÜT"), 700f, out var card);
             var compare = new VisualElement();
             compare.AddToClassList("tier-compare");
             compare.Add(TierShot(cur));
@@ -87,8 +87,8 @@ namespace Taverna
             card.Add(req);
             var gains = new VisualElement();
             gains.AddToClassList("tier-gains");
-            foreach (var (icon, text) in new[] { ("coin", $"Tüm satış fiyatları ×{n.price:0.##}"), ("person", n.guests),
-                                                 ("home", n.looks), ("star", $"+{n.ambiance:0} taverna puanı") })
+            foreach (var (icon, text) in new[] { ("coin", Loc.F("Tüm satış fiyatları ×{0:0.##}", n.price)), ("person", Loc.T(n.guests)),
+                                                 ("home", Loc.T(n.looks)), ("star", Loc.F("+{0:0} taverna puanı", n.ambiance)) })
             {
                 var g = new VisualElement();
                 g.AddToClassList("tier-gain");
@@ -102,12 +102,12 @@ namespace Taverna
             card.Add(gains);
             var actions = new VisualElement();
             actions.AddToClassList("popup-actions");
-            actions.Add(ModalButton("SONRA", "btn-paper", () => overlay.RemoveFromHierarchy()));
-            actions.Add(ModalButton("KADEMELER", "btn-paper", () => { overlay.RemoveFromHierarchy(); OpenTierPath(); }));
+            actions.Add(ModalButton(Loc.T("SONRA"), "btn-paper", () => overlay.RemoveFromHierarchy()));
+            actions.Add(ModalButton(Loc.T("KADEMELER"), "btn-paper", () => { overlay.RemoveFromHierarchy(); OpenTierPath(); }));
             bool can = Tiers.CanUpgrade;
-            var go = ModalButton($"{FormatNum(n.cost)} · BÜYÜT", can ? "btn-sun" : "btn-paper", () =>
+            var go = ModalButton(Loc.F("{0} · BÜYÜT", FormatNum(n.cost)), can ? "btn-sun" : "btn-paper", () =>
             {
-                if (!Tiers.CanUpgrade) { Toast("Şartlar henüz tamam değil"); return; }
+                if (!Tiers.CanUpgrade) { Toast(Loc.T("Şartlar henüz tamam değil")); return; }
                 overlay.RemoveFromHierarchy();
                 if (Tiers.Upgrade()) StartTierTransform();
             });
@@ -122,7 +122,7 @@ namespace Taverna
             var box = new VisualElement();
             box.AddToClassList("tier-shot");
             box.style.backgroundImage = new StyleBackground(TierIcon(t.index));
-            var cap = new Label(t.name);
+            var cap = new Label(Loc.T(t.name));
             cap.AddToClassList("tier-cap");
             box.Add(cap);
             return box;
@@ -170,7 +170,7 @@ namespace Taverna
             // 3) şerit + konfeti
             if (_tierApplied && _tierAnimT >= TierApplyAt + 0.4f && _bannerT <= 0f && _tierAnimT < TierApplyAt + 0.5f)
             {
-                ShowBanner($"{Tiers.Current.name.ToUpper(new System.Globalization.CultureInfo("tr-TR"))}!", "home", false, 2.4f);
+                ShowBanner($"{Loc.Upper(Loc.T(Tiers.Current.name))}!", "home", false, 2.4f);
                 Confetti(40);
                 Sfx.Play(SfxId.LevelUp);
             }
@@ -180,7 +180,7 @@ namespace Taverna
         // ------------------------------------------------------------------ kademe yolu (P)
         public void OpenTierPath()
         {
-            PremCard("TAVERNA KADEMESİ", 1040f, out var card);
+            PremCard(Loc.T("TAVERNA KADEMESİ"), 1040f, out var card);
             var row = new VisualElement();
             row.AddToClassList("tier-path");
             for (int i = 0; i < Tiers.List.Length; i++)
@@ -190,7 +190,7 @@ namespace Taverna
                 col.AddToClassList("tier-col");
                 string state = i == Tiers.CurrentIndex ? "on" : i == Tiers.CurrentIndex + 1 ? "next" : i < Tiers.CurrentIndex ? "done" : "lock";
                 col.AddToClassList(state);
-                var badge = new Label(state == "on" ? "ŞU AN" : state == "next" ? "SIRADAKİ" : state == "done" ? "TAMAM" : $"Sv{t.level}");
+                var badge = new Label(state == "on" ? Loc.T("ŞU AN") : state == "next" ? Loc.T("SIRADAKİ") : state == "done" ? Loc.T("TAMAM") : Loc.F("Sv{0}", t.level));
                 badge.AddToClassList("tier-badge");
                 badge.AddToClassList(state);
                 col.Add(badge);
@@ -198,13 +198,13 @@ namespace Taverna
                 img.AddToClassList("tier-img");
                 img.style.backgroundImage = new StyleBackground(TierIcon(i));
                 col.Add(img);
-                var n = new Label($"{i + 1} · {t.name}");
+                var n = new Label($"{i + 1} · {Loc.T(t.name)}");
                 n.AddToClassList("item-name");
                 col.Add(n);
-                var sub = new Label(i == 0 ? "Başlangıç" : $"Sv{t.level} · {FormatNum(t.cost)} altın" + (t.zones.Length > 0 ? " · " + ZoneList(t) : ""));
+                var sub = new Label(i == 0 ? Loc.T("Başlangıç") : Loc.F("Sv{0} · {1} altın", t.level, FormatNum(t.cost)) + (t.zones.Length > 0 ? " · " + ZoneList(t) : ""));
                 sub.AddToClassList("item-sub");
                 col.Add(sub);
-                foreach (var line in new[] { t.looks, $"Fiyat ×{t.price:0.##}" + (t.ambiance > 0 ? $" · +{t.ambiance:0} puan" : ""), t.guests })
+                foreach (var line in new[] { Loc.T(t.looks), Loc.F("Fiyat ×{0:0.##}", t.price) + (t.ambiance > 0 ? Loc.F(" · +{0:0} puan", t.ambiance) : ""), Loc.T(t.guests) })
                 {
                     var l = new Label("• " + line);
                     l.AddToClassList("tier-line");
@@ -219,14 +219,14 @@ namespace Taverna
         static string ZoneList(Tiers.Tier t)
         {
             var names = new System.Collections.Generic.List<string>();
-            foreach (var z in t.zones) names.Add(z.name);
-            return t.index == 1 ? "tüm alanlar açık" : string.Join(", ", names) + " açık";
+            foreach (var z in t.zones) names.Add(Loc.T(z.name));
+            return t.index == 1 ? Loc.T("tüm alanlar açık") : Loc.F("{0} açık", string.Join(", ", names));
         }
 
         /// <summary>Dükkân › Otomasyon sekmesinin altında kademe satırı.</summary>
         void AddTierShopRow()
         {
-            AddShopSection("TAVERNA KADEMESİ");
+            AddShopSection(Loc.T("TAVERNA KADEMESİ"));
             var n = Tiers.Next;
             var cur = Tiers.Current;
             var item = new VisualElement();
@@ -236,14 +236,14 @@ namespace Taverna
             img.style.backgroundImage = new StyleBackground(TierIcon(cur.index));
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            var name = new Label($"{cur.name} · fiyat ×{cur.price:0.##}");
+            var name = new Label(Loc.F("{0} · fiyat ×{1:0.##}", Loc.T(cur.name), cur.price));
             name.AddToClassList("item-name");
-            var sub = new Label(n == null ? "En yüksek kademe" : $"Sıradaki: {n.name} · Sv{n.level} · {FormatNum(n.cost)} altın");
+            var sub = new Label(n == null ? Loc.T("En yüksek kademe") : Loc.F("Sıradaki: {0} · Sv{1} · {2} altın", Loc.T(n.name), n.level, FormatNum(n.cost)));
             sub.AddToClassList("item-sub");
             col.Add(name); col.Add(sub);
             var b = new Button(OpenTierPath);
             b.AddToClassList("btn"); b.AddToClassList("btn-sm"); b.AddToClassList("btn-paper");
-            b.Add(new Label("KADEMELER"));
+            b.Add(new Label(Loc.T("KADEMELER")));
             item.Add(img); item.Add(col); item.Add(b);
             _shopScroll.Add(item);
         }

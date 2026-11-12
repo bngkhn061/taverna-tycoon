@@ -26,16 +26,16 @@ namespace Taverna
 
         public static readonly Theme[] List =
         {
-            new() { id = "zemin_mese", name = "Meşe Tahta", kind = Kind.Floor, suffix = "", level = 1, price = 0, ambiance = 0 },
-            new() { id = "zemin_parke", name = "Koyu Parke", kind = Kind.Floor, suffix = "_Parke", level = 3, price = 300, ambiance = 2 },
-            new() { id = "zemin_tas", name = "Taş Döşeme", kind = Kind.Floor, suffix = "_Tas", level = 5, price = 600, ambiance = 4 },
-            new() { id = "zemin_dama", name = "Dama Karo", kind = Kind.Floor, suffix = "_Dama", level = 8, price = 1200, ambiance = 6 },
-            new() { id = "duvar_badana", name = "Krem Badana", kind = Kind.Wall, suffix = "", level = 1, price = 0, ambiance = 0 },
-            new() { id = "duvar_lambri", name = "Ahşap Lambri", kind = Kind.Wall, suffix = "_Lambri", level = 4, price = 400, ambiance = 2 },
-            new() { id = "duvar_tas", name = "Taş Duvar", kind = Kind.Wall, suffix = "_Tas", level = 6, price = 800, ambiance = 4 },
-            new() { id = "duvar_siva", name = "Kırmızı Sıva", kind = Kind.Wall, suffix = "_Siva", level = 9, price = 1500, ambiance = 6 },
-            new() { id = "zemin_altin", name = "Altın Mermer", kind = Kind.Floor, suffix = "_Altin", level = 1, price = 0, ambiance = 20, premium = true },
-            new() { id = "duvar_altin", name = "Altın Duvar", kind = Kind.Wall, suffix = "_Altin", level = 1, price = 0, ambiance = 20, premium = true },
+            new() { id = "zemin_mese", name = Loc.N("Meşe Tahta"), kind = Kind.Floor, suffix = "", level = 1, price = 0, ambiance = 0 },
+            new() { id = "zemin_parke", name = Loc.N("Koyu Parke"), kind = Kind.Floor, suffix = "_Parke", level = 3, price = 300, ambiance = 2 },
+            new() { id = "zemin_tas", name = Loc.N("Taş Döşeme"), kind = Kind.Floor, suffix = "_Tas", level = 5, price = 600, ambiance = 4 },
+            new() { id = "zemin_dama", name = Loc.N("Dama Karo"), kind = Kind.Floor, suffix = "_Dama", level = 8, price = 1200, ambiance = 6 },
+            new() { id = "duvar_badana", name = Loc.N("Krem Badana"), kind = Kind.Wall, suffix = "", level = 1, price = 0, ambiance = 0 },
+            new() { id = "duvar_lambri", name = Loc.N("Ahşap Lambri"), kind = Kind.Wall, suffix = "_Lambri", level = 4, price = 400, ambiance = 2 },
+            new() { id = "duvar_tas", name = Loc.N("Taş Duvar"), kind = Kind.Wall, suffix = "_Tas", level = 6, price = 800, ambiance = 4 },
+            new() { id = "duvar_siva", name = Loc.N("Kırmızı Sıva"), kind = Kind.Wall, suffix = "_Siva", level = 9, price = 1500, ambiance = 6 },
+            new() { id = "zemin_altin", name = Loc.N("Altın Mermer"), kind = Kind.Floor, suffix = "_Altin", level = 1, price = 0, ambiance = 20, premium = true },
+            new() { id = "duvar_altin", name = Loc.N("Altın Duvar"), kind = Kind.Wall, suffix = "_Altin", level = 1, price = 0, ambiance = 20, premium = true },
         };
 
         public static event Action Changed;

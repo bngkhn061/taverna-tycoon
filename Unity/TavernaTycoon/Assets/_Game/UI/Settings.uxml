@@ -33,10 +33,8 @@
             <ui:VisualElement class="srow">
                 <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_globe.png');" /></ui:VisualElement>
                 <ui:Label text="Dil" class="row-label" />
-                <ui:VisualElement class="tabs">
-                    <ui:Button name="lang-tr" text="TR" class="tab first" />
-                    <ui:Button name="lang-en" text="EN" class="tab" />
-                </ui:VisualElement>
+                <ui:Button name="lang-open" class="toggle lang-open" />
+                <!-- v1.7: 10 dil; seçici aşağıdaki lang-picker penceresi (SettingsPanel kurar) -->
             </ui:VisualElement>
             <ui:VisualElement class="srow last">
                 <ui:VisualElement class="ico"><ui:VisualElement class="ico-img" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_brush.png');" /></ui:VisualElement>
@@ -53,6 +51,14 @@
                     <ui:Label text="ANA MENÜ" />
                 </ui:Button>
                 <ui:Button name="reset-save" text="KAYDI SIFIRLA" class="btn last" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- v1.7 dil seçici: her dil kendi adıyla; dokununca hemen uygulanır -->
+        <ui:VisualElement name="lang-picker" class="screen overlay hidden">
+            <ui:VisualElement class="modal v3-panel lang-card">
+                <ui:Label text="DİL" class="ribbon" />
+                <ui:Button name="lang-close" class="close"><ui:VisualElement class="x-ic" /></ui:Button>
+                <ui:VisualElement name="lang-grid" class="lang-grid" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

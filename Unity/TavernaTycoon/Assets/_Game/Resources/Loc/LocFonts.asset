@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc8cfc36dc379646ab184083e50f581, type: 3}
+  m_Name: LocFonts
+  m_EditorClassIdentifier: Taverna.Game::Taverna.LocFontSet
+  host: {fileID: 11400000, guid: 6f97f1e28e7d6824ca423a3b76cafc73, type: 2}
+  baseFallbacks:
+  - {fileID: 11400000, guid: ec7b8ced24ff13242b7901d6d57ae898, type: 2}
+  sc: {fileID: 11400000, guid: 4eed631707edd8945bbb41a64660a6ce, type: 2}
+  jp: {fileID: 11400000, guid: 8e7f4a0869c0ba84bb400edf7dc88b9b, type: 2}
+  kr: {fileID: 11400000, guid: cb681cf82f8986145944c4ad64961f83, type: 2}

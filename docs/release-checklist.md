@@ -20,6 +20,10 @@ Bu liste, mağazaya çıkmadan önce yapılacakları gösterir. "Kod hazır" mad
 | 14 | Mağaza görselleri: uygulama ikonu (kodda var: `UI/Images/Logo`), en az 2–8 telefon ekran görüntüsü, Play için 1024×500 tanıtım görseli, kısa ve uzun açıklama, isteğe bağlı tanıtım videosu | Sahibinde (ekran görüntüleri test botuyla alınabilir) |
 | 15 | Hedef API seviyesi: Play'in o yılki zorunlu `targetSdkVersion` değeri kontrol edilmeli (şu an "en yüksek kurulu") | Sahibinde, yükleme öncesi |
 | 16 | Kapalı test (Play: belirli sayıda test kullanıcısı ve gün şartı olabilir), sonra üretime yayın | Sahibinde |
+| 17 | v1.7 oyun içi metinler 10 dilde (`docs/localization.md`). Çeviriler model üretimi: her dili anadili konuşan biri gözden geçirmeli (ton, terimler, düğme uzunlukları) | Kod ve çeviriler hazır; gözden geçirme sahibinde |
+| 18 | Mağaza metinleri (başlık, kısa ve uzun açıklama, "yenilikler") ve ekran görüntüleri 10 dilde: tr, en, zh-Hans, es, pt-BR, de, fr, ru, ja, ko. Ekran görüntüleri `-autotest-lang <kod>` ile alınabilir | Sahibinde |
+| 19 | Yerel bildirimler (`com.unity.mobile.notifications` 2.5.0): Android 13+ `POST_NOTIFICATIONS` izni paket tarafından manifeste eklenir, izin yalnızca oyuncu Ayarlar'da düğmeyi açınca istenir; iOS'ta "Request Authorization on App Launch" kapalı (`TavernaSceneBuilder.ConfigureProject`). Gerçek Android ve iOS cihazda deneme yapılmadı: izin penceresi, bildirim zamanı (sessiz saatler 22:00–09:00), metnin dili ve uygulamaya dönünce iptal cihazda doğrulanmalı | Kod ve birim testi hazır; cihaz denemesi sahibinde |
+| 20 | Play "Veri güvenliği" ve App Store gizlilik etiketleri bildirimleri de kapsamalı (yerel bildirim, veri toplamaz). Gizlilik politikası taslağı güncellendi | Sahibinde |
 
 Notlar:
 - Windows'ta şirket adı değiştiği için eski test kayıtları yeni klasörde görünmez (`AppData/LocalLow/Bn Studio/Taverna Tycoon`). Android'de paket adı değiştiği için telefondaki eski test sürümü ayrı bir uygulama olarak kalır.
