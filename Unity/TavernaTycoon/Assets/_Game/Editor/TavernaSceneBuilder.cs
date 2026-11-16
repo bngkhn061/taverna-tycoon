@@ -675,7 +675,8 @@ namespace Taverna.EditorTools
             _layout = false; // mutfak yeni haritada doğrudan yerleşir
             // v1.5: Kral Şerbeti çeşmesi Salon arka duvarının sol ucunda (köşe x 4.1 ile Şarap x 6.16 arası; meşale Süt–kapı arasına, saksı yeri ön köşeye taşındı)
             {
-                var st = Station(db, DrinkId.KralSerbeti, stations, 5.05f, 4.4f);   // kademe sütunu (4.35, 4.85) ile çakışmasın
+                // v1.8: x 5.05 → 5.25 (Saray Hanı mermer sütunu (4.35, 4.85) ile bitişikti; Şarap rafı x 6.16, arada boşluk kalır)
+                var st = Station(db, DrinkId.KralSerbeti, stations, SerbetX, 4.4f);
                 machineEntries.Add(new TavernRegistry.MachineEntry { drink = DrinkId.KralSerbeti, root = st });
                 st.SetActive(false);
             }
@@ -1244,6 +1245,9 @@ namespace Taverna.EditorTools
         /// Saray Hanı (mermer sütun, altın kemer, saray avizesi, kadife örtü, perdeler, kırmızı halı). Konumlar yeni haritada.
         /// Ayrıca "Tavernayı Büyüt" hedef alanı (Salon önü). Masa örtü ve avizeleri meyhane + salon masalarının üstüne konur.
         /// </summary>
+        /// <summary>v1.8: Şerbet Çeşmesi'nin x konumu (Salon arka duvarı, köşe sütunu ile Şarap rafı arası).</summary>
+        const float SerbetX = 5.25f;
+
         static void BuildTiers(Transform tables)
         {
             bool lay = _layout;

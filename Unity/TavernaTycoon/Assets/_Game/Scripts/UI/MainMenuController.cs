@@ -22,6 +22,9 @@ namespace Taverna
             GameState.Load();
             _root = GetComponent<UIDocument>().rootVisualElement;
             Loc.Localize(_root);   // v1.7: UXML'deki sabit metinler etkin dile
+            // v1.8: sürüm etiketi elle yazılmaz, oyun ayarlarındaki sürümden gelir (çevrilmez)
+            var ver = _root.Q<Label>("version");
+            if (ver != null) ver.text = "v" + Application.version;
             Loc.Changed += OnLanguageChanged;
             _settings = new SettingsPanel(_root, showToMenu: false);
             _root.Q<Button>("play").clicked += () =>

@@ -179,6 +179,7 @@ namespace Taverna
                 Premium.Grant("staff_lirael");
                 Log($"v1.6 YAYIN: ShowAd → ödül={rewarded} (sayaç {HudController.DebugAdRewards - adBefore}) · Premium.Grant(gems_100, staff_lirael) → elmas {gems}→{GameState.Data.gems} · Lirael={Premium.Owned("staff_lirael")} · altın {coins}→{GameState.Coins}");
                 bool helperHidden = root.Q("helper-btn")?.ClassListContains("hidden") ?? false;
+                Log($"v1.8 YAYIN: Ayarlar 'Ölçüm özeti' satırı var={root.Q("metrics-summary") != null} (yayında olmamalı) · ShowMetricsRow(geliştirme=false)={SettingsPanel.ShowMetricsRow(false, false)}");
                 Log($"v1.6 YAYIN: yardımcı garson düğmesi gizli={helperHidden} · reklam açık={Services.RewardedAdsEnabled} · mağaza açık={Services.StoreEnabled} · test reklamı hazır={Services.Ads.IsRewardedReady}");
                 hud.DebugOpen("shop-staff");
             }

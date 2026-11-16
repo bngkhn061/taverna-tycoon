@@ -7,7 +7,7 @@ namespace Taverna
 {
     /// <summary>
     /// v1.5 Prestij "Yeni Şube" (GAME_DESIGN.md §9): Sv30 + Saray Hanı + 150.000 altın olunca taverna sıfırdan
-    /// yeni bir şubede başlar. Kalıcı kazanım: şube başına gelir +%25 ve Ün +%15; yeni şube 500 × şube no altınla açılır.
+    /// yeni bir şubede başlar. Kalıcı kazanım: şube başına gelir +%25 ve Ün +%35 (v1.8); yeni şube 500 × şube no altınla açılır.
     /// Elmas, Hazine ürünleri, koleksiyon, ad, ayarlar, rehber bilgisi, reklam sayaçları ve kozmetikler kalır.
     /// Harita aynıdır (yeni şube haritaları lansman sonrası).
     /// </summary>
@@ -20,7 +20,8 @@ namespace Taverna
         /// <summary>Şube başına kalıcı gelir artışı (Boosts.IncomeMultiplier zincirinde).</summary>
         public const float IncomePerBranch = 0.25f;
         /// <summary>Şube başına Ün kazanımı artışı.</summary>
-        public const float UnPerBranch = 0.15f;
+        /// v1.8: 0.15 → 0.35 (hedef: ikinci şube toplam sürede %25–35 kısa; içerik atlanmaz, yalnızca Ün hızlanır).
+        public const float UnPerBranch = 0.35f;
         /// <summary>Yeni şubenin başlangıç altını = bu × şube numarası.</summary>
         public const long StartCoinsPerBranch = 500;
 
@@ -42,7 +43,7 @@ namespace Taverna
         /// <summary>Kalıcı gelir çarpanı: 1 + 0.25 × şube.</summary>
         public static float IncomeMultiplier => 1f + IncomePerBranch * Branch;
         public static float IncomeMultiplierFor(int b) => 1f + IncomePerBranch * b;
-        /// <summary>Ün kazanım çarpanı: 1 + 0.15 × şube.</summary>
+        /// <summary>Ün kazanım çarpanı: 1 + 0.35 × şube (v1.8).</summary>
         public static float UnMultiplier => 1f + UnPerBranch * Branch;
         public static float UnMultiplierFor(int b) => 1f + UnPerBranch * b;
         public static long StartCoins(int b) => StartCoinsPerBranch * b;

@@ -42,6 +42,9 @@ namespace Taverna
             }
         }
 
+        /// <summary>Prestij yolu: "prestige" (şube 0 → 1) ya da v1.8 "prestige2" (şube 1'den başlar, ikinci prestij → şube 2).</summary>
+        bool V15Prestige => V15Mode == "prestige" || V15Mode == "prestige2";
+
         void UpdateV15(HudController hud, PlayerController p)
         {
             if (!_v15Hooked)
@@ -52,7 +55,7 @@ namespace Taverna
                 if (V15Mode != "") Log($"v1.5 TEST: mod={V15Mode} · Sv{GameState.Level} · kademe {Tiers.Current.name} · şube {Prestige.Branch} ({Prestige.CurrentName})");
             }
             if (V15Mode == "content") UpdateV15Content(hud, p);
-            else if (V15Mode == "prestige") UpdateV15Prestige(hud, p);
+            else if (V15Prestige) UpdateV15Prestige(hud, p);
         }
 
         void OnV15SceneLoaded(Scene s, LoadSceneMode m)
@@ -128,7 +131,7 @@ namespace Taverna
                 int priceBefore = s1 ? s1.Price : 0;
                 float tipBefore = TavernEvents.TipMultiplier;
                 long cost = TavernEvents.Cost(d);
-                Log($"v1.5 KRALİYET: durum={TavernEvents.StateOf(d)} · fiyat {cost} ({d.baseCost} + {d.perLevel}×Sv{GameState.Level}) · diğer en pahalı {TavernEvents.Cost(TavernEvents.Get(TavernEvents.Id.Turnuva))} · {d.level}. seviye, {TavernEvents.Seconds:0} sn");
+                Log($"v1.5 KRALİYET: durum={TavernEvents.StateOf(d)} · fiyat {cost} (pay {d.share} × 3 dk gelir {Balance.EventIncomeRef(GameState.Level):0}) · diğer en pahalı {TavernEvents.Cost(TavernEvents.Get(TavernEvents.Id.Turnuva))} · {d.level}. seviye, {TavernEvents.Seconds:0} sn");
                 if (GameState.Coins < cost) GameState.Data.coins += cost;
                 var r = TavernEvents.Start(d);
                 var kral = System.Array.Find(GameDatabase.I.customers, c => c && c.number == TavernEvents.KingCustomerNumber);
@@ -183,6 +186,12 @@ namespace Taverna
             if (_v15Step == 0 && _real > 2.5f)
             {
                 _v15Step = 1;
+                // v1.8 ikinci prestij: bu şube zaten Liman Kenti (şube 1) — bir kez prestij yapılmış gibi
+                if (V15Mode == "prestige2")
+                {
+                    GameState.Data.branch = 1;
+                    Log($"v1.8 PRESTİJ 2: şube 1'den başlıyor ({Prestige.CurrentName}) · gelir ×{Prestige.IncomeMultiplier:0.00} (beklenen ×{Prestige.IncomeMultiplierFor(1):0.00}) · Ün ×{Prestige.UnMultiplier:0.00} (beklenen ×{Prestige.UnMultiplierFor(1):0.00}) · Boosts gelir ×{Boosts.IncomeMultiplier:0.00}");
+                }
                 // Tam bir oyun durumu kur: tüm alanlar, makineler, birkaç görevli, otomasyon, yükseltme, dekor, Hazine
                 foreach (var z in new List<PayZone>(PayZone.All)) z.DebugUnlock();
                 foreach (var m in Catalog.Machines) if (!Management.OwnsMachine(m.drink)) { GameState.Data.unlocked.Add(Catalog.MachineKey(m.drink)); TavernRegistry.I.ApplyMachine(m.drink, false); }
@@ -215,7 +224,7 @@ namespace Taverna
                 case 1 when After(1.5f):
                     Log($"v1.5 PRESTİJ HEDEF: şartlar=[{Req()}] · hedef kutusu: \"{hud.DebugGoalText}\" · kare görünür={Prestige.Visible}");
                     Shot("ui_branch_goal.png"); Next(); break;
-                case 2 when After(0.5f): hud.DebugOpen("branch"); Next(); break;
+                case 2 when After(0.5f) && GoalLangsDone(hud): hud.DebugOpen("branch"); Next(); break;   // v1.8: önce hedef kutusu 10 dilde
                 case 3 when After(1.2f): Shot("ui_branch_card_locked.png"); Next(); break;
                 case 4 when After(0.5f):
                     hud.DebugBranchTap();
@@ -268,7 +277,7 @@ namespace Taverna
         void FinishV15()
         {
             if (V15Mode == "content") LogV15Items();
-            if (V15Mode == "prestige") Log($"v1.5 PRESTİJ ÖZET: şube {Prestige.Branch} ({Prestige.CurrentName}) · gelir ×{Prestige.IncomeMultiplier:0.00} · Ün ×{Prestige.UnMultiplier:0.00} · Sv{GameState.Level} · servis (yükleme sonrası) {GameState.Data.customersServed - _v15ServedAtReload} · sahne yüklemesi {_v15SceneLoads} · salon açık={GameState.IsUnlocked("salon")} · sahnede dekor {(TavernRegistry.I && TavernRegistry.I.decorRoot ? TavernRegistry.I.decorRoot.childCount : -1)} / kayıtta {GameState.Data.decor.Count}");
+            if (V15Prestige) Log($"v1.5 PRESTİJ ÖZET: şube {Prestige.Branch} ({Prestige.CurrentName}) · gelir ×{Prestige.IncomeMultiplier:0.00} · Ün ×{Prestige.UnMultiplier:0.00} · Sv{GameState.Level} · servis (yükleme sonrası) {GameState.Data.customersServed - _v15ServedAtReload} · sahne yüklemesi {_v15SceneLoads} · salon açık={GameState.IsUnlocked("salon")} · sahnede dekor {(TavernRegistry.I && TavernRegistry.I.decorRoot ? TavernRegistry.I.decorRoot.childCount : -1)} / kayıtta {GameState.Data.decor.Count}");
         }
     }
 }

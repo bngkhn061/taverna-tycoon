@@ -33,6 +33,33 @@ namespace Taverna
                 GameState.Data.level = startLv;
                 GameState.Data.coins = 3000L * startLv;
             }
+            // v1.8 denge ölçümü: "-autotest-coins N" → başlangıç altını (3000 × Sv, o seviyedeki oyuncuya göre fazla: bot her yükseltmeyi alıyordu)
+            int coinsArg = AutoTestArg("-autotest-coins");
+            if (AutoTest.Enabled && coinsArg > 0) GameState.Data.coins = coinsArg;
+            // v1.8 denge ölçümü: o seviyedeki iyi oyuncunun durumu — "-autotest-staff-level N" (açılan görevlilerin seviyesi),
+            // "-autotest-upgrades N" (açılan makinelerin hız / stok / kalite seviyesi)
+            int staffLv = AutoTestArg("-autotest-staff-level"), upLv = AutoTestArg("-autotest-upgrades");
+            var argsAll = System.Environment.GetCommandLineArgs();
+            int ul = System.Array.IndexOf(argsAll, "-autotest-unlock");
+            if (AutoTest.Enabled && ul >= 0 && ul + 1 < argsAll.Length && (staffLv > 0 || upLv > 0))
+                foreach (var id in argsAll[ul + 1].Split(','))
+                {
+                    if (staffLv > 0 && id.StartsWith("staff_"))
+                    {
+                        GameState.Data.staffIds.Add(id);
+                        GameState.Data.staffLvs.Add(Mathf.Min(staffLv, StaffUpgrades.MaxLevel));
+                    }
+                    if (upLv > 0 && id.StartsWith("mac_") && System.Enum.TryParse<DrinkId>(id.Substring(4), out var d))
+                    {
+                        var s = GameState.Station(d);
+                        s.speed = s.stock = s.quality = Mathf.Min(upLv, Balance.MaxUpgradeLevel);
+                    }
+                }
+            if (AutoTest.Enabled && upLv > 0)
+            {
+                var b = GameState.Station(DrinkId.Bira);
+                b.speed = b.stock = b.quality = Mathf.Min(upLv, Balance.MaxUpgradeLevel);
+            }
             // Test: "-autotest-tier N" → taverna kademesi hazır (tempo ölçümünde yapay başlangıç harcaması olmasın)
             int tierArg = AutoTestArg("-autotest-tier");
             if (AutoTest.Enabled && tierArg > 0) GameState.Data.tier = tierArg;

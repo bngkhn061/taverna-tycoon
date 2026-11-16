@@ -22,7 +22,8 @@ namespace Taverna
 
         /// <summary>Usta geliştirmeleri: kademe başı etki ve fiyatlar.</summary>
         public const int UstaMaxLevel = 3;
-        public static readonly long[] UstaPrices = { 8000, 18000, 40000 };
+        /// v1.8: 8.000 / 18.000 / 40.000 → 6.000 / 14.000 / 30.000 (geri ödeme Sv15–29 gelirinde ≈ 3–6 gün; eskisi 5–8 gün).
+        public static readonly long[] UstaPrices = { 6000, 14000, 30000 };
         public const float UstaIncomePerLv = 0.10f, UstaGuestPerLv = 0.10f;
 
         public static event Action Changed;

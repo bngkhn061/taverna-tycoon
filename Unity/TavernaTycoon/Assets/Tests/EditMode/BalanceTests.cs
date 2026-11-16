@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Taverna.Tests
 {
@@ -8,11 +9,13 @@ namespace Taverna.Tests
         const float Eps = 0.0001f;
 
         [Test]
-        public void UnForLevel_FirstLevels_MatchCurve()
+        public void UnForLevel_ReadsTableAndClamps()
         {
-            Assert.AreEqual(20, Balance.UnForLevel(1));
-            Assert.AreEqual(26, Balance.UnForLevel(2));   // 20 × 1.32 = 26.4
-            Assert.AreEqual(35, Balance.UnForLevel(3));   // 20 × 1.32² = 34.85
+            Assert.AreEqual(Balance.UnTable[0], Balance.UnForLevel(1));
+            Assert.AreEqual(Balance.UnTable[14], Balance.UnForLevel(15));
+            Assert.AreEqual(Balance.UnTable[0], Balance.UnForLevel(0));
+            Assert.AreEqual(Balance.UnTable[Balance.UnTable.Length - 1], Balance.UnForLevel(99));
+            Assert.AreEqual(Balance.MaxLevel, Balance.UnTable.Length);
         }
 
         [Test]
@@ -23,23 +26,74 @@ namespace Taverna.Tests
         }
 
         [Test]
-        public void UnForLevel_GrowthRateChangesAtBreaks()
-        {
-            float early = Balance.UnForLevel(Balance.UnCurveBreak) / (float)Balance.UnForLevel(Balance.UnCurveBreak - 1);
-            float mid = Balance.UnForLevel(Balance.UnCurveBreak + 1) / (float)Balance.UnForLevel(Balance.UnCurveBreak);
-            float late = Balance.UnForLevel(Balance.UnCurveBreak2 + 1) / (float)Balance.UnForLevel(Balance.UnCurveBreak2);
-            Assert.AreEqual(1.32f, early, 0.01f);
-            Assert.AreEqual(1.15f, mid, 0.01f);
-            Assert.AreEqual(1.08f, late, 0.01f);
-        }
-
-        [Test]
         public void Wage_GrowsWithTavernAndStaffLevel()
         {
-            Assert.AreEqual(10, Balance.Wage(10, 1, 1, 0));
-            Assert.AreEqual(115, Balance.Wage(100, 1, 2, 0));   // ×1.15 / seviye
-            Assert.AreEqual(115, Balance.Wage(100, 1, 1, 1));   // +%15 / görevli seviyesi
-            Assert.AreEqual(100, Balance.Wage(100, 5, 3, 0));   // işe alım seviyesinin altında artmaz
+            float k = Balance.WageScale;
+            Assert.AreEqual(Mathf.RoundToInt(10 * k), Balance.Wage(10, 1, 1, 0));
+            Assert.AreEqual(Mathf.RoundToInt(100 * k * Balance.WageLevelGrowth), Balance.Wage(100, 1, 2, 0));   // ×1.12 / seviye
+            Assert.AreEqual(Mathf.RoundToInt(100 * k * 1.15f), Balance.Wage(100, 1, 1, 1));   // +%15 / görevli seviyesi
+            Assert.AreEqual(Mathf.RoundToInt(100 * k), Balance.Wage(100, 5, 3, 0));           // işe alım seviyesinin altında artmaz
+        }
+
+        /// <summary>v1.8 hedef bandı: günlük maaş / günlük gelir Sv8–30 boyunca %15–35 (iyi oyuncunun görevli seviyesiyle, gelir = 3 dk referans × 420/180).</summary>
+        [Test]
+        public void WageToIncome_StaysInTargetBand_Sv8To30()
+        {
+            for (int lv = 8; lv <= Balance.MaxLevel; lv++)
+            {
+                int staffLv = lv < 12 ? 2 : lv < 18 ? 3 : lv < 26 ? 4 : 5;
+                long wages = 0;
+                foreach (var s in Catalog.StaffList)
+                    if (!s.premium && s.level <= lv) wages += Balance.Wage(s.wage, s.level, lv, staffLv);
+                float dayIncome = Balance.EventIncomeRef(lv) * Balance.DayLength / EventMinutesSeconds;
+                float ratio = wages / dayIncome;
+                Assert.That(ratio, Is.InRange(0.15f, 0.35f), $"Sv{lv}: maaş {wages} / gelir {dayIncome:0} = %{100 * ratio:0.0}");
+            }
+        }
+
+        const float EventMinutesSeconds = 180f;
+
+        /// <summary>v1.8: etkinlik fiyatları seviyeyle büyür; Kraliyet Ziyareti her seviyede en pahalısı, Tellal en ucuzu.</summary>
+        [Test]
+        public void EventCost_GrowsWithLevel_RoyalMostExpensive()
+        {
+            var royal = TavernEvents.Get(TavernEvents.Id.Kraliyet);
+            var tellal = TavernEvents.Get(TavernEvents.Id.Tellal);
+            foreach (var d in TavernEvents.List)
+            {
+                Assert.Greater(TavernEvents.CostAt(d, 20), TavernEvents.CostAt(d, 10), d.key);
+                if (d.id != TavernEvents.Id.Kraliyet) Assert.Greater(TavernEvents.CostAt(royal, 28), TavernEvents.CostAt(d, 28), d.key);
+                if (d.id != TavernEvents.Id.Tellal) Assert.LessOrEqual(TavernEvents.CostAt(tellal, 15), TavernEvents.CostAt(d, 15), d.key);
+            }
+        }
+
+        /// <summary>v1.8: etkinlik fiyatı, 3 dakikalık referans gelirin payıdır (Kraliyet Sv28 ≈ 5 × 3 dk gelir).</summary>
+        [Test]
+        public void EventCost_IsShareOfThreeMinuteIncome()
+        {
+            var royal = TavernEvents.Get(TavernEvents.Id.Kraliyet);
+            float expected = royal.share * Balance.EventIncomeRef(28);
+            Assert.AreEqual(expected, TavernEvents.CostAt(royal, 28), 10f);
+        }
+
+        /// <summary>v1.8: özel sipariş payı erken %10, Sv10+ %7; Sv3 öncesi yok.</summary>
+        [Test]
+        public void SpecialOrderChance_ByLevel()
+        {
+            Assert.AreEqual(0f, Balance.SpecialOrderChance(2), Eps);
+            Assert.AreEqual(Balance.SpecialChanceEarly, Balance.SpecialOrderChance(5), Eps);
+            Assert.AreEqual(Balance.SpecialChanceLate, Balance.SpecialOrderChance(20), Eps);
+            Assert.Less(Balance.SpecialChanceLate, Balance.SpecialChanceEarly);
+        }
+
+        /// <summary>v1.8: içme süresi seviyeyle uzar ve Sv20'den sonra sabit.</summary>
+        [Test]
+        public void DrinkDuration_GrowsThenClamps()
+        {
+            Assert.AreEqual(Balance.DrinkDurationEarly, Balance.DrinkDuration(1), Eps);
+            Assert.AreEqual(Balance.DrinkDurationLate, Balance.DrinkDuration(Balance.DrinkDurationLateLevel), Eps);
+            Assert.AreEqual(Balance.DrinkDurationLate, Balance.DrinkDuration(Balance.MaxLevel), Eps);
+            Assert.Greater(Balance.DrinkDuration(10), Balance.DrinkDuration(5));
         }
 
         [Test]
@@ -81,8 +135,8 @@ namespace Taverna.Tests
             Assert.AreEqual(1f, Balance.SeatSpawnScale(6), Eps);
             Assert.AreEqual(1f, Balance.SeatSpawnScale(12), Eps);
             Assert.AreEqual(1.5f, Balance.SeatSpawnScale(27), Eps);
-            Assert.AreEqual(2f, Balance.SeatSpawnScale(48), Eps);
-            Assert.AreEqual(2.2f, Balance.SeatSpawnScale(200), Eps);
+            Assert.AreEqual(Balance.SeatSpawnMax, Balance.SeatSpawnScale(48), Eps);   // v1.8: üst sınır 1.7
+            Assert.AreEqual(Balance.SeatSpawnMax, Balance.SeatSpawnScale(200), Eps);
         }
 
         [Test]

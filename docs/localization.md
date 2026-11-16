@@ -35,7 +35,7 @@ Zincir (`TavernaImport.BuildFonts`, döngüsüz): Nunito → [NunitoExt, Rubik];
 - Rusça gövde metni Nunito'da yok, Rubik'ten düşer (Rubik Latin + Kiril içerir).
 - CJK: Noto Sans SC / JP / KR Bold (SIL OFL 1.1, `UI/Fonts/OFL-NotoSansCJK.txt`). Dinamik, çoklu atlas, 1024² atlas, 48 px örnekleme; derlemede atlas verisi temizlenir, yalnızca kullanılan karakterler çalışırken çizilir.
 - Çince ile Japonca aynı Han kod noktalarını farklı çizer: etkin dil zh-Hans → SC, ja → JP, ko → KR önce gelir (`LocFonts.Apply`).
-- Noto CJK yazı tipleri ★ → ✓ gibi sembolleri de kapsar; bu semboller artık her dilde çizilir. ✗ (U+2717) ve ➜ (U+279C) hiçbir yazı tipinde yok.
+- Noto CJK yazı tipleri ★ → ✓ gibi sembolleri de kapsar. ✗ (U+2717) ve ➜ (U+279C) hiçbir yazı tipinde yok; v1.8: kademe ve prestij kartlarında ok ve onay işareti yazı karakteri yerine ikon görseli (`Kit/v3i_arrow`, `Kit/v3i_check`).
 
 ## Yeni metin (anahtar) ekleme
 

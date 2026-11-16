@@ -85,20 +85,21 @@ namespace Taverna
             public bool premium;
         }
 
+        /// v1.8: flama 120→80, fıçı 150→80, kalkan 220→150, boynuz 260→170, avize 420→250, mühür 3.000→1.500 (geri ödeme tahmini 20–33 gündü).
         public static readonly Decor[] DecorList =
         {
             new() { id = "dec_saksi", name = Loc.N("Saksı"), icon = "DEC_Saksi", prefab = "PR_Decor_Saksi", level = 1, price = 40, ambiance = 2 },
             new() { id = "dec_mum", name = Loc.N("Mumluk"), icon = "DEC_Mum", prefab = "PR_Decor_Mum", level = 1, price = 30, ambiance = 2 },
             new() { id = "dec_hali", name = Loc.N("Halı"), icon = "DEC_Hali", prefab = "PR_Decor_Hali", level = 2, price = 90, ambiance = 4 },
-            new() { id = "dec_flama", name = Loc.N("Flama"), icon = "DEC_Flama", prefab = "PR_Decor_Flama", level = 3, price = 120, ambiance = 4 },
-            new() { id = "dec_fici", name = Loc.N("Fıçı Yığını"), icon = "DEC_FiciYigini", prefab = "PR_Decor_FiciYigini", level = 3, price = 150, ambiance = 3 },
-            new() { id = "dec_kalkan", name = Loc.N("Kalkan & Kılıç"), icon = "DEC_Kalkan", prefab = "PR_Decor_Kalkan", level = 4, price = 220, ambiance = 5 },
-            new() { id = "dec_boynuz", name = Loc.N("Geyik Boynuzu"), icon = "DEC_Boynuz", prefab = "PR_Decor_Boynuz", level = 5, price = 260, ambiance = 5 },
-            new() { id = "dec_avize", name = Loc.N("Avize"), icon = "DEC_Avize", prefab = "PR_Decor_Avize", level = 6, price = 420, ambiance = 8 },
+            new() { id = "dec_flama", name = Loc.N("Flama"), icon = "DEC_Flama", prefab = "PR_Decor_Flama", level = 3, price = 80, ambiance = 4 },
+            new() { id = "dec_fici", name = Loc.N("Fıçı Yığını"), icon = "DEC_FiciYigini", prefab = "PR_Decor_FiciYigini", level = 3, price = 80, ambiance = 3 },
+            new() { id = "dec_kalkan", name = Loc.N("Kalkan & Kılıç"), icon = "DEC_Kalkan", prefab = "PR_Decor_Kalkan", level = 4, price = 150, ambiance = 5 },
+            new() { id = "dec_boynuz", name = Loc.N("Geyik Boynuzu"), icon = "DEC_Boynuz", prefab = "PR_Decor_Boynuz", level = 5, price = 170, ambiance = 5 },
+            new() { id = "dec_avize", name = Loc.N("Avize"), icon = "DEC_Avize", prefab = "PR_Decor_Avize", level = 6, price = 250, ambiance = 8 },
             new() { id = "dec_kristal", name = Loc.N("Kristal Avize"), icon = "DEC_KristalAvize", prefab = "PR_Decor_KristalAvize", level = 1, price = 0, ambiance = 25, premium = true },
             new() { id = "dec_ejder", name = Loc.N("Ejder Heykeli"), icon = "DEC_EjderHeykeli", prefab = "PR_Decor_EjderHeykeli", level = 1, price = 0, ambiance = 30, premium = true },
             new() { id = "dec_altinfici", name = Loc.N("Altın Fıçı"), icon = "DEC_AltinFici", prefab = "PR_Decor_AltinFici", level = 1, price = 0, ambiance = 8, premium = true },
-            new() { id = "dec_muhur", name = Loc.N("Kraliyet Mührü"), icon = "DEC_Muhur", prefab = "PR_Decor_Muhur", level = 12, price = 3000, ambiance = 15 },
+            new() { id = "dec_muhur", name = Loc.N("Kraliyet Mührü"), icon = "DEC_Muhur", prefab = "PR_Decor_Muhur", level = 12, price = 1500, ambiance = 15 },
         };
 
         public static Decor FindDecor(string id) => System.Array.Find(DecorList, d => d.id == id);

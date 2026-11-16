@@ -115,7 +115,13 @@ namespace Taverna
         }
 
         /// <summary>Teklif ekranı bir kez açılacak mı? (Sv3'e ulaşıldı, hiç gösterilmedi)</summary>
-        public static bool ShouldOfferStarter => !Owned("starter") && GameState.Level >= StarterLevel && string.IsNullOrEmpty(GameState.Data.starterShownUtc);
+        /// v1.8: yalnızca erken oyunda (Sv3–<see cref="StarterOfferMaxLevel"/>) kendiliğinden açılır; daha geç gelen oyuncu
+        /// (ör. Sv29 test koşusu, eski kayıt) paketi yalnızca Hazine sekmesinde görür.
+        public static bool ShouldOfferStarter => !Owned("starter") && GameState.Level >= StarterLevel && GameState.Level <= StarterOfferMaxLevel
+                                                 && string.IsNullOrEmpty(GameState.Data.starterShownUtc);
+
+        /// <summary>v1.8: başlangıç paketi teklif penceresinin kendiliğinden açılabileceği en yüksek seviye.</summary>
+        public const int StarterOfferMaxLevel = 6;
 
         public static void MarkStarterShown()
         {

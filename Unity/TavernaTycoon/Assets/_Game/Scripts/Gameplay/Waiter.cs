@@ -35,7 +35,7 @@ namespace Taverna
         void OnDisable() { All.Remove(this); Release(); }
 
         /// <summary>Görevli seviyesiyle (StaffUpgrades) çarpılmış hız.</summary>
-        float Speed => _badge && !string.IsNullOrEmpty(_badge.staffId) ? speed * StaffUpgrades.SpeedMultiplier(_badge.staffId, Catalog.Role.Garson) : speed;
+        float Speed => Balance.WaiterSpeedScale * (_badge && !string.IsNullOrEmpty(_badge.staffId) ? speed * StaffUpgrades.SpeedMultiplier(_badge.staffId, Catalog.Role.Garson) : speed);
 
         void Update()
         {
@@ -71,7 +71,7 @@ namespace Taverna
                 if (c.state != Customer.State.Waiting || c.reservedBy || c.special) continue;
                 if (Inn.Upstairs(c.transform.position)) continue;   // teras: garsonlar çıkmaz
                 if (PlayerController.I && PlayerController.I.carrier.Has(c.wanted)) continue; // oyuncu zaten getiriyor
-                var st = DrinkStation.All.Find(s => s.drink.id == c.wanted);
+                var st = StationFor(c.wanted);   // v1.8: lambda yerine döngü (boştaki garson her kare arar, GC)
                 if (!st) continue;
                 if (c.Patience01 < bestP) { bestP = c.Patience01; best = c; _station = st; }
             }
@@ -82,6 +82,13 @@ namespace Taverna
                 return;
             }
             // v1.3: sipariş yoksa yerine döner (para toplamak oyuncunun işi)
+        }
+
+        static DrinkStation StationFor(DrinkId id)
+        {
+            var all = DrinkStation.All;
+            for (int i = 0; i < all.Count; i++) if (all[i] && all[i].drink && all[i].drink.id == id) return all[i];
+            return null;
         }
 
         void Release()

@@ -21,6 +21,9 @@ namespace Taverna
         const int EventsLevel = 2;
         /// <summary>Uçan mutluluk yazısı bu farkın altındaysa gösterilmez; 1'in altı tek ondalıkla yazılır.</summary>
         const float HappyFloatMin = 0.1f;
+        /// <summary>v1.8: mutluluk kartı açıkken yenileme aralığı (gerçek saniye).</summary>
+        const float HappyCardRefreshSeconds = 0.5f;
+        float _happyCardT;
 
         void InitV12()
         {
@@ -77,6 +80,12 @@ namespace Taverna
             _happyFill.style.backgroundColor = (Color)(v >= 50f ? new Color32(106, 168, 79, 255) : v >= 25f ? new Color32(242, 182, 49, 255) : new Color32(212, 85, 58, 255));
             _happyNum.text = Loc.F("%{0}", Mathf.RoundToInt(v));   // v1.7: yüzde işaretinin yeri dile göre
             _happyFace.SetMood(Happiness.Mood);
+            // v1.8: açıklama kartı açıkken düzenli yenilenir (kirli masa, etkinlik, yoğun saat müşteri sonuçlanmadan da değişir)
+            if (!_happyCard.ClassListContains("hidden"))
+            {
+                _happyCardT -= Time.unscaledDeltaTime;
+                if (_happyCardT <= 0f) { _happyCardT = HappyCardRefreshSeconds; RefreshHappyCard(); }
+            }
 
             // Uçan mutluluk yazıları
             for (int i = _happyFloats.Count - 1; i >= 0; i--)

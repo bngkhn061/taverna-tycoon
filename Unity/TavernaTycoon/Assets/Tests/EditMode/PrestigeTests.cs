@@ -14,7 +14,7 @@ namespace Taverna.Tests
             Assert.AreEqual(1f + 2 * Prestige.IncomePerBranch, Prestige.IncomeMultiplierFor(2), Eps);
             Assert.AreEqual(1f + 3 * Prestige.UnPerBranch, Prestige.UnMultiplierFor(3), Eps);
             Assert.AreEqual(1.5f, Prestige.IncomeMultiplierFor(2), Eps);
-            Assert.AreEqual(1.45f, Prestige.UnMultiplierFor(3), Eps);
+            Assert.AreEqual(2.05f, Prestige.UnMultiplierFor(3), Eps);   // v1.8: şube başına +%35
         }
 
         [Test]

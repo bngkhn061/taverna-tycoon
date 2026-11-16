@@ -40,6 +40,35 @@ namespace Taverna
 
         static Sprite TierIcon(int index) => LoadIcon($"Tier_{index + 1}");
 
+        /// <summary>
+        /// v1.8: önce / sonra arasındaki ok. "➜" (U+279C) hiçbir yazı tipinde yoktu; ikon görseli kullanılır.
+        /// </summary>
+        static VisualElement CompareArrow()
+        {
+            var arrow = new VisualElement { pickingMode = PickingMode.Ignore };
+            arrow.AddToClassList("tier-arrow-ic");
+            arrow.style.backgroundImage = new StyleBackground(KitIcon("arrow"));
+            return arrow;
+        }
+
+        /// <summary>v1.8: şart çipi; tutan şartın başında yazı karakteri yerine onay ikonu (✓ yalnızca CJK yazı tiplerinde vardı).</summary>
+        static VisualElement ReqChip(string label, bool ok)
+        {
+            var c = new VisualElement();
+            c.AddToClassList("chip");
+            c.AddToClassList("req-chip");
+            c.AddToClassList(ok ? "ok" : "no");
+            if (ok)
+            {
+                var ic = new VisualElement { pickingMode = PickingMode.Ignore };
+                ic.AddToClassList("req-chip-ic");
+                ic.style.backgroundImage = new StyleBackground(KitIcon("check"));
+                c.Add(ic);
+            }
+            c.Add(new Label(label));
+            return c;
+        }
+
         // ------------------------------------------------------------------ hedef kutusu (M)
         /// <summary>Başka alan hedefi yokken sıradaki kademe hedef kutusunda ve okta gösterilir.</summary>
         bool UpdateTierGoal(PayZone zz)
@@ -70,20 +99,12 @@ namespace Taverna
             var compare = new VisualElement();
             compare.AddToClassList("tier-compare");
             compare.Add(TierShot(cur));
-            var arrow = new Label("➜");
-            arrow.AddToClassList("tier-arrow");
-            compare.Add(arrow);
+            compare.Add(CompareArrow());
             compare.Add(TierShot(n));
             card.Add(compare);
             var req = new VisualElement();
             req.AddToClassList("tier-req");
-            foreach (var (label, ok) in Tiers.Requirements(n))
-            {
-                var c = new Label((ok ? "✓ " : "") + label);
-                c.AddToClassList("chip");
-                c.AddToClassList(ok ? "ok" : "no");
-                req.Add(c);
-            }
+            foreach (var (label, ok) in Tiers.Requirements(n)) req.Add(ReqChip(label, ok));
             card.Add(req);
             var gains = new VisualElement();
             gains.AddToClassList("tier-gains");

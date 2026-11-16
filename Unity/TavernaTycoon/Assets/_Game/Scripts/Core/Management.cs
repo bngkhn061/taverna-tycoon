@@ -45,8 +45,10 @@ namespace Taverna
         public static bool Working(string id)
         {
             if (!Hired(id) || OnLeave(id)) return false;
-            var s = Array.Find(Catalog.StaffList, x => x.id == id);
-            return ZoneOpen(s.zone);
+            // v1.8: döngü — makine hızı (HasRole) her kare her makine için buraya gelir; lambda kapanışı GC üretiyordu
+            var list = Catalog.StaffList;
+            for (int i = 0; i < list.Length; i++) if (list[i].id == id) return ZoneOpen(list[i].zone);
+            return ZoneOpen(null);
         }
 
         public static BuyResult CanHire(Catalog.Staff s)
@@ -204,7 +206,8 @@ namespace Taverna
 
         public static void TickPenalty(float dt) => AngryPenalty = Mathf.Max(0f, AngryPenalty - Balance.StarPenaltyDecayPerSec * dt);
 
-        public static float TipFromStars => 1f + 0.05f * (Stars - 1f);
+        /// <summary>v1.8: yıldız başına bahşiş +%5 → +%10 (dekorun geri ödemesi 20–30 gündü).</summary>
+        public static float TipFromStars => 1f + Balance.TipPerStar * (Stars - 1f);
         public static float SpawnFromStars => 0.7f + 0.15f * Stars;
 
         public static string BuyMessage(BuyResult r, int level = 0, string zone = "") => r switch

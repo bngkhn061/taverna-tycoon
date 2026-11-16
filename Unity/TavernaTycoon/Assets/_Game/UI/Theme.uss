@@ -724,3 +724,26 @@ Slider .unity-base-slider__dragger-border { display: none; }
 
 /* v1.7 uzun çeviriler: yan düğme yazısı harf aralığı olmadan sığsın (Rusça "ПЕРСОНАЛ", Almanca "AUFTRÄGE") */
 .side-cap { letter-spacing: 0; white-space: nowrap; -unity-text-align: middle-center; }
+
+/* v1.8 cila: hedef kutusu iki satır, ikonlu ok ve onay çipleri, şube kartı önce / sonra kutuları */
+.goal-text { white-space: normal; text-overflow: clip; font-size: 15px; max-height: 42px; }
+.goal-text.long { font-size: 12.5px; }
+.tier-arrow-ic { width: 40px; height: 40px; margin: 0 10px; flex-shrink: 0; -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(212, 85, 58); }
+.req-chip { flex-direction: row; align-items: center; }
+.req-chip > Label { font-size: 13px; -unity-font-style: bold; color: var(--ink); padding: 0; margin: 0; }
+.req-chip-ic { width: 16px; height: 16px; margin-right: 5px; -unity-background-scale-mode: scale-to-fit; }
+.branch-card { padding-top: 32px; padding-bottom: 16px; }
+.branch-card .tier-compare { margin-bottom: 6px; }
+.tier-shot.branch-shot { height: 80px; flex-direction: row; align-items: center; padding: 6px 10px; background-image: none; }
+.tier-shot.branch-shot.next { background-color: rgb(255, 244, 214); }
+.branch-logo { width: 70px; height: 70px; flex-shrink: 0; margin-right: 10px; -unity-background-scale-mode: scale-to-fit;
+    background-image: url("project://database/Assets/_Game/UI/Images/Logo/logo_main.png"); }
+.branch-shot-col { flex-grow: 1; flex-shrink: 1; min-width: 0; align-items: flex-start; }
+.branch-shot-num { width: 24px; height: 24px; padding: 0; margin-bottom: 2px; background-color: var(--mus); border-width: 2.5px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+    -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 13px; color: var(--ink); -unity-text-align: middle-center; }
+.branch-shot-name { font-size: 16px; color: var(--ink); white-space: normal; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); }
+.branch-shot-lv { font-size: 13px; -unity-font-style: bold; color: var(--ink); opacity: 0.75; }
+.branch-card .tier-gain { padding: 2px 0; }
+.branch-card .branch-line { font-size: 12px; }
+.tier-arrow-ic { rotate: -90deg; }   /* v1.8: v3i_arrow aşağıyı gösteriyor; önce → sonra yönü */

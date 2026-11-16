@@ -120,7 +120,7 @@ namespace Taverna
             }
         }
 
-        void Log(string s) { var line = $"[{_t,6:0.0}s] {s}"; _log.AppendLine(line); Debug.Log("[Playtest] " + line); }
+        void Log(string s) { var line = $"[{_t,6:0.0}s] {s}"; _log.AppendLine(line); if (!Quiet) Debug.Log("[Playtest] " + line); }
 
         void Update()
         {
@@ -133,18 +133,19 @@ namespace Taverna
             if (!p) return;
 
             foreach (var c in Customer.All)
-                if (c.emote == Customer.Emote.Angry && c.emoteTime > 1.45f) { _angryLeaves++; c.emoteTime = 1.44f; }
+                if (c.emote == Customer.Emote.Angry && c.state == Customer.State.Leaving && _angrySeen.Add(c)) { _angryLeaves++; OnAngryV18(c); }   // v1.8: ×4 hızda emoteTime eşiği ilk karede kaçıyordu
+            if (Measure) UpdateV18();   // v1.8 denge ölçümü
 
             Vector3? target = Decide(p);
             if (target.HasValue) target = Inn.Route(p.transform.position, target.Value);
             if (target.HasValue) target = InnDoor(p.transform.position, target.Value);
             if (target.HasValue) target = KitchenLayout.Route(p.transform.position, target.Value);
             Steer(p, target);
-            if (!(_tierStep < 3 && Tiers.Visible && Tiers.Next != null && Tiers.Next.index == 1) && !(V15Mode == "prestige" && _v15Step < V15After)) TryUpgrades();   // v1.5: prestij testi bitene kadar da harcama   // v1.0: kademe testi bitene kadar para harcama
+            if (!(_tierStep < 3 && Tiers.Visible && Tiers.Next != null && Tiers.Next.index == 1) && !(V15Prestige && _v15Step < V15After)) TryUpgrades();   // v1.5: prestij testi bitene kadar da harcama   // v1.0: kademe testi bitene kadar para harcama
             // Teşhis: yavaş kare (>80 ms) olunca o anki durumu yaz (2 sn'de bir)
             _slowLogT -= Time.unscaledDeltaTime;
-            if (Sfx.MusicNow != _music) { _music = Sfx.MusicNow; Log($"SES müzik → {_music} · faz={DayCycle.Progress01:0.00} yoğun={RushHour.Active} müşteri={Customer.All.Count} kalabalık={Sfx.CrowdLevel:0.00} ortam=[{Sfx.AmbientInfo}]"); }
-            if (Time.unscaledDeltaTime > 0.08f && _slowLogT <= 0f)
+            if (!Quiet && Sfx.MusicNow != _music) { _music = Sfx.MusicNow; Log($"SES müzik → {_music} · faz={DayCycle.Progress01:0.00} yoğun={RushHour.Active} müşteri={Customer.All.Count} kalabalık={Sfx.CrowdLevel:0.00} ortam=[{Sfx.AmbientInfo}]"); }
+            if (!Quiet && Time.unscaledDeltaTime > 0.08f && _slowLogT <= 0f)
             {
                 _slowLogT = 2f;
                 int gc = System.GC.CollectionCount(0);
@@ -156,7 +157,7 @@ namespace Taverna
 
             _fpsAcc += Time.unscaledDeltaTime; _fpsN++;
             _logT += Time.deltaTime;
-            if (_logT >= 20f)
+            if (_logT >= 20f && !Quiet)
             {
                 _logT = 0f;
                 Log($"Para={GameState.Coins} Seviye={GameState.Level} Ün={GameState.Data.un}/{Balance.UnForLevel(GameState.Level)} " +
@@ -164,11 +165,11 @@ namespace Taverna
                 _fpsAcc = 0; _fpsN = 0;
             }
             // Arayüz ekranlarının görüntüleri (bir kez)
-            var hud = FindAnyObjectByType<HudController>();
-            TrackV14();
+            var hud = _hud ? _hud : (_hud = FindAnyObjectByType<HudController>());
+            if (!Quiet) TrackV14();
             TutorialClicks(hud);
             UpdateV15(hud, p);
-            UpdateV16(hud);
+            if (!NoTests) UpdateV16(hud);
             if (hud)
             {
                 if (hud.LevelCardOpen)
@@ -177,7 +178,8 @@ namespace Taverna
                     else if (_t > _levelCloseAt) hud.DebugOpen("close");
                 }
                 // v1.4: rehber sürerken panel görüntüleri beklenir (bot rehber butonlarını kendisi basar, kalanı kendiliğinden geçer)
-                if (_uiStep < UiSteps.Length && !Tutorial.Active && _t > 30f + _uiStep * 4f)
+                if (NoTests) { }   // v1.8: ölçüm / sessiz koşuda panel turu ve dil testi yok
+                else if (_uiStep < UiSteps.Length && !Tutorial.Active && _t > 30f + _uiStep * 4f)
                 {
                     var (what, file) = UiSteps[_uiStep];
                     if (_uiPhase == 0) { hud.DebugOpen(what); _uiPhase = 1; _uiT = _t; }
@@ -185,13 +187,14 @@ namespace Taverna
                     else if (_uiPhase == 2 && _t > _uiT + 2.0f) { hud.DebugOpen("close"); _uiPhase = 0; _uiStep++; }
                 }
                 // v1.7: oyun içinde canlı dil değişimi (dükkân açıkken) → görüntü → eski dile dönüş
-                if (_uiStep >= UiSteps.Length && _langStep == 0) { _langStep = 1; _lang0 = Loc.Lang; hud.DebugOpen("shop"); _langAt = _real; }
+                if (!NoTests && _uiStep >= UiSteps.Length && _langStep == 0) { _langStep = 1; _lang0 = Loc.Lang; hud.DebugOpen("shop"); _langAt = _real; }
                 else if (_langStep == 1 && _real > _langAt + 0.5f) { _langStep = 2; Loc.SetLanguage(_lang0 == "ja" ? "de" : "ja"); _langAt = _real; }
                 else if (_langStep == 2 && _real > _langAt + 0.6f) { _langStep = 3; Shot("ui_lang_switch.png"); Log($"v1.7 DİL (oyun içi): {_lang0} → {Loc.Lang} · istisna yok"); _langAt = _real; }
                 else if (_langStep == 3 && _real > _langAt + 0.5f) { _langStep = 4; Loc.SetLanguage(_lang0); hud.DebugOpen("close"); Log($"v1.7 DİL geri: {Loc.Lang}"); }
             }
             // v1.3: kov → maaş düşer → yeniden işe al (v1.4: ücret = max(katalog, 2 × günlük maaş))
-            if (_fireStep == 0 && _t > 120f && Management.Hired("staff_nana"))
+            if (NoTests) { }   // v1.8: ölçümde kovma / görev zorlama / tellal testi yok
+            else if (_fireStep == 0 && _t > 120f && Management.Hired("staff_nana"))
             {
                 var nana = System.Array.Find(Catalog.StaffList, x => x.id == "staff_nana");
                 long w0 = Management.DailyWages;
@@ -218,7 +221,7 @@ namespace Taverna
                 _fireStep = 2;
             }
             // v1.4: özel sipariş görevi (Sv3+) — sayaç yalnızca oyuncunun servis ettiği özel siparişte artar
-            if (!_questForced && _t > 5f && GameState.Level >= Balance.SpecialQuestLevel && Quests.List.Count > 0)
+            if (!NoTests && !_questForced && _t > 5f && GameState.Level >= Balance.SpecialQuestLevel && Quests.List.Count > 0)
             {
                 _questForced = true;
                 if (!Quests.List.Exists(q => q.type == QuestType.SpecialOrder || q.type == QuestType.SpecialOrderBig))
@@ -228,12 +231,12 @@ namespace Taverna
                 _specialAtForce = Customer.SpecialServed;
             }
             // v1.4: Tellal etkinliği (Sv2, rehber bitince) — eski "Tellal tut" satın alımının yerine; şeridi çek
-            if (!_evStarted && _t > 95f && GameState.Level >= 2 && !Tutorial.Active)
+            if (!NoTests && !_evStarted && _t > 95f && GameState.Level >= 2 && !Tutorial.Active)
             {
                 _evStarted = true;
                 var tel = TavernEvents.Get(TavernEvents.Id.Tellal);
                 long need = TavernEvents.Cost(tel);
-                Log($"v1.4 TELLAL: durum={TavernEvents.StateOf(tel)} · fiyat {need} (40 + 30×Sv{GameState.Level}) · tellal görünür={Campaigns.CrierVisible}");
+                Log($"v1.4 TELLAL: durum={TavernEvents.StateOf(tel)} · fiyat {need} (pay × 3 dk gelir, Sv{GameState.Level}) · tellal görünür={Campaigns.CrierVisible}");
                 if (GameState.Coins < need) GameState.Data.coins += need;   // test: etkinlik parası (bot her şeye harcıyor)
                 var r = TavernEvents.Start(tel);
                 Log($"v1.2 ETKİNLİK: tellal → {r} · altın {GameState.Coins} · mutluluk %{Happiness.Value:0} (×{Happiness.SpawnMultiplier:0.00}) · etkinlik çarpanı ×{TavernEvents.SpawnMultiplier:0.0}");
@@ -294,10 +297,13 @@ namespace Taverna
             foreach (var c in Customer.All)
             {
                 if (c.state != Customer.State.Waiting || !p.carrier.Has(c.wanted)) continue;
-                float d = DrinkStation.FlatDistance(pos, c.transform.position) - c.Patience01 * 2f;
-                if (d < bestC) { bestC = d; serveTarget = c; }
+                // v1.8 "iyi oyuncu": sabrı en az kalan ve yetişilebilen müşteri önce (eski puan sabırlıyı öne alıyordu)
+                float d = DrinkStation.FlatDistance(pos, c.transform.position);
+                float s = c.patience + d / Balance.PlayerSpeed;
+                if (d / Balance.PlayerSpeed > c.patience) s += 1000f;   // yetişilemez: en sona
+                if (s < bestC) { bestC = s; serveTarget = c; }
             }
-            if (serveTarget && (!nearestCoin || bestC < best)) { _goal = "servis:" + serveTarget.def.displayName; return serveTarget.transform.position; }
+            if (serveTarget && (!nearestCoin || bestC < 1000f || DrinkStation.FlatDistance(pos, serveTarget.transform.position) < best)) { _goal = "servis:" + serveTarget.def.displayName; return serveTarget.transform.position; }
             if (nearestCoin && best < 4f) { _goal = "para"; return nearestCoin.transform.position; }
 
             // Oyun salonu (v0.9): hazır masada tur başlat (otomasyon yoksa)
@@ -306,7 +312,7 @@ namespace Taverna
                     if (gt.state == GameTable.State.Ready) { _goal = "oyun:" + gt.Title; _lastGame = gt; return gt.transform.position + new Vector3(0f, 0f, -0.95f); }
 
             // Test (v1.0): iskeleye bir kez bak (müşteri oturmuşsa)
-            if (!_dockShot && GameState.IsUnlocked("iskele") && _t > 45f && Customer.All.Exists(c => c.transform.position.x < -15.3f && c.state != Customer.State.Leaving))
+            if (!NoTests && !_dockShot && GameState.IsUnlocked("iskele") && _t > 45f && Customer.All.Exists(c => c.transform.position.x < -15.3f && c.state != Customer.State.Leaving))
             { _goal = "iskeleye bak"; return new Vector3(-17.8f, 0f, -1.0f); }
 
             // Han (v0.8): resepsiyonda bekleyen misafiri karşıla (servisten sonra en öncelikli iş)
@@ -317,6 +323,7 @@ namespace Taverna
                     return gu.transform.position + Vector3.left * 0.6f;
                 }
             // Test: uyuyan misafiri ve sabah dağınık odayı görmek için bir kez merdivenden üst kata çık
+            if (!NoTests)
             foreach (var rm in Room.All)
                 if ((!_sleepShot && rm.state == Room.State.Occupied) || (!_dirtyShot && rm.state == Room.State.Dirty))
                 { _goal = "üst kata bak"; return new Vector3(rm.bedPoint.position.x + 0.5f, 0f, 38.3f); }
@@ -325,12 +332,23 @@ namespace Taverna
             // 3) Bekleyen siparişler için istasyona git
             if (p.carrier.HasSpace)
             {
+                // v1.8 "iyi oyuncu": garsonun üstlenmediği siparişler içinden (özel siparişler önde) sabrı en az kalan ve
+                // istasyon + masa yolu sabrına yeten müşteri; eskiden listedeki ilk müşteriye gidiyordu
+                DrinkStation pick = null;
+                float bestS = float.MaxValue;
                 foreach (var c in Customer.All)
                 {
                     if (c.state != Customer.State.Waiting || p.carrier.Has(c.wanted)) continue;
-                    var st = DrinkStation.All.Find(s => s.drink.id == c.wanted);
-                    if (st && st.Stock > 0) { _goal = "istasyon:" + st.drink.displayName; return st.ServePos; }
+                    if (c.reservedBy && !c.special) continue;
+                    DrinkStation st = null;
+                    foreach (var s in DrinkStation.All) if (s && s.drink && s.drink.id == c.wanted) { st = s; break; }
+                    if (!st || st.Stock <= 0) continue;
+                    float travel = (DrinkStation.FlatDistance(pos, st.ServePos) + DrinkStation.FlatDistance(st.ServePos, c.transform.position)) / Balance.PlayerSpeed;
+                    float score = c.patience - (c.special ? BotSpecialBonus : 0f);
+                    if (travel > c.patience) score += 1000f;
+                    if (score < bestS) { bestS = score; pick = st; }
                 }
+                if (pick) { _goal = "istasyon:" + pick.drink.displayName; return pick.ServePos; }
             }
             if (nearestCoin) { _goal = "para"; return nearestCoin.transform.position; }
 
@@ -371,6 +389,10 @@ namespace Taverna
         }
 
         Room _cleaning;
+        /// <summary>v1.8: botun özel siparişe verdiği öncelik (saniye; garsonlar özel siparişi almadığı için).</summary>
+        const float BotSpecialBonus = 6f;
+        /// <summary>v1.8: HUD her kare aranmasın (sahne yeniden yüklenince Unity null'a döner, yeniden bulunur).</summary>
+        HudController _hud;
 
         GameTable _lastGame;
 
@@ -385,7 +407,7 @@ namespace Taverna
                 _reportSub = true;
                 DayCycle.DayEnded += r => Log($"RAPOR gün {r.day}: gelir {r.income} · maaş {r.wages} (oran %{(r.income > 0 ? 100f * r.wages / r.income : 0f):0}) · ödenmeyen {r.unpaid} · servis {r.served} · Sv {GameState.Level} · kızgın {_angryLeaves}");
             }
-            var hud = FindAnyObjectByType<HudController>();
+            var hud = _hud ? _hud : (_hud = FindAnyObjectByType<HudController>());
             if (!_introShot && _real > 1.1f) { _introShot = true; Shot("playtest_intro.png"); }
             if (!_tutShot && Tutorial.Active && _real > 4f) { _tutShot = true; Shot("ui_tutorial.png"); }
             if (DayCycle.Ended && hud)
@@ -412,6 +434,7 @@ namespace Taverna
             if (pl && !_dockShot && GameState.IsUnlocked("iskele") && pl.transform.position.x < -15.6f && _t > 45f)
             { _dockShot = true; Shot("playtest_dock.png"); Log($"İskele: müşteri={Customer.All.FindAll(c => c.transform.position.x < -15.2f).Count}"); }
             // v1.0 Tavernayı Büyüt: kart → dönüşüm (toz, şerit) → yeni kademe → kademe yolu
+            if (NoTests && _tierStep == 0) _tierStep = 9;   // v1.8: ölçümde kademe kartı testi yok (harcama da beklemez)
             if (hud && Tiers.Visible && _tierStep == 0 && _real > 4f) { _tierStep = 1; _tierAt = _real; hud.DebugOpen("tier"); Log($"Kademe kartı: şartlar=[{string.Join(", ", Tiers.Requirements(Tiers.Next).ConvertAll(r => (r.ok ? "✓" : "✗") + r.label))}]"); }
             if (hud && _tierStep == 1 && _real > _tierAt + 1.2f) { _tierStep = 2; Shot("ui_tier_card.png"); }
             if (hud && _tierStep == 2 && _real > _tierAt + 2.0f)
@@ -430,6 +453,7 @@ namespace Taverna
             // v1.0 Hazine: başlangıç teklifi görüntüsü; test satın alma (onay ekranı → ürünler sahnede)
             if (hud && !_starterShot && hud.PremiumModalVisible && GameState.Level >= Premium.StarterLevel && _uiStep >= UiSteps.Length)
             { _starterShot = true; Shot("ui_starter.png"); }
+            if (NoTests && _premStep == 0) _premStep = 4;   // v1.8: ölçümde Hazine testi yok (VIP / Lirael dengeyi bozar)
             if (hud && _t > 150f && _premStep == 0 && !hud.PremiumModalVisible) { _premStep = 1; _premAt = _real; WrapTestConfirm(); Premium.Request("staff_lirael"); }
             if (hud && _premStep == 1 && _real > _premAt + 1.2f) { _premStep = 2; Shot("ui_prem_confirm.png"); }
             if (hud && _premStep == 2 && _real > _premAt + 2.0f)
@@ -506,6 +530,11 @@ namespace Taverna
             // Sıradaki ödeme karesi için ayrılan para: yeni harcamalar (v0.6) da buna uysun
             var nextZone = PayZone.NextGoal();
             long keep = (nextZone && nextZone.Available ? nextZone.Remaining : 0) + Management.DailyWages + 300;   // v1.0: maaş + malzeme payı
+            // v1.8 ölçüm ("iyi oyuncu"): açılan görevliyi önce işe al (eskiden yükseltmeler parayı yiyordu, ozan / aşçı hiç alınmıyordu)
+            if (Measure)
+                foreach (var st in Catalog.StaffList)
+                    if (Management.CanHire(st) == Management.BuyResult.Ok && GameState.Coins - Management.HireCost(st) > Management.DailyWages + 300 && Management.Hire(st) == Management.BuyResult.Ok)
+                        Log($"İşe alındı (öncelikli): {st.name} ({st.roleName}) · ücret {Management.HireCost(st)}");
             foreach (var s in Catalog.StaffList)
                 if (StaffUpgrades.CanLevel(s) && GameState.Coins - StaffUpgrades.Cost(s, StaffUpgrades.Level(s.id)) > keep + 100 && StaffUpgrades.TryBuy(s))
                     Log($"Görevli gelişti: {s.name} → Sv {StaffUpgrades.Level(s.id)}");
@@ -542,7 +571,7 @@ namespace Taverna
                     Log($"İşe alındı: {st.name} ({st.roleName}) · ücret {hc}");
             }
             var goal = PayZone.NextGoal();
-            long reserve = goal && goal.Available ? goal.Remaining : 0;
+            long reserve = (goal && goal.Available ? goal.Remaining : 0) + (Measure ? Management.DailyWages : 0);   // v1.8: iyi oyuncu maaşı kasada tutar
             foreach (var d in Catalog.DecorList)
                 if (Management.CanBuyDecor(d) == Management.BuyResult.Ok && GameState.Coins - d.price > reserve + 50 && Management.BuyDecor(d) == Management.BuyResult.Ok)
                     Log($"Dekor: {d.name} → ambiyans {AmbianceSource.Total:0} ★{Management.Stars:0.#} (sonraki ★ için {Management.AmbianceToNextStar})");
@@ -597,6 +626,8 @@ namespace Taverna
             Log($"v1.4 REHBER ÖZET: {(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} · kendiliğinden geçen adım {Tutorial.AutoAdvanced} · bitiş gerçek {_tutEndReal:0.0} sn");
             FinishV15();
             FinishV16();
+            if (Measure) FinishV18();
+            if (Quiet) Debug.Log($"[Playtest] v1.8 SESSİZ KOŞU: >{SlowFrameSeconds * 1000f:0} ms kare {_slowAll} (en uzun {_slowMaxMs:0} ms) · {_real:0} gerçek sn · GC {System.GC.CollectionCount(0)} · Sv{GameState.Level}");
             Log($"v1.2: mutluluk=%{Happiness.Value:0} (müşteri ×{Happiness.SpawnMultiplier:0.00}) ★{Management.Stars:0.#} etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} bugün=[{string.Join(",", GameState.Data.eventsUsed)}] masa={Table.All.Count}");
             Log($"SES: grup={Sfx.LoadedGroups} müzik={Sfx.MusicNow} kalabalık={Sfx.CrowdLevel:0.00} konuşma={Sfx.TalkCount} ortam=[{Sfx.AmbientInfo}]");
             Log($"HAN: açık={Inn.Open} giriş={Inn.CheckIns} kızgın misafir={Inn.AngryGuests} toplanan oda={Inn.RoomsCleaned} (bot {_roomsCleaned}) oda durumları=[{string.Join(",", Room.All.ConvertAll(x => x.state.ToString()))}]");
@@ -614,6 +645,7 @@ namespace Taverna
         /// <summary>Kamera görüntüsü + UI Toolkit paneli (targetTexture'a çiziliyorsa) birleşik PNG.</summary>
         void Shot(string file)
         {
+            if (NoTests || NoShots) return;   // v1.8: ölçüm / sessiz koşu ve "-autotest-noshots" görüntü almaz (yavaş kare ayrımı)
             if (!Application.isEditor) { AutoTest.Shot(file); return; }
             var cam = Camera.main;
             if (!cam) return;

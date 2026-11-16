@@ -123,6 +123,10 @@ namespace Taverna
             if (options.Count == 0)
                 foreach (var s in DrinkStation.All) if (SameFloor(s) && !s.drink.isFood) options.Add(s.drink.id);
             wanted = options.Count > 0 ? options[Random.Range(0, options.Count)] : DrinkId.Bira;
+            // v1.8: Kral Şerbeti (Sv27) tavernanın imza içeceği — çeşme aynı kattaysa her müşteri ara sıra ister (eskiden yalnızca 3 nadir zengin)
+            if (Random.value < Balance.SignatureOrderChance)
+                foreach (var s in DrinkStation.All)
+                    if (SameFloor(s) && s.drink.id == DrinkId.KralSerbeti) { wanted = DrinkId.KralSerbeti; break; }
             // v0.7: mutfak açıksa müşteriler ara sıra yemek ister (her siparişte %35)
             var foods = up ? new List<DrinkStation>() : DrinkStation.All.FindAll(s => s.drink && s.drink.isFood);
             if (foods.Count > 0 && Random.value < Balance.FoodOrderChance) wanted = foods[Random.Range(0, foods.Count)].drink.id;
@@ -161,7 +165,7 @@ namespace Taverna
                                                        * Night.PayMultiplier(def, transform.position)
                                                        * (special ? Balance.SpecialPayMultiplier : 1f)));
             special = false;
-            _drinkT = Balance.DrinkDuration;
+            _drinkT = Balance.DrinkDuration(GameState.Level);
             state = State.Drinking;
             emote = tip > 1f ? Emote.Happy : Emote.None;
             emoteTime = 1.2f;

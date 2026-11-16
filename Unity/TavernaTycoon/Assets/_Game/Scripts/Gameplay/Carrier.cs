@@ -17,8 +17,14 @@ namespace Taverna
         public int Count => _items.Count;
         public bool HasSpace => _items.Count < capacity;
 
-        public bool Has(DrinkId id) => _items.Exists(i => i.def.id == id);
-        public int CountOf(DrinkId id) => _items.FindAll(i => i.def.id == id).Count;
+        // v1.8: döngü (lambda + FindAll her kare liste ve kapanış ayırıyordu; garsonlar ve makineler sık çağırır)
+        public bool Has(DrinkId id) => CountOf(id) > 0;
+        public int CountOf(DrinkId id)
+        {
+            int n = 0;
+            for (int i = 0; i < _items.Count; i++) if (_items[i].def.id == id) n++;
+            return n;
+        }
 
         public void Add(DrinkDef def)
         {

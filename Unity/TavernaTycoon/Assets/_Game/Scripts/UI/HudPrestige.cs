@@ -96,22 +96,14 @@ namespace Taverna
 
             var compare = new VisualElement();
             compare.AddToClassList("tier-compare");
-            compare.Add(BranchShot(Tiers.CurrentIndex, Loc.F("{0} · Sv{1}", Prestige.CurrentName, GameState.Level)));
-            var arrow = new Label("➜");
-            arrow.AddToClassList("tier-arrow");
-            compare.Add(arrow);
-            compare.Add(BranchShot(0, Loc.F("{0} · Sv1", Prestige.BranchName(nb))));
+            compare.Add(BranchShot(b, Prestige.CurrentName, Loc.F("Sv{0}", GameState.Level), false));
+            compare.Add(CompareArrow());
+            compare.Add(BranchShot(nb, Prestige.BranchName(nb), Loc.F("Sv{0}", 1), true));
             card.Add(compare);
 
             var req = new VisualElement();
             req.AddToClassList("tier-req");
-            foreach (var (label, ok) in Prestige.Requirements())
-            {
-                var c = new Label((ok ? "✓ " : "") + label);
-                c.AddToClassList("chip");
-                c.AddToClassList(ok ? "ok" : "no");
-                req.Add(c);
-            }
+            foreach (var (label, ok) in Prestige.Requirements()) req.Add(ReqChip(label, ok));
             card.Add(req);
 
             var cols = new VisualElement();
@@ -191,18 +183,45 @@ namespace Taverna
         /// <summary>Test botu: hedef kutusundaki metin.</summary>
         public string DebugGoalText => _goal.style.display == DisplayStyle.None ? Loc.T("(gizli)") : $"{_goalText.text} · {_goalNum.text}";
 
+        /// <summary>v1.8 test botu: hedef metni kutuya sığıyor mu (gereken yükseklik / ayrılan yükseklik, punto).</summary>
+        public string DebugGoalFit
+        {
+            get
+            {
+                var need = _goalText.MeasureTextSize(_goalText.text, _goalText.layout.width, VisualElement.MeasureMode.Exactly, 0f, VisualElement.MeasureMode.Undefined);
+                bool fits = need.y <= _goalText.layout.height + 1f && need.x <= _goalText.layout.width + 1f;
+                return $"sığıyor={fits} · gereken {need.y:0} px / kutu {_goalText.layout.height:0} px · genişlik {_goalText.layout.width:0} · punto {_goalText.resolvedStyle.fontSize:0.#} · uzun={_goalText.ClassListContains("long")}";
+            }
+        }
+
         /// <summary>Test botu: şube kartındaki onay düğmesine bir kez dokun.</summary>
         public void DebugBranchTap() => _branchTap?.Invoke();
 
-        VisualElement BranchShot(int tierIndex, string caption)
+        /// <summary>
+        /// v1.8 önce / sonra kutusu: küçük kademe parçası ikonu yerine oyun logosu (USS .branch-logo) + şube numarası rozeti,
+        /// şube adı ve seviye. Yeni şube kutusu vurgulu (.next), eski soluk değil ama sade.
+        /// </summary>
+        static VisualElement BranchShot(int branch, string name, string level, bool next)
         {
             var box = new VisualElement();
             box.AddToClassList("tier-shot");
             box.AddToClassList("branch-shot");
-            box.style.backgroundImage = new StyleBackground(TierIcon(tierIndex));
-            var cap = new Label(caption);
-            cap.AddToClassList("tier-cap");
-            box.Add(cap);
+            if (next) box.AddToClassList("next");
+            var logo = new VisualElement { pickingMode = PickingMode.Ignore };
+            logo.AddToClassList("branch-logo");
+            box.Add(logo);
+            var col = new VisualElement { pickingMode = PickingMode.Ignore };
+            col.AddToClassList("branch-shot-col");
+            var num = new Label((branch + 1).ToString());
+            num.AddToClassList("branch-shot-num");
+            col.Add(num);
+            var n = new Label(name);
+            n.AddToClassList("branch-shot-name");
+            col.Add(n);
+            var lv = new Label(level);
+            lv.AddToClassList("branch-shot-lv");
+            col.Add(lv);
+            box.Add(col);
             return box;
         }
 

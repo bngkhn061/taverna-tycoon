@@ -252,7 +252,10 @@ namespace Taverna
 
         public static StationSave Station(DrinkId id)
         {
-            var s = Data.stations.Find(x => x.id == id);
+            // v1.8: lambda yerine döngü — makineler her kare birkaç kez çağırıyor, her çağrı bir kapanış nesnesi ayırıyordu (GC)
+            StationSave s = null;
+            var list = Data.stations;
+            for (int i = 0; i < list.Count; i++) if (list[i].id == id) { s = list[i]; break; }
             if (s == null) { s = new StationSave { id = id }; Data.stations.Add(s); }
             return s;
         }

@@ -27,7 +27,7 @@
                 <ui:VisualElement class="round-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_book.png');" />
             </ui:Button>
         </ui:VisualElement>
-        <ui:Label text="v1.0" class="version" />
+        <ui:Label name="version" text="" class="version" />
 
         <!-- Günlük ödül -->
         <ui:VisualElement name="daily-root" class="screen overlay hidden">

@@ -1,0 +1,145 @@
+# v1.8 kanıt günlüğü (2026-11-12 … 16) — ölçüm tabloları ve gerileme özetleri
+
+## b2
+koşu | Ün/dk | sv Ün | insan dk | altın/dk | servis/dk | kızgın% | mutluluk | oturak n/y | maaş% | özel | bekl/masa | çarpan | Kral% | kızgın yer | exc
+new | 10.2 | 46 | 5.9 | 180 | 10.2 | 1.2 | 88.9 (%59–%100) | 64/87 | 1.3 | 4→4 (%100) | 1.19 | 1.53 | 0.0 | - | 0
+sv5 | 16.7 | 80 | 6.2 | 394 | 15.6 | 3.7 | 84.8 (%43–%100) | 40/69 | 2.0 | 27→26 (%96) | 1.29 | 1.49 | 0.0 | - | 0
+sv9 | 19.6 | 184 | 12.2 | 680 | 17.4 | 30.0 | 48.7 (%13–%84) | 37/55 | 9.8 | 39→24 (%62) | 1.29 | 1.15 | 0.0 | - | 0
+sv15 | 13.4 | 645 | 62.4 | 735 | 10.6 | 59.6 | 25.0 (%2–%71) | 38/54 | 27.6 | 51→10 (%20) | 1.24 | 0.93 | 0.0 | - | 0
+sv22 | 29.6 | 1177 | 51.6 | 3097 | 19.1 | 39.3 | 25.5 (%0–%67) | 31/55 | 19.3 | 42→5 (%12) | 1.22 | 0.89 | 0.0 | - | 0
+sv29 | 13.3 | 2017 | 196.9 | 3662 | 7.0 | 73.5 | 21.2 (%0–%69) | 23/39 | 40.0 | 43→9 (%21) | 1.14 | 0.85 | 2.9 | - | 0
+
+## i1
+koşu | Ün/dk | sv Ün | insan dk | altın/dk | servis/dk | kızgın% | mutluluk | oturak n/y | maaş% | özel | bekl/masa | çarpan | Kral% | kızgın yer | exc
+new | 9.4 | 35 | 4.9 | 147 | 9.4 | 0.0 | 89.0 (%60–%100) | 64/83 | 1.4 | 5→5 (%100) | 1.02 | 1.53 | 0.0 |  | 0
+sv5 | 19.7 | 106 | 7.0 | 324 | 17.6 | 2.0 | 84.6 (%56–%100) | 52/74 | 5.3 | 19→15 (%79) | 1.30 | 1.58 | 0.0 | salon:2 meyhane:1 | 0
+sv9 | 23.6 | 243 | 13.4 | 471 | 21.4 | 8.7 | 62.1 (%6–%94) | 38/60 | 17.8 | 23→14 (%61) | 1.27 | 1.27 | 0.0 | bahce:7 salon:8 meyhane:2 | 0
+sv15 | 28.0 | 645 | 30.0 | 1421 | 25.0 | 20.9 | 47.7 (%0–%83) | 40/51 | 14.4 | 40→13 (%33) | 1.25 | 1.15 | 0.0 | salon:27 bahce:17 meyhane:11 | 0
+sv22 | 26.5 | 1177 | 57.7 | 3290 | 17.8 | 38.1 | 37.7 (%0–%84) | 30/48 | 18.3 | 34→6 (%18) | 1.22 | 1.00 | 0.0 | teras:15 bahce:28 meyhane:14 salon:33 salon*karanlık:1 | 0
+sv29 | 29.8 | 2017 | 88.1 | 6302 | 16.1 | 40.7 | 35.0 (%3–%77) | 24/39 | 25.1 | 25→7 (%28) | 1.14 | 0.99 | 12.4 | teras:11 avlu:11 salon:23 bahce:19 meyhane:6 iskele:17 bahce*karanlık:1 salon*karanlık:2 iskele*karanlık:2 | 0
+
+## i2
+koşu | Ün/dk | sv Ün | insan dk | altın/dk | servis/dk | kızgın% | mutluluk | oturak n/y | maaş% | özel | bekl/masa | çarpan | Kral% | kızgın yer | exc
+new | 9.1 | 35 | 5.0 | 159 | 9.1 | 0.0 | 88.5 (%59–%100) | 65/79 | 1.3 | 6→6 (%100) | 1.17 | 1.52 | 0.0 |  | 0
+sv5 | 18.5 | 106 | 7.5 | 303 | 16.8 | 2.8 | 82.7 (%60–%99) | 48/73 | 6.0 | 11→11 (%100) | 1.23 | 1.47 | 0.0 | meyhane:3 salon:1 | 0
+sv9 | 27.0 | 243 | 11.7 | 898 | 24.6 | 1.4 | 69.2 (%33–%95) | 38/55 | 11.4 | 28→20 (%71) | 1.22 | 1.33 | 0.0 | bahce:1 salon*karanlık:1 meyhane:1 | 0
+sv15 | 34.0 | 645 | 24.7 | 2994 | 29.6 | 7.8 | 56.3 (%13–%94) | 41/54 | 9.1 | 41→14 (%34) | 1.25 | 1.24 | 0.0 | meyhane:7 bahce:6 salon:8 | 0
+sv22 | 43.1 | 1177 | 35.5 | 7941 | 28.1 | 17.0 | 50.2 (%2–%81) | 33/53 | 10.3 | 48→8 (%17) | 1.23 | 1.14 | 0.0 | meyhane:2 teras:17 salon:13 bahce:13 bahce*karanlık:1 salon*karanlık:2 | 0
+sv29 | 40.8 | 2017 | 64.3 | 12566 | 24.6 | 22.6 | 45.7 (%0–%84) | 29/43 | 17.7 | 41→10 (%24) | 1.18 | 1.11 | 8.2 | meyhane:6 teras:10 salon:21 bahce:13 iskele:6 avlu:4 | 0
+
+## i3
+koşu | Ün/dk | sv Ün | insan dk | altın/dk | servis/dk | kızgın% | mutluluk | oturak n/y | maaş% | özel | bekl/masa | çarpan | Kral% | kızgın yer | exc
+new | 8.5 | 35 | 5.3 | 126 | 8.5 | 0.0 | 87.5 (%60–%100) | 64/84 | 0.0 | 5→5 (%100) | 1.09 | 1.52 | 0.0 |  | 0
+sv5 | 16.9 | 95 | 7.3 | 340 | 16.0 | 3.6 | 83.3 (%53–%100) | 54/76 | 10.2 | 19→16 (%84) | 1.33 | 1.48 | 0.0 | meyhane:3 salon:2 | 0
+sv9 | 29.6 | 160 | 7.0 | 649 | 27.6 | 0.0 | 75.7 (%52–%95) | 38/57 | 30.1 | 15→14 (%93) | 1.16 | 1.40 | 0.0 |  | 0
+sv15 | 32.3 | 280 | 11.3 | 2367 | 28.3 | 9.6 | 55.6 (%0–%89) | 42/66 | 21.5 | 12→6 (%50) | 1.31 | 1.21 | 0.0 | meyhane:7 salon:10 bahce:7 salon*karanlık:1 | 0
+sv22 | 43.7 | 490 | 14.6 | 7766 | 26.2 | 19.6 | 45.8 (%0–%84) | 41/53 | 19.9 | 20→6 (%30) | 1.25 | 1.15 | 0.0 | bahce:15 meyhane:8 teras:12 salon:18 | 0
+sv29 | 34.2 | 600 | 22.8 | 7173 | 20.0 | 26.4 | 36.8 (%0–%81) | 28/45 | 59.0 | 10→5 (%50) | 1.14 | 1.01 | 7.8 | iskele:5 teras:9 meyhane:9 salon:13 bahce:17 avlu:4 bahce*karanlık:1 salon*karanlık:2 | 0
+
+## i4
+koşu | Ün/dk | sv Ün | insan dk | altın/dk | servis/dk | kızgın% | mutluluk | oturak n/y | maaş% | özel | bekl/masa | çarpan | Kral% | kızgın yer | exc
+new | 10.7 | 50 | 6.1 | 195 | 10.7 | 0.0 | 89.7 (%60–%100) | 73/91 | 2.5 | 15→15 (%100) | 1.06 | 1.54 | 0.0 |  | 0
+sv5 | 16.7 | 95 | 7.4 | 288 | 15.7 | 5.8 | 77.1 (%43–%100) | 57/79 | 11.5 | 9→7 (%78) | 1.38 | 1.56 | 0.0 | meyhane:4 salon:3 meyhane*karanlık:1 | 0
+sv9 | 29.8 | 170 | 7.4 | 915 | 27.1 | 0.4 | 77.8 (%43–%100) | 40/55 | 20.4 | 24→21 (%88) | 1.14 | 1.42 | 0.0 | meyhane:1 | 0
+sv15 | 29.3 | 260 | 11.5 | 2574 | 25.2 | 16.3 | 55.9 (%0–%88) | 45/65 | 16.8 | 21→6 (%29) | 1.30 | 1.21 | 0.0 | salon:19 meyhane:8 bahce:13 bahce*karanlık:1 | 0
+sv22 | 47.2 | 480 | 13.2 | 10712 | 30.0 | 8.8 | 57.5 (%14–%89) | 43/54 | 10.3 | 28→9 (%32) | 1.21 | 1.22 | 0.0 | teras:11 salon:5 bahce:4 salon*karanlık:2 meyhane:2 | 0
+sv29 | 47.6 | 550 | 15.0 | 13824 | 28.3 | 9.6 | 55.3 (%5–%86) | 35/41 | 18.0 | 20→9 (%45) | 1.17 | 1.19 | 5.9 | teras:10 iskele:4 bahce:2 salon:6 salon*karanlık:1 meyhane:2 | 0
+
+## Etkinlik koşuları (e3)
+ETKİNLİK: festival → Running · fiyat 870 · test parası 0 · 180 gerçek sn (bot ×4 hızda oyun-sn olarak daha uzun; ölçüm 200–380 oyun-sn)
+ÖLÇÜM PENCERE: 200–380 oyun-sn altın 2032 · etkinlik 'festival' fiyat 870
+ETKİNLİK: kervan → Running · fiyat 1700 · test parası 0 · 180 gerçek sn (bot ×4 hızda oyun-sn olarak daha uzun; ölçüm 200–380 oyun-sn)
+ÖLÇÜM PENCERE: 200–380 oyun-sn altın 8920 · etkinlik 'kervan' fiyat 1700
+ETKİNLİK: konser → Running · fiyat 660 · test parası 0 · 180 gerçek sn (bot ×4 hızda oyun-sn olarak daha uzun; ölçüm 200–380 oyun-sn)
+ÖLÇÜM PENCERE: 200–380 oyun-sn altın 3868 · etkinlik 'konser' fiyat 660
+ETKİNLİK: kraliyet → Running · fiyat 16500 · test parası 0 · 180 gerçek sn (bot ×4 hızda oyun-sn olarak daha uzun; ölçüm 200–380 oyun-sn)
+ÖLÇÜM PENCERE: 200–380 oyun-sn altın 233829 · etkinlik 'kraliyet' fiyat 16500
+ETKİNLİK: tellal → Running · fiyat 220 · test parası 211 · 180 gerçek sn (bot ×4 hızda oyun-sn olarak daha uzun; ölçüm 200–380 oyun-sn)
+ÖLÇÜM PENCERE: 200–380 oyun-sn altın 967 · etkinlik 'tellal' fiyat 220
+ETKİNLİK: turnuva → Running · fiyat 2050 · test parası 0 · 180 gerçek sn (bot ×4 hızda oyun-sn olarak daha uzun; ölçüm 200–380 oyun-sn)
+ÖLÇÜM PENCERE: 200–380 oyun-sn altın 3813 · etkinlik 'turnuva' fiyat 2050
+
+## Gerileme
+r_tr_new: exc=0
+r_sv9: exc=0
+r_prestige: exc=0
+r_prestige2: exc=0
+r_content: exc=0
+r_release: exc=0
+r_ja: exc=0
+r_de: exc=0
+bitti
+r_content.log:[   4.0s] v1.5 YERLEŞİM Kral Şerbeti: konum (5.25, 4.40) · sınır x 4.80..5.70 z 4.12..4.70 · çakışan: []
+r_content.log:[ 300.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_content.log:[ 300.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 31 (en uzun 361 ms) · kayıt karesiyle çakışan 1 · 75 gerçek sn
+r_de.log:[ 160.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_de.log:[ 160.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 21 (en uzun 356 ms) · kayıt karesiyle çakışan 1 · 40 gerçek sn
+r_ja.log:[ 160.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_ja.log:[ 160.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 21 (en uzun 368 ms) · kayıt karesiyle çakışan 1 · 40 gerçek sn
+r_prestige.log:[  21.2s] v1.8 HEDEF KUTUSU [tr]: "(gizli)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  24.4s] v1.8 HEDEF KUTUSU [en]: "(hidden)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  27.6s] v1.8 HEDEF KUTUSU [zh-Hans]: "（隐藏）" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  30.9s] v1.8 HEDEF KUTUSU [es]: "(oculto)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  34.1s] v1.8 HEDEF KUTUSU [pt-BR]: "(secreto)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  37.3s] v1.8 HEDEF KUTUSU [de]: "(geheim)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  40.6s] v1.8 HEDEF KUTUSU [fr]: "(secret)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  43.8s] v1.8 HEDEF KUTUSU [ru]: "(скрыто)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  47.0s] v1.8 HEDEF KUTUSU [ja]: "（秘密）" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[  50.3s] v1.8 HEDEF KUTUSU [ko]: "(비밀)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige.log:[ 260.1s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_prestige.log:[ 260.1s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 28 (en uzun 259 ms) · kayıt karesiyle çakışan 1 · 65 gerçek sn
+r_prestige2.log:[   9.4s] v1.8 PRESTİJ 2: şube 1'den başlıyor (Liman Kenti) · gelir ×1.25 (beklenen ×1.25) · Ün ×1.35 (beklenen ×1.35) · Boosts gelir ×1.25
+r_prestige2.log:[  21.1s] v1.8 HEDEF KUTUSU [tr]: "(gizli)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  24.3s] v1.8 HEDEF KUTUSU [en]: "(hidden)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  27.6s] v1.8 HEDEF KUTUSU [zh-Hans]: "（隐藏）" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  30.8s] v1.8 HEDEF KUTUSU [es]: "(oculto)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  34.1s] v1.8 HEDEF KUTUSU [pt-BR]: "(secreto)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  37.3s] v1.8 HEDEF KUTUSU [de]: "(geheim)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  40.5s] v1.8 HEDEF KUTUSU [fr]: "(secret)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  43.7s] v1.8 HEDEF KUTUSU [ru]: "(скрыто)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  47.0s] v1.8 HEDEF KUTUSU [ja]: "（秘密）" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[  50.2s] v1.8 HEDEF KUTUSU [ko]: "(비밀)" · sığıyor=False · gereken 374 px / kutu 0 px · genişlik 0 · punto 15 · uzun=False
+r_prestige2.log:[ 260.0s] v1.4 REHBER ÖZET: açık · adım 9 · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_prestige2.log:[ 260.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 27 (en uzun 231 ms) · kayıt karesiyle çakışan 1 · 65 gerçek sn
+r_release.log:[ 120.0s] v1.8 YAYIN: Ayarlar 'Ölçüm özeti' satırı var=False (yayında olmamalı) · ShowMetricsRow(geliştirme=false)=False
+r_release.log:[ 200.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_release.log:[ 200.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 29 (en uzun 371 ms) · kayıt karesiyle çakışan 1 · 50 gerçek sn
+r_sv9.log:[ 300.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+r_sv9.log:[ 300.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 23 (en uzun 401 ms) · kayıt karesiyle çakışan 1 · 75 gerçek sn
+r_tr_new.log:[ 330.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 1 · bitiş gerçek 37.7 sn
+r_tr_new.log:[ 330.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 24 (en uzun 179 ms) · kayıt karesiyle çakışan 1 · 83 gerçek sn
+r2_prestige.log:[  20.7s] v1.8 HEDEF KUTUSU [tr]: "Yeni Şube: Liman Kenti · 89.4B / 150B" · sığıyor=True · gereken 18 px / kutu 18 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige.log:[  23.9s] v1.8 HEDEF KUTUSU [en]: "New Branch: Harbor Town · 89.4K / 150K" · sığıyor=True · gereken 18 px / kutu 18 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige.log:[  27.1s] v1.8 HEDEF KUTUSU [zh-Hans]: "新分店：港口小镇 · 89.4K / 150K" · sığıyor=True · gereken 22 px / kutu 22 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige.log:[  30.4s] v1.8 HEDEF KUTUSU [es]: "Nueva sucursal: Ciudad portuaria · 89.4 mil / 150 mil" · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 187 · punto 15 · uzun=False
+r2_prestige.log:[  33.6s] v1.8 HEDEF KUTUSU [pt-BR]: "Nova filial: Cidade portuária · 89.4 mil / 150 mil" · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 187 · punto 15 · uzun=False
+r2_prestige.log:[  36.8s] v1.8 HEDEF KUTUSU [de]: "Neue Filiale: Hafenstadt · 89.4 Tsd. / 150 Tsd." · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 170 · punto 15 · uzun=False
+r2_prestige.log:[  40.0s] v1.8 HEDEF KUTUSU [fr]: "Nouvelle succursale : Ville portuaire · 89.4 k / 150 k" · sığıyor=True · gereken 30 px / kutu 30 px · genişlik 215 · punto 12.5 · uzun=True
+r2_prestige.log:[  43.3s] v1.8 HEDEF KUTUSU [ru]: "Новый филиал: Портовый город · 89.4 тыс. / 150 тыс." · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 161 · punto 15 · uzun=False
+r2_prestige.log:[  46.5s] v1.8 HEDEF KUTUSU [ja]: "新店舗：港町 · 89.4K / 150K" · sığıyor=True · gereken 22 px / kutu 22 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige.log:[  49.7s] v1.8 HEDEF KUTUSU [ko]: "새 지점: 항구 도시 · 89.4K / 150K" · sığıyor=True · gereken 22 px / kutu 22 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige.log:[  78.5s] v1.5 PRESTİJ ÇARPAN: şube 1 · gelir ×1.25 (Boosts.IncomeMultiplier ×1.25) · Ün ×1.35 · rehber açık=False · tutorialDone=True · zaman ölçeği 4
+r2_prestige.log:[ 200.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek 18.8 sn
+r2_prestige.log:[ 200.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 27 (en uzun 222 ms) · kayıt karesiyle çakışan 2 · 50 gerçek sn
+r2_prestige2.log:[   9.6s] v1.8 PRESTİJ 2: şube 1'den başlıyor (Liman Kenti) · gelir ×1.25 (beklenen ×1.25) · Ün ×1.35 (beklenen ×1.35) · Boosts gelir ×1.25
+r2_prestige2.log:[  21.2s] v1.8 HEDEF KUTUSU [tr]: "Yeni Şube: Dağ Geçidi · 89.4B / 150B" · sığıyor=True · gereken 18 px / kutu 18 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige2.log:[  24.4s] v1.8 HEDEF KUTUSU [en]: "New Branch: Mountain Pass · 89.4K / 150K" · sığıyor=True · gereken 18 px / kutu 18 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige2.log:[  27.7s] v1.8 HEDEF KUTUSU [zh-Hans]: "新分店：山口 · 89.4K / 150K" · sığıyor=True · gereken 22 px / kutu 22 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige2.log:[  30.9s] v1.8 HEDEF KUTUSU [es]: "Nueva sucursal: Paso de montaña · 89.4 mil / 150 mil" · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 187 · punto 15 · uzun=False
+r2_prestige2.log:[  34.1s] v1.8 HEDEF KUTUSU [pt-BR]: "Nova filial: Passo da montanha · 89.4 mil / 150 mil" · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 187 · punto 15 · uzun=False
+r2_prestige2.log:[  37.4s] v1.8 HEDEF KUTUSU [de]: "Neue Filiale: Bergpass · 89.4 Tsd. / 150 Tsd." · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 170 · punto 15 · uzun=False
+r2_prestige2.log:[  40.6s] v1.8 HEDEF KUTUSU [fr]: "Nouvelle succursale : Col de montagne · 89.4 k / 150 k" · sığıyor=True · gereken 30 px / kutu 30 px · genişlik 215 · punto 12.5 · uzun=True
+r2_prestige2.log:[  43.9s] v1.8 HEDEF KUTUSU [ru]: "Новый филиал: Горный перевал · 89.4 тыс. / 150 тыс." · sığıyor=True · gereken 36 px / kutu 36 px · genişlik 161 · punto 15 · uzun=False
+r2_prestige2.log:[  47.1s] v1.8 HEDEF KUTUSU [ja]: "新店舗：山の峠 · 89.4K / 150K" · sığıyor=True · gereken 22 px / kutu 22 px · genişlik 218 · punto 15 · uzun=False
+r2_prestige2.log:[  50.4s] v1.8 HEDEF KUTUSU [ko]: "새 지점: 산 고개 · 89.6K / 150K" · sığıyor=True · gereken 22 px / kutu 22 px · genişlik 219 · punto 15 · uzun=False
+r2_prestige2.log:[  79.2s] v1.5 PRESTİJ ÇARPAN: şube 2 · gelir ×1.50 (Boosts.IncomeMultiplier ×1.50) · Ün ×1.70 · rehber açık=False · tutorialDone=True · zaman ölçeği 4
+r2_prestige2.log:[ 200.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek 18.9 sn
+r2_prestige2.log:[ 200.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 27 (en uzun 193 ms) · kayıt karesiyle çakışan 2 · 50 gerçek sn
+q_new.log:v1.8 SESSİZ KOŞU: >80 ms kare 1 (en uzun 97 ms) · 153 gerçek sn · GC 99 · Sv15
+q_old.log:v1.8 SESSİZ KOŞU: >80 ms kare 1 (en uzun 109 ms) · 153 gerçek sn · GC 339 · Sv15
+n_new.log:[ 300.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+n_new.log:[ 300.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 24 (en uzun 248 ms) · kayıt karesiyle çakışan 1 · 75 gerçek sn
+n_noshot.log:[ 300.0s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+n_noshot.log:[ 300.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 1 (en uzun 108 ms) · kayıt karesiyle çakışan 1 · 75 gerçek sn
+n_old.log:[ 300.1s] v1.4 REHBER ÖZET: bitti · kendiliğinden geçen adım 0 · bitiş gerçek -1.0 sn
+n_old.log:[ 300.1s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 23 (en uzun 246 ms) · kayıt karesiyle çakışan 1 · 75 gerçek sn

@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v1.5** (2026-11-11, Paket C: oyun sonu — Sv27 Kral Şerbeti, Sv28 Kraliyet Ziyareti etkinliği, Sv29 Şölen Tabağı, Sv30 prestij "Yeni Şube").
+> Sürüm: **v1.8** (2026-11-16, son denge geçişi + cila: ölçülmüş Ün tablosu, müşteri / sabır / içme süresi, maaş, etkinlik fiyatı, özel sipariş, Kral Şerbeti, prestij Ün'ü; `design/balance/balance-check-final-2026-11-12.md`).
+> Önceki: v1.5 (2026-11-11, Paket C: oyun sonu — Sv27 Kral Şerbeti, Sv28 Kraliyet Ziyareti etkinliği, Sv29 Şölen Tabağı, Sv30 prestij "Yeni Şube").
 > Önceki: v1.4 (2026-11-10, Paket A: rehber zamanı, mutluluk ortalaması, yıldız eşikleri, işe alım ücreti, tellal etkinliği, müşteri çarpanı sınırı, özel sipariş görevleri).
 
 ---
@@ -39,7 +40,7 @@ Para → yükseltme / personel / genişletme / dekor   ·   Ün (XP) → taverna
 ### 3.1 Taverna Seviyesi (Ün)
 - Mutlu ayrılan her müşteri **Ün** verir. Ün dolunca taverna seviye atlar.
 - Her seviye **mutlaka bir şey açar** (tablo §3.3). Seviye atlamak ödül ekranıyla kutlanır.
-- Gereken Ün: Sv12'ye kadar `ün(sv) = 20 × 1.32^(sv-1)`, Sv12–16 `×1.15`, Sv16 sonrası `×1.08` → Sv2: 20, Sv10: ~240, Sv20: ~1.000, Sv29: ~2.000 (v1.0 tempo ölçümü 2026-11-10, `design/balance/balance-check-economy-2026-11-10.md`)
+- Gereken Ün (v1.8, ölçülmüş tablo `Balance.UnTable`): Sv1–10: 12, 16, 25, 35, 50, 75, 95, 125, 155, 170 · Sv11–20: 190, 205, 230, 240, 260, 290, 320, 350, 380, 410 · Sv21–30: 460, 480, 490, 500, 510, 520, 530, 540, 550, 560. Her değer = o seviyedeki iyi oyuncunun (bot) Ün/dk hızı × hedef insan süresi ÷ 1.3. Hedef insan süresi: Sv1–5 2.4–3.8 dk, Sv6–12 5–8.6 dk, Sv13–20 9.4–13.4 dk, Sv21–29 14.2–19 dk; ilk şube ≈ 5 sa. (Eski üstel eğri Hazine'li botla ölçülmüştü; Hazine'siz oyuncuda Sv15 seviyesi ~60 dk sürüyordu.)
 - Zengin (ödeme ★4+) müşteri servis başına 2 Ün verir. Kızgın müşteri Ün götürmez, ceza yıldızdan.
 
 ### 3.2 Aşamalar (tavernanın fiziksel büyümesi)
@@ -230,10 +231,12 @@ Her dekor ve mobilyanın bir **Ambiyans** değeri vardır. Toplam Ambiyans şunl
 
 - **Gelme hızı:** `taban 1 müşteri / 6 sn × (1 + Ambiyans bonusu)`. Masa doluysa kapıda kısa süre bekler, sonra gider.
 - **Müşteri karışımı:** Açık tiplerden ağırlıklı rastgele seçilir. Yeni açılan tip, ilk 3 dakika ×3 ağırlıkla gelir (yeniliği göstermek için).
-- **Sabır:** ★1 = 15 sn, ★5 = 45 sn. Sabır halkası yeşil → sarı → kırmızı. Sarıdayken servis edilirse bahşiş yok.
-- **Seviyeyle zorlaşma (v1.0):** Sv6'dan sonra müşteri aralığı seviye başına ×0.98 kısalır (en fazla ×1.25 kalabalık). Sv8'den sonra sabır seviye başına %1,5 kısalır (en az %85). Sv10+ müşterilerin %20'si, Sv18+ %25'i fazladan 1 sipariş verir. Barlo tek başına yetişemez; personel ve otomasyon gerekir.
+- **Sabır:** ★1 = 20 sn, ★5 = 50 sn (v1.8; eskiden 15 / 45). Sabır halkası yeşil → sarı → kırmızı. Sarıdayken servis edilirse bahşiş yok.
+- **Seviyeyle zorlaşma (v1.0, v1.8 sayıları):** Sv1–5 aralık ×1.1 (v1.8, eskiden ×1.25: biraz daha çok müşteri). Sv6'dan sonra müşteri aralığı seviye başına ×0.98 kısalır (en fazla ×1.15 kalabalık, v1.8; eskiden ×1.25). Sv8'den sonra sabır seviye başına %1,5 kısalır (en az %90, v1.8; eskiden %85). Sv10+ müşterilerin %20'si, Sv18+ %25'i fazladan 1 sipariş verir. Barlo tek başına yetişemez; personel ve otomasyon gerekir.
 - **Yoğun Saat (olay):** Her 5–7 dakikada bir, 45 sn boyunca müşteri gelişi ×2 ve bahşiş ×2. Zorluk zirvesi budur. Kaçırınca ceza yoktur, yakalayınca büyük kazanç vardır.
-- **v1.2 gelme hızı:** taban aralık 5,2 sn (eskiden 6). Açık oturak sayısıyla çarpılır: `SeatSpawnScale = clamp(√(oturak / 12), 1, 2.2)` (40 oturak ≈ ×1.83).
+- **v1.2 gelme hızı:** taban aralık 5,2 sn (eskiden 6). Açık oturak sayısıyla çarpılır: `SeatSpawnScale = clamp(√(oturak / 12), 1, 1.7)` (v1.8: üst sınır 2.2 → 1.7; garson sayısı sabit, yol uzuyor).
+- **v1.8 içme süresi ve garson:** müşteri içkisini seviyeyle uzayan sürede içer: `lerp(7, 22, (Sv−1)/19)` sn (eskiden sabit 3). Masalar sipariş hızını artırmadan daha dolu görünür. Garsonlar ×1.3 hızlı yürür (`Balance.WaiterSpeedScale`). Makinelerin taban üretim süresi ×2 (`ProduceTimeScale`): yemek makineleri yoğunlukta boşalır, hız yükseltmesi ve aşçı anlam kazanır.
+- **v1.8 Kral Şerbeti:** çeşme aynı kattaysa her içecek siparişinin %12'si Kral Şerbeti olur (`SignatureOrderChance`; eskiden yalnızca 3 nadir zengin müşteri istiyordu, ölçüm %1.5 → %8–12).
 - **v1.4 müşteri çarpanı sınırı:** geçici / kazanılan çarpanların çarpımı `mutluluk × etkinlik × yoğun saat (×2.2) × Usta` en fazla **×3.0** (`Balance.SpawnBoostCap`). Oturak ve seviye ölçeği bu sınırın dışında. Aralık = `5,2 × seviye ölçeği × rastgele(0.75–1.25) ÷ min(3, çarpım) ÷ SeatSpawnScale`. Mutluluk kartında "Toplam müşteri çarpanı ×N (en fazla ×3)".
 
 ### 7.2 Mutluluk (v1.4)
@@ -266,7 +269,7 @@ Aradaki yarım yıldızlar doğrusal (aşağı yuvarlanır). Dükkân › Dekor 
 
 ### 7.3 Etkinlikler (v1.2, Tellal v1.4)
 
-Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinlik; gün bitince söner. Fiyat `taban + seviye × artış`. Etkinlik butonu **Sv2'de** (rehber bittikten sonra) görünür.
+Altınla başlar, 180 sn sürer, her biri günde bir kez, aynı anda tek etkinlik; gün bitince söner. Fiyat (v1.8) `pay × o seviyenin 3 dakikalık geliri`, gelir dayanağı `660 × 1.135^(Sv−1)` (`Balance.EventIncomeRef`); pay ölçülen ek gelirin yaklaşık yarısıdır: Tellal 0.07, Konser 0.45, Festival 0.25, Kervan 0.25, Turnuva 0.07, Kraliyet 5 (Sv28 ≈ 101.000). Tablodaki eski fiyat sütunu v1.7'ye kadar geçerliydi. Etkinlik butonu **Sv2'de** (rehber bittikten sonra) görünür.
 
 | Etkinlik | Açılış | Fiyat | Etki |
 |---|---|---|---|
@@ -288,7 +291,7 @@ v1.4: parayla "Tellal tut" (Dükkân › Hızlandır) kaldırıldı; şeridi de 
 ### 7.6 Oyuncuya hep iş kalır (v1.3)
 
 Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirmez.
-- **Barlo'ya özel sipariş:** Sv3–9 yeni siparişlerin %18'i, Sv10+ %22'si (sadece zemin kat). Balon altın renkte ve büyük. Garsonlar almaz, yalnızca oyuncu servis eder. Ödeme ×2.5, mutluluğa 100 puanla iki kez sayılır (v1.4, §7.2), sabır ×1.4.
+- **Barlo'ya özel sipariş:** Sv3–9 yeni siparişlerin %10'u, Sv10+ %7'si (v1.8; eskiden %18 / %22) (sadece zemin kat). Balon altın renkte ve büyük. Garsonlar almaz, yalnızca oyuncu servis eder. Ödeme ×2.5, mutluluğa 100 puanla iki kez sayılır (v1.4, §7.2), sabır ×2 (v1.8; eskiden ×1.4).
 - **Özel sipariş görevleri (v1.4):** Sv3'ten itibaren günlük görev havuzunda "5 özel sipariş yetiştir" (normal görev ödülü: `25 × (1 + 0.35·Sv)²` altın, `1 + Sv/4` elmas) ve "12 özel sipariş yetiştir" (iki kat altın, +1 elmas). Aynı anda tek özel sipariş görevi. Sayaç yalnızca oyuncunun servis ettiği özel siparişte artar.
 - **Para toplama oyuncunun işi:** garsonlar masadaki parayı toplamaz. Kasa otomasyonu Sv22'de 25.000 altına açılır (eskiden Sv8, 5.000).
 - **Kovma:** Dükkân › Personel kartında KOV (iki dokunuşla onay). Kovulan görevli sahneden çıkar, maaşı ve rol bonusu durur, seviyesi sıfırlanır, yeniden işe alınabilir; reklamla geliştirme hakkı sıfırlanmaz. Hazine görevlisi (Lirael, Ignis) kovulmaz: İZNE GÖNDER / GERİ ÇAĞIR.
@@ -315,7 +318,7 @@ Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirme
 ### 8.2 Denge Kuralları
 - **Gelir eğrisi, maliyet eğrisinin biraz gerisinde kalır:** Gelir seviye başına ~%12 artar, maliyet ~%18. Oyuncu sürekli "biraz daha" ister ama bunalmaz. Her aşama geçişi gelir eğrisini yukarı sıçratır (yeni içecek, yeni masa).
 - **Bekleme sınırı:** Aktif oyunda bir sonraki anlamlı satın almaya hiçbir zaman **10 dakikadan uzun** bekletmiyoruz. Testlerde bu aşılırsa ilgili maliyet düşürülür.
-- **Maliyetler (v1.0):** Maaş = taban × 1.15^(Sv − personelin açıldığı seviye) × (1 + 0.15 × görevli seviyesi). Maaş ödenemezse ertesi gün personel küskün (−%20 hız). Malzeme = kalite dahil satış fiyatının %30'u. İstasyon yükseltmelerinde Sv5 sonrası üs 1.24.
+- **Maliyetler (v1.0, v1.8 sayıları):** Maaş = taban × 2 × 1.12^(Sv − personelin açıldığı seviye) × (1 + 0.15 × görevli seviyesi) (v1.8: ×2 ve üs 1.15 → 1.12; hedef maaş / gelir Sv8–30 %15–35). Usta: 6.000 / 14.000 / 30.000 (v1.8). Yıldız başına bahşiş +%10 (v1.8, eskiden %5); dekor fiyatları v1.8'de düştü (flama 80, fıçı 80, kalkan 150, boynuz 170, avize 250, mühür 1.500). Maaş ödenemezse ertesi gün personel küskün (−%20 hız). Malzeme = kalite dahil satış fiyatının %30'u. İstasyon yükseltmelerinde Sv5 sonrası üs 1.24.
 - **Çevrimdışı gelir:** Oyuncu yokken personelin ürettiği gelirin %30'u kazanılır. Sınır 2 saattir, yükseltmeyle 8 saate çıkar. Dönüşte bir "Sen yokken…" ekranı gösterilir.
 - **Ödüllü reklam (isteğe bağlı):** 5 dk ×2 gelir, çevrimdışı ödülü ×3, ödeme alanında tek seferlik %25 indirim. **Zorunlu reklam yok.**
 - **Elmas (premium para):** Görevlerden ve seviye ödüllerinden düşer. Kozmetik dekor ve zaman hızlandırma için kullanılır. Satın alınabilir ama ilerlemek için **gerekmez**.
@@ -353,7 +356,7 @@ Oyunun sonu (Sv30) artık bir döngüye bağlanır: oyuncu tavernasını bırak�
 
 **Kazanım** (kayıtta `branch`, 0 = ilk taverna):
 - Kalıcı gelir **+%25 / şube** (`Prestige.IncomeMultiplier = 1 + 0.25 × şube`), `Boosts.IncomeMultiplier` zincirine girer (servis ödemesi, han, oyun masaları).
-- Ün kazanımı **+%15 / şube** (`Prestige.UnMultiplier = 1 + 0.15 × şube`, `GameState.AddUn`'da; küsurat sonraki kazanca taşınır).
+- Ün kazanımı **+%35 / şube** (v1.8, eskiden %15; hedef ikinci şube %25–35 kısa) (`Prestige.UnMultiplier = 1 + 0.35 × şube`, `GameState.AddUn`'da; küsurat sonraki kazanca taşınır).
 - Başlangıç altını `500 × şube no` (Liman Kenti 500, Dağ Geçidi 1.000).
 
 **Şube adları:** 0 Köy Meyhanesi · 1 Liman Kenti · 2 Dağ Geçidi · sonrası "N. Şube". HUD'da seviye kalkanının solunda küçük sarı şube rozeti (şube numarası, şube ≥ 1 iken); gün başı ve giriş şeridinde şube adı ("GÜN 3 · LİMAN KENTİ").

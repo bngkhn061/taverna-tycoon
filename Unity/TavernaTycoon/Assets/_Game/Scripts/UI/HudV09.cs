@@ -371,7 +371,7 @@ namespace Taverna
             {
                 var dd = d;
                 var can = Automation.CanBuy(d);
-                string sub = can == Management.BuyResult.Owned ? Loc.F("Açık · {0}", Loc.T(d.desc)) : can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}'te açılır · {1}", d.level, Loc.T(d.desc)) : Loc.T(d.desc);
+                string sub = can == Management.BuyResult.Owned ? Loc.F("Açık · {0}", Loc.T(d.desc)) : can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}{1} açılır · {2}", d.level, Locative(d.level), Loc.T(d.desc)) : Loc.T(d.desc);
                 AddShopItem(KitIcon(d.icon), Loc.T(d.name), sub, can, d.price, false, () => Automation.Buy(dd), d.level, "");
             }
             if (!Automation.UstaOpen) return;

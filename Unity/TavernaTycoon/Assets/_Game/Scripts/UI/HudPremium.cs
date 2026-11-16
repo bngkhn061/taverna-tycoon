@@ -12,6 +12,10 @@ namespace Taverna
     {
         VisualElement _premModal;
         bool PremModalOpen => _premModal != null && _premModal.parent != null;
+
+        /// <summary>v1.8: joystick'i kilitlemeyen paneller (görevler, depo, etkinlikler, yükseltme paneli, mutluluk kartı) açık mı?</summary>
+        bool AnyPanelOpen => !_questsPanel.ClassListContains("hidden") || !_depotPanel.ClassListContains("hidden") || !_eventsPanel.ClassListContains("hidden")
+                             || _panelStation || !_happyCard.ClassListContains("hidden");
         /// <summary>Test botu: Hazine penceresi (teklif, VIP, onay) açık mı?</summary>
         public bool PremiumModalVisible => PremModalOpen;
 
@@ -38,7 +42,8 @@ namespace Taverna
         void UpdatePremium()
         {
             // Sv3: başlangıç paketi teklifi bir kez, sakin bir anda
-            if (Premium.Available && Premium.ShouldOfferStarter && !ModalOpen && !Tutorial.Active && !LevelCardOpen && !DayCycle.Ended && Time.timeSinceLevelLoad > 5f)
+            // v1.8: başka hiçbir pencere / panel açık değilken (görevler, depo, etkinlikler, yükseltme, mutluluk kartı dahil)
+            if (Premium.Available && Premium.ShouldOfferStarter && !ModalOpen && !AnyPanelOpen && !Tutorial.Active && !LevelCardOpen && !DayCycle.Ended && Time.timeSinceLevelLoad > 5f)
             {
                 Premium.MarkStarterShown();
                 OpenStarterOffer();

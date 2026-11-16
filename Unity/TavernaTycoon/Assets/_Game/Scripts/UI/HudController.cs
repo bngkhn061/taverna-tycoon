@@ -23,6 +23,8 @@ namespace Taverna
         VisualElement _upgradePanel, _upgradeRows, _upgradeThumb, _questsPanel, _questRows, _shopRoot, _shopGrid;
         VisualElement _offlineRoot, _levelRoot, _unlocks, _rays, _goalArrow;
         Label _coins, _gems, _level, _xpText, _toast, _upgradeTitle, _upgradeInfo, _goalText, _goalNum, _rush, _questBadge;
+        /// <summary>v1.8: hedef metni bu kadar karakteri aşınca küçük punto (iki satıra sığsın).</summary>
+        const int GoalLongChars = 34;
         Label _offlineText, _offlineSub, _levelNum, _questReset;
         Label[] _tiers;
         VisualElement _starsRow, _dayReport;
@@ -77,6 +79,8 @@ namespace Taverna
             _toast = _root.Q<Label>("toast");
             _goal = _root.Q("goal");
             _goalText = _root.Q<Label>("goal-text");
+            // v1.8: uzun hedef metni "…" ile kesilmesin: iki satıra kırılır, çok uzunsa punto küçülür (USS .goal-text.long)
+            _goalText.RegisterCallback<ChangeEvent<string>>(e => _goalText.EnableInClassList("long", (e.newValue?.Length ?? 0) > GoalLongChars));
             _goalNum = _root.Q<Label>("goal-num");
             _goalFill = _root.Q("goal-fill");
             _goalIcon = _root.Q("goal-icon");
@@ -1435,7 +1439,7 @@ namespace Taverna
                         string sub = can switch
                         {
                             Management.BuyResult.Owned => Loc.T("Kuruldu"),
-                            Management.BuyResult.LevelLow => Loc.F("Seviye {0}'te açılır", lv),
+                            Management.BuyResult.LevelLow => Loc.F("Seviye {0}{1} açılır", lv, Locative(lv)),
                             Management.BuyResult.ZoneLocked => Loc.F("Önce {0}", Loc.T(m.zoneName)),
                             _ => Loc.F("Satış {0} altın · {1:0} sn", def.basePrice, def.baseTime),
                         };
@@ -1452,7 +1456,7 @@ namespace Taverna
                         if (can == Management.BuyResult.Owned) { AddStaffUpgradeItem(s); continue; }
                         if (s.premium) continue;   // efsanevi personel sadece Hazine'de
                         string sub = can == Management.BuyResult.Owned ? Loc.F("Çalışıyor · {0}/gün", Management.WageOf(s)) :
-                                     can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}'te açılır", s.level) :
+                                     can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}{1} açılır", s.level, Locative(s.level)) :
                                      can == Management.BuyResult.ZoneLocked ? Loc.F("Önce {0} açılmalı", Loc.T(s.zoneName)) : $"{Loc.T(s.desc)}";
                         var ss = s;
                         AddShopItem(LoadIcon(s.icon), $"{s.name} · {Loc.T(s.roleName)}", sub, can, Management.HireCost(s), false,
@@ -1479,7 +1483,7 @@ namespace Taverna
                         if (d.premium) continue;   // premium süsler Hazine'de
                         var can = Management.CanBuyDecor(d);
                         int owned = Management.DecorOwned(d.id);
-                        string sub = can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}'te açılır", d.level) :
+                        string sub = can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}{1} açılır", d.level, Locative(d.level)) :
                                      can == Management.BuyResult.NoSlot ? (owned > 0 ? Loc.F("{0} adet · yer kalmadı", owned) : Loc.T("Yeni alan açılınca")) :
                                      Loc.F("+{0:0} ambiyans", d.ambiance) + StarHint() + (owned > 0 ? Loc.F(" · {0} adet", owned) : "");
                         var dd = d;

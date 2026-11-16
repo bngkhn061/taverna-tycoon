@@ -8,8 +8,9 @@ namespace Taverna
     /// daha çok müşteri gelsin; başka etkinlik daha çok para getirsin"). Altınla başlar, 3 dk sürer, her biri günde bir kez,
     /// aynı anda tek etkinlik. Bölgesi açık değilse (kervan: Ana Salon, turnuva: Oyun Salonu) başlatılamaz.
     /// Etkiler çarpan olarak okunur: müşteri gelişi, satış fiyatı, zengin müşteri ve bahşiş, oyun masası ücreti.
-    /// v1.4: Tellal (Sv2, 40 + 30·Sv, müşteri ×1.3) eski parayla "Tellal tut" satın alımının yerini aldı.
-    /// v1.5: Kraliyet Ziyareti (Sv28, 2.000 + 500·Sv, Ana Salon): fiyat ×2, bahşiş ×2, Gizli Kral ağırlığı ×40.
+    /// v1.4: Tellal (Sv2, müşteri ×1.3) eski parayla "Tellal tut" satın alımının yerini aldı.
+    /// v1.8: fiyat = pay × seviyenin 3 dakikalık geliri (Balance.EventIncomeRef), eski doğrusal formül yerine.
+    /// v1.5: Kraliyet Ziyareti (Sv28, Ana Salon): fiyat ×2, bahşiş ×2, Gizli Kral ağırlığı ×40.
     /// </summary>
     public static class TavernEvents
     {
@@ -30,7 +31,8 @@ namespace Taverna
             public Id id;
             public string key, name, desc, icon, zone, zoneName;
             public int level;
-            public long baseCost, perLevel;
+            /// <summary>v1.8: fiyat = bu pay × o seviyedeki 3 dakikalık gelir (<see cref="Balance.EventIncomeRef"/>).</summary>
+            public float share;
         }
 
         public const float Seconds = 180f;
@@ -38,13 +40,13 @@ namespace Taverna
         public static readonly Def[] List =
         {
             // v1.4: Tellal ilk etkinlik (Sv2); sokakta zil çalan tellal görünür (Campaigns)
-            new() { id = Id.Tellal, key = "tellal", name = Loc.N("Tellal"), desc = Loc.N("Müşteri gelişi ×1.3 · sokakta tellal bağırır"), icon = "Cust_15", level = 2, baseCost = 40, perLevel = 30 },
-            new() { id = Id.Konser, key = "konser", name = Loc.N("Ozan Konseri"), desc = Loc.N("Müşteri gelişi ×1.6 · ozan çalar"), icon = "Staff_OzanSahne", level = 4, baseCost = 120, perLevel = 60 },
-            new() { id = Id.Festival, key = "festival", name = Loc.N("Bira Festivali"), desc = Loc.N("Tüm satışlar ×1.5 fiyat"), icon = "Bira", level = 5, baseCost = 150, perLevel = 80 },
-            new() { id = Id.Kervan, key = "kervan", name = Loc.N("Tüccar Kervanı"), desc = Loc.N("Zengin müşteriler gelir · bahşiş ×2"), icon = "Cust_09", level = 6, zone = "salon", zoneName = Loc.N("Ana Salon"), baseCost = 200, perLevel = 100 },
-            new() { id = Id.Turnuva, key = "turnuva", name = Loc.N("Zar Turnuvası"), desc = Loc.N("Oyun masaları ×2.5 ücret, hızlı tur"), icon = "ZarMasasi", level = 13, zone = "oyun", zoneName = Loc.N("Oyun Salonu"), baseCost = 250, perLevel = 120 },
-            // v1.5: oyun sonu etkinliği, en pahalısı (Sv28: 2.000 + 500×28 = 16.000)
-            new() { id = Id.Kraliyet, key = "kraliyet", name = Loc.N("Kraliyet Ziyareti"), desc = Loc.N("Satışlar ×2 · bahşiş ×2 · Gizli Kral gelir"), icon = "Cust_30", level = 28, zone = "salon", zoneName = Loc.N("Ana Salon"), baseCost = 2000, perLevel = 500 },
+            new() { id = Id.Tellal, key = "tellal", name = Loc.N("Tellal"), desc = Loc.N("Müşteri gelişi ×1.3 · sokakta tellal bağırır"), icon = "Cust_15", level = 2, share = 0.07f },
+            new() { id = Id.Konser, key = "konser", name = Loc.N("Ozan Konseri"), desc = Loc.N("Müşteri gelişi ×1.6 · ozan çalar"), icon = "Staff_OzanSahne", level = 4, share = 0.45f },
+            new() { id = Id.Festival, key = "festival", name = Loc.N("Bira Festivali"), desc = Loc.N("Tüm satışlar ×1.5 fiyat"), icon = "Bira", level = 5, share = 0.25f },
+            new() { id = Id.Kervan, key = "kervan", name = Loc.N("Tüccar Kervanı"), desc = Loc.N("Zengin müşteriler gelir · bahşiş ×2"), icon = "Cust_09", level = 6, zone = "salon", zoneName = Loc.N("Ana Salon"), share = 0.25f },
+            new() { id = Id.Turnuva, key = "turnuva", name = Loc.N("Zar Turnuvası"), desc = Loc.N("Oyun masaları ×2.5 ücret, hızlı tur"), icon = "ZarMasasi", level = 13, zone = "oyun", zoneName = Loc.N("Oyun Salonu"), share = 0.07f },
+            // v1.5: oyun sonu etkinliği, en pahalısı (v1.8: Sv28 ≈ 100.000)
+            new() { id = Id.Kraliyet, key = "kraliyet", name = Loc.N("Kraliyet Ziyareti"), desc = Loc.N("Satışlar ×2 · bahşiş ×2 · Gizli Kral gelir"), icon = "Cust_30", level = 28, zone = "salon", zoneName = Loc.N("Ana Salon"), share = 5f },
         };
 
         public static event Action Changed;
@@ -57,7 +59,14 @@ namespace Taverna
         public static bool Is(Id id) => Active == id;
         public static Def Get(Id id) => Array.Find(List, d => d.id == id);
 
-        public static long Cost(Def d) => d.baseCost + d.perLevel * GameState.Level;
+        /// <summary>
+        /// v1.8: fiyat seviyenin 3 dakikalık gelirine bağlı (eski `taban + artış × Sv` doğrusal formül geç oyunda çok ucuz kalıyordu:
+        /// ölçümde Kraliyet Ziyareti fiyatının 13 katı ek gelir getirdi). Pay, etkinliğin ölçülen ek gelirinin yaklaşık yarısı.
+        /// </summary>
+        public static long Cost(Def d) => CostAt(d, GameState.Level);
+
+        /// <summary>Saf işlev (birim testi): verilen seviyede etkinlik fiyatı, 10'a yuvarlı.</summary>
+        public static long CostAt(Def d, int level) => (long)(Mathf.Round(d.share * Balance.EventIncomeRef(level) / 10f) * 10f);
 
         public enum State { Ready, Running, Busy, UsedToday, LevelLow, ZoneLocked, NoMoney }
 

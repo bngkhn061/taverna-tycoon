@@ -58,7 +58,7 @@ namespace Taverna
             toMenu.EnableInClassList("hidden", !showToMenu);
             toMenu.clicked += () => ToMenuRequested?.Invoke();
 
-            if (UnityEngine.Debug.isDebugBuild && !Services.ReleaseSimulation)
+            if (ShowMetricsRow(UnityEngine.Debug.isDebugBuild, Services.ReleaseSimulation))
             {
                 _metrics = new Label { name = "metrics-summary" };
                 _metrics.AddToClassList("small-note");
@@ -83,6 +83,12 @@ namespace Taverna
             };
             Refresh();
         }
+
+        /// <summary>
+        /// v1.8 (birim testi): geliştirici "Ölçüm özeti" satırı yalnızca geliştirme derlemesinde ve yayın taklidi kapalıyken kurulur.
+        /// Satır Türkçe sabittir (geliştirme satırı, çevrilmez); yayın derlemesinde hiç oluşturulmaz.
+        /// </summary>
+        public static bool ShowMetricsRow(bool isDebugBuild, bool releaseSimulation) => isDebugBuild && !releaseSimulation;
 
         /// <summary>Düğme metinlerini ve seçili durumları yeniler (dil değişince sahibi de çağırır).</summary>
         public void Refresh()
