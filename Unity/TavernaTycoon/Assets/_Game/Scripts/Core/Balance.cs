@@ -37,8 +37,30 @@ namespace Taverna
         public const float ProduceTimeScale = 2f;
         /// <summary>Hız yükseltmesinin seviye başına süre çarpanı.</summary>
         public const float SpeedUpgradeStep = 0.9f;
-        public static int MaxStock(int stockLv) => Mathf.Min(3 + stockLv, 12);
-        public static int SellPrice(DrinkDef d, int qualityLv) => Mathf.Max(1, Mathf.RoundToInt(d.basePrice * Mathf.Pow(1.15f, qualityLv)));
+        /// <summary>
+        /// Makinenin bekleyen bardak kapasitesi. v1.9 (oyuncu testi "3 → 3"): üst sınır 12 kalktı, her stok seviyesi +1
+        /// (Sv0 3 → Sv10 13); eskiden Sv9 → Sv10 "12 → 12" gösteriyordu.
+        /// </summary>
+        public static int MaxStock(int stockLv) => BaseStock + Mathf.Max(0, stockLv);
+        /// <summary>Stok yükseltmesi olmadan makinede bekleyebilen bardak.</summary>
+        public const int BaseStock = 3;
+        /// <summary>Kalite yükseltmesinin seviye başına fiyat çarpanı.</summary>
+        public const float QualityStep = 1.15f;
+
+        /// <summary>
+        /// Satış fiyatı (kalite seviyesiyle). v1.9 (oyuncu testi Bira kalitesinde "3 → 3"): ucuz içeceklerde ×1.15 yuvarlanınca
+        /// fiyat artmıyordu; her kalite seviyesi fiyatı en az 1 altın artırır.
+        /// </summary>
+        public static int SellPrice(DrinkDef d, int qualityLv) => SellPrice(d.basePrice, qualityLv);
+
+        /// <summary><see cref="SellPrice(DrinkDef,int)"/>'in taban fiyatla hali (birim testi).</summary>
+        public static int SellPrice(float basePrice, int qualityLv)
+        {
+            int p = Mathf.Max(1, Mathf.RoundToInt(basePrice));
+            for (int lv = 1; lv <= qualityLv; lv++)
+                p = Mathf.Max(p + 1, Mathf.RoundToInt(basePrice * Mathf.Pow(QualityStep, lv)));
+            return p;
+        }
 
         public static int UpgradeCost(DrinkDef d, UpgradeStat stat, int currentLv)
         {
@@ -182,6 +204,8 @@ namespace Taverna
         public const float AutoCheckInDelay = 1.5f;
         /// <summary>Taverna adını değiştirme bedeli (altın) ya da izlenecek reklam sayısı.</summary>
         public const int RenameCost = 500, RenameAds = 2;
+        /// <summary>v1.9: taverna adını elmasla değiştirme bedeli (kozmetik; ilk ad menüde ücretsiz). İlk saatte ≈ 25 elmas toplanır.</summary>
+        public const int RenameGems = 20;
 
         // ---- v1.4 (Paket A, production/project-stage-report.md A bölümü)
         /// <summary>

@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v1.8** (2026-11-16, son denge geçişi + cila: ölçülmüş Ün tablosu, müşteri / sabır / içme süresi, maaş, etkinlik fiyatı, özel sipariş, Kral Şerbeti, prestij Ün'ü; `design/balance/balance-check-final-2026-11-12.md`).
+> Sürüm: **v1.9** (2026-11-17, oyuncu testi Paket 1, `production/qa/playtests/feedback-2026-11-17.md`: yükseltme satırları, ses karışımı, hedef kutusu, salon garsonları, zorunlu rehber, durum görevleri, açıklamalar, seviye kartında açılanlar ve "YENİ!" rozetleri, maaş borcu, elmaslı otomasyon, elmas ekonomisi).
+> Önceki: v1.8 (2026-11-16, son denge geçişi + cila: ölçülmüş Ün tablosu, müşteri / sabır / içme süresi, maaş, etkinlik fiyatı, özel sipariş, Kral Şerbeti, prestij Ün'ü; `design/balance/balance-check-final-2026-11-12.md`).
 > Önceki: v1.5 (2026-11-11, Paket C: oyun sonu — Sv27 Kral Şerbeti, Sv28 Kraliyet Ziyareti etkinliği, Sv29 Şölen Tabağı, Sv30 prestij "Yeni Şube").
 > Önceki: v1.4 (2026-11-10, Paket A: rehber zamanı, mutluluk ortalaması, yıldız eşikleri, işe alım ücreti, tellal etkinliği, müşteri çarpanı sınırı, özel sipariş görevleri).
 
@@ -110,6 +111,8 @@ Oyuncu Barlo'yu yönetmeye devam eder. Bunun üstüne bir yönetim katmanı ekle
 | **Gün döngüsü** | 1 gün = 5 dk. Gün sonunda gelir, maaş ve puan özeti gösterilir, maaşlar ödenir. |
 
 ### 3.3 Seviye Açılımları
+> **v1.9 seviye kartı:** "Seviye atladın" kartı o seviyede açılan her şeyi ikonuyla listeler: ödül elması, makineler, personel, alanlar (aynı adlı kareler tek kartta, ör. "Yeni Masa ×2"), dekor ve temalar, etkinlikler, otomasyon (altın / elmas seviyesi ayrı), müşteri tipleri, kademe ve prestij şartı. 4'ten fazlaysa kartlar küçülüp iki satıra iner, en fazla 10 (fazlası "+N"). Dükkânda yeni açılmış, henüz görülmemiş ürünlerde ve sekmelerinde **"YENİ!"** rozeti; sekme açılınca ürünler görüldü sayılır (kayıtta `seenItems`, eski kayıtta o anki seviyeye kadar her şey görülmüş sayılır).
+
 | Sv | Açılan |
 |---|---|
 | 1 | Bira, Şıra · Çiftçi, Balıkçı · 3 masa |
@@ -168,12 +171,24 @@ v1.5 eğrisi: Kral Şerbeti en pahalı içecekten (Yıllanmış Şarap 80 / 12 s
 
 ### 4.1 İstasyon Yükseltmeleri (3 eksen × 10 seviye)
 - **Hız:** Üretim süresi her seviyede %10 azalır.
-- **Stok:** 3 bardaktan başlar, seviye başına +1 artar (en fazla 12).
-- **Kalite:** Satış fiyatı her seviyede %15 artar.
+- **Stok:** 3 bardaktan başlar, seviye başına +1 artar (v1.9: en fazla 12 sınırı kalktı → Sv10'da 13; eskiden Sv9 → Sv10 "12 → 12").
+- **Kalite:** Satış fiyatı her seviyede %15 artar; v1.9: her seviye en az +1 altın (ucuz içeceklerde yuvarlama "3 → 3" gösteriyordu; Bira 3, 4, 5 … 13).
+- **v1.9 yükseltme paneli:** her satır önce → sonra ve ne işe yaradığını yazar (Hız: "bir bardak x sn'de · dakikada y bardak", Stok: "makinede hazır bekleyen bardak", Kalite: "her bardağın satış fiyatı"). Birim testi (`V19Tests.UpgradeRows_EveryLevelChangesShownValue`) bütün içeceklerde hiçbir satırın önce = sonra göstermediğini denetler.
 - **Maliyet:** `fiyat = taban × 1.18^seviye`. Taban: Hız 15, Stok 10, Kalite 25 (pahalı içeceklerde ×4 ve ×10).
 - **Görsel kademe:** 4. ve 8. seviyede istasyonun modeli değişir: **Ahşap → Pirinç → Altın**. Oyuncu ilerlemesini tavernada görür.
 
 ### 4.2 Otomasyon
+> **v1.9 (Dükkân › Otomasyon, `Automation.cs`):** her otomasyon altınla (eski seviye şartı) ya da elmasla (daha erken) alınır; elmas fiyatı erken almayı lüks yapacak kadar yüksek. Han ve Oyun salonu bölgesi açılmadan alınamaz.
+>
+> | Otomasyon | Altın | Elmas |
+> |---|---|---|
+> | Kasa (para kendiliğinden toplanır) | 25.000 · Sv22 | 150 · Sv16 |
+> | Depo (otomatik sipariş) | 900 · Sv7 | 30 · Sv3 |
+> | Han resepsiyonu | 6.000 · Sv12 | 80 · Sv8 (Han açılınca) |
+> | Oyun salonu | 8.000 · Sv14 | 100 · Sv9 (Oyun Salonu açılınca) |
+>
+> Usta geliştirmeleri değişmedi (yalnızca altın). Aşağıdaki tablo v0.x taslağıdır.
+
 | Seviye | Kim yapar? |
 |---|---|
 | Başlangıç | Barlo her şeyi taşır |
@@ -194,6 +209,7 @@ v1.5 eğrisi: Kral Şerbeti en pahalı içecekten (Yıllanmış Şarap 80 / 12 s
 | **Ozan** | Sv21 (sahne) | Sahnede çalar. Herkesin sabrı +%25. | Repertuvar (bahşiş bonusu) |
 
 - **İşe alma:** Tek seferlik ödeme, oyuncu personel odasındaki ödeme karesine basar. Maaş yok (mobil için sade tutuyoruz).
+- **v1.9 bölge kuralı:** Mina ve Tobi salon garsonu (`Catalog.Staff.zone = "salon"`, başlangıç yerleri salonda): Ana Salon açılmadan işe alınamaz, alınmışsa salon açılana kadar sahnede yok ve maaş almaz (aşçı / hizmetçi kuralı). Diğer görevlilerin başlangıç yerleri meyhanede (Pip, Gus, Nana, Brak, Lir, Lirael), mutfakta (Ayla, Ignis, bölge "mutfak") ve handa (Sema, "merdiven"); denetlendi.
 - **Sayı sınırı:** Garson Aşama 2'de 1, Aşama 3'te 4, Aşama 4'te 6. Barmen en fazla 2. Diğerleri birer tane.
 - **Yükseltme maliyeti:** `taban × 1.25^seviye`, her yükseltme için en fazla 10 seviye.
 
@@ -286,7 +302,9 @@ v1.4: parayla "Tellal tut" (Dükkân › Hızlandır) kaldırıldı; şeridi de 
 
 ### 7.4 Rehber v2 (v1.2)
 
-9 adım: bira al → bardak dolsun → ilk müşteriye götür → parayı topla → **Görevler** butonu açılır → ödeme karesine para ver → **Dükkân** açılır → **Personel** açılır → **Depo** açılır. **v1.4:** gün saati ve yoğun saat yalnızca ilk dört adımda (bira → bardak → servis → para) durur, Görevler adımından itibaren oyun akar. Bir HUD butonunu gösteren adımlar (Görevler, Dükkân, Personel, Depo) oyuncu basmazsa **25 gerçek saniye** sonra kendiliğinden geçer; rehber her durumda biter. İlk müşteri bardak dolunca gelir, rehberin ilk dört adımında en fazla 2 müşteri olur; elmas, yardımcı ve etkinlik butonu rehber bitince görünür. Her an atlanabilir.
+9 adım: bira al → bardak dolsun → ilk müşteriye götür → parayı topla → **Görevler** butonu açılır → ödeme karesine para ver → **Dükkân** açılır → **Personel** açılır → **Depo** açılır. **v1.4:** gün saati ve yoğun saat yalnızca ilk dört adımda (bira → bardak → servis → para) durur, Görevler adımından itibaren oyun akar. İlk müşteri bardak dolunca gelir, rehberin ilk dört adımında en fazla 2 müşteri olur; elmas, yardımcı ve etkinlik butonu rehber bitince görünür.
+
+**v1.9 zorunlu rehber (oyuncu testi madde 11):** "Atla" düğmesi yok, buton adımları kendiliğinden geçmez (v1.4'ün 25 sn kuralı kalktı). Rehber sürerken yalnızca gösterilen HUD düğmesi ve (Personel adımında) dükkânın Personel sekmesi dokunuşu alır; diğer HUD düğmeleri, yıldızlar ve dükkân sekmeleri soluk ve kilitli ("Önce rehberdeki adımı yap"). Panel kapatma ve ayarlar (ses, dil) açık. Dükkân açıkken halka içindeki karşılığı gösterir (Personel sekmesi / kapat). Buton adımlarında zaman akar ama yeni müşteri gelmez, içerdekiler oturup gider. Ölçüm: `tutorial_skip` artık gönderilmez, `tutorial_step` olayından `kendiliginden` alanı kalktı.
 
 ### 7.6 Oyuncuya hep iş kalır (v1.3)
 
@@ -322,8 +340,26 @@ Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirme
 - **Çevrimdışı gelir:** Oyuncu yokken personelin ürettiği gelirin %30'u kazanılır. Sınır 2 saattir, yükseltmeyle 8 saate çıkar. Dönüşte bir "Sen yokken…" ekranı gösterilir.
 - **Ödüllü reklam (isteğe bağlı):** 5 dk ×2 gelir, çevrimdışı ödülü ×3, ödeme alanında tek seferlik %25 indirim. **Zorunlu reklam yok.**
 - **Elmas (premium para):** Görevlerden ve seviye ödüllerinden düşer. Kozmetik dekor ve zaman hızlandırma için kullanılır. Satın alınabilir ama ilerlemek için **gerekmez**.
+- **v1.9 elmas ekonomisi (oyuncu testi madde 13, 23 "başlangıç elmasıyla oyun çabuk bitiyor"):** v1.8'de ilk saatte (≈ Sv11) ≈ 50 elmas toplanıyordu (seviye 2 + Sv/5, görev 1 + Sv/4) ve ×2 gelir 10 elmastı: ilk saatin neredeyse tamamı ×2 geçebiliyordu. v1.9:
+
+  | Kalem | v1.8 | v1.9 |
+  |---|---|---|
+  | Seviye ödülü | 2 + Sv/5 | 1 + Sv/10 |
+  | Görev ödülü | 1 + Sv/4 | 1 + Sv/8 (büyük özel görev +1) |
+  | Günlük ödül 7. gün | 10 | 8 (1–6. gün aynı: 1–4) |
+  | ×2 Gelir (10 dk) | 10 | 30 |
+  | Anında Dolum | 5 | 15 |
+  | Yoğun Saati Başlat | 8 | 20 |
+  | Altın Kesesi | 15 | 40 |
+  | "Sen yokken" ×2 | 5 | 12 |
+  | Ad değiştir | — | 20 (altın 500 ya da 2 reklam da var) |
+
+  İlk saat ≈ 25 elmas (seviye 12 + görev ≈ 12 + günlük 1): en fazla bir ×2 gelir. Başlangıç elması 0 (değişmedi). Hazine elması (gerçek para) değişmedi.
+- **v1.9 maaş borcu (oyuncu testi madde 7):** gün sonunda maaş her durumda düşer (`GameState.ForceSpend`); altın yetmezse bakiye eksiye iner. Borçluyken satın alma ve ödeme kareleri kapalı ("Önce borcu öde": dükkân mesajı, kare etiketi, hedef kutusu), bakiye kırmızı. Malzeme siparişi borca yazılabilir (makineler durup oyun kilitlenmesin; malzeme satışın %30'u). Kazanılan altın önce borcu kapatır. Maaş tamamı ödenemediyse personel ertesi gün küskün (değişmedi).
 
 ### 8.3 Görevler
+> **v1.9 durum görevleri (oyuncu testi madde 24):** "Yeni bir alan aç" sayacının yerine belirli hedefli görevler: **İşe al: X**, **Makine al: X**, **Alanı aç: X** (seviyesi ve bölgesi uygun, henüz yapılmamış adaylardan). Bunlar oyunun durumuna bakar: görev oluşurken, oyun açılırken ve her satın alma / açılışta koşul tutuyorsa görev tamamlanmış (ödül alınabilir) olur. Sayaç görevleri (X bira sat, X müşteri, X altın, X yükseltme, yoğun saat, özel sipariş) sıfırdan sayar.
+
 - **3 günlük görev:** Örneğin "20 Bira sat", "Bir Cüce'yi mutlu et", "Yoğun Saati tamamla". Ödül para ve elmas.
 - **Kilometre taşları:** "İlk 100 müşteri", "Tüm köy halkını ağırla" gibi. Kalıcı küçük bonuslar verir.
 - **Koleksiyon defteri:** 30 müşteri tipinin her biri ilk kez ağırlandığında deftere işlenir. Hepsi tamamlanınca kalıcı +%10 bahşiş.
@@ -400,6 +436,8 @@ Oyunun sonu (Sv30) artık bir döngüye bağlanır: oyuncu tavernasını bırak�
 | Ses (v1.1) | 38 efekt (Kenney CC0 + katmanlama), 3 müzik (RandomMind CC0), 6 ses tipi × 14 oyuncak-dil konuşma, 5 ortam döngüsü (`tools/audio/build_audio.py`, önizleme `design/audio/ses_onizleme.html`) | ✅ |
 
 ### 11.1 Ses kuralları (v1.1)
+
+> **v1.9 (oyuncu testi madde 2 "ses ve müzik cızırtılı", Android ve iPhone):** ölçüm (`production/qa/evidence/2026-11-17-v19-log.txt`): dosyalarda kırpılma, DC kayması, yanlış örnekleme hızı yok. Asıl kaynak **ocak döngüsü** (`amb/fire`): sn'de 46 yüksek frekanslı dürtü (tepe/RMS 29.8 dB), oyunun en yüksek ortam sesi (akşam 0.7) — telefon hoparlöründe müziğin altında sürekli çıtırtı. Yeniden üretildi (yumuşak odun çıtırtısı, 0 dürtü, tepe/RMS 14.3 dB). Ek olarak: başı sıfırda olmayan 8 efekt 2 ms / 5 ms sönümlendi (tık), `day` ve `evening` müziğinin döngü ek yerindeki sıçrama (0.07 / 0.13) giderildi, çalan efekt kaynağı yenisi için kesilmiyor (boş kaynak yoksa atlanır). Karışım: müzik 0.45 (0.6), ortam toplamı ≤ 0.35 (akşam 1.67'ye çıkabiliyordu; ocak 0.28 / 0.4), en fazla 6 efekt (10) ve 3 konuşma (4), aynı efekt üst üste binmez, aynı anda çalan efektlerin düzey toplamı ≤ 1.0, efektler ×0.8. İçe aktarma: müzik akış yerine sıkıştırılmış bellek, ortam Vorbis kalitesi 0.5, bütün klipler 44.1 kHz sabit. `AudioManager`: DSP tamponu 1024 (Best Performance), gerçek ses 24, sanal 64. Cihazda doğrulanmadı.
 
 - **Müzik:** (RandomMind, CC0 — `assets/audio/CREDITS.md`) gündüz `day` (Minstrel Dance); hava kararınca ve gün sonu ekranında `evening` (The Old Tower Inn); yoğun saatte `rush` (Market Day). Geçiş 2,5 sn çapraz; dönülen parça kaldığı yerden sürer. Büyük anlarda (seviye, yoğun saat, yeni alan, şafak, akşam) müzik efekt süresince %35'e iner.
 - **Kalabalık:** ayakta/oturan müşteri sayısı `n` (çıkanlar hariç). Az uğultu = `clamp01(n/4)·0.32`, dolu uğultu = `clamp01((n−4)/10)·0.45` (yoğun saatte en az 0.18). Gün bitince ikisi de söner.

@@ -60,7 +60,9 @@ namespace Taverna
             if (!def) return OrderResult.Locked;
             var s = S(id);
             if (!HasRoom(id)) return OrderResult.Full;
-            if (!GameState.TrySpend(PackCost(def))) return OrderResult.NoMoney;
+            // v1.9: borçluyken malzeme siparişi borca yazılır (makineler durup oyun kilitlenmesin; malzeme satışın %30'u, sipariş hep kâr eder)
+            if (GameState.InDebt) GameState.ForceSpend(PackCost(def));
+            else if (!GameState.TrySpend(PackCost(def))) return OrderResult.NoMoney;
             s.incoming += Balance.SupplyPack;
             if (s.eta <= 0f) s.eta = DeliverySeconds;
             GameState.NotifyChanged();

@@ -63,6 +63,10 @@ namespace Taverna
         public List<string> premium = new();              // v1.0 Hazine: alınan gerçek para ürünleri (tek seferlik)
         public string vipUntilUtc = "", vipGemDate = "", starterShownUtc = "";                              // v1.0: maaşı ödenmeyen personelin küskün olduğu gün
         public string lastSeenUtc;
+        /// <summary>v1.9 "YENİ!" rozeti: dükkânda görülmüş ürün anahtarları (makine "mac_X", görevli, dekor, tema, otomasyon "auto_X").</summary>
+        public List<string> seenItems = new();
+        /// <summary>v1.9: bu seviyeye kadar açılan ürünler görülmüş sayılır (eski kayıtta yükseltme anındaki seviye; -1 = ayarlanmadı).</summary>
+        public int seenLevel = -1;
     }
 
     /// <summary>
@@ -156,10 +160,11 @@ namespace Taverna
         static SaveData Upgrade(SaveData d)
         {
             if (d.saveVersion < CurrentSaveVersion) d.saveVersion = CurrentSaveVersion;
+            if (d.seenLevel < 0) d.seenLevel = Mathf.Max(1, d.level);   // v1.9: eski kayıtta mevcut ürünler "YENİ!" çıkmasın
             return d;
         }
 
-        static SaveData NewGame() => new SaveData { coins = 0, level = 1, saveVersion = CurrentSaveVersion };
+        static SaveData NewGame() => new SaveData { coins = 0, level = 1, saveVersion = CurrentSaveVersion, seenLevel = 1 };
 
         static string Snapshot()
         {
@@ -217,12 +222,32 @@ namespace Taverna
             Changed?.Invoke();
         }
 
+        /// <summary>Altın harcar; kasada yetmiyorsa (ya da borçluysa) false. Satın almalar ve ödeme kareleri bunu kullanır.</summary>
         public static bool TrySpend(long amount)
         {
             if (Data.coins < amount) return false;
             Data.coins -= amount;
             Changed?.Invoke();
             return true;
+        }
+
+        /// <summary>
+        /// v1.9 (oyuncu testi madde 7): bakiye eksi mi? Borçluyken satın alma ve ödeme kareleri kapalı ("Önce borcu öde");
+        /// kazanılan altın önce borcu kapatır.
+        /// </summary>
+        public static bool InDebt => Data.coins < 0;
+
+        /// <summary>
+        /// v1.9: zorunlu gider — bakiye yetmese de düşer, eksiye inebilir (gün sonu maaşı, borçluyken malzeme siparişi).
+        /// Dönen değer: borca yazılan kısım (harcamadan önce kasada olmayan altın).
+        /// </summary>
+        public static long ForceSpend(long amount)
+        {
+            if (amount <= 0) return 0;
+            long covered = System.Math.Max(0, System.Math.Min(amount, Data.coins));
+            Data.coins -= amount;
+            Changed?.Invoke();
+            return amount - covered;
         }
 
         /// <summary>Ün kaybı (kızgın müşteri). Seviye düşmez, ün 0'ın altına inmez.</summary>

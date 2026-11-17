@@ -25,8 +25,18 @@ namespace Taverna
     /// </summary>
     public class Sfx : MonoBehaviour
     {
-        const int FxVoices = 10, TalkVoices = 4;
-        const float MusicBase = 0.6f, CrossFade = 2.5f, TalkBase = 0.5f;
+        // v1.9 karışım tavanı (oyuncu testi 2026-11-17 madde 2 "ses cızırtılı"): v1.8'de müzik 0.6, ortam toplamı akşam 1.67'ye
+        // (ocak 0.7), 10 efekt + 4 konuşma kaynağı aynı anda; yoğun sahnede çıkış tepesi −0.2 dBFS'e dayanıyordu (tools/audio ölçümü).
+        // Efekt kaynağı doluyken çalan klip kesiliyordu (tık). Şimdi: müzik ≤ 0.45, ortam toplamı ≤ 0.35, en fazla 6 efekt,
+        // aynı efekt üst üste binmez, aynı anda çalan efektlerin toplam düzeyi ≤ FxBudget, boş kaynak yoksa yeni efekt atlanır.
+        const int FxVoices = 6, TalkVoices = 3;
+        const float MusicBase = 0.45f, CrossFade = 2.5f, TalkBase = 0.4f;
+        /// <summary>v1.9: bütün ortam döngülerinin toplam düzey tavanı (ayar çarpılmadan önce).</summary>
+        public const float AmbientCap = 0.35f;
+        /// <summary>v1.9: aynı anda çalan efektlerin toplam düzey tavanı ve efektlerin genel çarpanı.</summary>
+        public const float FxBudget = 1f, FxScale = 0.8f;
+        /// <summary>Bütçeden kalan düzey bundan azsa efekt hiç çalınmaz.</summary>
+        const float FxMinVolume = 0.08f;
 
         /// <summary>SfxId sırasıyla: klip anahtarı, ses düzeyi, perde oynaması (±), aynı efektin en kısa tekrar aralığı (sn).</summary>
         static readonly (string key, float vol, float jitter, float gap)[] Table =
@@ -46,6 +56,10 @@ namespace Taverna
         readonly Dictionary<AudioClip, float> _resume = new();
         readonly Dictionary<AudioSource, float> _raw = new();
         AudioSource[] _fxSrc, _talkSrc;
+        readonly SfxId[] _fxId = new SfxId[FxVoices];
+        readonly float[] _fxVol = new float[FxVoices];
+        /// <summary>v1.9 (test günlüğü): kaynak / bütçe dolu ya da aynı efekt çaldığı için atlanan efekt sayısı.</summary>
+        public static int SkippedFx { get; private set; }
         int _fxNext, _coinStreak;
         AudioSource _musA, _musB;
         AudioClip _day, _evening, _rush;
@@ -170,11 +184,16 @@ namespace Taverna
             float lo = open ? Mathf.Clamp01(n / 4f) * 0.32f : 0f;
             float hi = open ? Mathf.Clamp01((n - 4) / 10f) * 0.45f : 0f;
             if (open && RushHour.Active) hi = Mathf.Max(hi, 0.18f);
-            Fade(_crowdLo, lo, sfx, dt);
-            Fade(_crowdHi, hi, sfx, dt);
-            Fade(_fire, _inGame ? (dark ? 0.7f : 0.45f) : 0f, sfx, dt);
-            Fade(_birds, _inGame && !dark ? 0.16f : 0f, sfx, dt);
-            Fade(_crickets, _inGame && dark ? 0.2f : 0f, sfx, dt);
+            float fire = _inGame ? (dark ? 0.4f : 0.28f) : 0f;   // v1.9: 0.45 / 0.7 → 0.28 / 0.4 (ocak döngüsü de yumuşadı)
+            float birds = _inGame && !dark ? 0.16f : 0f, crickets = _inGame && dark ? 0.2f : 0f;
+            // v1.9: toplam ortam düzeyi tavanı — oranlar korunur, toplam AmbientCap'i aşmaz
+            float sum = lo + hi + fire + birds + crickets;
+            float k = sum > AmbientCap ? AmbientCap / sum : 1f;
+            Fade(_crowdLo, lo * k, sfx, dt);
+            Fade(_crowdHi, hi * k, sfx, dt);
+            Fade(_fire, fire * k, sfx, dt);
+            Fade(_birds, birds * k, sfx, dt);
+            Fade(_crickets, crickets * k, sfx, dt);
 
             // Gevezelik: oturan müşterilerden rastgele biri konuşur ya da güler (kalabalıkta daha sık)
             if (open && n >= 2)
@@ -228,11 +247,36 @@ namespace Taverna
                 _lastCoin = now;
                 pitch *= 1f + 0.035f * _coinStreak;
             }
-            var src = _fxSrc[_fxNext];
-            _fxNext = (_fxNext + 1) % FxVoices;
+            // v1.9: boş kaynak seç; aynı efekt zaten çalıyorsa ya da bütçe doluysa atla (çalan klibi kesmek tık sesi yapar).
+            // Büyük anlar (seviye, yoğun saat, alan açma, şafak, gece) her durumda çalar: en eski kaynağın yerine geçer.
+            bool big = id is SfxId.LevelUp or SfxId.Rush or SfxId.Unlock or SfxId.Dawn or SfxId.Nightfall;
+            AudioSource src = null;
+            float used = 0f;
+            for (int k = 0; k < FxVoices; k++)
+            {
+                var s = _fxSrc[k];
+                if (!s.isPlaying) { if (!src) src = s; continue; }
+                if (_fxId[k] == id && !big) { SkippedFx++; return; }
+                used += _fxVol[k];
+            }
+            float v = vol * FxScale;
+            if (!src)
+            {
+                if (!big) { SkippedFx++; return; }
+                _fxNext = (_fxNext + 1) % FxVoices;
+                src = _fxSrc[_fxNext];
+            }
+            else if (!big)
+            {
+                v = Mathf.Min(v, FxBudget - used);
+                if (v < FxMinVolume) { SkippedFx++; return; }
+            }
+            int slot = System.Array.IndexOf(_fxSrc, src);
+            _fxId[slot] = id;
+            _fxVol[slot] = v;
             src.clip = clips[Random.Range(0, clips.Count)];
             src.pitch = pitch * (1f + Random.Range(-jitter, jitter));
-            src.volume = vol * GameSettings.Sfx;
+            src.volume = v * GameSettings.Sfx;
             src.Play();
             if (id is SfxId.LevelUp or SfxId.Rush or SfxId.Unlock or SfxId.Dawn or SfxId.Nightfall)
                 Duck(0.35f, src.clip.length * 0.9f);

@@ -29,16 +29,42 @@ namespace Taverna
 
         public long Paid { get; private set; }
 
-        /// <summary>Sıradaki hedef: görünür alanlardan en düşük seviyeli, sonra en ucuz olanı (HUD ve test botu ortak).</summary>
+        static PayZone _goal;
+        static int _goalUnlocks = -1, _goalLevel = -1;
+
+        /// <summary>
+        /// Sıradaki hedef (HUD hedef kutusu, rehber ve test botu ortak). v1.9 (oyuncu testi "Yeni masa aç hedefi başka masa açınca
+        /// gitmiyor"): seviyesi yeten alanlar önce gelir, aralarından kalan bedeli en az olan; hiçbiri yoksa en düşük seviyeli.
+        /// Hedef herhangi bir şey açılınca (alan, makine, personel) ya da seviye atlayınca yeniden hesaplanır; açılmış ya da
+        /// görünmez bir kareyi asla göstermez.
+        /// </summary>
         public static PayZone NextGoal()
+        {
+            int unlocks = GameState.Data.unlocked.Count;
+            if (_goal && _goal.enabled && _goal.Visible && unlocks == _goalUnlocks && GameState.Level == _goalLevel) return _goal;
+            _goalUnlocks = unlocks;
+            _goalLevel = GameState.Level;
+            _goal = Pick();
+            return _goal;
+        }
+
+        static PayZone Pick()
         {
             PayZone best = null;
             foreach (var z in All)
             {
                 if (!z.enabled || !z.Visible) continue;
-                if (!best || z.requiredLevel < best.requiredLevel || (z.requiredLevel == best.requiredLevel && z.cost < best.cost)) best = z;
+                if (!best || Better(z, best)) best = z;
             }
             return best;
+        }
+
+        /// <summary>a, b'den daha iyi hedef mi: seviyesi yeten önce, sonra kalan bedel, sonra seviye.</summary>
+        static bool Better(PayZone a, PayZone b)
+        {
+            if (a.LevelOk != b.LevelOk) return a.LevelOk;
+            if (a.LevelOk) return a.Remaining < b.Remaining || (a.Remaining == b.Remaining && a.requiredLevel < b.requiredLevel);
+            return a.requiredLevel < b.requiredLevel || (a.requiredLevel == b.requiredLevel && a.cost < b.cost);
         }
         public long Remaining => cost - Paid;
         public bool Visible => !GameState.IsUnlocked(id) && (string.IsNullOrEmpty(requires) || GameState.IsUnlocked(requires));
@@ -48,8 +74,20 @@ namespace Taverna
         float _carry, _tick;
         GameObject _visual;
 
+        /// <summary>
+        /// v1.9: sahnedeki bütün ödeme kareleri kimlikle (açılmış olanlar da; açılan kare kapanınca <see cref="All"/>'dan çıkar).
+        /// Görev metni ve "alan mı?" sorusu için.
+        /// </summary>
+        static readonly Dictionary<string, PayZone> ById = new();
+
+        /// <summary>Kimliği verilen ödeme karesi (açılmış olsa da), yoksa null.</summary>
+        public static PayZone Find(string id) => id != null && ById.TryGetValue(id, out var z) && z ? z : null;
+
+        void OnDestroy() { if (ById.TryGetValue(id, out var z) && z == this) ById.Remove(id); }
+
         void Awake()
         {
+            ById[id] = this;
             _visual = transform.childCount > 0 ? transform.GetChild(0).gameObject : null;
         }
 

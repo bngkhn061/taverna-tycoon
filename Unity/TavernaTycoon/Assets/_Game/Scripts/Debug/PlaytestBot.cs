@@ -40,7 +40,7 @@ namespace Taverna
         int _gc0;
         float _levelCloseAt, _uiT;
         int _uiStep, _uiPhase;
-        static readonly (string, string)[] UiSteps = { ("hud", "ui_hud.png"), ("upgrade", "ui_upgrade.png"), ("quests", "ui_quests.png"), ("shop", "ui_shop.png"), ("shop-staff", "ui_shop_staff.png"), ("shop-dec", "ui_shop_dec.png"), ("depot", "ui_depot.png"), ("shop-auto", "ui_shop_auto.png"), ("shop-prem", "ui_shop_prem.png"), ("vip", "ui_vip.png"), ("happy", "ui_happy.png"), ("events", "ui_events.png") };
+        static readonly (string, string)[] UiSteps = { ("hud", "ui_hud.png"), ("upgrade", "ui_upgrade.png"), ("quests", "ui_quests.png"), ("shop", "ui_shop.png"), ("shop-staff", "ui_shop_staff.png"), ("shop-dec", "ui_shop_dec.png"), ("depot", "ui_depot.png"), ("shop-auto", "ui_shop_auto.png"), ("shop-prem", "ui_shop_prem.png"), ("vip", "ui_vip.png"), ("happy", "ui_happy.png"), ("events", "ui_events.png"), ("stars", "ui_stars.png") };
         float _fpsAcc; int _fpsN;
         // v1.7 canlı dil değişimi testi
         int _langStep; float _langAt; string _lang0;
@@ -77,13 +77,15 @@ namespace Taverna
         {
             _tutStepAt = _real;
             string s = Tutorial.Active ? $"adım {Tutorial.Step + 1}" : "BİTTİ";
-            Log($"v1.4 REHBER: {s} · gerçek {_real:0.0} sn · gün saati {DayCycle.Progress01:0.000} · zaman durur={Tutorial.HoldsTime} · kendiliğinden geçen={Tutorial.AutoAdvanced}");
+            Log($"v1.4 REHBER: {s} · gerçek {_real:0.0} sn · gün saati {DayCycle.Progress01:0.000} · zaman durur={Tutorial.HoldsTime}");
             if (!Tutorial.Active) { _tutEndReal = _real; _tutEndDay = DayCycle.Progress01; }
         }
 
         /// <summary>v1.4: rehberde Görevler, Dükkân ve Personel butonlarına bot basar (2 sn sonra); Depo adımını kendiliğinden geçmeye bırakır.</summary>
         void TutorialClicks(HudController hud)
         {
+            TutorialClicksV19(hud);   // v1.9: rehber zorunlu, bot düğmelere gerçek olayla basar (atla / kendiliğinden geçme yok)
+            return;
             if (!hud || !Tutorial.Active || Tutorial.UiTarget == null || Tutorial.Step == Tutorial.StepDepot) return;
             if (_tutOpened != Tutorial.Step && _real > _tutStepAt + 2f)
             {
@@ -135,6 +137,7 @@ namespace Taverna
             foreach (var c in Customer.All)
                 if (c.emote == Customer.Emote.Angry && c.state == Customer.State.Leaving && _angrySeen.Add(c)) { _angryLeaves++; OnAngryV18(c); }   // v1.8: ×4 hızda emoteTime eşiği ilk karede kaçıyordu
             if (Measure) UpdateV18();   // v1.8 denge ölçümü
+            UpdateV19();
 
             Vector3? target = Decide(p);
             if (target.HasValue) target = Inn.Route(p.transform.position, target.Value);
@@ -623,7 +626,7 @@ namespace Taverna
             Log($"v1.4 GÖREV ÖZET: oyuncunun servis ettiği özel sipariş (zorlamadan sonra) {Customer.SpecialServed - _specialAtForce} · listede özel görev: {(sq != null ? $"\"{Quests.Text(sq)}\" {sq.progress}/{sq.target}" : "yok (toplandı)")}");
             Log($"v1.4 YILDIZ ÖZET: ambiyans={AmbianceSource.Total:0} ★{Management.Stars:0.#} · sonraki ★{Management.NextStar} için {Management.AmbianceToNextStar}");
             Log($"v1.4 TELLAL ÖZET: etkinlik={(TavernEvents.Active.HasValue ? TavernEvents.Active.ToString() : "-")} · tellal görünür={Campaigns.CrierVisible} · bugün=[{string.Join(",", GameState.Data.eventsUsed)}]");
-            Log($"v1.4 REHBER ÖZET: {(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} · kendiliğinden geçen adım {Tutorial.AutoAdvanced} · bitiş gerçek {_tutEndReal:0.0} sn");
+            Log($"v1.4 REHBER ÖZET: {(Tutorial.Active ? "açık · adım " + (Tutorial.Step + 1) : GameState.Data.tutorialDone ? "bitti" : "yok")} · bitiş gerçek {_tutEndReal:0.0} sn");
             FinishV15();
             FinishV16();
             if (Measure) FinishV18();

@@ -51,9 +51,10 @@ namespace Taverna
             _t = dayLength;
             Progress01 = 1f;
             RemainingSeconds = 0f;
+            // v1.9 (oyuncu testi madde 7): maaş her durumda düşer; altın yetmezse kalanı borç olur (bakiye eksiye iner)
             long wages = Management.DailyWages;
-            long paid = Math.Min(wages, GameState.Coins);
-            if (paid > 0) GameState.TrySpend(paid);
+            long unpaid = GameState.ForceSpend(wages);
+            long paid = wages - unpaid;
             var r = new Report
             {
                 day = GameState.Data.day, income = _income, wages = paid, unpaid = wages - paid,
@@ -73,6 +74,9 @@ namespace Taverna
             Time.timeScale = 0f;
             DayEnded?.Invoke(r);
         }
+
+        /// <summary>Test botu (v1.9 borç senaryosu): günü verilen ilerlemeye (0–1) atlatır.</summary>
+        public static void DebugSetProgress(float p) { if (_i) _i._t = Mathf.Clamp01(p) * _i.dayLength; }
 
         /// <summary>Plan ekranındaki "Sonraki Güne Geç": zaman akar, sabah olur, gece verilen siparişler hemen gelir.</summary>
         public static void NextDay()

@@ -55,13 +55,15 @@ Parametre adları Türkçe ve ASCII.
 | `session_start` | platform, surum, gelistirme | açılış ve arka planda 30 sn'den uzun kaldıktan sonra dönüş |
 | `session_end` | sure_sn | arka plana geçiş, kapanış |
 | `tutorial_start` | — | yeni oyunda rehber başlayınca (ek olay, huni için) |
-| `tutorial_step` | adim (biten adım, 1–9), kendiliginden, sure_sn | rehber adımı geçince |
-| `tutorial_complete` | toplam_sure_sn, kendiliginden_gecen | rehber bitince |
-| `tutorial_skip` | adim, sure_sn | "Atla" |
+| `tutorial_step` | adim (biten adım, 1–9), sure_sn | rehber adımı geçince (v1.9: `kendiliginden` kalktı, adımlar kendiliğinden geçmez) |
+| `tutorial_complete` | toplam_sure_sn | rehber bitince (v1.9: `kendiliginden_gecen` kalktı) |
+| `tutorial_skip` | adim, sure_sn | v1.9'da kalktı (rehber zorunlu, "Atla" yok); eski cihaz verisinde kalabilir. Huni artık başlatan → bitiren; adım adım `tutorial_step` hangi adımda bırakıldığını gösterir |
 | `level_up` | seviye, gun, servis | seviye atlayınca |
 | `day_end` | gun, gelir, maas, odenmeyen, servis, mutluluk, seviye | gün sonu |
 | `zone_unlock` | alan, bedel, seviye | ödeme karesi açılınca |
 | `machine_buy` | makine, fiyat, seviye | makine alınınca |
+| `automation_buy` | otomasyon, para (altin / elmas), seviye | v1.9: otomasyon alınınca |
+| `rename` | para (elmas), bedel | v1.9: ad elmasla değiştirilince |
 | `staff_hire` / `staff_fire` | gorevli, ucret / hazine, izinde | işe alma, kovma ya da izne gönderme |
 | `event_start` | etkinlik, fiyat, seviye | etkinlik başlayınca |
 | `special_served` | seviye | Barlo'ya özel sipariş servis edilince |

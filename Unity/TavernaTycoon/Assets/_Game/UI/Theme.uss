@@ -747,3 +747,27 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .branch-card .tier-gain { padding: 2px 0; }
 .branch-card .branch-line { font-size: 12px; }
 .tier-arrow-ic { rotate: -90deg; }   /* v1.8: v3i_arrow aşağıyı gösteriyor; önce → sonra yönü */
+
+/* ==========================================================================
+   v1.9 Paket 1 (oyuncu testi 2026-11-17): borç, rehber kilidi, YENİ! rozetleri, yıldız kartı, açılanlar
+   ========================================================================== */
+.res-text.neg { color: rgb(200, 52, 40); }
+.res.debt { border-color: rgb(200, 52, 40); }
+.zone-tag.debt .zone-cost { background-color: rgb(212, 85, 58); }
+.zone-tag.debt .zone-cost-text { color: rgb(251, 243, 226); }
+.station-tag-depot { width: 18px; height: 18px; margin-left: 5px; flex-shrink: 0; -unity-background-scale-mode: scale-to-fit; display: none; }
+.tut-locked { opacity: 0.4; }
+.star-card { left: auto; right: 12px; top: 92px; width: 340px; }
+.tab-new, .item-new {
+    position: absolute; font-size: 11px; -unity-font-style: bold; padding: 1px 6px 2px 6px; color: rgb(251, 243, 226);
+    background-color: rgb(212, 85, 58); border-width: 2px; border-color: var(--ink); white-space: nowrap;
+    border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
+}
+.tab-new { top: -12px; right: -4px; rotate: 6deg; }
+.item-new { top: -9px; left: 8px; rotate: -4deg; }
+.up-hint { font-size: 12px; color: var(--muted); white-space: normal; margin-top: 1px; }
+.unlocks.compact { flex-wrap: wrap; max-width: 600px; margin: 6px 0 10px 0; }
+.unlocks.compact > .unl { width: 108px; padding: 6px 4px; margin: 3px 4px; }
+.unlocks.compact .unl-img { width: 50px; height: 50px; margin: 0 0 4px 0; }
+.unlocks.compact .unl-name { font-size: 13px; white-space: normal; }
+.unlocks.compact .unl-tag { font-size: 10px; padding: 1px 5px; }

@@ -210,9 +210,12 @@ namespace Taverna
         public static float TipFromStars => 1f + Balance.TipPerStar * (Stars - 1f);
         public static float SpawnFromStars => 0.7f + 0.15f * Stars;
 
+        /// <summary>v1.9: altın yetmeyince gösterilen metin; borçluyken "Önce borcu öde".</summary>
+        public static string NoGoldText => GameState.InDebt ? Loc.T("Önce borcu öde") : Loc.T("Yeterli altın yok");
+
         public static string BuyMessage(BuyResult r, int level = 0, string zone = "") => r switch
         {
-            BuyResult.NoMoney => Loc.T("Yeterli altın yok"),
+            BuyResult.NoMoney => NoGoldText,
             BuyResult.LevelLow => Loc.F("Seviye {0} gerekli", level),
             BuyResult.ZoneLocked => Loc.F("Önce {0} açılmalı", zone),
             BuyResult.Owned => Loc.T("Zaten var"),

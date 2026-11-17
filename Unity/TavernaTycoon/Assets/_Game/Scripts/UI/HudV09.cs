@@ -69,7 +69,6 @@ namespace Taverna
                 pip.AddToClassList("tut-pip");
                 _tutPips.Add(pip);
             }
-            _root.Q<Button>("tut-skip").clicked += () => { Tutorial.Skip(); Sfx.Play(SfxId.Pop); };
             Tutorial.Changed += OnTutorialChanged;
 
             // --- Ad değiştirme (Ayarlar › Taverna)
@@ -82,7 +81,7 @@ namespace Taverna
             _root.Q<Button>("rename-coins").clicked += () =>
             {
                 if (!ValidName(out var n)) return;
-                if (!GameState.TrySpend(Balance.RenameCost)) { Toast(Loc.T("Yeterli altın yok")); return; }
+                if (!GameState.TrySpend(Balance.RenameCost)) { Toast(Management.NoGoldText); return; }
                 ApplyName(n);
             };
             _root.Q<Button>("rename-ad").clicked += () =>
@@ -131,7 +130,7 @@ namespace Taverna
             {
                 _wageWarnDay = GameState.Data.day;
                 long w = Management.DailyWages;
-                if (w > 0 && GameState.Coins < w) Toast(Loc.F("Gün sonu maaş: {0} altın · kasada tut, yoksa personel küser", FormatNum(w)));
+                if (w > 0 && GameState.Coins < w) Toast(Loc.F("Gün sonu maaş: {0} altın · yetmezse borç olur, personel küser", FormatNum(w)));
             }
             if (_signPoint)
             {
@@ -213,13 +212,14 @@ namespace Taverna
             }
             Line(Loc.T("Gelir"), $"+{FormatNum(r.income)}", "");
             Line(Loc.T("Maaşlar"), $"−{FormatNum(r.wages)}", "neg");
-            if (r.unpaid > 0) Line(Loc.T("Ödenemeyen maaş"), $"−{FormatNum(r.unpaid)}", "neg");
-            long net = r.income - r.wages;
+            if (r.unpaid > 0) Line(Loc.T("Borca yazılan maaş"), $"−{FormatNum(r.unpaid)}", "neg");   // v1.9: ödenmeyen maaş borç olur
+            long net = r.income - r.wages - r.unpaid;
             Line(Loc.T("Net kazanç"), (net >= 0 ? "+" : "−") + FormatNum(System.Math.Abs(net)), net >= 0 ? "pos" : "neg");
-            Line(Loc.T("Kasadaki altın"), FormatNum(GameState.Coins), "");
+            Line(GameState.InDebt ? Loc.T("Borç") : Loc.T("Kasadaki altın"), FormatNum(GameState.Coins), GameState.InDebt ? "neg" : "");
             _dayendChips.Clear();
             var chipsText = new List<string> { Loc.F("{0} servis", r.served), $"★ {r.stars:0.#}", Loc.F("Sv {0}", GameState.Level) };
             if (r.unpaid > 0) chipsText.Add(Loc.T("Personel yarın küskün (−%20 hız)"));
+            if (GameState.InDebt) chipsText.Add(Loc.T("Borç bitene kadar satın alma kapalı"));
             foreach (var c in chipsText)
             {
                 var chip = new Label(c);
@@ -314,7 +314,7 @@ namespace Taverna
             var t = Tutorial.Target;
             if (Tutorial.UiTarget != null)
             {
-                var b = _root.Q<Button>(Tutorial.UiTarget).worldBound;
+                var b = _root.Q<Button>(TutorialFocus()).worldBound;   // v1.9: dükkân açıksa içindeki karşılığı
                 var c = _root.WorldToLocal(b.center);
                 hole = new Rect(c.x - 60f, c.y - 60f, 120f, 120f);
             }
@@ -367,17 +367,11 @@ namespace Taverna
             int owned = Automation.OwnedCount;
             _shopNote.text = Loc.F("USTA · {0}/{1} otomasyon", owned, Automation.List.Length) + (Automation.UstaOpen ? Loc.T(" · Usta geliştirmeleri açık") : Loc.T(" · ilk otomasyonla Usta geliştirmeleri açılır"));
             AddShopSection(Loc.T("OTOMASYON"));
-            foreach (var d in Automation.List)
-            {
-                var dd = d;
-                var can = Automation.CanBuy(d);
-                string sub = can == Management.BuyResult.Owned ? Loc.F("Açık · {0}", Loc.T(d.desc)) : can == Management.BuyResult.LevelLow ? Loc.F("Seviye {0}{1} açılır · {2}", d.level, Locative(d.level), Loc.T(d.desc)) : Loc.T(d.desc);
-                AddShopItem(KitIcon(d.icon), Loc.T(d.name), sub, can, d.price, false, () => Automation.Buy(dd), d.level, "");
-            }
+            foreach (var d in Automation.List) AddAutomationItem(d);   // v1.9: altın ya da elmas (HudV19)
             if (!Automation.UstaOpen) return;
             AddShopSection(Loc.T("USTA GELİŞTİRMELERİ"));
-            AddUstaItem("gelir", Loc.T("Altın Kese"), Loc.F("Tüm gelir +%{0} (kalıcı)", Mathf.RoundToInt(Automation.UstaIncomePerLv * 100)), Automation.UstaIncomeLv, "coin");
-            AddUstaItem("musteri", Loc.T("Ünlü Taverna"), Loc.F("Müşteri sıklığı +%{0} (kalıcı)", Mathf.RoundToInt(Automation.UstaGuestPerLv * 100)), Automation.UstaGuestLv, "horn");
+            AddUstaItem("gelir", Loc.T("Altın Kese"), Loc.F("Her satış ve bahşiş +%{0}, kalıcı · şu an +%{1}", Mathf.RoundToInt(Automation.UstaIncomePerLv * 100), Mathf.RoundToInt(Automation.UstaIncomeLv * Automation.UstaIncomePerLv * 100)), Automation.UstaIncomeLv, "coin");
+            AddUstaItem("musteri", Loc.T("Ünlü Taverna"), Loc.F("Müşteri daha sık gelir +%{0}, kalıcı · şu an +%{1}", Mathf.RoundToInt(Automation.UstaGuestPerLv * 100), Mathf.RoundToInt(Automation.UstaGuestLv * Automation.UstaGuestPerLv * 100)), Automation.UstaGuestLv, "horn");
         }
 
         void AddUstaItem(string which, string name, string effect, int lv, string icon)
@@ -394,6 +388,8 @@ namespace Taverna
         {
             _settings.Hide();
             _root.Q<Button>("rename-ad").EnableInClassList("hidden", !Services.RewardedAdsEnabled);   // v1.6: reklam yoksa yalnızca altınla
+            _renameGems.EnableInClassList("last", !Services.RewardedAdsEnabled);   // v1.9: elmas seçeneği; reklam gizliyse sıranın sonu
+            _renameGems.EnableInClassList("locked", GameState.Data.gems < Balance.RenameGems);
             _renameField.value = GameState.TavernName;
             RefreshRename();
             Show(_renameRoot);

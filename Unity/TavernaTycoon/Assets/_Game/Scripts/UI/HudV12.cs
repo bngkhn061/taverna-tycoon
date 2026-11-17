@@ -39,6 +39,7 @@ namespace Taverna
             {
                 Sfx.Play(SfxId.Pop);
                 _happyCard.ToggleInClassList("hidden");
+                _starCard.AddToClassList("hidden");   // v1.9: iki açıklama kartı üst üste binmesin
                 RefreshHappyCard();
             };
             _gemPill = _root.Q("gem-pill");
@@ -165,7 +166,7 @@ namespace Taverna
                 Loc.F("Her müşteri puan verir: çabuk {0:0} · zamanında {1:0} · geç {2:0} · kızgın {3:0}\n", Happiness.FastScore, Happiness.NormalScore, Happiness.SlowScore, Happiness.AngryScore) +
                 Loc.F("Mutluluk son müşterilerin ortalaması · Barlo'ya özel: {0:0}, iki kez sayılır\n", Happiness.SpecialScore) +
                 Loc.F("Kirli masa: masa başına −{0:0} (en fazla −{1:0}) · şu an −{2:0}\n", Happiness.DirtyPenaltyPerTable, Happiness.MaxDirtyPenalty, Happiness.DirtyPenalty) +
-                Loc.F("Şu an %{0}: müşteri gelişi ×{1:0.0#}\n", Mathf.RoundToInt(Happiness.Value), Happiness.SpawnMultiplier) +
+                Loc.F("Şu an %{0}: müşteri gelişi ×{1:0.0#} (mutluluk müşteri sayısını çarpar)\n", Mathf.RoundToInt(Happiness.Value), Happiness.SpawnMultiplier) +
                 Loc.F("Toplam müşteri çarpanı ×{0:0.0#} (en fazla ×{1:0})\n", CustomerSpawner.BoostMultiplier, Balance.SpawnBoostCap) +
                 Loc.T("★ yıldızlar ayrı: ambiyansla artar, zengin müşteri ve bahşiş getirir.");
         }

@@ -5,9 +5,10 @@ namespace Taverna
 {
     /// <summary>
     /// İlk oyun rehberi v2 (v1.2, mockup design/ui/ui_v12_akis.html R1–R3; oyuncu testi: "oyun hemen akmamalı,
-    /// görevleri, dükkânı inceletmeli, butonlar sonradan açılmalı"). 9 adım, her biri oyuncu yapınca geçer; atlanabilir.
-    /// İlk dört adımda gün saati ve yoğun saat durur (v1.4: sonra akar), ilk müşteri ancak bardak dolunca gelir ve en fazla 2 müşteri olur.
-    /// Buton adımları 25 gerçek saniyede kendiliğinden geçer (v1.4).
+    /// görevleri, dükkânı inceletmeli, butonlar sonradan açılmalı"). 9 adım, her biri oyuncu yapınca geçer.
+    /// v1.9 (oyuncu testi 2026-11-17 madde 11 "öğretici zorunlu olsun"): atlanamaz, buton adımları kendiliğinden geçmez
+    /// (v1.4'ün 25 sn kuralı kalktı), rehber sürerken yalnızca gösterilen HUD butonu ve dükkân sekmesi tıklanır (<see cref="AllowsUi"/>).
+    /// İlk dört adımda gün saati ve yoğun saat durur; buton adımlarında zaman akar ama yeni müşteri gelmez (<see cref="AllowsSpawn"/>).
     /// Yan butonlar adım adım açılır (<see cref="Reveals"/>). Görünüm HudController (karartma, halka, Barlo kartı).
     /// </summary>
     public static class Tutorial
@@ -29,21 +30,11 @@ namespace Taverna
         /// <summary>Adım → bu adımla açılan yan buton (HUD element adı).</summary>
         public const int StepQuests = 4, StepShop = 6, StepStaff = 7, StepDepot = 8;
 
-        /// <summary>
-        /// v1.4: HUD butonu gösteren adım (Görevler, Dükkân, Personel, Depo) oyuncu basmazsa bu kadar gerçek saniye sonra
-        /// kendiliğinden geçer; rehber her durumda biter.
-        /// </summary>
-        public const float UiStepAutoSeconds = 25f;
-
         public static int Step { get; private set; } = -1;
         public static bool Active => Step >= 0 && Step < StepCount;
         public static event Action Changed;
 
-        /// <summary>Test günlüğü: kendiliğinden geçen adım sayısı.</summary>
-        public static int AutoAdvanced { get; private set; }
-
         static bool _served, _coins, _quests, _shop, _staff, _depot;
-        static float _stepT;
         /// <summary>v1.6 ölçüm: rehberin ve adımın başladığı gerçek zaman (Time.realtimeSinceStartup).</summary>
         static float _startReal, _stepStartReal;
 
@@ -51,8 +42,6 @@ namespace Taverna
         public static void Begin()
         {
             _served = _coins = _quests = _shop = _staff = _depot = false;
-            _stepT = 0f;
-            AutoAdvanced = 0;
             Step = !GameState.Data.tutorialDone && GameState.Level <= 1 ? 0 : -1;
             _startReal = _stepStartReal = Time.realtimeSinceStartup;
             if (Step == 0) Services.Track("tutorial_start");
@@ -70,13 +59,6 @@ namespace Taverna
         public static void OnStaffOpened() => _staff = true;
         public static void OnDepotOpened() => _depot = true;
 
-        /// <summary>Oyuncu rehberi atladı (ölçüm: tutorial_skip, hangi adımda).</summary>
-        public static void Skip()
-        {
-            if (Active) Services.Track("tutorial_skip", ("adim", Step + 1), ("sure_sn", Time.realtimeSinceStartup - _startReal));
-            Finish();
-        }
-
         static void Finish()
         {
             Step = StepCount;
@@ -85,18 +67,17 @@ namespace Taverna
             Changed?.Invoke();
         }
 
-        static void Next(bool auto = false)
+        static void Next()
         {
             float now = Time.realtimeSinceStartup;
-            // v1.6 ölçüm: biten adım (1 tabanlı), kendiliğinden mi geçti, kaç gerçek saniye sürdü
-            Services.Track("tutorial_step", ("adim", Step + 1), ("kendiliginden", auto), ("sure_sn", now - _stepStartReal));
+            // v1.6 ölçüm: biten adım (1 tabanlı), kaç gerçek saniye sürdü. v1.9: adımlar kendiliğinden geçmez, "kendiliginden" alanı kalktı
+            Services.Track("tutorial_step", ("adim", Step + 1), ("sure_sn", now - _stepStartReal));
             _stepStartReal = now;
             Step++;
-            _stepT = 0f;
             Sfx.Play(SfxId.Claim, 1.2f);
             if (Step >= StepCount)
             {
-                Services.Track("tutorial_complete", ("toplam_sure_sn", now - _startReal), ("kendiliginden_gecen", AutoAdvanced));
+                Services.Track("tutorial_complete", ("toplam_sure_sn", now - _startReal));
                 Finish();
             }
             else Changed?.Invoke();
@@ -111,8 +92,33 @@ namespace Taverna
         /// </summary>
         public static bool HoldsTime => Active && Step < StepQuests;
 
-        /// <summary>Rehberde müşteri gelişi: oyuncu fıçıya varana kadar hiç, sonra en fazla 2 müşteri.</summary>
-        public static bool AllowsSpawn => !Active || Step >= StepQuests || (Step >= 1 && Customer.All.Count < 2);   // fıçı ancak sipariş varken bardak verir
+        /// <summary>
+        /// Rehberde müşteri gelişi: oyuncu fıçıya varana kadar hiç, sonra servis adımlarında en fazla 2 müşteri.
+        /// v1.9: buton adımlarında (Görevler'den sonra) yeni müşteri gelmez — oyuncu butonları incelerken oyun ilerlemez,
+        /// içerideki müşteriler oturup gider. Rehber bitince akış normale döner.
+        /// </summary>
+        public static bool AllowsSpawn => !Active || (Step >= 1 && Step < StepQuests && Customer.All.Count < 2);   // fıçı ancak sipariş varken bardak verir
+
+        /// <summary>
+        /// v1.9: rehber sürerken bu HUD butonuna / dükkân sekmesine dokunulabilir mi? Yalnızca adımın hedefi (Personel adımında
+        /// dükkânın Personel sekmesi de) ve panel kapatma düğmeleri açık. Ayarlar (ses, dil) her zaman açık.
+        /// </summary>
+        public static bool AllowsUi(string name)
+        {
+            if (!Active || string.IsNullOrEmpty(name)) return true;
+            if (name == UiTarget) return true;
+            if (Step == StepStaff && name == "tab-staff") return true;
+            return !IsGatedUi(name);
+        }
+
+        /// <summary>Rehberde kilitlenen HUD butonları ve dükkân sekmeleri.</summary>
+        public static bool IsGatedUi(string name) => name.StartsWith("tab-") || System.Array.IndexOf(GatedButtons, name) >= 0;
+
+        static readonly string[] GatedButtons =
+        {
+            "open-quests", "open-shop", "open-staff", "open-depot", "open-shop-plus", "happy-pill", "helper-btn", "event-btn", "upgrade-cta",
+            "stars",
+        };
 
         static DrinkStation Beer => DrinkStation.All.Find(s => s && s.drink && s.drink.id == DrinkId.Bira);
 
@@ -148,12 +154,6 @@ namespace Taverna
         public static void Tick()
         {
             if (!Active) return;
-            // v1.4: buton adımı oyuncu basmasa da süre dolunca geçer (gerçek saniye; hızlandırılmış testte de aynı)
-            if (UiTarget != null)
-            {
-                _stepT += Time.unscaledDeltaTime;
-                if (_stepT >= UiStepAutoSeconds) { AutoAdvanced++; Next(true); return; }
-            }
             var p = PlayerController.I;
             if (!p) return;
             switch (Step)

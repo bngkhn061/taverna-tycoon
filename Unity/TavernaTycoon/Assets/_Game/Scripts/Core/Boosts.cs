@@ -21,13 +21,21 @@ namespace Taverna
             public bool hot;
         }
 
+        /// <summary>
+        /// v1.9 (oyuncu testi madde 13, 23 "elmasla oyun çabuk bitiyor, hızlandır pahalansın"): fiyatlar ×2.5–3.
+        /// v1.8'de ilk saatte ≈ 50 elmas toplanıyordu (5 kez ×2 gelir = ilk saatin neredeyse tamamı ×2); v1.9'da ≈ 25 elmas,
+        /// ilk saatte en fazla bir ×2 gelir (GAME_DESIGN.md §8.2 tablo).
+        /// </summary>
         public static readonly Offer[] Offers =
         {
-            new() { id = "x2", name = Loc.N("10 dk ×2 Gelir"), icon = "ParaYigini", gems = 10, hot = true },
-            new() { id = "refill", name = Loc.N("Anında Dolum"), icon = "Bira", gems = 5 },
-            new() { id = "rush", name = Loc.N("Yoğun Saati Başlat"), icon = "EjderAtesi", gems = 8 },
-            new() { id = "coins", name = Loc.N("Altın Kesesi"), icon = "Para", gems = 15 },
+            new() { id = "x2", name = Loc.N("10 dk ×2 Gelir"), icon = "ParaYigini", gems = 30, hot = true },
+            new() { id = "refill", name = Loc.N("Anında Dolum"), icon = "Bira", gems = 15 },
+            new() { id = "rush", name = Loc.N("Yoğun Saati Başlat"), icon = "EjderAtesi", gems = 20 },
+            new() { id = "coins", name = Loc.N("Altın Kesesi"), icon = "Para", gems = 40 },
         };
+
+        /// <summary>v1.9: "Sen yokken" kazancını ×2 yapmanın elması (v1.8: 5).</summary>
+        public const int OfflineDoubleGems = 12;
 
         /// <summary>v1.1 (oyuncu testi "15 elmasa çok altın veriyor"): erken seviyede küçük, ilerledikçe hızlanır (Sv1 160, Sv5 770, Sv10 2000).</summary>
         public static long CoinPackAmount => 100L + (long)(60f * Mathf.Pow(GameState.Level, 1.5f));
@@ -64,8 +72,10 @@ namespace Taverna
             }
         }
 
+        /// <summary>Günlük ödül: altın seviyeyle; elmas 1–4, 7. gün <see cref="DailyWeekGems"/> (v1.9: 10 → 8).</summary>
         public static (long coins, int gems) DailyReward(int streak) =>
-            (40L * streak * Mathf.Max(1, GameState.Level), streak >= 7 ? 10 : 1 + streak / 2);
+            (40L * streak * Mathf.Max(1, GameState.Level), streak >= 7 ? DailyWeekGems : 1 + streak / 2);
+        public const int DailyWeekGems = 8;
 
         public static (long coins, int gems) ClaimDaily()
         {
@@ -81,7 +91,7 @@ namespace Taverna
             return r;
         }
 
-        /// <summary>Seviye ödülü: her seviyede elmas (seviye atladın kartında gösterilir).</summary>
-        public static int LevelGemReward(int level) => 2 + level / 5;
+        /// <summary>Seviye ödülü: her seviyede elmas (seviye atladın kartında gösterilir). v1.9: 2 + Sv/5 → 1 + Sv/10 (Sv2–9 1, Sv10–19 2, Sv20+ 3).</summary>
+        public static int LevelGemReward(int level) => 1 + Mathf.Max(0, level) / 10;
     }
 }

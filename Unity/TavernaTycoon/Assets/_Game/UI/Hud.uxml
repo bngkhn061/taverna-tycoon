@@ -237,7 +237,6 @@
                     <ui:Label name="tut-text" text="" class="tut-text" />
                     <ui:VisualElement name="tut-pips" class="tut-pips" />
                 </ui:VisualElement>
-                <ui:Button name="tut-skip" text="ATLA" class="btn btn-paper btn-sm tut-skip" />
             </ui:VisualElement>
         </ui:VisualElement>
 

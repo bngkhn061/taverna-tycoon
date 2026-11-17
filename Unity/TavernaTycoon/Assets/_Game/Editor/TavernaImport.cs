@@ -55,9 +55,14 @@ namespace Taverna.EditorTools
             var a = (AudioImporter)assetImporter;
             var st = a.defaultSampleSettings;
             st.compressionFormat = AudioCompressionFormat.Vorbis;
-            if (assetPath.Contains("/music/")) { st.loadType = AudioClipLoadType.Streaming; st.quality = 0.5f; }
-            else if (assetPath.Contains("/amb/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.4f; }
+            // v1.9 (oyuncu testi "ses cızırtılı", Android + iPhone): müzik akış yerine sıkıştırılmış bellekte (akışla açılan Vorbis
+            // düşük uçlu cihazda dosya okuması gecikince boşluk / çıtırtı yapabiliyor; 3 parça ≈ 3 MB), ortam kalitesi 0.4 → 0.5,
+            // bütün klipler 44.1 kHz'e sabit (kaynaklar 44.1 kHz; platformun "optimize" seçimi yeniden örneklemesin).
+            if (assetPath.Contains("/music/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.5f; }
+            else if (assetPath.Contains("/amb/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.5f; }
             else { st.loadType = AudioClipLoadType.DecompressOnLoad; st.quality = 0.6f; }
+            st.sampleRateSetting = AudioSampleRateSetting.OverrideSampleRate;
+            st.sampleRateOverride = 44100;
             st.preloadAudioData = !assetPath.Contains("/music/");
             a.defaultSampleSettings = st;
             a.loadInBackground = assetPath.Contains("/music/");

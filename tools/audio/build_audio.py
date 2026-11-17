@@ -35,8 +35,22 @@ def load(name):
     return trim(np.frombuffer(raw, dtype=np.float32).astype(np.float64))
 
 
-def save(rel, x, peak=0.85, q=5):
+def edge_fade(x, fade_in=0.002, fade_out=0.005):
+    """v1.9: klip sıfırdan başlayıp sıfırda bitsin (başlangıçtaki / sondaki ani genlik telefonda tık sesi yapıyordu)."""
+    x = np.array(x, dtype=np.float64, copy=True)
+    a = min(len(x) // 4, int(fade_in * SR))
+    b = min(len(x) // 4, int(fade_out * SR))
+    if a > 0:
+        x[:a] *= np.linspace(0, 1, a)[:, None] if x.ndim == 2 else np.linspace(0, 1, a)
+    if b > 0:
+        x[-b:] *= np.linspace(1, 0, b)[:, None] if x.ndim == 2 else np.linspace(1, 0, b)
+    return x
+
+
+def save(rel, x, peak=0.85, q=5, fade=True):
     x = np.asarray(x, dtype=np.float64)
+    if fade:
+        x = edge_fade(x)
     m = np.max(np.abs(x)) or 1.0
     if peak:
         x = x * (peak / m)
@@ -366,7 +380,7 @@ def finish(mx, loop_s, wet, name, room=1.0):
     st = np.stack([highpass(st[:, 0], 75), highpass(st[:, 1], 75)], axis=1)
     st *= 0.12 / (np.sqrt(np.mean(st ** 2)) or 1)      # ~-18 dBFS RMS: üç parça aynı yükseklikte
     st = np.tanh(st / 0.9) * 0.9                        # yumuşak tepe sınırlayıcı
-    save(f"music/{name}", st, peak=0, q=4)
+    save(f"music/{name}", st, peak=0, q=4, fade=False)
     print("müzik", name, f"{loop_s:.1f}s")
 
 
@@ -662,27 +676,32 @@ def crowd(name, seconds, n_chat, n_laugh, n_clink):
     for _ in range(n_clink):
         ev.append((repitch(clinks[rng.integers(5)], rng.uniform(0.85, 1.15)), rng.uniform(0, seconds), rng.uniform(0.15, 0.35), rng.uniform(-0.9, 0.9)))
     st = stereo_scatter(L, ev, 0.35, damp=2600)
-    save(f"amb/{name}", st, 0.7, q=3)
+    save(f"amb/{name}", st, 0.7, q=3, fade=False)
     print("ortam", name)
 
 
 def fire(seconds=14):
+    """
+    v1.9: ocak döngüsü yeniden. v1.1 sürümü saniyede ~14 tane 1–4 ms'lik yüksek geçişli (2.5 kHz+) gürültü
+    çatırtısı + 0.8 tane sert patlama içeriyordu: ölçümde sn'de 46 dürtü, tepe/RMS 29.8 dB, q3 Vorbis. Oyunda en yüksek
+    ortam sesiydi (akşam 0.7) ve telefon hoparlöründe müziğin altında sürekli "cızırtı" gibi duyuluyordu.
+    Yeni: alçak uğultu + seyrek, yumuşak atakla (2 ms) başlayan, 0.5–1.4 kHz bantlı odun çıtırtıları, 5 kHz üstü kesik, q5.
+    """
     L = int(seconds * SR)
-    rumble = lowpass(rng.standard_normal(L + SR), 180) * 0.6
+    rumble = lowpass(rng.standard_normal(L + SR), 220) * 0.6
     rumble *= 1 + 0.3 * np.sin(2 * np.pi * 0.23 * np.arange(len(rumble)) / SR)
     ev = []
-    for _ in range(int(seconds * 14)):
-        n = int(rng.uniform(0.001, 0.004) * SR)
-        x = highpass(rng.standard_normal(n + 64), 2500)[:n] * np.exp(-np.arange(n) / (0.0008 * SR))
-        ev.append((x, rng.uniform(0, seconds), rng.uniform(0.2, 1.0) ** 2, rng.uniform(-0.3, 0.3)))
-    for _ in range(int(seconds * 0.8)):
-        n = int(0.03 * SR)
-        x = band(rng.standard_normal(n), rng.uniform(900, 2500), 0.5) * np.exp(-np.arange(n) / (0.006 * SR))
-        ev.append((x, rng.uniform(0, seconds), 1.2, rng.uniform(-0.3, 0.3)))
-    st = stereo_scatter(L, ev, 0.1, damp=7000, room=0.6)
-    st[:, 0] += loopify(rumble, L) * 0.4
-    st[:, 1] += loopify(rumble, L) * 0.4
-    save("amb/fire", st, 0.6, q=3)
+    for _ in range(int(seconds * 3)):
+        n = int(rng.uniform(0.012, 0.03) * SR)
+        t = np.arange(n) / SR
+        env = (1 - np.exp(-t / 0.002)) * np.exp(-t / 0.007)
+        x = band(rng.standard_normal(n), rng.uniform(500, 1400), 0.6) * env
+        ev.append((x, rng.uniform(0, seconds), rng.uniform(0.15, 0.45), rng.uniform(-0.3, 0.3)))
+    st = stereo_scatter(L, ev, 0.15, damp=4000, room=0.6)
+    st[:, 0] += loopify(rumble, L) * 0.5
+    st[:, 1] += loopify(rumble, L) * 0.5
+    st = np.stack([lowpass(st[:, 0], 5000), lowpass(st[:, 1], 5000)], axis=1)
+    save("amb/fire", st, 0.5, q=5, fade=False)   # döngü: kenar sönümü ek yerinde boşluk yapar
 
 
 def chirp(f0, n_ch=3):
@@ -704,7 +723,7 @@ def birds(seconds=16):
     st = stereo_scatter(L, ev, 0.2, damp=9000)
     wind = loopify(lowpass(rng.standard_normal(L + SR), 400) * (1 + 0.5 * np.sin(2 * np.pi * 0.07 * np.arange(L + SR) / SR)), L)
     st += wind[:, None] * 0.25
-    save("amb/day", st, 0.5, q=3)
+    save("amb/day", st, 0.5, q=3, fade=False)
 
 
 def crickets(seconds=16):
@@ -725,7 +744,7 @@ def crickets(seconds=16):
     st = stereo_scatter(L, ev, 0.3, damp=9000)
     wind = loopify(lowpass(rng.standard_normal(L + SR), 300) * (1 + 0.6 * np.sin(2 * np.pi * 0.05 * np.arange(L + SR) / SR)), L)
     st += wind[:, None] * 0.35
-    save("amb/night", st, 0.5, q=3)
+    save("amb/night", st, 0.5, q=3, fade=False)
 
 
 # ---------------------------------------------------------------- efektler
