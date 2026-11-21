@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1f8909889a3a479cb4efb2920b6de, type: 3}
+  m_Name: 31_HasatKoylusu
+  m_EditorClassIdentifier: Taverna.Game::Taverna.CustomerDef
+  number: 31
+  displayName: "Hasat K\xF6yl\xFCs\xFC"
+  modelPrefab: {fileID: 802799937397921840, guid: 13bd986153e47cd49b729b961e15f929, type: 3}
+  drinks: 14000000i
+  patienceStars: 4
+  payStars: 2
+  unlockLevel: 1
+  ordersPerVisit: 2
+  spawnWeight: 0
+  seasonal: 1

@@ -61,6 +61,7 @@ namespace Taverna
                 : Premium.TestStore ? Loc.T("TEST SÜRÜMÜ · gerçek ödeme alınmaz · fiyatlar örnek")
                 : Loc.T("Satın almalar hesaba bağlıdır · ilerlemek için gerekmez");
             AddVipCard();
+            AddWardrobe();   // v2.2 Gardırop (kostümler)
             if (Premium.StarterAvailable)
             {
                 var left = Premium.StarterLeft;

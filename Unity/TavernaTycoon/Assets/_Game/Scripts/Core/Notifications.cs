@@ -29,7 +29,7 @@ namespace Taverna
         public const int DailyDays = 1;
 
         /// <summary>Bildirim türü (kimlik ve test için).</summary>
-        public enum Kind { OfflineFull = 1, DailyReady = 2, Reminder = 3 }
+        public enum Kind { OfflineFull = 1, DailyReady = 2, Reminder = 3, SeasonStart = 4 }   // v2.2: sezon başladı
 
         /// <summary>Planlanmış tek bildirim (yerel saat; metinler etkin dilde).</summary>
         public struct Planned
@@ -52,7 +52,13 @@ namespace Taverna
         /// günlük ödül hazır (ertesi gün aynı saat), <see cref="ReminderDays"/> gün gelmeyince hatırlatma. Her biri sessiz saatlerden
         /// çıkarılır; zaman sırasıyla, aynı takvim gününe ikinci bildirim düşmez (günde en fazla bir). Geçmişe düşen olmaz.
         /// </summary>
-        public static List<Planned> Plan(DateTime nowLocal, int offlineCapMinutes)
+        public static List<Planned> Plan(DateTime nowLocal, int offlineCapMinutes) => Plan(nowLocal, offlineCapMinutes, null, null);
+
+        /// <summary>
+        /// v2.2: <paramref name="seasonStartLocal"/> verilirse sezon başlangıç bildirimi de aday olur (o günün diğer bildirimlerinin
+        /// önüne geçer; sessiz saat ve günde en fazla bir kuralı aynen geçerli). <paramref name="seasonName"/> çevrilmiş sezon adı.
+        /// </summary>
+        public static List<Planned> Plan(DateTime nowLocal, int offlineCapMinutes, DateTime? seasonStartLocal, string seasonName)
         {
             var cands = new List<Planned>
             {
@@ -63,12 +69,17 @@ namespace Taverna
                 new() { kind = Kind.Reminder, fireLocal = OutOfQuietHours(nowLocal.AddDays(ReminderDays)),
                         title = Loc.T("Barlo seni özledi"), text = Loc.T("Müşteriler kapıda bekliyor. Tavernaya bir uğra!") },
             };
+            if (seasonStartLocal.HasValue)
+                cands.Add(new Planned { kind = Kind.SeasonStart, fireLocal = OutOfQuietHours(seasonStartLocal.Value),
+                                        title = Loc.F("{0} başladı!", seasonName), text = Loc.T("Sezon menüsü, sezon müşterileri ve süsler tavernada. Jeton topla!") });
             cands.Sort((a, b) => a.fireLocal.CompareTo(b.fireLocal));
             var days = new HashSet<DateTime>();
+            var seasonDay = cands.Find(c => c.kind == Kind.SeasonStart).fireLocal.Date;   // sezon günü diğer bildirimlere kapalı
             var plan = new List<Planned>();
             foreach (var c in cands)
             {
                 if (c.fireLocal <= nowLocal) continue;
+                if (seasonStartLocal.HasValue && c.kind != Kind.SeasonStart && c.fireLocal.Date == seasonDay) continue;
                 if (!days.Add(c.fireLocal.Date)) continue;   // günde en fazla bir
                 plan.Add(c);
             }
@@ -92,7 +103,9 @@ namespace Taverna
         {
             CancelAll();
             if (!GameSettings.Notifications) return;
-            LastPlan = Plan(DateTime.Now, Offline.CapMinutes);
+            // v2.2: sıradaki sezonun başlangıcı (takvim; zorlanmış test tarihiyle değil, cihaz tarihiyle)
+            var start = Seasons.NextNotifyLocal(DateTime.Now, out var season);
+            LastPlan = Plan(DateTime.Now, Offline.CapMinutes, start, Loc.T(season.name));
             if (Debug.isDebugBuild)
                 foreach (var p in LastPlan) Debug.Log($"[Bildirim] plan {p.kind} {p.fireLocal:yyyy-MM-dd HH:mm} · {p.title} · {p.text}");
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR

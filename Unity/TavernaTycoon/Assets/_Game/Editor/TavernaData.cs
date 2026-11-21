@@ -39,6 +39,10 @@ namespace Taverna.EditorTools
             // v1.5 oyun sonu: en pahalı içecekten (Yıllanmış Şarap 80 / 12 sn) ve yemekten (Balık 50, Turta 14 sn) bir kademe yukarı
             (DrinkId.KralSerbeti, "KralSerbeti", Loc.N("Kral Şerbeti"), 95, 13f, 27, 10f),
             (DrinkId.SolenTabagi, "SolenTabagi", Loc.N("Şölen Tabağı"), 110, 15f, 29, 10f),
+            // v2.2 sezon içecekleri (sezon tezgâhı; GAME_DESIGN.md §16.2): ucuz ve hızlı, asıl ödül sezon jetonu
+            (DrinkId.ElmaSarabi, "ElmaSarabi", Loc.N("Elma Şarabı"), 8, 4f, 1, 1f),
+            (DrinkId.SicakSarap, "SicakSarap", Loc.N("Baharatlı Sıcak Şarap"), 9, 4f, 1, 1f),
+            (DrinkId.CicekSerbeti, "CicekSerbeti", Loc.N("Çiçek Şerbeti"), 8, 4f, 1, 1f),
         };
 
         public static readonly System.Collections.Generic.Dictionary<DrinkId, string> StationKey = new()
@@ -49,6 +53,7 @@ namespace Taverna.EditorTools
             { DrinkId.Ekmek, "Firin" }, { DrinkId.Guvec, "Kazan" }, { DrinkId.KozEt, "Mangal" }, { DrinkId.Turta, "Tatli" },
             { DrinkId.YillanmisSarap, "Yillanmis" }, { DrinkId.BalLikoru, "Likor" }, { DrinkId.GunBatimiPuncu, "Punc" }, { DrinkId.IzgaraBalik, "Balik" },
             { DrinkId.KralSerbeti, "Serbet" }, { DrinkId.SolenTabagi, "Solen" },
+            { DrinkId.ElmaSarabi, "SezonHasat" }, { DrinkId.SicakSarap, "SezonKis" }, { DrinkId.CicekSerbeti, "SezonBahar" },
         };
 
         static readonly DrinkId[] AllDrinks =
@@ -92,6 +97,14 @@ namespace Taverna.EditorTools
             (30, "KilikKral", Loc.N("Gizli Kral"), KingDrinks, 2, 5, 28, 1),
         };
 
+        /// <summary>v2.2 sezon müşterileri, Seasons.List sırasıyla (Hasat, Kış, Bahar).</summary>
+        static readonly (int no, string key, string name, DrinkId drink)[] SeasonCustomers =
+        {
+            (31, "HasatKoylusu", Loc.N("Hasat Köylüsü"), DrinkId.ElmaSarabi),
+            (32, "KisGezgini", Loc.N("Kış Gezgini"), DrinkId.SicakSarap),
+            (33, "BaharCicekcisi", Loc.N("Bahar Çiçekçisi"), DrinkId.CicekSerbeti),
+        };
+
         public static GameDatabase Build()
         {
             Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.dataPath, "..", DataDir, "Drinks")));
@@ -127,9 +140,23 @@ namespace Taverna.EditorTools
                 customers[i] = a;
             }
 
+            // v2.2 sezon müşterileri (Hasat / Kış / Bahar): sezon içeceğini ister, koleksiyon defterine girmez
+            var seasonal = new CustomerDef[SeasonCustomers.Length];
+            for (int i = 0; i < SeasonCustomers.Length; i++)
+            {
+                var c = SeasonCustomers[i];
+                var a = LoadOrCreate<CustomerDef>($"{DataDir}/Customers/{c.no:00}_{c.key}.asset");
+                a.number = c.no; a.displayName = c.name; a.drinks = new[] { c.drink }; a.patienceStars = 4;
+                a.payStars = 2; a.unlockLevel = 1; a.ordersPerVisit = 2; a.spawnWeight = 0f; a.seasonal = true;
+                a.modelPrefab = TavernaImport.Prefab($"CH_Cust_{c.no:00}_{c.key}");
+                EditorUtility.SetDirty(a);
+                seasonal[i] = a;
+            }
+
             var db = LoadOrCreate<GameDatabase>($"{TavernaImport.Root}/Resources/GameDatabase.asset");
             db.drinks = drinks;
             db.customers = customers;
+            db.seasonCustomers = seasonal;
             db.coinPrefab = TavernaImport.Prefab("PR_Drink_Para");
             db.coinIcon = TavernaImport.Icon("Para");
             db.gemIcon = TavernaImport.Icon("Elmas");

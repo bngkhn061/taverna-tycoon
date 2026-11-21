@@ -83,6 +83,8 @@ namespace Taverna
             public float ambiance;
             /// <summary>v1.0: sadece Hazine'den (gerçek para) alınır.</summary>
             public bool premium;
+            /// <summary>v2.2 kalıcı sezon dekoru: altınla satılmaz (premium da true), <see cref="price"/> sezon jetonu bedelidir (Seasons.BuyDecor).</summary>
+            public bool seasonal;
         }
 
         /// v1.8: flama 120→80, fıçı 150→80, kalkan 220→150, boynuz 260→170, avize 420→250, mühür 3.000→1.500 (geri ödeme tahmini 20–33 gündü).
@@ -103,6 +105,13 @@ namespace Taverna
             // v2.0 (oyuncu testi madde 21): bahçe dekoru — taş patika (ambiyans) ve gece ışık veren bahçe feneri (yakılması gerekmez)
             new() { id = "dec_tasyol", name = Loc.N("Taş Yol"), icon = "DEC_TasYol", prefab = "PR_Decor_TasYol", level = 8, price = 120, ambiance = 3 },
             new() { id = "dec_bahcefener", name = Loc.N("Bahçe Feneri"), icon = "DEC_BahceFeneri", prefab = "PR_Decor_BahceFeneri", level = 9, price = 300, ambiance = 6 },
+            // v2.2 kalıcı sezon dekoru (sezon jetonuyla, yalnızca kendi sezonunda; sezon bitince de kalır). price = jeton.
+            new() { id = "dec_kabakfener", name = Loc.N("Kabak Fenerleri"), icon = "DEC_KabakFener", prefab = "PR_Decor_KabakFener", level = 1, price = 60, ambiance = 6, premium = true, seasonal = true },
+            new() { id = "dec_basak", name = Loc.N("Başak Demeti"), icon = "DEC_BasakDemeti", prefab = "PR_Decor_BasakDemeti", level = 1, price = 45, ambiance = 5, premium = true, seasonal = true },
+            new() { id = "dec_kardanadam", name = Loc.N("Kardan Adam"), icon = "DEC_KardanAdam", prefab = "PR_Decor_KardanAdam", level = 1, price = 60, ambiance = 6, premium = true, seasonal = true },
+            new() { id = "dec_suslucam", name = Loc.N("Süslü Çam"), icon = "DEC_SusluCam", prefab = "PR_Decor_SusluCam", level = 1, price = 80, ambiance = 8, premium = true, seasonal = true },
+            new() { id = "dec_cicekaraba", name = Loc.N("Çiçek Arabası"), icon = "DEC_CicekAraba", prefab = "PR_Decor_CicekAraba", level = 1, price = 70, ambiance = 7, premium = true, seasonal = true },
+            new() { id = "dec_kusevi", name = Loc.N("Kuş Evi"), icon = "DEC_KusEvi", prefab = "PR_Decor_KusEvi", level = 1, price = 45, ambiance = 5, premium = true, seasonal = true },
         };
 
         public static Decor FindDecor(string id) => System.Array.Find(DecorList, d => d.id == id);

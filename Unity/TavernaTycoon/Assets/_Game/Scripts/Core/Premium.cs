@@ -12,7 +12,7 @@ namespace Taverna
     /// </summary>
     public static class Premium
     {
-        public enum Kind { VipMonth, VipLife, Starter, Staff, Decor, Theme, Frame, Gems }
+        public enum Kind { VipMonth, VipLife, Starter, Staff, Decor, Theme, Frame, Gems, Costume }   // v2.2: Costume (Gardırop)
 
         public struct Product
         {
@@ -34,6 +34,12 @@ namespace Taverna
             new() { id = "dec_kristal", name = Loc.N("Kristal Avize"), desc = Loc.N("+25 puan"), price = "39,99 ₺", kind = Kind.Decor, grant = "dec_kristal", icon = "DEC_KristalAvize" },
             new() { id = "dec_ejder", name = Loc.N("Ejder Heykeli"), desc = Loc.N("+30 puan"), price = "59,99 ₺", kind = Kind.Decor, grant = "dec_ejder", icon = "DEC_EjderHeykeli" },
             new() { id = "frame_kraliyet", name = Loc.N("Kraliyet Tabela Çerçevesi"), desc = Loc.N("Altın tabela · +10 puan"), price = "29,99 ₺", kind = Kind.Frame, icon = "Prem_Cerceve" },
+            // v2.2 Gardırop: Hazine kostümleri (yalnızca görünüm; Costumes)
+            new() { id = "cos_barlo_korsan", name = Loc.N("Korsan Kostümü"), desc = Loc.N("Barlo · yalnızca görünüm"), price = "49,99 ₺", kind = Kind.Costume, grant = "barlo_korsan", icon = "Cos_Barlo_Korsan" },
+            new() { id = "cos_barlo_sovalye", name = Loc.N("Şövalye Kostümü"), desc = Loc.N("Barlo · yalnızca görünüm"), price = "59,99 ₺", kind = Kind.Costume, grant = "barlo_sovalye", icon = "Cos_Barlo_Sovalye" },
+            new() { id = "cos_pip_yelek", name = Loc.N("Zarif Yelek"), desc = Loc.N("Garson Pip · yalnızca görünüm"), price = "29,99 ₺", kind = Kind.Costume, grant = "pip_yelek", icon = "Cos_Pip_Yelek" },
+            new() { id = "cos_gus_usta", name = Loc.N("Şık Barmen"), desc = Loc.N("Barmen Gus · yalnızca görünüm"), price = "29,99 ₺", kind = Kind.Costume, grant = "gus_usta", icon = "Cos_Gus_Usta" },
+            new() { id = "cos_ayla_sef", name = Loc.N("Büyük Şef"), desc = Loc.N("Aşçı Ayla · yalnızca görünüm"), price = "29,99 ₺", kind = Kind.Costume, grant = "ayla_sef", icon = "Cos_Ayla_Sef" },
             new() { id = "gems_100", name = Loc.N("100 Elmas"), desc = "", price = "29,99 ₺", kind = Kind.Gems, gems = 100, icon = "Kit:gem" },
             new() { id = "gems_550", name = Loc.N("550 Elmas"), desc = "+%10", price = "129,99 ₺", kind = Kind.Gems, gems = 550, icon = "Kit:gem" },
             new() { id = "gems_1200", name = Loc.N("1.200 Elmas"), desc = Loc.N("+%20 · EN İYİ"), price = "249,99 ₺", kind = Kind.Gems, gems = 1200, icon = "Kit:gem" },
@@ -192,6 +198,9 @@ namespace Taverna
                     break;
                 case Kind.Decor:
                     GiveDecor(p.grant);
+                    break;
+                case Kind.Costume:
+                    Costumes.GrantFromStore(p.id);   // v2.2: kostüm verilir ve giyilir
                     break;
                 case Kind.Theme:
                     foreach (var tid in new[] { "zemin_altin", "duvar_altin" })

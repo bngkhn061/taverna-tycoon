@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v2.1** (2026-11-21, oyuncu testi Paket 3, maddeler 10 ve 25: Barlo'nun kendi yetenekleri — koşu hızı, taşıma, servis ve para menzili; gerçek bir son — 3. tavernada "Krala Davet", son sahne, jenerik, serbest oyun ve "Efsanevi Han" rozeti; ayrıntı §15).
+> Sürüm: **v2.2** (2026-11-21, Paket 4 — sahibin seçtiği eklemeler: sezonluk etkinlikler (Hasat Şenliği, Kış Festivali, Bahar Bayramı; süreli menü, süsleme, müşteri, sezon jetonu, görevler, kalıcı sezon dekoru) ve Barlo ile personelin kostümleri (Gardırop); ayrıntı §16).
+> Önceki: v2.1 (2026-11-21, oyuncu testi Paket 3, maddeler 10 ve 25: Barlo'nun kendi yetenekleri — koşu hızı, taşıma, servis ve para menzili; gerçek bir son — 3. tavernada "Krala Davet", son sahne, jenerik, serbest oyun ve "Efsanevi Han" rozeti; ayrıntı §15).
 > Önceki: v2.0 (2026-11-17, oyuncu testi Paket 2, maddeler 14, 15, 17–21: kademe avizeleri kalktı ve avizeler küçüldü, gün sonu kapanışı ve personelin işe gidip gelmesi, bahçe uzun masası, sahnede çalan ozan, bahçe feneri ve taş yol, han konfor seviyeleri, 2 yeni oda ve 2 yeni oyun masası; ayrıntı §14).
 > Önceki: v1.9 (2026-11-17, oyuncu testi Paket 1, `production/qa/playtests/feedback-2026-11-17.md`: yükseltme satırları, ses karışımı, hedef kutusu, salon garsonları, zorunlu rehber, durum görevleri, açıklamalar, seviye kartında açılanlar ve "YENİ!" rozetleri, maaş borcu, elmaslı otomasyon, elmas ekonomisi).
 > Önceki: v1.8 (2026-11-16, son denge geçişi + cila: ölçülmüş Ün tablosu, müşteri / sabır / içme süresi, maaş, etkinlik fiyatı, özel sipariş, Kral Şerbeti, prestij Ün'ü; `design/balance/balance-check-final-2026-11-12.md`).
@@ -559,4 +560,58 @@ Oyuncunun karakteri için dört kalıcı yükseltme, her biri **5 seviye**, alt�
 ### 15.3 Test altyapısı
 - Bot `-autotest-v21 barlo` (`-autotest-start-level 3` / `15` ile): Personel sekmesi önce / sonra, açık seviyelerin hepsi alınır, ölçülen hız (ışınlanma süzgeçli 1 sn pencere), tepsi, servis ve toplama mesafesi; Sv3'te bir sonraki seviyenin kartı ve "YENİ!" rozeti.
 - Bot `-autotest-v21 ending` (`-autotest-start-level 30 -autotest-tier 2` ile; bot şubeyi 2 yapar, bütün alanları açar): hedef kutusu, Krala Davet kartı, altı aşamanın her biri, jenerik (dokunuşla geçilir), serbest oyunda şube kartı, Ayarlar, Barlo kartları ve 30+ sn oyun. Sonraki koşunun ana menü görüntüsü (`app_menu.png`) kalıcı rozeti gösterir.
+
+## 16. v2.2 Paket 4 (sahibin seçtiği eklemeler: sezonluk etkinlikler ve kostümler)
+
+Kaynak: `production/qa/playtests/feedback-2026-11-17.md` › "Sahibinin seçtiği eklemeler". Kod: `Scripts/Core/Seasons.cs`, `Scripts/Core/Costumes.cs`,
+`Scripts/Gameplay/SeasonScenery.cs`, `Scripts/Gameplay/CostumeWearer.cs`, arayüz `Scripts/UI/HudV22.cs`; modeller `tools/blender/build_v22.py`.
+
+### 16.1 Sezon takvimi
+| Sezon | Takvim (cihazın yerel tarihi) | Sezon içeceği | Sezon müşterisi | Süsleme (kendiliğinden) | Kalıcı sezon dekoru (jeton) | Sezon kostümü (jeton) |
+|---|---|---|---|---|---|---|
+| **Hasat Şenliği** | 1 Eylül – 31 Ekim | Elma Şarabı | Hasat Köylüsü | saman balyası, kabaklar, başak, dökülen yapraklar | Kabak Fenerleri 60 (+6, gece yanar) · Başak Demeti 45 (+5) | Barlo · Hasat Çiftçisi 120 |
+| **Kış Festivali** | 1 Aralık – 31 Ocak | Baharatlı Sıcak Şarap | Kış Gezgini | kar yığınları, süslü çam, hediyeler | Kardan Adam 60 (+6) · Süslü Çam 80 (+8) | Barlo · Kış Festivali 120 |
+| **Bahar Bayramı** | 1 Nisan – 31 Mayıs | Çiçek Şerbeti | Bahar Çiçekçisi | çiçekli fıçı saksı, sulama kabı, kelebekler | Çiçek Arabası 70 (+7) · Kuş Evi 45 (+5) | Nana · Bahar Çiçeği 100 |
+
+- Sezon dışında (Şubat–Mart, Haziran–Ağustos, Kasım) hiçbir sezon öğesi yoktur: tezgâh, süsleme, sezon müşterisi, rozet, sekme, jeton görünmez. Kış sezonu yılı aşar; anahtarı başladığı yıldır (`winter-2026` = Aralık 2026 – Ocak 2027).
+- **Süsleme** takvim sürdükçe görünür (sokakta kapının iki yanı ve bahçe kapısı tarafı, Meyhane'nin ön sol köşesi ve sol duvarı). **Tezgâh, müşteri, jeton ve görevler** Sv2'den (etkinliklerle aynı) ve rehber bittikten sonra.
+- **Sezon tezgâhı** (geçici makine, en sade çözüm: mevcut makine sistemi): Meyhane'nin ön sağ köşesinde tekerlekli, çizgili tenteli tezgâh; depo malzemesi harcamaz, satın alınmaz, sezon bitince kalkar. Yükseltmeleri (hız / stok / kalite) normal makine gibi altınla; kayıtta kalır, gelecek yıl aynı sezonda geri gelir. Fiyat 8 / 9 / 8 altın, 4 sn (ucuz; asıl ödül jeton). Depo panelinde yer almaz, günlük görevler sezon içeceği istemez.
+- **Sezon müşterisi:** gelen müşterinin %15'i (tezgâh aynı kattaysa); oturuşta 2 sipariş, yalnızca sezon içeceği; sabır ★4, ödeme ★2. Koleksiyon defterine girmez. Sıradan müşteriler de siparişlerinin %12'sinde sezon içeceğini ister.
+- **Bildirim:** uygulama arka plana geçince sıradaki sezonun ilk günü 10:00 için "<Sezon> başladı!" planlanır (Ayarlar'daki düğme açıksa; sessiz saat 22:00–09:00 yok; günde en fazla bir bildirim — o gün diğer bildirimlerin önüne geçer). Oyun içinde sezonun ilk açılışında "<SEZON> BAŞLADI!" şeridi, konfeti ve "Sezon tezgâhı açıldı" bildirimi (sezon başına bir kez).
+
+### 16.2 Sezon jetonu (ekonomi)
+- **Kazanç:** sezon içeceği satışı başına 1 jeton (oyuncu ya da garson servis etsin) + sezon görevleri.
+- **Görevler** (sezon başına bir kez, toplam 100 jeton): sezon içeceğinden 25 sat (+30) · sezon müşterisine 10 kez servis (+25) · 150 müşteriye servis (+25) · sezonda 3 gün tamamla (+20).
+- **Harcama:** sezonun iki kalıcı dekoru (105–150) + sezon kostümü (100–120) = sezon başına 225–270 jeton. Görevler 100 getirir; kalanı ≈ 130–170 sezon içeceği satışı. Bot ölçümü (Sv6, ~110 oyun-sn): 7–12 jeton, sezon müşterisi 3–6 kez geldi → bir oyun günü (420 sn) ≈ 25–40 jeton; sezonun tamamı yaklaşık 4–6 oyun günü (≈ 30–45 dk oyun) ister; iki aylık sezona rahat yayılır, zorlamaz.
+- **Sona erme:** jetonlar sezona bağlıdır. Sezon bitince (ya da oyuncu bir sonraki sezonda dönünce) kullanılmamış jetonlar **sıfırlanır, sonraki sezona taşınmaz**. Bu, Sezon sekmesinde kırmızı uyarıyla sürekli yazılır; sezon bitince ilk açılışta pencere çıkar: "<Sezon> bitti: N sezon jetonu sona erdi. Jetonlar sonraki sezona taşınmaz." (+ "Aldığın sezon dekoru ve kostümleri kalıcıdır."). Görevler de yeni sezonda sıfırdan.
+- Kalıcı sezon dekoru normal dekor yuvalarına girer (Ana Salon cephesinin önü, sokakta; bölge şartı yok), ambiyans verir, sezon bittiğinde ve prestijte kalır. Dekor sekmesinde satılmaz (`Catalog.Decor.seasonal`, fiyatı jeton).
+
+### 16.3 Arayüz
+- **HUD:** etkinlik düğmesinin altında sezon renginde rozet ("HASAT ŞENLİĞİ · 42 gün", sezon ikonu; toplanacak görev varsa "!"). Dokununca Etkinlikler › Sezon sekmesi.
+- **Etkinlikler paneli:** sezon sürerken üstte iki sekme (Etkinlikler / <sezon adı>), içerik kaydırılabilir. Sezon sekmesi: başlık kartı (ad, takvim, kalan gün, jeton), sona erme uyarısı, sezon menüsü ve müşterisi, SEZON GÖREVLERİ (TOPLA / TOPLANDI), SEZON DEKORU · KALICI, SEZON KOSTÜMÜ, "GARDIROBA GİT".
+- **Ana menü:** logonun altında sezon renginde şerit ("KIŞ FESTİVALİ · 43 gün", ikonlu; Efsanevi Han rozeti varsa altında).
+
+### 16.4 Kostümler
+| Kostüm | Kimin | Edinim | Fiyat |
+|---|---|---|---|
+| Korsan (üç köşeli şapka, göz bandı, kaptan ceketi) | Barlo | Hazine | 49,99 ₺ |
+| Şövalye (sorguçlu miğfer, zırh) | Barlo | Hazine | 59,99 ₺ |
+| Kış Festivali (ponponlu kış şapkası, atkı) | Barlo | Kış Festivali jetonu | 120 jeton |
+| Hasat Çiftçisi (hasır şapka, tulum, başak) | Barlo | Hasat Şenliği jetonu | 120 jeton |
+| Kral'ın Dostu (mor bere, pelerin, madalyon) | Barlo | Ödül: son sahne ("Krala Davet", Efsanevi Han) görülünce | — |
+| Zarif Yelek | Garson Pip | Hazine | 29,99 ₺ |
+| Şık Barmen (silindir şapka, tek gözlük) | Barmen Gus | Hazine | 29,99 ₺ |
+| Büyük Şef (kocaman şef şapkası) | Aşçı Ayla | Hazine | 29,99 ₺ |
+| Bahar Çiçeği (çiçek tacı, pembe şal) | Temizlikçi Nana | Bahar Bayramı jetonu | 100 jeton |
+
+- **Yalnızca görünüm:** hız, kapasite, gelir değişmez. Aynı gövde (Blender'da mevcut karakter kurucuları + kıyafet / şapka parçaları; `CH_Costume_<ad>`), sahnede kendi modelinin yanında kapalı durur; giyilince açılır, oyuncak animasyonu ve tepsi aynen sürer.
+- **Gardırop:** Dükkân › Hazine sekmesinin başında (yeni sekme yok; dar ekranda 6 sekme sınırda). Kart: portre (dokununca büyük önizleme), "<kostüm> · <sahip>", edinim yolu, düğme: GİY / ÇIKAR / fiyat / YAKINDA / SEZONDA (kendi sezonu dışında) / ÖDÜL. Sahip başına bir kostüm; alınca kendiliğinden giyilir.
+- **"Yakında" kuralı:** Hazine kostümleri `Premium` ürünüdür (`Kind.Costume`); yayında gerçek mağaza yokken düğme "YAKINDA" ve devre dışı, istenirse "Mağaza yakında açılıyor" penceresi, ürün verilmez. Satın almaları geri yükle kostümleri de geri verir.
+- **Kayıt:** `costumes` (edinilen), `wornCostumes` ("sahip=kostüm"). Prestijte sıfırlanmaz; oyun boyunca, son sahnede (Barlo) ve ana menü dioramasında görünür.
+- Ölçüm: `costume_purchase`, `costume_equip`; sezon: `season_start`, `season_token`, `season_purchase` (`docs/services-integration.md`).
+
+### 16.5 Test altyapısı
+- `-autotest-season harvest|winter|spring|none` (geliştirme derlemesi): takvim o sezonun 20. gününe (none: 15 Temmuz) sabitlenir; ana menüde de geçerli.
+- Bot `-autotest-v22 season`: rozet ve duyuru, tezgâh ve süsleme, ~110 oyun-sn servis (sezon müşterisi, sezon içeceği siparişi, jeton), görev ödülü, dekor ve kostüm jetonla, Sezon sekmesi (üst ve alt), sahnede kostüm, sonra sezon bitişi (jeton sona erer, dekor ve kostüm kalır, pencere). `offseason`: hiçbir sezon öğesi yok. `wardrobe`: Gardırop, önizleme, Barlo ve dört personelin kostümü sahnede, ödül kostümü, çıkar; `-autotest-release-sim` ile Hazine kostümleri "YAKINDA".
+- Kanıt: `production/qa/evidence/2026-11-21-v22-*.png`, `2026-11-21-v22-log.txt`; birim testleri `Assets/Tests/EditMode/V22Tests.cs`.
 

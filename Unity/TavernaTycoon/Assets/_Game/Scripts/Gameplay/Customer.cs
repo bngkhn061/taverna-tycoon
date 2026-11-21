@@ -60,7 +60,7 @@ namespace Taverna
                 m.transform.localPosition = Vector3.zero;
                 if (!m.TryGetComponent(out _anim)) _anim = m.AddComponent<ToyAnimator>();
             }
-            GameState.MarkSeen(d.number);
+            if (!d.seasonal) GameState.MarkSeen(d.number);   // v2.2: sezon müşterisi koleksiyon defterine girmez
         }
 
         void Update()
@@ -127,12 +127,16 @@ namespace Taverna
                 foreach (var s in DrinkStation.All) if (SameFloor(s) && !s.drink.isFood) options.Add(s.drink.id);
             wanted = options.Count > 0 ? options[Random.Range(0, options.Count)] : DrinkId.Bira;
             // v1.8: Kral Şerbeti (Sv27) tavernanın imza içeceği — çeşme aynı kattaysa her müşteri ara sıra ister (eskiden yalnızca 3 nadir zengin)
-            if (Random.value < Balance.SignatureOrderChance)
+            if (!def.seasonal && Random.value < Balance.SignatureOrderChance)
                 foreach (var s in DrinkStation.All)
                     if (SameFloor(s) && s.drink.id == DrinkId.KralSerbeti) { wanted = DrinkId.KralSerbeti; break; }
             // v0.7: mutfak açıksa müşteriler ara sıra yemek ister (her siparişte %35)
             var foods = up ? new List<DrinkStation>() : DrinkStation.All.FindAll(s => s.drink && s.drink.isFood);
-            if (foods.Count > 0 && Random.value < Balance.FoodOrderChance) wanted = foods[Random.Range(0, foods.Count)].drink.id;
+            if (!def.seasonal && foods.Count > 0 && Random.value < Balance.FoodOrderChance) wanted = foods[Random.Range(0, foods.Count)].drink.id;
+            // v2.2: sezon tezgâhı aynı kattaysa sıradan müşteri de ara sıra sezon içeceğini ister (sezon müşterisi hep onu ister)
+            if (!def.seasonal && Seasons.Playable && Random.value < Seasons.OrderChance)
+                foreach (var s in DrinkStation.All)
+                    if (SameFloor(s) && s.Seasonal) { wanted = s.drink.id; break; }
             // v1.3: üst kattaki (teras) siparişler zaten oyuncunun; özel sipariş sadece zemin katta
             special = !up && Random.value < Balance.SpecialOrderChance(GameState.Level);
             if (special) SpecialOrders++;
@@ -164,6 +168,7 @@ namespace Taverna
             if (special) { SpecialServed++; Quests.OnSpecialServed(); Services.Track("special_served", ("seviye", GameState.Level)); }
             float tip = Balance.TipMultiplier(Patience01) * (RushHour.Active ? 2f : 1f) * Management.TipFromStars * TavernEvents.TipMultiplier;
             GameState.RaiseServed(wanted);
+            Seasons.OnServed(def, wanted);   // v2.2: sezon jetonu ve sezon görevleri
             var station = DrinkStation.All.Find(s => s.drink.id == wanted);
             int price = station ? station.Price : 1;
             _pendingPay = Mathf.Max(1, Mathf.CeilToInt(price * Balance.PayMultiplier(def.payStars) * tip * Boosts.IncomeMultiplier

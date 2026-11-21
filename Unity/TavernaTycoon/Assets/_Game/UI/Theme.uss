@@ -816,3 +816,35 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .end-small { font-size: 13px; -unity-font-style: bold; color: rgb(190, 178, 160); margin-top: 2px; }
 .end-thanks { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 36px; color: var(--mus); margin-top: 60px; margin-bottom: 40px; }
 .end-skip { position: absolute; right: 18px; bottom: 12px; font-size: 13px; -unity-font-style: bold; color: rgb(190, 178, 160); }
+
+/* ---------- v2.2 sezonlar ve gardırop (GAME_DESIGN.md §16) ---------- */
+.season-btn { margin-top: 6px; background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_off.png"); }
+.season-btn > Label { font-size: 14px; }
+.season-btn .price-icon { width: 26px; height: 26px; -unity-background-image-tint-color: rgb(255, 255, 255); }
+.ev-tabs { margin-bottom: 8px; flex-shrink: 0; }
+.ev-tabs > .tab { flex-grow: 1; flex-basis: 0; height: 36px; font-size: 14px; -unity-text-align: middle-center; overflow: visible; }
+.ev-scroll { flex-grow: 1; flex-shrink: 1; }
+.ev-scroll .unity-scroll-view__vertical-scroller { width: 0; display: none; }
+.season-head { flex-direction: row; align-items: center; padding: 8px 10px; margin-bottom: 6px; border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.season-head-ic { width: 52px; height: 52px; margin-right: 10px; flex-shrink: 0; -unity-background-scale-mode: scale-to-fit; }
+.season-head-title { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 19px; color: rgb(251, 243, 226); white-space: normal; }
+.season-head-sub { font-size: 13px; -unity-font-style: bold; color: rgb(251, 243, 226); margin-top: 2px; white-space: normal; }
+.season-token { height: 30px; padding: 0 10px; }
+.season-token > Label { font-size: 16px; -unity-font-style: bold; }
+.season-warn { font-size: 13px; -unity-font-style: bold; color: var(--brick); white-space: normal; margin: 0 4px 4px 4px; }
+.season-info { margin: 0 4px 6px 4px; }
+.season-more { align-self: center; margin: 0 0 12px 0; }
+.season-more, .season-more > Label { font-size: 14px; }
+.menu-season { top: 238px; }
+.menu-season.below-legend { top: 284px; }
+.menu-season-ic { width: 26px; height: 26px; margin-right: 6px; -unity-background-scale-mode: scale-to-fit; }
+.cos-preview { flex-direction: row; align-items: center; margin-bottom: 6px; }
+.cos-preview-img { width: 170px; height: 170px; flex-shrink: 0; margin-right: 16px; -unity-background-scale-mode: scale-to-fit;
+    background-color: var(--paper2); border-width: 3px; border-color: var(--ink);
+    border-top-left-radius: 85px; border-top-right-radius: 85px; border-bottom-left-radius: 85px; border-bottom-right-radius: 85px; }
+.cos-preview-name { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 24px; color: var(--ink); white-space: normal; }
+.cos-preview-desc { font-size: 15px; -unity-font-style: bold; color: var(--ink); white-space: normal; margin-top: 6px; }
+.cos-preview-src { align-self: flex-start; margin-top: 8px; }
+.ev-host { min-height: 0; flex-shrink: 1; overflow: hidden; }
+.ev-scroll { min-height: 0; }

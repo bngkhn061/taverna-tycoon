@@ -93,6 +93,8 @@ namespace Taverna
 
         /// <summary>v2.0: avize ışığının dekor yuvasına göre yüksekliği (m) ve bahçe fenerinin cam hizası.</summary>
         const float AvizeLightHeight = 1.45f, GardenLampLightHeight = 1.45f;
+        /// <summary>v2.2: kabak fenerinin ışık hizası (direkli fener).</summary>
+        const float KabakLampHeight = 0.95f;
 
         bool _concert;
 
@@ -134,6 +136,7 @@ namespace Taverna
             if (item == "dec_avize") NightLight.Attach(go, AvizeLightHeight, 6.5f, new Color(1f, 0.72f, 0.4f), 2.8f);
             else if (item == "dec_kristal") NightLight.Attach(go, AvizeLightHeight, 8f, new Color(1f, 0.85f, 0.65f), 3.6f);
             // v2.0 (madde 21): bahçe feneri gece kendiliğinden yanar (Lantern değil: yakılması gerekmez, bölge fener sayımına girmez)
+            else if (item == "dec_kabakfener") NightLight.Attach(go, KabakLampHeight, 4.5f, new Color(1f, 0.62f, 0.25f), 2.6f).dayIntensity = 0f;   // v2.2
             else if (item == "dec_bahcefener") NightLight.Attach(go, GardenLampLightHeight, 6f, new Color(1f, 0.74f, 0.42f), 3.4f).dayIntensity = 0f;
             if (animate) go.AddComponent<PopIn>();
             _usedSlots.Add(slot);

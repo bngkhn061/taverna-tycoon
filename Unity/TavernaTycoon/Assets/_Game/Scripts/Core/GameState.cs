@@ -74,6 +74,18 @@ namespace Taverna
         /// <summary>v2.1: oyun sahnesinde geçen toplam gerçek süre (sn) ve biten toplam gün (prestijte sıfırlanmaz; game_complete ölçümü).</summary>
         public float playSeconds;
         public int daysTotal;
+        /// <summary>v2.2 sezon: jetonların bağlı olduğu sezon anahtarı ("harvest-2026"; "" = sezon dışı), jeton ve sezon görevleri (Seasons).</summary>
+        public string seasonKey = "";
+        public int seasonTokens;
+        public List<SeasonQuestSave> seasonQuests = new();
+        /// <summary>v2.2: başlangıç duyurusunun gösterildiği sezon anahtarı (HUD bir kez).</summary>
+        public string seasonSeenKey = "";
+        /// <summary>v2.2: sona eren sezonun kullanılmamış jetonları (oyuncuya bir kez söylenir, sonra 0).</summary>
+        public int seasonExpiredTokens;
+        public string seasonExpiredKey = "";
+        /// <summary>v2.2 kostümler: edinilen (jeton, ödül, Hazine) ve giyilen ("sahip=kostüm"). Prestijte sıfırlanmaz (Costumes).</summary>
+        public List<string> costumes = new();
+        public List<string> wornCostumes = new();
     }
 
     /// <summary>

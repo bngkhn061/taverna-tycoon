@@ -25,7 +25,9 @@ namespace Taverna
         public int Price => Mathf.RoundToInt(Balance.SellPrice(drink, Save.quality) * Tiers.PriceMultiplier * TavernEvents.PriceMultiplier);
         public StationSave Save => GameState.Station(drink.id);
         /// <summary>Depoda bu içeceğin malzemesi bitti mi? (üretim durur)</summary>
-        public bool OutOfSupply => Depot.Supply(drink.id) <= 0;
+        public bool OutOfSupply => !Seasonal && Depot.Supply(drink.id) <= 0;
+        /// <summary>v2.2 sezon tezgâhı: depodan malzeme harcamaz (sezon boyunca kendiliğinden açılır, Seasons).</summary>
+        public bool Seasonal => drink && Seasons.IsSeasonDrink(drink.id);
         public Vector3 ServePos => servePoint ? servePoint.position : transform.position + transform.forward * 0.6f;
 
         float _t, _transferT;
@@ -40,7 +42,7 @@ namespace Taverna
             if (Stock < MaxStock && !OutOfSupply)
             {
                 _t += Time.deltaTime;
-                if (_t >= ProduceTime && Depot.Consume(drink.id)) { _t = 0f; Stock++; }
+                if (_t >= ProduceTime && (Seasonal || Depot.Consume(drink.id))) { _t = 0f; Stock++; }
             }
             else if (Stock >= MaxStock) _t = 0f;
 

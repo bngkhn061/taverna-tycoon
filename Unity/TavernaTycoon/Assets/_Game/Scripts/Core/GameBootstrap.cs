@@ -84,6 +84,7 @@ namespace Taverna
         {
             // İstasyonlar etkinleştikten sonra: görevler açık içeceklere göre üretilir
             Quests.Init();
+            Seasons.Tick(0f, true);   // v2.2: kayıt takvimle eşlenir (yeni sezon → season_start, eski jetonlar sona erer)
             if (AutoTest.Enabled && string.IsNullOrEmpty(GameState.Data.tavernName)) GameState.Data.tavernName = Loc.T("Test Tavernası");
             if (AutoTest.Enabled && GameState.Level > 1) GameState.Data.tutorialDone = true;
             Tutorial.Begin();
@@ -127,6 +128,7 @@ namespace Taverna
             Tutorial.Tick();
             Happiness.Tick(Time.deltaTime);
             Premium.TickDaily();
+            Seasons.Tick(Time.unscaledDeltaTime);
             Management.TickPenalty(Time.deltaTime);
         }
 

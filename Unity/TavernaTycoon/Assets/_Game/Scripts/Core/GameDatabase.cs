@@ -11,6 +11,15 @@ namespace Taverna
     {
         public DrinkDef[] drinks;
         public CustomerDef[] customers;
+        /// <summary>v2.2 sezon müşterileri, sırayla Hasat / Kış / Bahar (SeasonId − 1).</summary>
+        public CustomerDef[] seasonCustomers;
+
+        /// <summary>Sezonun müşterisi (yoksa null).</summary>
+        public CustomerDef SeasonCustomer(SeasonId id)
+        {
+            int i = (int)id - 1;
+            return seasonCustomers != null && i >= 0 && i < seasonCustomers.Length ? seasonCustomers[i] : null;
+        }
         public GameObject coinPrefab;
         public Sprite coinIcon;
         public Sprite gemIcon;

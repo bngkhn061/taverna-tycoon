@@ -227,6 +227,7 @@ namespace Taverna.EditorTools
 
             // --- Barlo: tezgâhın arkasındaki fıçıdan bira alır, yuvarlak masaya servis eder
             var barlo = MenuActor(actors, "Barlo", "CH_Main_Barlo", new Vector3(1.2f, 0f, 1.85f), out var barloAnim);
+            AddCostumes(barloAnim.gameObject, "barlo");   // v2.2: ana menüde de giyilen kostüm
             var tray = TrayStack(barloAnim.transform, out _);
             foreach (var x in new[] { -0.1f, 0.1f })
             {
@@ -430,6 +431,39 @@ namespace Taverna.EditorTools
         static float MX(float x) => x <= -3.1f ? -4.1f + (x + 3.1f) * 1.375f : x >= 3.1f ? 4.1f + (x - 3.1f) * 1.375f : x * (4.1f / 3.1f);
         static float MZ(float z) => z <= -2f ? z : z >= 2f ? z + 2f : -2f + (z + 2f) * 1.5f;
         static Vector3 L(float x, float y, float z) => _layout ? new Vector3(MX(x), y, MZ(z)) : new Vector3(x, y, z);
+
+        /// <summary>v2.2 sezon tezgâhının yeri (ham koordinat: Meyhane ön sağ köşesi, ön sıra masası M2'nin sağı) ve yönü (ön yüz −X, salonun içine).
+        /// Sol köşede tabela tezgâhı kameradan saklıyordu.</summary>
+        const float SeasonStallX = 3.45f, SeasonStallZ = -4.45f, SeasonStallRotY = 90f;
+
+        /// <summary>
+        /// v2.2: karakterin görselinin (Visual) altına sahibin kostüm modellerini kapalı ekler ve <see cref="CostumeWearer"/> bağlar.
+        /// Kostüm modeli kendi prefabının içindeki modeldir (aynı dönüş düzeltmesiyle), kendi modelinin kardeşi olur.
+        /// </summary>
+        static void AddCostumes(GameObject visual, string owner)
+        {
+            var w = visual.AddComponent<CostumeWearer>();
+            w.owner = owner;
+            foreach (Transform ch in visual.transform) if (ch.name.StartsWith("CH_")) { w.baseModel = ch.gameObject; break; }
+            var ids = new List<string>();
+            var models = new List<GameObject>();
+            foreach (var c in Costumes.List)
+            {
+                if (c.owner != owner) continue;
+                var pf = TavernaImport.Prefab(Costumes.Prefab(c));
+                if (!pf) { Debug.LogWarning("[Taverna] MISSING_" + Costumes.Prefab(c)); continue; }
+                var tmp = UnityEngine.Object.Instantiate(pf);
+                var model = tmp.transform.GetChild(0);
+                model.SetParent(visual.transform, false);
+                model.name = Costumes.Prefab(c);
+                model.gameObject.SetActive(false);
+                UnityEngine.Object.DestroyImmediate(tmp);
+                ids.Add(c.id);
+                models.Add(model.gameObject);
+            }
+            w.ids = ids.ToArray();
+            w.models = models.ToArray();
+        }
 
         static GameObject P(string prefab, Transform parent, float x, float z, float rotY = 0f, float y = 0f)
         {
@@ -680,6 +714,33 @@ namespace Taverna.EditorTools
                 machineEntries.Add(new TavernRegistry.MachineEntry { drink = DrinkId.KralSerbeti, root = st });
                 st.SetActive(false);
             }
+            // v2.2 sezon (GAME_DESIGN.md §16): sezon tezgâhı Meyhane'nin ön sağ köşesinde (−X'e, salona bakar) ve sezon süslemesi;
+            // hepsi kapalı başlar, SeasonScenery takvime göre açar. Ham koordinat.
+            {
+                bool lay = _layout;
+                _layout = false;
+                var seasonRoot = Group("Season");
+                var scen = seasonRoot.gameObject.AddComponent<SeasonScenery>();
+                var setNames = new[] { "Hasat", "Kis", "Bahar" };
+                var seasonDrinks = new[] { DrinkId.ElmaSarabi, DrinkId.SicakSarap, DrinkId.CicekSerbeti };
+                for (int i = 0; i < 3; i++)
+                {
+                    var st = Station(db, seasonDrinks[i], seasonRoot, SeasonStallX, SeasonStallZ);
+                    st.transform.rotation = Quaternion.Euler(0f, SeasonStallRotY, 0f);
+                    st.SetActive(false);
+                    scen.stalls[i] = st;
+                    var set = new GameObject("SeasonSet_" + setNames[i]).transform;
+                    set.SetParent(seasonRoot);
+                    P($"PR_Season_{setNames[i]}_Yigin", set, -3.5f, -4.45f, 20f);     // içeride ön sol köşe
+                    P($"PR_Season_{setNames[i]}_Yigin", set, -2.65f, -5.95f, 10f);    // sokakta, bahçe kapısı ile flama arası
+                    P($"PR_Season_{setNames[i]}_Kucuk", set, -0.85f, -5.95f);         // kapının iki yanı
+                    P($"PR_Season_{setNames[i]}_Kucuk", set, 0.85f, -5.95f, 180f);
+                    P($"PR_Season_{setNames[i]}_Kucuk", set, -3.7f, -2.0f, 30f);      // içeride sol duvar
+                    set.gameObject.SetActive(false);
+                    scen.decorSets[i] = set.gameObject;
+                }
+                _layout = lay;
+            }
             // v1.5: beş ocak — aralık 1.6 → 1.5 m (Şölen Tabağı sağ uçta); aşçı durakları makinelerin önünden (StaffWork) okunur
             foreach (var (d, x) in new[] { (DrinkId.Ekmek, -3.0f), (DrinkId.Guvec, -1.5f), (DrinkId.KozEt, 0f), (DrinkId.Turta, 1.5f), (DrinkId.SolenTabagi, 3.0f) })
             {
@@ -769,6 +830,13 @@ namespace Taverna.EditorTools
             };
             // v2.0 (madde 18): Ozan Sahnesi alınmışsa ozan sahneye yürüyüp çalar (sahne üstü 0.3 m, seyirciye dönük)
             {
+                // v2.2: personel kostümleri (garson Pip, barmen Gus, aşçı Ayla, temizlikçi Nana)
+                foreach (var e in staffEntries)
+                    if (System.Array.IndexOf(Costumes.Owners, e.id) >= 0)
+                    {
+                        var anim = e.root.GetComponentInChildren<ToyAnimator>(true);
+                        if (anim) AddCostumes(anim.gameObject, e.id);
+                    }
                 var bard = staffEntries.Find(e => e.id == "staff_lir").root.GetComponent<StaffIdle>();
                 bard.stageZone = "sahne";
                 bard.stagePoint = L(-6.5f, 0f, 2.5f);
@@ -903,6 +971,7 @@ namespace Taverna.EditorTools
             visual.transform.localRotation = Quaternion.identity;
             visual.name = "Visual";
             pc.anim = visual.AddComponent<ToyAnimator>();
+            AddCostumes(visual, "barlo");   // v2.2
             pc.carrier = carrier;
             carrier.stackPoint = TrayStack(visual.transform, out var tray);
             carrier.trayVisual = tray;
@@ -1623,6 +1692,9 @@ namespace Taverna.EditorTools
             return root;
         }
 
+        /// <summary>v2.2 kalıcı sezon dekorunun sokak hizası (ejder heykeliyle aynı).</summary>
+        const float SeasonDecorZ = -5.9f;
+
         /// <summary>Dekor yerleri: (eşya, bölge, konum, yön). Her eşya kendi listesinden ilk boş yere yerleşir.</summary>
         static TavernRegistry.DecorSlot[] DecorSlots()
         {
@@ -1664,6 +1736,11 @@ namespace Taverna.EditorTools
             Raw("dec_tasyol", -4.95f, -4.35f, 0f, 0.04f); Raw("dec_tasyol", -6.95f, -3.55f, 90f, 0.04f);
             Raw("dec_tasyol", -8.78f, 2.3f, 0f, 0.04f); Raw("dec_tasyol", -11.0f, -3.55f, 90f, 0.04f);
             Raw("dec_bahcefener", -14.7f, -4.6f); Raw("dec_bahcefener", -6.4f, -4.75f); Raw("dec_bahcefener", -4.55f, -1.9f);
+            // v2.2 kalıcı sezon dekoru: Ana Salon cephesinin önünde, sokakta vitrin gibi (kapı yolu x 7.0 boş). Bölge "" (hep açık).
+            void Street(string item, float x, float rot = 0f) =>
+                list.Add(new TavernRegistry.DecorSlot { item = item, zone = "", pos = new Vector3(x, 0f, SeasonDecorZ), rotY = rot });
+            Street("dec_kabakfener", 4.6f); Street("dec_basak", 5.9f); Street("dec_kardanadam", 8.3f);
+            Street("dec_suslucam", 9.6f); Street("dec_cicekaraba", 11.0f, 10f); Street("dec_kusevi", 12.25f);
             return list.ToArray();
         }
 

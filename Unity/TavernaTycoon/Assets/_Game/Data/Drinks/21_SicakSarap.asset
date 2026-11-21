@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377925e569b4fbd41b5fc221115d0623, type: 3}
+  m_Name: 21_SicakSarap
+  m_EditorClassIdentifier: Taverna.Game::Taverna.DrinkDef
+  id: 21
+  displayName: "Baharatl\u0131 S\u0131cak \u015Earap"
+  basePrice: 9
+  baseTime: 4
+  unlockLevel: 1
+  icon: {fileID: 5107608906246707662, guid: 374a2e6827445014c9ed49ba5a368fb8, type: 3}
+  cupPrefab: {fileID: 4286854700994504745, guid: bcc81895f524b4b43bbd9d2a50a2171a, type: 3}
+  upgradeCostMultiplier: 1
+  isFood: 0

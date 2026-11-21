@@ -21,3 +21,4 @@ MonoBehaviour:
   unlockLevel: 28
   ordersPerVisit: 1
   spawnWeight: 0.05
+  seasonal: 0

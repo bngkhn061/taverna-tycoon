@@ -125,7 +125,7 @@ namespace Taverna
             var rnd = new System.Random(seed * 7919 + lv * 31 + DateTime.Now.DayOfYear);
             // Sadece istasyonu açık içecekler
             var drinks = new List<DrinkId>();
-            foreach (var s in DrinkStation.All) drinks.Add(s.drink.id);
+            foreach (var s in DrinkStation.All) if (!s.Seasonal) drinks.Add(s.drink.id);   // v2.2: sezon içeceği günlük göreve girmez
             if (drinks.Count == 0) drinks.Add(DrinkId.Bira);
 
             // v1.9: "Yeni bir alan aç" yerine belirli alan / görevli / makine hedefleyen durum görevleri (adayı olan türler)

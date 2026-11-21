@@ -127,7 +127,7 @@ namespace Taverna
             if (!_eventsPanel.ClassListContains("hidden"))
             {
                 _eventsRefreshT -= Time.unscaledDeltaTime;
-                if (_eventsRefreshT <= 0f) { _eventsRefreshT = 1f; BuildEvents(); }
+                if (_eventsRefreshT <= 0f) { _eventsRefreshT = 1f; if (_eventsTab != "season" || !Seasons.Playable) BuildEvents(); }   // v2.2: sezon sekmesi olayla yenilenir
             }
         }
 
@@ -172,8 +172,12 @@ namespace Taverna
         }
 
         // ------------------------------------------------------------------ etkinlikler
-        void OpenEvents()
+        void OpenEvents() => OpenEvents(null);
+
+        /// <summary>v2.2: <paramref name="tab"/> "events" ya da "season" (null = son açık sekme).</summary>
+        void OpenEvents(string tab)
         {
+            if (tab != null) _eventsTab = tab;
             CloseUpgrade();
             GameState.Data.eventsSeen = true;
             BuildEvents();
@@ -184,8 +188,12 @@ namespace Taverna
 
         void BuildEvents()
         {
+            var keepScroll = _evScroll;   // v2.2: sezon sekmeleri (kaydırma konumu SeasonTabsOrHost'ta korunur)
             _eventRows.Clear();
+            _evScroll = keepScroll;
             _eventsNote.text = "";
+            var host = SeasonTabsOrHost();
+            if (host == null) return;
             foreach (var d in TavernEvents.List)
             {
                 var st = TavernEvents.StateOf(d);
@@ -257,7 +265,7 @@ namespace Taverna
                         break;
                 }
                 row.Add(b);
-                _eventRows.Add(row);
+                host.Add(row);
             }
         }
     }

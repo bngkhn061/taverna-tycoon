@@ -16,5 +16,7 @@ namespace Taverna
         [Tooltip("Aynı oturuşta kaç içecek ister (Cüce: 2).")]
         public int ordersPerVisit = 1;
         public float spawnWeight = 1f;
+        /// <summary>v2.2 sezon müşterisi: koleksiyon defterine girmez, sezon içeceğini ister (GameDatabase.seasonCustomers).</summary>
+        public bool seasonal;
     }
 }

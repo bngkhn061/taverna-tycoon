@@ -203,6 +203,7 @@ namespace Taverna
             InitPrestige();
             InitV19();
             InitV21();
+            InitV22();
             TestAdService.Presenter = PresentTestAd;   // v1.6: test reklamının bekleme ekranı
         }
 
@@ -267,6 +268,7 @@ namespace Taverna
             DisablePrestige();
             DisableV12();
             DisableV21();
+            DisableV22();
             Management.Changed -= RefreshTop;
             PlayerController.JoystickInput = Vector2.zero;
         }
@@ -297,7 +299,8 @@ namespace Taverna
                 case "ending": OpenEndingCard(); break;
                 case "settings": _settings.Show(); break;
                 case "depot": OpenDepot(); break;
-                case "events": OpenEvents(); break;
+                case "events": OpenEvents("events"); break;
+                case "season": OpenEvents("season"); break;   // v2.2
                 case "happy": _happyCard.RemoveFromClassList("hidden"); RefreshHappyCard(); break;
                 case "stars": DebugStarCard(true); break;
                 case "rename": OpenRename(); break;
@@ -443,6 +446,7 @@ namespace Taverna
             UpdateTierTransform();
             UpdateV19();
             UpdateV21();
+            UpdateV22();
             _starsT -= Time.unscaledDeltaTime;
             if (_starsT <= 0f) { _starsT = 0.5f; UpdateStars(); }
             if (_dayT > 0f) { _dayT -= Time.unscaledDeltaTime; if (_dayT <= 0f) _dayReport.AddToClassList("hidden"); }
@@ -683,7 +687,7 @@ namespace Taverna
             var seen = new HashSet<DrinkId>();
             foreach (var st in DrinkStation.All)
             {
-                if (!st || !st.drink || !seen.Add(st.drink.id)) continue;
+                if (!st || !st.drink || st.Seasonal || !seen.Add(st.drink.id)) continue;   // v2.2: sezon tezgâhı depo kullanmaz
                 AddDepotRow(st.drink);
             }
             AddDeliveryRow();

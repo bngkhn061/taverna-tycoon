@@ -174,6 +174,7 @@ namespace Taverna
             UpdateV15(hud, p);
             UpdateV20(hud, p);   // v2.0 Paket 2 ("-autotest-v20 <mod>")
             UpdateV21(hud, p);   // v2.1 Paket 3 ("-autotest-v21 barlo|ending")
+            UpdateV22(hud, p);   // v2.2 Paket 4 ("-autotest-v22 season|offseason|wardrobe")
             if (!NoTests) UpdateV16(hud);
             if (hud)
             {

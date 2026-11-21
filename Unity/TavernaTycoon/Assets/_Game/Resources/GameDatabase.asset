@@ -33,6 +33,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e5fbbc08bd2731a48ad33a60b7da4166, type: 2}
   - {fileID: 11400000, guid: b1155cdb3a526574ca6bc40dc1881454, type: 2}
   - {fileID: 11400000, guid: e6e2b75ff6055f242a9747d071470c50, type: 2}
+  - {fileID: 11400000, guid: fecbbaa03fe10e9449a89775f54dbeab, type: 2}
+  - {fileID: 11400000, guid: 3c50c9e3853e2a04aade751c547b1174, type: 2}
+  - {fileID: 11400000, guid: 73b8622939526b5489b31fb7ec7e0670, type: 2}
   customers:
   - {fileID: 11400000, guid: 008e4c9681780af42b4af2b2ff25b28a, type: 2}
   - {fileID: 11400000, guid: ed000c6a5ce79824793846ab80e61830, type: 2}
@@ -64,6 +67,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2c5e413ac5f4de6429e02cf9e4c7ebd4, type: 2}
   - {fileID: 11400000, guid: 2d445ac792610404fac0ed8893cddf89, type: 2}
   - {fileID: 11400000, guid: 2792de3c0710b534abb8148e2183ab88, type: 2}
+  seasonCustomers:
+  - {fileID: 11400000, guid: 9c8dc9d4ca9a0d841ba721502c87a9fe, type: 2}
+  - {fileID: 11400000, guid: df7670d5b63abb6468c402085de219af, type: 2}
+  - {fileID: 11400000, guid: 1e97e8af977a9af478997cbed1dfa454, type: 2}
   coinPrefab: {fileID: 3871478194651391344, guid: 27431bf7330e3a9468b59b10db060d30, type: 3}
   coinIcon: {fileID: -5951777678060486925, guid: 622951cedd2bcba42a79856a2546fd1a, type: 3}
   gemIcon: {fileID: -5299672502157883096, guid: c9e0f96f7cf951a4abb45f4ced604874, type: 3}

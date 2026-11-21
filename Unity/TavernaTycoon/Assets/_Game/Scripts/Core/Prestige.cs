@@ -112,7 +112,8 @@ namespace Taverna
             // Açılanlar: alanlar, masalar, makineler, işe alımlar gider; temalar (thm_) ve Hazine görevlileri kalır
             d.unlocked.RemoveAll(id => !(id.StartsWith("thm_") || IsPremiumStaff(id)));
             // --- kalanlar: gems, premium, benched, vip*, seenCustomers, tavernName, tutorialDone, eventsSeen,
-            //     renameAds, staffAds, decor (bölgesi açılınca görünür), floorTheme/wallTheme, lastDaily/dailyStreak, customersServed
+            //     renameAds, staffAds, decor (bölgesi açılınca görünür), floorTheme/wallTheme, lastDaily/dailyStreak, customersServed,
+            //     v2.2: costumes / wornCostumes (giyilen kostüm) ve sezon jetonu / görevleri (sezona bağlı, şubeye değil)
             _unCarry = 0f;
             TavernEvents.StopAll();
             Services.Track("prestige", ("sube", b), ("gelir_carpani", IncomeMultiplierFor(b)));

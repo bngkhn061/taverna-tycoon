@@ -70,6 +70,11 @@ Parametre adları Türkçe ve ASCII.
 | `prestige` | sube, gelir_carpani | yeni şube |
 | `barlo_skill` | yetenek (hiz / tasima / servis / para), seviye, taverna_seviyesi | v2.1: Barlo'nun yeteneği alınınca |
 | `game_complete` | sure_sn (oyun sahnesindeki toplam süre), gun (prestijte sıfırlanmayan toplam gün), sube, servis | v2.1: son sahne ("Krala Davet") ilk kez başlayınca; bir kez |
+| `season_start` | sezon (anahtar, ör. winter-2026), seviye, sube | v2.2: kayıt yeni bir sezona girince (açılışta ya da oyun sürerken), sezon başına bir kez |
+| `season_token` | sezon, miktar, kaynak (servis / gorev / test), toplam | v2.2: sezon jetonu kazanılınca |
+| `season_purchase` | urun, tur (dekor / kostum), jeton, sezon | v2.2: sezon jetonuyla alım |
+| `costume_purchase` | kostum, kaynak (hazine / jeton), jeton | v2.2: kostüm edinilince (Hazine ödemesi onaylanınca ya da jetonla) |
+| `costume_equip` | kostum ("" = çıkar), sahip, kaynak (hazine / jeton / odul / cikar) | v2.2: kostüm giyilince ya da çıkarılınca (alınca kendiliğinden giyilir) |
 | `ad_shown` / `ad_rewarded` / `ad_cancelled` | neden (= placement), uzun / sebep | ödüllü reklam |
 | `store_request` / `store_purchase` / `store_fail` | urun, acik / neden | Hazine |
 

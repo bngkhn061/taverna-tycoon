@@ -34,6 +34,8 @@ PALETTE = [
     # Metaller / doğa (props)
     ("Pirinc", "#C9973A"), ("Bakir", "#B5653A"), ("Yaprak", "#6FA34A"), ("Kopuk", "#FBF3E0"),
     ("Su", "#6FB8D8"), ("Siva", "#E6D6B8"),
+    # v2.2 sezonlar ve kostümler (yalnızca sona eklenir)
+    ("Pembe", "#F2A0B8"), ("Lila", "#C4A6E6"),
 ]
 GRID = 16
 CELL = 16

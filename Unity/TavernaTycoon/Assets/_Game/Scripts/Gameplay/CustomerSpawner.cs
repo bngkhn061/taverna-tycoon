@@ -100,6 +100,12 @@ namespace Taverna
 
         CustomerDef PickCustomer()
         {
+            // v2.2: sezon boyunca gelenlerin bir kısmı sezon müşterisi (sezon içeceğini ister)
+            if (Seasons.Playable && Random.value < Seasons.CustomerChance)
+            {
+                var sc = GameDatabase.I.SeasonCustomer(Seasons.Current.id);
+                if (sc && sc.modelPrefab) return sc;
+            }
             var pool = new List<(CustomerDef d, float w)>();
             float total = 0;
             foreach (var c in GameDatabase.I.customers)

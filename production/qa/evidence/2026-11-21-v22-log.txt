@@ -1,0 +1,130 @@
+Taverna Tycoon v2.2 Paket 4 — sezonlar ve kostümler · otomatik test günlüğü (2026-11-21/22)
+Koşular gizli: -autotest -autotest-hidden -popupwindow, Start-Process -WindowStyle Minimized, 1266x585.
+Birim testleri (EditMode, son kod): total="124" passed="124" failed="0" — V22Tests 17 yeni
+
+===== harvest2
+Exception/NullReference: 0
+v2.2 sezon zorlandı: harvest → 2026-09-20
+[   0.0s] v2.2 BAŞLADI · mod 'season' · tarih 2026-09-20 · sezon harvest (harvest-2026) · kalan 42 gün · oynanabilir=True · Sv6 · dil tr · mağaza açık=True
+[   5.0s] v2.2 SEZON BAŞI: süsleme [SeasonSet_Hasat] · tezgâh [Station_ElmaSarabi] · sezon istasyonu 1 · rozet görünür=True 'HASAT ŞENLİĞİ · 42 gün' · jeton 0 · görülen anahtar '' · season_start 5
+[  15.0s] v2.2 TEZGÂH: Elma Şarabı @ (3.45,-4.45) servis (2.70,-4.45) · stok 9/13 · fiyat 32 · malzeme bitti=False
+[ 139.1s] v2.2 SEZON OYUN: servis +25 · sezon müşterisi gelen 3 · sezon içeceği siparişi 8 (sezon müşterisinden 4) · jeton 0 → 7 · season_token 82 · görevler [25 Elma Şarabı sat 7/25 | 10 kez sezon müşterisine servis yap 4/10 | 150 müşteriye servis yap 28/150 | Sezonda 3 gün tamamla 0/3]
+[ 139.1s] v2.2 SEZON MÜŞTERİSİ: Hasat Köylüsü · durum WalkingIn · istediği Bira
+[ 145.1s] v2.2 TEST: alım için +172 jeton eklendi
+[ 145.1s] v2.2 GÖREV ÖDÜLÜ: True · jeton 180 → 210
+[ 145.1s] v2.2 DEKOR AL: dec_kabakfener → Ok · jeton 150 · ambiyans 63 → 69 (yerleşim sonraki karede) · season_purchase 9
+[ 145.1s] v2.2 KOSTÜM AL: barlo_hasat → Ok · jeton 30 · sahip [barlo_hasat] · giyilen [barlo=barlo_hasat] · costume_purchase 9 · costume_equip 11
+[ 149.9s] v2.2 SEZON SEKMESİ: açık sekme 'season'
+[ 151.2s] v2.2 SEZON SEKMESİ KAYDIR: panel 561 · liste 484 · görünüm 418 · içerik 986 · konum 568
+[ 166.4s] v2.2 KOSTÜM SAHNEDE: staff_nana=- · staff_ayla(kapalı)=- · barlo=barlo_hasat · staff_gus=- · staff_pip=-
+[ 174.5s] v2.2 SEZON BİTTİ: harvest-2026 → '' · kalan jeton 34 → 0 · sona eren 34 (harvest-2026) · dekor sahipliği 1 · kostüm sahip [barlo_hasat] · giyilen [barlo=barlo_hasat]
+[ 187.3s] v2.2 SEZON SONRASI: süsleme [] · tezgâh [] · sezon istasyonu 0 · rozet görünür=False · sona eren bildirimi gösterildi=True · ambiyans 72
+[ 187.3s] v2.2 SONA EREN PENCERESİ açık=True
+[ 230.0s] SONUÇ: 230 oyun-sn · Para=1067 · Seviye=6 · Servis=54 · Kızgın ayrılan=0 · Yükseltme=120 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,masa3,masa4,masaM1,masaM2]
+
+===== winter
+Exception/NullReference: 0
+v2.2 sezon zorlandı: winter → 2026-12-20
+[   0.0s] v2.2 BAŞLADI · mod 'season' · tarih 2026-12-20 · sezon winter (winter-2026) · kalan 43 gün · oynanabilir=True · Sv6 · dil tr · mağaza açık=True
+[   5.0s] v2.2 SEZON BAŞI: süsleme [SeasonSet_Kis] · tezgâh [Station_SicakSarap] · sezon istasyonu 1 · rozet görünür=True 'KIŞ FESTİVALİ · 43 gün' · jeton 0 · görülen anahtar '' · season_start 2
+[  15.1s] v2.2 TEZGÂH: Baharatlı Sıcak Şarap @ (3.45,-4.45) servis (2.70,-4.45) · stok 9/13 · fiyat 36 · malzeme bitti=False
+[ 139.1s] v2.2 SEZON OYUN: servis +28 · sezon müşterisi gelen 6 · sezon içeceği siparişi 12 (sezon müşterisinden 7) · jeton 0 → 11 · season_token 29 · görevler [25 Baharatlı Sıcak Şarap sat 11/25 | 10 kez sezon müşterisine servis yap 6/10 | 150 müşteriye servis yap 30/150 | Sezonda 3 gün tamamla 0/3]
+[ 139.1s] v2.2 SEZON MÜŞTERİSİ: Kış Gezgini · durum Leaving · istediği SicakSarap
+[ 145.1s] v2.2 TEST: alım için +168 jeton eklendi
+[ 145.1s] v2.2 GÖREV ÖDÜLÜ: True · jeton 180 → 210
+[ 145.1s] v2.2 DEKOR AL: dec_kardanadam → Ok · jeton 150 · ambiyans 66 → 72 (yerleşim sonraki karede) · season_purchase 3
+[ 145.1s] v2.2 KOSTÜM AL: barlo_kis → Ok · jeton 30 · sahip [barlo_kis] · giyilen [barlo=barlo_kis] · costume_purchase 2 · costume_equip 1
+[ 149.9s] v2.2 SEZON SEKMESİ: açık sekme 'season'
+[ 166.5s] v2.2 KOSTÜM SAHNEDE: staff_ayla(kapalı)=- · staff_gus=- · barlo=barlo_kis · staff_nana=- · staff_pip=-
+[ 174.5s] v2.2 SEZON BİTTİ: winter-2026 → '' · kalan jeton 39 → 0 · sona eren 39 (winter-2026) · dekor sahipliği 1 · kostüm sahip [barlo_kis] · giyilen [barlo=barlo_kis]
+[ 187.3s] v2.2 SEZON SONRASI: süsleme [] · tezgâh [] · sezon istasyonu 0 · rozet görünür=False · sona eren bildirimi gösterildi=True · ambiyans 72
+[ 187.3s] v2.2 SONA EREN PENCERESİ açık=True
+[ 230.0s] SONUÇ: 230 oyun-sn · Para=352 · Seviye=6 · Servis=61 · Kızgın ayrılan=0 · Yükseltme=123 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,masa3,masa4,masaM1,masaM2,salon,mac_Sarap]
+
+===== spring
+Exception/NullReference: 0
+v2.2 sezon zorlandı: spring → 2026-04-20
+[   0.0s] v2.2 BAŞLADI · mod 'season' · tarih 2026-04-20 · sezon spring (spring-2026) · kalan 42 gün · oynanabilir=True · Sv6 · dil tr · mağaza açık=True
+[   5.0s] v2.2 SEZON BAŞI: süsleme [SeasonSet_Bahar] · tezgâh [Station_CicekSerbeti] · sezon istasyonu 1 · rozet görünür=True 'BAHAR BAYRAMI · 42 gün' · jeton 0 · görülen anahtar '' · season_start 3
+[  15.1s] v2.2 TEZGÂH: Çiçek Şerbeti @ (3.45,-4.45) servis (2.70,-4.45) · stok 9/13 · fiyat 32 · malzeme bitti=False
+[ 139.2s] v2.2 SEZON OYUN: servis +26 · sezon müşterisi gelen 6 · sezon içeceği siparişi 10 (sezon müşterisinden 7) · jeton 0 → 7 · season_token 48 · görevler [25 Çiçek Şerbeti sat 7/25 | 10 kez sezon müşterisine servis yap 4/10 | 150 müşteriye servis yap 28/150 | Sezonda 3 gün tamamla 0/3]
+[ 139.2s] v2.2 SEZON MÜŞTERİSİ: Bahar Çiçekçisi · durum Waiting · istediği CicekSerbeti
+[ 145.2s] v2.2 TEST: alım için +162 jeton eklendi
+[ 145.2s] v2.2 GÖREV ÖDÜLÜ: True · jeton 170 → 200
+[ 145.2s] v2.2 DEKOR AL: dec_cicekaraba → Ok · jeton 130 · ambiyans 63 → 70 (yerleşim sonraki karede) · season_purchase 5
+[ 145.2s] v2.2 KOSTÜM AL: nana_bahar → Ok · jeton 30 · sahip [nana_bahar] · giyilen [staff_nana=nana_bahar] · costume_purchase 3 · costume_equip 2
+[ 150.0s] v2.2 SEZON SEKMESİ: açık sekme 'season'
+[ 166.5s] v2.2 KOSTÜM SAHNEDE: staff_pip=- · staff_gus=- · staff_ayla(kapalı)=- · staff_nana=nana_bahar · barlo=-
+[ 174.5s] v2.2 SEZON BİTTİ: spring-2026 → '' · kalan jeton 38 → 0 · sona eren 38 (spring-2026) · dekor sahipliği 1 · kostüm sahip [nana_bahar] · giyilen [staff_nana=nana_bahar]
+[ 187.3s] v2.2 SEZON SONRASI: süsleme [] · tezgâh [] · sezon istasyonu 0 · rozet görünür=False · sona eren bildirimi gösterildi=True · ambiyans 70
+[ 187.3s] v2.2 SONA EREN PENCERESİ açık=True
+[ 230.0s] SONUÇ: 230 oyun-sn · Para=448 · Seviye=6 · Servis=58 · Kızgın ayrılan=0 · Yükseltme=121 · Açılan=[staff_nana,mac_Sira,mac_BalSarabi,staff_pip,staff_gus,masa3,masa4,masaM1,masaM2,salon,mac_Sarap]
+
+===== harvest_ja
+Exception/NullReference: 0
+v2.2 sezon zorlandı: harvest → 2026-09-20
+[   0.0s] v2.2 BAŞLADI · mod 'season' · tarih 2026-09-20 · sezon harvest (harvest-2026) · kalan 42 gün · oynanabilir=True · Sv6 · dil ja · mağaza açık=True
+[   5.1s] v2.2 SEZON BAŞI: süsleme [SeasonSet_Hasat] · tezgâh [Station_ElmaSarabi] · sezon istasyonu 1 · rozet görünür=True '収穫祭・42日' · jeton 0 · görülen anahtar '' · season_start 4
+[  15.1s] v2.2 TEZGÂH: Elma Şarabı @ (3.45,-4.45) servis (2.70,-4.45) · stok 9/13 · fiyat 32 · malzeme bitti=False
+[ 139.2s] v2.2 SEZON OYUN: servis +27 · sezon müşterisi gelen 5 · sezon içeceği siparişi 12 (sezon müşterisinden 8) · jeton 0 → 12 · season_token 71 · görevler [ホットアップルサイダーを25杯売る 12/25 | 季節のお客さんに10回提供 8/10 | お客さん150人に提供 31/150 | シーズン中に3日終える 0/3]
+[ 139.2s] v2.2 SEZON MÜŞTERİSİ: Hasat Köylüsü · durum WalkingIn · istediği Bira
+[ 145.2s] v2.2 TEST: alım için +168 jeton eklendi
+[ 145.2s] v2.2 GÖREV ÖDÜLÜ: True · jeton 180 → 210
+[ 145.2s] v2.2 DEKOR AL: dec_kabakfener → Ok · jeton 150 · ambiyans 63 → 69 (yerleşim sonraki karede) · season_purchase 7
+[ 145.2s] v2.2 KOSTÜM AL: barlo_hasat → Ok · jeton 30 · sahip [barlo_hasat] · giyilen [barlo=barlo_hasat] · costume_purchase 4 · costume_equip 3
+[ 150.0s] v2.2 SEZON SEKMESİ: açık sekme 'season'
+[ 151.2s] v2.2 SEZON SEKMESİ KAYDIR: panel 561 · liste 484 · görünüm 418 · içerik 1023 · konum 605
+[ 166.6s] v2.2 KOSTÜM SAHNEDE: staff_nana=- · staff_ayla(kapalı)=- · staff_gus=- · barlo=barlo_hasat · staff_pip=-
+[ 174.6s] v2.2 SEZON BİTTİ: harvest-2026 → '' · kalan jeton 32 → 0 · sona eren 32 (harvest-2026) · dekor sahipliği 1 · kostüm sahip [barlo_hasat] · giyilen [barlo=barlo_hasat]
+[ 187.4s] v2.2 SEZON SONRASI: süsleme [] · tezgâh [] · sezon istasyonu 0 · rozet görünür=False · sona eren bildirimi gösterildi=True · ambiyans 72
+[ 187.4s] v2.2 SONA EREN PENCERESİ açık=True
+[ 230.0s] SONUÇ: 230 oyun-sn · Para=472 · Seviye=6 · Servis=53 · Kızgın ayrılan=1 · Yükseltme=120 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,masa3,masa4,masaM1,masaM2,salon]
+
+===== offseason
+Exception/NullReference: 0
+v2.2 sezon zorlandı: none → 2026-07-15
+[   0.0s] v2.2 BAŞLADI · mod 'offseason' · tarih 2026-07-15 · sezon none () · kalan 0 gün · oynanabilir=False · Sv6 · dil tr · mağaza açık=True
+[  11.5s] v2.2 SEZON DIŞI: aktif=False · anahtar '' · süsleme [] · tezgâh [] · sezon istasyonu 0 · rozet görünür=False · sezon görevi 0 · jeton 0
+[  22.3s] v2.2 SEZON DIŞI ETKİNLİK PANELİ: sekme 'events'
+[ 127.2s] v2.2 SEZON DIŞI OYUN: sezon müşterisi 0 · sezon içeceği siparişi 0 · jeton 0 · season_token 95 · season_start 6
+[ 150.0s] SONUÇ: 150 oyun-sn · Para=423 · Seviye=6 · Servis=35 · Kızgın ayrılan=0 · Yükseltme=96 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,masa3,masa4,masaM1,masaM2,salon,mac_Sarap,mac_Sut]
+
+===== wardrobe4
+Exception/NullReference: 0
+v2.2 sezon zorlandı: none → 2026-07-15
+[   0.0s] v2.2 BAŞLADI · mod 'wardrobe' · tarih 2026-07-15 · sezon none () · kalan 0 gün · oynanabilir=False · Sv9 · dil tr · mağaza açık=True
+[  11.5s] v2.2 GARDIROP ÖNCE: sahip [] · giyilen [] · staff_ayla=- · barlo=- · staff_gus=- · staff_pip=- · staff_nana=- · mağaza açık=True test=True
+[  23.3s] v2.2 GARDIROP ALINDI: sahip [barlo_korsan,pip_yelek,gus_usta,ayla_sef,nana_bahar] · giyilen [barlo=barlo_korsan,staff_pip=pip_yelek,staff_gus=gus_usta,staff_ayla=ayla_sef,staff_nana=nana_bahar] · costume_purchase 21 · costume_equip 30 · staff_ayla=ayla_sef · barlo=barlo_korsan · staff_gus=gus_usta · staff_pip=pip_yelek · staff_nana=nana_bahar
+[  41.4s] v2.2 ÖDÜL KOSTÜMÜ: önce sahip=False · son görüldü → sahip=True · giyildi=True · staff_ayla=ayla_sef · barlo=barlo_kral · staff_gus=gus_usta · staff_pip=pip_yelek · staff_nana=nana_bahar
+[  52.5s] v2.2 ÇIKAR: barlo → '' · staff_ayla=ayla_sef · barlo=- · staff_gus=gus_usta · staff_pip=pip_yelek · staff_nana=nana_bahar · kayıt giyilen [staff_pip=pip_yelek,staff_gus=gus_usta,staff_ayla=ayla_sef,staff_nana=nana_bahar]
+[ 140.0s] SONUÇ: 140 oyun-sn · Para=314 · Seviye=9 · Servis=27 · Kızgın ayrılan=0 · Yükseltme=77 · Açılan=[mutfak,staff_pip,staff_gus,staff_ayla,staff_nana,mac_Sira,mac_BalSarabi,mac_Ekmek,mac_Guvec,staff_brak,staff_lir,masa3,masa4,masaM1]
+
+===== wardrobe
+Exception/NullReference: 0
+v2.2 sezon zorlandı: none → 2026-07-15
+[   0.0s] v2.2 BAŞLADI · mod 'wardrobe' · tarih 2026-07-15 · sezon none () · kalan 0 gün · oynanabilir=False · Sv9 · dil ja · mağaza açık=True
+[  11.4s] v2.2 GARDIROP ÖNCE: sahip [] · giyilen [] · staff_gus=- · staff_pip=- · staff_ayla=- · barlo=- · staff_nana=- · mağaza açık=True test=True
+[  21.4s] v2.2 GARDIROP ALINDI: sahip [barlo_korsan,pip_yelek,gus_usta,ayla_sef,nana_bahar] · giyilen [barlo=barlo_korsan,staff_pip=pip_yelek,staff_gus=gus_usta,staff_ayla=ayla_sef,staff_nana=nana_bahar] · costume_purchase 8 · costume_equip 8 · staff_gus=gus_usta · staff_pip=pip_yelek · staff_ayla=ayla_sef · barlo=barlo_korsan · staff_nana=nana_bahar
+[  39.5s] v2.2 ÖDÜL KOSTÜMÜ: önce sahip=False · son görüldü → sahip=True · giyildi=True · staff_gus=gus_usta · staff_pip=pip_yelek · staff_ayla=ayla_sef · barlo=barlo_kral · staff_nana=nana_bahar
+[  50.0s] v2.2 ÇIKAR: barlo → '' · staff_gus=gus_usta · staff_pip=pip_yelek · staff_ayla=ayla_sef · barlo=- · staff_nana=nana_bahar · kayıt giyilen [staff_pip=pip_yelek,staff_gus=gus_usta,staff_ayla=ayla_sef,staff_nana=nana_bahar]
+[ 140.0s] SONUÇ: 140 oyun-sn · Para=56 · Seviye=9 · Servis=29 · Kızgın ayrılan=0 · Yükseltme=77 · Açılan=[mutfak,staff_pip,staff_gus,staff_ayla,staff_nana,mac_Sira,mac_BalSarabi,mac_Ekmek,mac_Guvec,staff_brak,staff_lir,masa3,masa4,masaM1]
+
+===== release
+Exception/NullReference: 0
+v2.2 sezon zorlandı: winter → 2026-12-20
+[   0.0s] v2.2 BAŞLADI · mod 'wardrobe' · tarih 2026-12-20 · sezon winter (winter-2026) · kalan 43 gün · oynanabilir=True · Sv9 · dil tr · mağaza açık=False
+[  11.4s] v2.2 GARDIROP ÖNCE: sahip [] · giyilen [] · staff_pip=- · staff_gus=- · staff_nana=- · staff_ayla(kapalı)=- · barlo=- · mağaza açık=False test=False
+[  23.1s] v2.2 YAYIN TAKLİDİ: Hazine kostümü istendi → mağaza kapalı penceresi=True · store_request 45 → 46 · sahip False
+[  80.1s] SONUÇ: 80 oyun-sn · Para=107 · Seviye=9 · Servis=12 · Kızgın ayrılan=0 · Yükseltme=88 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1]
+
+===== menucheck
+Exception/NullReference: 0
+v2.2 sezon zorlandı: winter → 2026-12-20
+[   0.0s] v2.2 BAŞLADI · mod 'offseason' · tarih 2026-12-20 · sezon winter (winter-2026) · kalan 43 gün · oynanabilir=True · Sv6 · dil tr · mağaza açık=True
+[  11.4s] v2.2 SEZON DIŞI: aktif=True · anahtar 'winter-2026' · süsleme [SeasonSet_Kis] · tezgâh [Station_SicakSarap] · sezon istasyonu 1 · rozet görünür=True · sezon görevi 4 · jeton 0
+[  22.3s] v2.2 SEZON DIŞI ETKİNLİK PANELİ: sekme 'events'
+[  40.0s] SONUÇ: 40 oyun-sn · Para=31 · Seviye=6 · Servis=2 · Kızgın ayrılan=0 · Yükseltme=114 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,masa3]
+
+===== newgame
+Exception/NullReference: 0
+[ 160.1s] SONUÇ: 160 oyun-sn · Para=19 · Seviye=2 · Servis=12 · Kızgın ayrılan=0 · Yükseltme=3 · Açılan=[mac_Sira,staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin]

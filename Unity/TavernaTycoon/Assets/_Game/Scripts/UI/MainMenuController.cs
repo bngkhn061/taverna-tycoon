@@ -27,6 +27,7 @@ namespace Taverna
             if (ver != null) ver.text = "v" + Application.version;
             Loc.Changed += OnLanguageChanged;
             SetupLegendBadge();
+            SetupSeasonChip();   // v2.2
             _settings = new SettingsPanel(_root, showToMenu: false);
             _root.Q<Button>("play").clicked += () =>
             {
@@ -92,6 +93,37 @@ namespace Taverna
             RefreshLegend();
         }
 
+        Label _seasonChip;
+
+        /// <summary>v2.2: sezon sürüyorsa logonun altında sezon şeridi (ad + kalan gün, sezon renginde, ikonlu).</summary>
+        void SetupSeasonChip()
+        {
+            _seasonChip = new Label { name = "menu-season", pickingMode = PickingMode.Ignore };
+            _seasonChip.AddToClassList("menu-legend");
+            _seasonChip.AddToClassList("menu-season");
+            var ic = new VisualElement { pickingMode = PickingMode.Ignore };
+            ic.AddToClassList("menu-season-ic");
+            _seasonChip.Add(ic);
+            var t = new Label { pickingMode = PickingMode.Ignore };
+            t.AddToClassList("menu-legend-text");
+            _seasonChip.Add(t);
+            (_root.Q("menu-root") ?? _root).Add(_seasonChip);
+            RefreshSeasonChip();
+        }
+
+        void RefreshSeasonChip()
+        {
+            if (_seasonChip == null) return;
+            _seasonChip.EnableInClassList("hidden", !Seasons.Active);
+            _seasonChip.EnableInClassList("below-legend", Ending.Seen);
+            if (!Seasons.Active) return;
+            var s = Seasons.Current;
+            _seasonChip.style.backgroundColor = s.color;
+            _seasonChip.Q(className: "menu-season-ic").style.backgroundImage = new StyleBackground(Resources.Load<Sprite>("Icons/ICO_Season_" + s.set));
+            var t = _seasonChip.Q<Label>(className: "menu-legend-text");
+            if (t != null) t.text = Loc.F("{0} · {1} gün", Loc.Upper(Loc.T(s.name)), Seasons.DaysLeftNow);
+        }
+
         void RefreshLegend()
         {
             if (_legend == null) return;
@@ -106,6 +138,7 @@ namespace Taverna
             Loc.Localize(_root);
             _settings.Refresh();
             RefreshLegend();
+            RefreshSeasonChip();
             if (!_root.Q("book-root").ClassListContains("hidden")) BuildBook();
             if (!_root.Q("daily-root").ClassListContains("hidden")) OpenDaily();
             BuildNameChips();
