@@ -100,6 +100,9 @@ namespace Taverna
             new() { id = "dec_ejder", name = Loc.N("Ejder Heykeli"), icon = "DEC_EjderHeykeli", prefab = "PR_Decor_EjderHeykeli", level = 1, price = 0, ambiance = 30, premium = true },
             new() { id = "dec_altinfici", name = Loc.N("Altın Fıçı"), icon = "DEC_AltinFici", prefab = "PR_Decor_AltinFici", level = 1, price = 0, ambiance = 8, premium = true },
             new() { id = "dec_muhur", name = Loc.N("Kraliyet Mührü"), icon = "DEC_Muhur", prefab = "PR_Decor_Muhur", level = 12, price = 1500, ambiance = 15 },
+            // v2.0 (oyuncu testi madde 21): bahçe dekoru — taş patika (ambiyans) ve gece ışık veren bahçe feneri (yakılması gerekmez)
+            new() { id = "dec_tasyol", name = Loc.N("Taş Yol"), icon = "DEC_TasYol", prefab = "PR_Decor_TasYol", level = 8, price = 120, ambiance = 3 },
+            new() { id = "dec_bahcefener", name = Loc.N("Bahçe Feneri"), icon = "DEC_BahceFeneri", prefab = "PR_Decor_BahceFeneri", level = 9, price = 300, ambiance = 6 },
         };
 
         public static Decor FindDecor(string id) => System.Array.Find(DecorList, d => d.id == id);

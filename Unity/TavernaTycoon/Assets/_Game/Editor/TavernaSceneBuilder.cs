@@ -767,6 +767,14 @@ namespace Taverna.EditorTools
                 new() { id = "staff_ignis", root = ignis },
                 new() { id = "staff_lir", root = MakeIdleStaff(staff, "Bard_Lir", "CH_Staff_06_OzanSahne", new Vector3(-0.85f, 0f, 1.95f), 200f) },
             };
+            // v2.0 (madde 18): Ozan Sahnesi alınmışsa ozan sahneye yürüyüp çalar (sahne üstü 0.3 m, seyirciye dönük)
+            {
+                var bard = staffEntries.Find(e => e.id == "staff_lir").root.GetComponent<StaffIdle>();
+                bard.stageZone = "sahne";
+                bard.stagePoint = L(-6.5f, 0f, 2.5f);
+                bard.stageHeight = 0.3f;
+                bard.stageFace = 180f;
+            }
             // ================================================================ ÖDEME ALANLARI (hedef zinciri)
             var zones = Group("PayZones");
             Zone(zones, "masa3", Loc.N("Yeni Masa"), 50, 2, "", -1.3f, -1.3f, new[] { tC });
@@ -813,6 +821,19 @@ namespace Taverna.EditorTools
                 var ft = FrontTable("Table_" + f.id, f.x, f.z, f.ent, f.cz);
                 Zone(zones, f.id, f.label, f.cost, f.lv, f.req, f.x, f.z, new[] { ft });
             }
+            // ================================================================ v2.0 BAHÇE UZUN MASASI (oyuncu testi madde 17)
+            // Salon'daki Table_E gibi 6 oturak; bahçenin sol yarısında I masası (−11.4, 1.9) ile ön sıra (z −2.8) arasında.
+            // Müşteri ön koridordan (z −3.55) bahçenin sol kenarına (x −13.75) yürür, oradan masanın önü ya da arkası boyunca oturağına.
+            {
+                const float bx = -12.4f, bz = -0.3f, sx = 0.6f, sz = 0.65f, colX = -13.75f, frontLane = -1.7f, backLane = 1.05f;
+                var seats = new List<SeatSpec>();
+                foreach (var dx in new[] { -sx, 0f, sx })
+                    seats.Add(Seat(bx + dx, bz - sz, (ent3.position.x, -3.55f), (colX, -3.55f), (colX, frontLane), (bx + dx, frontLane)));
+                foreach (var dx in new[] { -sx, 0f, sx })
+                    seats.Add(Seat(bx + dx, bz + sz, (ent3.position.x, -3.55f), (colX, -3.55f), (colX, backLane), (bx + dx, backLane)));
+                var tLong = Table("Table_BahceUzun", "PR_Furniture_MasaUzun", tables, bx, bz, 8f, ent3, ent3, seats.ToArray());
+                Zone(zones, "masaBU", Loc.N("Uzun Masa"), 1600, 10, "bahce", bx, bz, new[] { tLong });
+            }
             _layout = true;
 
             _layout = false;
@@ -826,6 +847,13 @@ namespace Taverna.EditorTools
             var world = BuildWorld();
             BuildTiers(tables);
             staffEntries.Add(new() { id = "staff_sema", root = hk });
+            // v2.0 (madde 15): personel gün sonu bölgesinin kapısından çıkar, sabah aynı kapıdan girer
+            var commute = systems.AddComponent<StaffCommute>();
+            commute.doorMeyhane = ent1;
+            commute.doorSalon = ent2;
+            commute.doorBahce = ent3;
+            commute.doorAvlu = GameObject.Find("Entrance_Yard").transform;
+            commute.doorIskele = GameObject.Find("Entrance_Dock").transform;
             _layout = true;
 
             // Görevliler müşterilerden ayırt edilsin: baş üstü etiket (HUD) + ayak altı rol renginde halka
@@ -893,6 +921,7 @@ namespace Taverna.EditorTools
             follow.target = player.transform;
             follow.minXZ = new Vector2(-13f, -6f);   // büyük odalar (v0.6) + v1.2 ön uzantı
             follow.maxXZ = new Vector2(13f, 9.2f);   // mutfak (v0.7)
+            follow.upMinXZ = new Vector2(-5f, 37.5f);   // v2.0: üst kat sola uzadı (odalar 7–8)
             follow.SnapNow();
 
             var hudGo = new GameObject("HUD");
@@ -973,6 +1002,9 @@ namespace Taverna.EditorTools
         /// </summary>
         static Transform _terraceDoor;
 
+        /// <summary>v2.0: üst katın sola uzaması (m, 1 m'lik karo sayısı) — 2 yeni oda.</summary>
+        const int InnExtraTiles = 4;
+
         static GameObject BuildInn(Transform zones)
         {
             _terraceDoor = null;
@@ -991,18 +1023,20 @@ namespace Taverna.EditorTools
 
             // --- Üst kat
             var up = Group("Upstairs");
-            for (int ix = 0; ix < 12; ix++)
+            // v2.0 (madde 20): üst kat sola 4 m uzadı (x −10.1..6.1), 2 oda daha
+            int extra = InnExtraTiles;
+            for (int ix = -extra; ix < 12; ix++)
                 for (int iz = 0; iz < 6; iz++)
                     P("PR_Building_Zemin_Parke", up, -5.5f + ix, 37.5f + iz);
-            for (int i = 0; i < 12; i++) P(i % 2 == 0 ? "PR_Building_Pencere" : "PR_Building_Duvar", up, -5.5f + i, 43.1f);
+            for (int i = -extra; i < 12; i++) P((i + 2 * extra) % 2 == 0 ? "PR_Building_Pencere" : "PR_Building_Duvar", up, -5.5f + i, 43.1f);
             for (int i = 0; i < 6; i++)
             {
-                P("PR_Building_Duvar", up, -6.1f, 37.5f + i, -90f);
+                P("PR_Building_Duvar", up, -6.1f - extra, 37.5f + i, -90f);
                 P("PR_Building_Duvar", i < 2 ? _terraceDoor ? _terraceDoor : (_terraceDoor = Group("Wall_ToTerrace")) : up, 6.1f, 37.5f + i, 90f);   // i < 2: teras kapısı
             }
-            P("PR_Building_Kose", up, -6.1f, 43.1f);
+            P("PR_Building_Kose", up, -6.1f - extra, 43.1f);
             P("PR_Building_Kose", up, 6.1f, 43.1f);
-            foreach (var k in new[] { -4f, -2f, 0f, 2f, 4f })
+            foreach (var k in new[] { -8f, -6f, -4f, -2f, 0f, 2f, 4f })
                 for (int i = 0; i < 4; i++) P("PR_Building_Duvar", up, k, 39.5f + i, 90f).transform.localScale = new Vector3(1f, 0.45f, 1f);   // alçak oda bölmeleri (kesit görünüm)
             var hole = P("PR_Furniture_MerdivenUst", up, Inn.UpHole.x, Inn.UpHole.z);
             Object.DestroyImmediate(hole.GetComponent<Collider>());   // üstünden geçilip aşağı inilsin
@@ -1013,22 +1047,22 @@ namespace Taverna.EditorTools
             downTrig.goesUp = false;
             var upFloor = new GameObject("UpFloorCollider", typeof(BoxCollider));
             upFloor.transform.SetParent(up, false);
-            upFloor.GetComponent<BoxCollider>().center = new Vector3(0f, -0.5f, 40f);
-            upFloor.GetComponent<BoxCollider>().size = new Vector3(14f, 1f, 8f);
+            upFloor.GetComponent<BoxCollider>().center = new Vector3(-extra * 0.5f, -0.5f, 40f);
+            upFloor.GetComponent<BoxCollider>().size = new Vector3(14f + extra, 1f, 8f);
             var upFront = new GameObject("UpFrontBarrier", typeof(BoxCollider));
             upFront.transform.SetParent(up, false);
-            upFront.GetComponent<BoxCollider>().center = new Vector3(0f, 1f, 36.85f);
-            upFront.GetComponent<BoxCollider>().size = new Vector3(12.4f, 2f, 0.3f);
-            foreach (var x in new[] { -3f, 1f, 4.5f })
+            upFront.GetComponent<BoxCollider>().center = new Vector3(-extra * 0.5f, 1f, 36.85f);
+            upFront.GetComponent<BoxCollider>().size = new Vector3(12.4f + extra, 2f, 0.3f);
+            foreach (var x in new[] { -7.5f, -3f, 1f, 4.5f })
                 AddPoint("UpLamp", new Vector3(x, 2.2f, 38f), "#FFD9A0", 1.4f, 5f).transform.SetParent(up, true);
 
-            // --- Odalar
+            // --- Odalar. v2.0: 8 oda — 1–6 eski yerinde (x −5..5), 7–8 solda (x −7, −9); merdiven ağzı (x −5.2) koridorda kalır
             var rooms = Group("Rooms");
-            int[] costs = { 0, 0, 1500, 2200, 3000, 4000 };
-            int[] levels = { 0, 0, 11, 12, 14, 16 };
+            int[] costs = { 0, 0, 1500, 2200, 3000, 4000, 5000, 6000 };
+            int[] levels = { 0, 0, 11, 12, 14, 16, 18, 20 };
             for (int i = 0; i < Inn.RoomCount; i++)
             {
-                float c = -5f + 2f * i;
+                float c = i < 6 ? -5f + 2f * i : -7f - 2f * (i - 6);
                 var root = new GameObject($"Room{i + 1}");
                 root.transform.SetParent(rooms, false);
                 var room = root.AddComponent<Room>();
@@ -1040,12 +1074,27 @@ namespace Taverna.EditorTools
                 }
                 room.messy = P("PR_Furniture_YorganDaginik", root.transform, c, 41.8f);
                 room.messy.SetActive(false);
-                P("PR_Furniture_Komodin", root.transform, c + 0.72f, 42.55f);
+                // v2.0 (madde 19): konfor eşyaları — oda sade başlar, her seviye görünür eşya ekler (Room.items)
+                var items = new List<GameObject>();
+                var itemLv = new List<int>();
+                void Item(GameObject go, int lv) { items.Add(go); itemLv.Add(lv); go.SetActive(false); }
+                Item(P("PR_Inn_Kilim", root.transform, c + 0.05f, 40.3f, 0f, 0.035f), 2);
+                Item(P("PR_Furniture_Komodin", root.transform, c + 0.72f, 42.55f), 2);
+                var lamp = P("PR_Inn_Lamba", root.transform, c + 0.75f, 41.25f);
+                var lampLight = AddPoint("RoomLamp", new Vector3(c + 0.75f, 1.1f, 41.25f), "#FFB060", 1.1f, 2.6f);
+                lampLight.transform.SetParent(lamp.transform, true);
+                Item(lamp, 3);
+                Item(P("PR_Inn_Dolap", root.transform, c - 0.71f, 42.6f), 3);
+                Item(P("PR_Inn_Somine", root.transform, c - 0.7f, 40.15f, -90f), 4);
+                Item(P("PR_Inn_Tablo", root.transform, c + 0.62f, 42.98f), 4);
+                room.items = items.ToArray();
+                room.itemLevels = itemLv.ToArray();
                 var bp = new GameObject("BedPoint").transform;
                 bp.SetParent(root.transform, false);
                 bp.position = new Vector3(c, 0.48f, 40.95f);
                 room.bedPoint = bp;
-                AddPoint("RoomLamp", new Vector3(c + 0.72f, 0.9f, 42.5f), "#FFB060", 0.8f, 2.2f).transform.SetParent(root.transform, true);
+                // Oda başına sönük bir mum ışığı (lamba gelince asıl ışık o)
+                AddPoint("RoomCandle", new Vector3(c, 1.2f, 41.6f), "#FFB060", 0.4f, 2f).transform.SetParent(root.transform, true);
                 if (i >= 2)
                     Zone(zones, $"oda{i + 1}", $"Oda {i + 1}", costs[i], levels[i], "merdiven", c + 0.5f, 38.35f, new[] { root });
             }
@@ -1089,7 +1138,7 @@ namespace Taverna.EditorTools
             for (int i = 0; i < right.Length; i++) P("PR_Building_" + right[i], shell, 15.1f, 5.6f + i, 90f);
             P("PR_Building_Kose", shell, 15.1f, 10.1f);
             P("PR_Decor_FiciYigini", shell, 14.4f, 9.3f, -90f);
-            P("PR_Decor_Saksi", shell, 5.0f, 9.55f);
+            P("PR_Decor_Saksi", shell, 14.6f, 5.6f);   // v2.0: (5.0, 9.55) yeni zar masasının yeri
             AddPoint("GameRoomLamp", new Vector3(9.5f, 2.3f, 7.6f), "#FFD9A0", 1.5f, 7.5f).transform.SetParent(room, true);
 
             Vector2[] Via(float x, params (float x, float z)[] tail)
@@ -1132,12 +1181,25 @@ namespace Taverna.EditorTools
             Game(zar, GameTable.Kind.Zar, Balance.DiceFee, 2);
             Game(kart, GameTable.Kind.Kart, Balance.CardFee, 0);
             Game(bilek, GameTable.Kind.Bilek, Balance.ArmFee, 0);
+            // v2.0 (madde 20): arka sırada iki masa daha (zar sol arka köşede, kart sağ arkada); yanlardaki sütunlardan oturulur
+            var zar2 = Table("GameTable_Zar2", "PR_Furniture_ZarMasasi", room, 5.5f, 9.25f, 6f, ent, hub, new[]
+            {
+                S(4.65f, 9.25f, Via(4.65f, (4.65f, 9.25f))), S(5.5f, 8.4f, Via(5.5f, (5.5f, 8.4f))),
+            });
+            var kart2 = Table("GameTable_Kart2", "PR_Furniture_KartMasasi", room, 12.9f, 9.25f, 7f, ent, hub, new[]
+            {
+                S(12.15f, 9.25f, Via(11.9f, (11.9f, 9.25f))), S(12.9f, 8.5f, Via(11.9f, (11.9f, 8.5f))),
+            });
+            Game(zar2, GameTable.Kind.Zar, Balance.DiceFee, 2);
+            Game(kart2, GameTable.Kind.Kart, Balance.CardFee, 0);
 
             var torchA = AddLantern(room, "GameTorchA", "salon", 6.0f, 9.7f, 3.5f);
             var torchB = AddLantern(room, "GameTorchB", "salon", 13.0f, 9.7f, 3.5f);
             Zone(zones, "oyun", Loc.N("Oyun Salonu"), 4000, 13, "salon", KitchenLayout.GameDoorX, 4.05f, new[] { zar, torchA, torchB }, new[] { doorWall });
             Zone(zones, "kart", Loc.N("Kart Masası"), 3000, 15, "oyun", 10.6f, 6.35f, new[] { kart });
             Zone(zones, "bilek", Loc.N("Bilek Güreşi"), 4500, 16, "oyun", 13.4f, 6.35f, new[] { bilek });
+            Zone(zones, "zar2", Loc.N("Zar Masası"), 5000, 17, "oyun", 5.5f, 9.25f, new[] { zar2 });
+            Zone(zones, "kart2", Loc.N("Kart Masası"), 6000, 19, "kart", 12.9f, 9.25f, new[] { kart2 });
             foreach (var t in shell.GetComponentsInChildren<Transform>(true)) GameObjectUtility.SetStaticEditorFlags(t.gameObject, StaticEditorFlags.BatchingStatic);
             _layout = lay;
             return room;
@@ -1247,6 +1309,10 @@ namespace Taverna.EditorTools
         /// </summary>
         /// <summary>v1.8: Şerbet Çeşmesi'nin x konumu (Salon arka duvarı, köşe sütunu ile Şarap rafı arası).</summary>
         const float SerbetX = 5.25f;
+        /// <summary>v2.0: kademe apliğinin sütun merkezinden odaya doğru uzaklığı ve ışık yüksekliği (m).</summary>
+        const float SconceOffset = 0.24f, SconceLightHeight = 1.75f;
+        /// <summary>v2.0: kademe dolgu ışığının masa üstündeki yüksekliği (m).</summary>
+        const float TierFillHeight = 2.4f;
 
         static void BuildTiers(Transform tables)
         {
@@ -1264,19 +1330,29 @@ namespace Taverna.EditorTools
             {
                 P("PR_Tier_TasSutun", t1, x, z);
                 P("PR_Tier_MermerSutun", t2, x, z);
+                // v2.0 (madde 14): masa üstü kademe avizeleri kalktı; ışığı sütunların odaya bakan yüzündeki aplikler verir
+                bool front = z < 0f;
+                float az = z + (front ? SconceOffset : -SconceOffset), rot = front ? 180f : 0f;
+                NightLight.Attach(P("PR_Tier_DemirAplik", t1, x, az, rot), SconceLightHeight, 6f, new Color(1f, 0.7f, 0.42f), 2.4f);
+                NightLight.Attach(P("PR_Tier_AltinAplik", t2, x, az, rot), SconceLightHeight, 7.5f, new Color(1f, 0.84f, 0.6f), 3.2f);
             }
             // Kemer: oyun salonu kapısı ve meyhane–salon geçidinin önü (salon açıkken)
             P("PR_Tier_TasKemer", t1, KitchenLayout.GameDoorX, 4.95f);
             P("PR_Tier_AltinKemer", t2, KitchenLayout.GameDoorX, 4.95f);
-            // Avize ve örtü: meyhane + salon masaları (bahçe ve oyun salonu hariç)
+            // Örtü: meyhane + salon masaları (bahçe ve oyun salonu hariç). v2.0: masa başına avize yok (madde 14)
             foreach (Transform t in tables)
             {
                 var pos = t.position;
                 if (pos.x < -4.1f || pos.z > 5.1f) continue;
                 bool longTable = t.name == "Table_E";
-                // v1.1: kademe avizeleri de ışık versin (gövde 2.0–2.7 m)
-                NightLight.Attach(P("PR_Tier_DemirAvize", t1, pos.x, pos.z), 2.1f, 5f, new Color(1f, 0.7f, 0.42f), 2f);
-                NightLight.Attach(P("PR_Tier_SarayAvize", t2, pos.x, pos.z), 2.1f, 6f, new Color(1f, 0.84f, 0.6f), 2.6f);
+                // v2.0: avize gövdesi yok ama oda kademeyle aydınlansın — masanın üstünde görünmez sıcak dolgu ışığı (gece güçlenir)
+                foreach (var (grp, night, col) in new[] { (t1, 1.7f, new Color(1f, 0.72f, 0.45f)), (t2, 2.3f, new Color(1f, 0.85f, 0.62f)) })
+                {
+                    var fill = new GameObject("TierFill");
+                    fill.transform.SetParent(grp, false);
+                    fill.transform.position = new Vector3(pos.x, 0f, pos.z);
+                    NightLight.Attach(fill, TierFillHeight, 5.5f, col, night);
+                }
                 P("PR_Tier_Ortu1", t1, pos.x, pos.z, longTable ? 90f : 0f);
                 P("PR_Tier_Ortu2", t2, pos.x, pos.z, longTable ? 90f : 0f);
             }
@@ -1581,6 +1657,13 @@ namespace Taverna.EditorTools
             A("dec_kristal", "", 2.0f, -1.3f, 0f, 0.9f);
             list.Add(new TavernRegistry.DecorSlot { item = "dec_ejder", zone = "", pos = new Vector3(3.0f, 0f, -5.85f), rotY = 0f });
             list.Add(new TavernRegistry.DecorSlot { item = "dec_altinfici", zone = "", pos = new Vector3(13.4f, 0f, -5.85f), rotY = 0f });
+            // v2.0 (madde 21) bahçe dekoru, ham koordinat (yeni harita). Taş yol: girişten ön koridora, koridor boyunca ve sahnenin önü.
+            // (Kayıt yer indeksini tutar: yeni yerler hep listenin sonuna.) Bahçe feneri: masa ve yürüme yollarının dışında, köşelerde (gece kendi yanar).
+            void Raw(string item, float x, float z, float rot = 0f, float y = 0f) =>
+                list.Add(new TavernRegistry.DecorSlot { item = item, zone = "bahce", pos = new Vector3(x, y, z), rotY = rot });
+            Raw("dec_tasyol", -4.95f, -4.35f, 0f, 0.04f); Raw("dec_tasyol", -6.95f, -3.55f, 90f, 0.04f);
+            Raw("dec_tasyol", -8.78f, 2.3f, 0f, 0.04f); Raw("dec_tasyol", -11.0f, -3.55f, 90f, 0.04f);
+            Raw("dec_bahcefener", -14.7f, -4.6f); Raw("dec_bahcefener", -6.4f, -4.75f); Raw("dec_bahcefener", -4.55f, -1.9f);
             return list.ToArray();
         }
 

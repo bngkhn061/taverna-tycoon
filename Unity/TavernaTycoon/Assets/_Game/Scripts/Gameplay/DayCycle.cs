@@ -34,15 +34,40 @@ namespace Taverna
             _i = this;
             dayLength = Balance.DayLength;
             Ended = false;
+            Closing = false;
             GameState.CoinsGainedAt += OnCoins;
             _servedStart = GameState.Data.customersServed;
         }
-        void OnDisable() { GameState.CoinsGainedAt -= OnCoins; if (Ended) Time.timeScale = _prevScale; Ended = false; }
+        void OnDisable() { GameState.CoinsGainedAt -= OnCoins; if (Ended) Time.timeScale = _prevScale; Ended = false; Closing = false; }
         void OnCoins(long a, Vector3 _) => _income += a;
+
+        /// <summary>v2.0 (madde 15): günün son kısmı — yeni müşteri gelmez, oturanlar yeni sipariş vermez.</summary>
+        public static bool LastCall => Closing || Ended || Progress01 >= Balance.LastCallPhase;
+        /// <summary>v2.0: gün süresi doldu, müşteriler ve personel çıkıyor (plan ekranı henüz açılmadı).</summary>
+        public static bool Closing { get; private set; }
+        /// <summary>Kapanış başladı: müşteriler hesabı kapatıp çıkar, personel kapıya yürür (StaffCommute).</summary>
+        public static event Action ClosingStarted;
+        float _closeT;
+
+        /// <summary>Tavernanın içinde (henüz sokağa çıkmamış) müşteri var mı? Kapanış bunu bekler.</summary>
+        static bool CustomersInside()
+        {
+            foreach (var c in Customer.All)
+                if (c && (c.state != Customer.State.Leaving || c.transform.position.z > OutsideZ)) return true;
+            return false;
+        }
+        /// <summary>Bu z'nin önü sokak (ön cephe z = −5, kaldırım −6..−7).</summary>
+        const float OutsideZ = -5.6f;
 
         void Update()
         {
             if (Ended) return;
+            if (Closing)
+            {
+                _closeT += Time.deltaTime;
+                if ((!CustomersInside() && !StaffCommute.AnyInside) || _closeT >= Balance.ClosingMaxSeconds) EndDay();
+                return;
+            }
             if (Tutorial.HoldsTime) { RemainingSeconds = dayLength - _t; Progress01 = _t / dayLength; return; }   // v1.2: rehber sürerken gün akmaz
             _t += Time.deltaTime;
             Progress01 = _t / dayLength;
@@ -51,6 +76,19 @@ namespace Taverna
             _t = dayLength;
             Progress01 = 1f;
             RemainingSeconds = 0f;
+            // v2.0: önce kapanış — oturan müşteriler hesabı öder (bekleyenler kızmadan) çıkar, personel evine gider
+            Closing = true;
+            _closeT = 0f;
+            foreach (var c in Customer.All.ToArray()) if (c) c.CloseUp();
+            ClosingStarted?.Invoke();
+        }
+
+        void EndDay()
+        {
+            Closing = false;
+            // Sokakta kalan müşteriler kaybolur; plan ekranında tavernada kimse yok
+            foreach (var c in Customer.All.ToArray()) if (c) Destroy(c.gameObject);
+            StaffCommute.FinishClosing();
             // v1.9 (oyuncu testi madde 7): maaş her durumda düşer; altın yetmezse kalanı borç olur (bakiye eksiye iner)
             long wages = Management.DailyWages;
             long unpaid = GameState.ForceSpend(wages);
@@ -83,6 +121,7 @@ namespace Taverna
         {
             if (!Ended || !_i) return;
             Ended = false;
+            Closing = false;
             _i._t = 0f;
             Progress01 = 0f;
             RemainingSeconds = _i.dayLength;

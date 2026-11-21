@@ -172,6 +172,7 @@ namespace Taverna
             if (!Quiet) TrackV14();
             TutorialClicks(hud);
             UpdateV15(hud, p);
+            UpdateV20(hud, p);   // v2.0 Paket 2 ("-autotest-v20 <mod>")
             if (!NoTests) UpdateV16(hud);
             if (hud)
             {
@@ -285,6 +286,7 @@ namespace Taverna
         Vector3? Decide(PlayerController p)
         {
             var pos = p.transform.position;
+            if (_v20Hold.HasValue) { _goal = "v2.0 bak"; return _v20Hold.Value; }   // v2.0: görüntü için yerinde dur
             if (_v15Visit.HasValue) { _goal = "v1.5 bak"; return _v15Visit.Value; }   // v1.5: yeni makinelerin önüne git (görüntü)
             // 1) Para topla
             CoinPile nearestCoin = null;
@@ -415,6 +417,7 @@ namespace Taverna
             if (!_tutShot && Tutorial.Active && _real > 4f) { _tutShot = true; Shot("ui_tutorial.png"); }
             if (DayCycle.Ended && hud)
             {
+                if (V20 == "dayend") DayEndV20(hud);   // v2.0: plan ekranındaki durum (müşteri / personel yok)
                 if (_dayEndAt < 0f) { _dayEndAt = _real; _daysEnded++; Log($"Gün bitti (plan ekranı) · gün {GameState.Data.day - 1} · para {GameState.Coins}"); }
                 if (!_dayEndShot && _real > _dayEndAt + 1.0f) { _dayEndShot = true; Shot("ui_dayend.png"); }
                 if (_dayEndShot && !_planShot && _real > _dayEndAt + 1.6f)

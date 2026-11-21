@@ -422,15 +422,20 @@ def x_somine(ox, oy):
 
 
 def x_avize(ox, oy):
+    """v2.0 (oyuncu testi madde 14 "avizeler çirkin, masayı kapatıyor"): küçük, ince demir avize.
+    Dekor yuvası y = 0.9 üstüne oturur; gövde 1.5–1.85 m (dünyada ≈ 2.4–2.75 m), çap 0.44 m (eskiden 0.9 m)."""
     p = at(ox, oy)
-    T.torus("Ring", "KoyuMese", p(0, 0, 0.8), major=0.45, minor=0.04, seg=16)
-    for k in range(6):
-        a = k * math.pi / 3
-        x, y = math.cos(a) * 0.45, math.sin(a) * 0.45
-        T.cyl(f"Candle{k}", "Krem", p(x, y, 0.89), r=0.025, depth=0.12, verts=6)
-        T.sphere(f"Flame{k}", "Ates", p(x, y, 0.97), r=0.017, scale=(1, 1, 1.6), seg=5, rings=4)
-        T.limb(f"Chain{k}", "KoyuTas", p(x * 0.9, y * 0.9, 0.82), p(0, 0, 1.4), r1=0.008, verts=4)
-    T.cyl("Hook", "KoyuTas", p(0, 0, 1.45), r=0.03, depth=0.1, verts=6)
+    T.torus("Ring", "KoyuTas", p(0, 0, 1.52), major=0.2, minor=0.014, seg=14)
+    T.sphere("Boss", "Pirinc", p(0, 0, 1.47), r=0.035, scale=(1, 1, 1.3), seg=6, rings=4)
+    for k in range(4):
+        a = k * math.pi / 2 + math.pi / 4
+        x, y = math.cos(a) * 0.2, math.sin(a) * 0.2
+        T.limb(f"Arm{k}", "KoyuTas", p(0, 0, 1.49), p(x, y, 1.53), r1=0.007, verts=4)
+        T.cyl(f"Cup{k}", "Pirinc", p(x, y, 1.545), r=0.022, depth=0.014, verts=6)
+        T.cyl(f"Candle{k}", "Krem", p(x, y, 1.59), r=0.013, depth=0.07, verts=6)
+        T.sphere(f"Flame{k}", "Ates", p(x, y, 1.64), r=0.011, scale=(1, 1, 1.6), seg=5, rings=3)
+    T.cyl("Chain", "KoyuTas", p(0, 0, 1.72), r=0.006, depth=0.48, verts=4)
+    T.cyl("Hook", "KoyuTas", p(0, 0, 1.97), r=0.02, depth=0.03, verts=6)
 
 
 def x_mesale(ox, oy):

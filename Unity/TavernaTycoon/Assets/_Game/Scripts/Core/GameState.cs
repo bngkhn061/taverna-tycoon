@@ -78,7 +78,7 @@ namespace Taverna
         /// <summary>v1.5 ve öncesinin PlayerPrefs kayıt anahtarı (v1.6'da ilk açılışta dosyaya taşınır).</summary>
         public const string LegacyPrefsKey = "taverna_save_v1";
         /// <summary>Kayıt biçimi sürümü: 2 = v1.6 imzalı dosya.</summary>
-        public const int CurrentSaveVersion = 2;
+        public const int CurrentSaveVersion = 3;   // v2.0: han konforu 3 → 5 seviye (Inn.MigrateComfortV2)
         public static SaveData Data { get; private set; } = new();
 
         /// <summary>Son açılışta kayıt nereden geldi (test günlüğü, bilgi mesajı).</summary>
@@ -157,8 +157,13 @@ namespace Taverna
         }
 
         /// <summary>Eski sürüm kaydını güncel biçime getirir (şimdilik yalnızca sürüm numarası; alan eklemeleri JsonUtility ile varsayılan alır).</summary>
+        /// <summary>Han konforunun 5 seviyeye geçtiği kayıt sürümü.</summary>
+        const int ComfortV2SaveVersion = 3;
+
         static SaveData Upgrade(SaveData d)
         {
+            if (d.saveVersion < ComfortV2SaveVersion && d.roomLvs != null)
+                for (int i = 0; i < d.roomLvs.Count; i++) d.roomLvs[i] = Inn.MigrateComfortV2(d.roomLvs[i]);
             if (d.saveVersion < CurrentSaveVersion) d.saveVersion = CurrentSaveVersion;
             if (d.seenLevel < 0) d.seenLevel = Mathf.Max(1, d.level);   // v1.9: eski kayıtta mevcut ürünler "YENİ!" çıkmasın
             return d;

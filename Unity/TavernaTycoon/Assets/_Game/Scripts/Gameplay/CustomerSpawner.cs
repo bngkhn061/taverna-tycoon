@@ -16,6 +16,8 @@ namespace Taverna
         public float intervalScale = 1f;
 
         float _t = 1.5f;
+        /// <summary>v2.0: sabah ilk müşteriye kadar en fazla bu kadar saniye (personel kapıdan girerken).</summary>
+        const float FirstMorningSpawn = 3f;
         readonly Dictionary<int, float> _newSince = new();
         int _lastLevel;
 
@@ -32,6 +34,8 @@ namespace Taverna
 
             // v1.2 rehber: bardak dolana kadar müşteri yok, sonra en fazla 2
             if (!Tutorial.AllowsSpawn) { _t = Mathf.Min(_t, 1.2f); return; }
+            // v2.0 (madde 15): günün son %10'unda ve kapanışta yeni müşteri gelmez (sabah ilk müşteri kısa sürede gelir)
+            if (DayCycle.LastCall) { _t = Mathf.Min(_t, FirstMorningSpawn); return; }
             _t -= Time.deltaTime;
             if (_t > 0f) return;
             _t = Balance.BaseSpawnInterval * intervalScale * Balance.SpawnLevelScale(GameState.Level) * Random.Range(0.75f, 1.25f)

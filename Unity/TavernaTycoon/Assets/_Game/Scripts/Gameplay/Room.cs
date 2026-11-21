@@ -16,6 +16,9 @@ namespace Taverna
         public int index;
         public GameObject[] beds = new GameObject[3];
         public GameObject messy;
+        /// <summary>v2.0 (madde 19): konfor eşyaları ve her birinin göründüğü en düşük konfor seviyesi (kilim, komodin, lamba, dolap, şömine, tablo).</summary>
+        public GameObject[] items = new GameObject[0];
+        public int[] itemLevels = new int[0];
         public Transform bedPoint;
         public float cleanSeconds = 1.2f;
 
@@ -38,6 +41,18 @@ namespace Taverna
             return null;
         }
 
+        /// <summary>v2.0: en yüksek konforlu boş oda (eşitlikte sıradaki ilk).</summary>
+        public static Room BestFree()
+        {
+            Room best = null;
+            foreach (var r in All)
+                if (r.isActiveAndEnabled && r.state == State.Free && (!best || Inn.Comfort(r.index) > Inn.Comfort(best.index))) best = r;
+            return best;
+        }
+
+        /// <summary>Konfor seviyesinin yatak modeli: 0 saman, 1–3 yün, 4 kuştüyü (beds dizisinin indeksi).</summary>
+        public static int BedFor(int comfort) => comfort <= 0 ? 0 : comfort >= Inn.Fees.Length - 1 ? 2 : 1;
+
         public int Fee => Inn.Fee(index);
 
         void Update()
@@ -45,7 +60,15 @@ namespace Taverna
             int c = Inn.Comfort(index);
             if (c != _shownComfort)
             {
-                for (int i = 0; i < beds.Length; i++) if (beds[i]) beds[i].SetActive(i == c);
+                int bed = BedFor(c);
+                for (int i = 0; i < beds.Length; i++) if (beds[i]) beds[i].SetActive(i == bed);
+                for (int i = 0; i < items.Length && i < itemLevels.Length; i++)
+                {
+                    if (!items[i]) continue;
+                    bool on = c >= itemLevels[i];
+                    if (on && !items[i].activeSelf && _shownComfort >= 0) items[i].AddComponent<PopIn>();   // yeni eşya zıplayarak gelir
+                    items[i].SetActive(on);
+                }
                 _shownComfort = c;
             }
             if (state != State.Dirty) return;

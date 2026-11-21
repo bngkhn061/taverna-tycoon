@@ -185,14 +185,39 @@ namespace Taverna
 
         void FinishDrink()
         {
+            Pay();
+            _ordersLeft--;
+            // v2.0 (madde 15): son siparişlerden sonra yeni sipariş yok, içen müşteri kalkar
+            if (_ordersLeft > 0 && !DayCycle.LastCall) NewOrder();
+            else Leave(Emote.Happy);
+        }
+
+        /// <summary>İçtiği siparişin parasını masaya bırakır (bardak kirli kalır).</summary>
+        void Pay()
+        {
             if (_cupGo) { _seat.table.AddDirt(_cupGo); _cupGo = null; }
             CoinPile.Drop(_seat.table.CoinPos, _pendingPay);
             GameState.Data.customersServed++;
             GameState.AddUn(def.payStars >= 4 ? Balance.RichUn : 1);
-            _ordersLeft--;
-            if (_ordersLeft > 0) NewOrder();
-            else Leave(Emote.Happy);
         }
+
+        /// <summary>
+        /// v2.0 gün sonu kapanışı (madde 15): içmekte olan müşteri hesabını hemen öder ve çıkar; siparişi bekleyen ya da
+        /// yeni gelen müşteri kızmadan çıkar (mutluluk / yıldız cezası yok, para kaybı yok).
+        /// </summary>
+        public void CloseUp()
+        {
+            walkSpeed *= ClosingWalkBoost;   // kapanışta biraz acele eder (plan ekranı beklemesin)
+            switch (state)
+            {
+                case State.Drinking: Pay(); Leave(Emote.Happy); break;
+                case State.Waiting:
+                case State.WalkingIn: Leave(Emote.None); break;
+            }
+        }
+
+        /// <summary>v2.0: kapanışta çıkış yürüyüşü hız çarpanı.</summary>
+        const float ClosingWalkBoost = 1.5f;
 
         void Leave(Emote e)
         {
@@ -200,11 +225,12 @@ namespace Taverna
             if (e == Emote.Angry) { Sfx.Voice(def, VoiceKind.Grumble, transform.position, 1.1f); Management.OnAngryCustomer(); Happiness.OnAngry(HeadPos); }
             emote = e;
             emoteTime = 1.5f;
+            // Gelinen yolun tersinden çık (v2.0: yoldayken geri dönen müşteri bulunduğu yerden döner)
+            int from = state == State.WalkingIn ? Mathf.Min(_pathIdx - 1, _path.Count - 2) : _path.Count - 2;
             state = State.Leaving;
             if (_seat) _seat.occupant = null;
-            // Gelinen yolun tersinden çık
             var back = new List<Vector3>();
-            for (int i = _path.Count - 2; i >= 0; i--) back.Add(_path[i]);
+            for (int i = from; i >= 0; i--) back.Add(_path[i]);
             back.Add(_exit);
             _path = back;
             _pathIdx = 0;

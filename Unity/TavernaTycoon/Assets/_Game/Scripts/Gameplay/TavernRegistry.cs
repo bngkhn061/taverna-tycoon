@@ -82,6 +82,7 @@ namespace Taverna
             var e = Array.Find(staff, x => x.id == id);
             if (e == null || !e.root) return;
             bool on = Management.Working(id);
+            if (on && StaffCommute.IsAway(e.root)) return;   // v2.0: gece evinde; sabah kapıdan gelir
             if (on && !e.root.activeSelf)
             {
                 e.root.SetActive(true);
@@ -89,6 +90,9 @@ namespace Taverna
             }
             else if (!on) e.root.SetActive(false);
         }
+
+        /// <summary>v2.0: avize ışığının dekor yuvasına göre yüksekliği (m) ve bahçe fenerinin cam hizası.</summary>
+        const float AvizeLightHeight = 1.45f, GardenLampLightHeight = 1.45f;
 
         bool _concert;
 
@@ -100,7 +104,7 @@ namespace Taverna
             _concert = c;
             var e = Array.Find(staff, x => x.id == "staff_lir");
             if (e == null || !e.root) return;
-            if (c && !e.root.activeSelf) { e.root.SetActive(true); e.root.AddComponent<PopIn>(); }
+            if (c && !e.root.activeSelf && !StaffCommute.IsAway(e.root)) { e.root.SetActive(true); e.root.AddComponent<PopIn>(); }
             else if (!c) ApplyStaff("staff_lir", false);
         }
 
@@ -126,8 +130,11 @@ namespace Taverna
             var go = Instantiate(pf.prefab, s.pos, Quaternion.Euler(0f, s.rotY, 0f), decorRoot);
             go.AddComponent<AmbianceSource>().value = Catalog.FindDecor(item).ambiance;
             // v1.1: avizeler gerçekten aydınlatsın (mumların hizasında sıcak ışık, akşam güçlenir)
-            if (item == "dec_avize") NightLight.Attach(go, 0.95f, 5.5f, new Color(1f, 0.72f, 0.4f));
-            else if (item == "dec_kristal") NightLight.Attach(go, 0.95f, 7f, new Color(1f, 0.85f, 0.65f), 3.2f);
+            // v2.0 (madde 14): avizeler küçülüp yükseldi (gövde yuvanın 1.5–1.9 m üstü); ışık gövdenin hizasında, menzil büyüdü
+            if (item == "dec_avize") NightLight.Attach(go, AvizeLightHeight, 6.5f, new Color(1f, 0.72f, 0.4f), 2.8f);
+            else if (item == "dec_kristal") NightLight.Attach(go, AvizeLightHeight, 8f, new Color(1f, 0.85f, 0.65f), 3.6f);
+            // v2.0 (madde 21): bahçe feneri gece kendiliğinden yanar (Lantern değil: yakılması gerekmez, bölge fener sayımına girmez)
+            else if (item == "dec_bahcefener") NightLight.Attach(go, GardenLampLightHeight, 6f, new Color(1f, 0.74f, 0.42f), 3.4f).dayIntensity = 0f;
             if (animate) go.AddComponent<PopIn>();
             _usedSlots.Add(slot);
         }

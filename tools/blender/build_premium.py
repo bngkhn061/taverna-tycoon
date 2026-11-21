@@ -62,18 +62,22 @@ def st_ignis(ox):
 
 # ------------------------------------------------------------------ premium dekor
 def kristal_avize(ox, oy):
-    """Kristal avize (tavana asılı; dekor yuvası y = 0.9 üstüne oturur): altın halka, kristal damlalar, mumlar."""
+    """Kristal avize (tavana asılı; dekor yuvası y = 0.9 üstüne oturur): altın halka, kristal damlalar, mumlar.
+    v2.0 (madde 14): daha küçük ve yüksek — çap 0.56 m (eskiden 0.76 m), gövde 1.45–1.9 m (dünyada ≈ 2.35–2.8 m)."""
     p = at(ox, oy)
-    T.cyl("Chain", "Altin", p(0, 0, 1.55), r=0.012, depth=0.5, verts=6)
-    T.torus("RingTop", "Altin", p(0, 0, 1.28), major=0.22, minor=0.02, seg=16)
-    T.torus("RingBig", "Altin", p(0, 0, 1.12), major=0.38, minor=0.025, seg=18)
+    T.cyl("Chain", "Altin", p(0, 0, 1.9), r=0.007, depth=0.3, verts=5)
+    T.torus("RingTop", "Altin", p(0, 0, 1.7), major=0.13, minor=0.012, seg=14)
+    T.torus("RingBig", "Altin", p(0, 0, 1.6), major=0.27, minor=0.016, seg=18)
+    for i in range(3):
+        a = math.radians(i * 120)
+        T.limb(f"Arm{i}", "Altin", p(0, 0, 1.76), p(math.cos(a) * 0.27, math.sin(a) * 0.27, 1.6), r1=0.006, verts=4)
     for i in range(8):
         a = math.radians(i * 45)
-        x, y = math.cos(a) * 0.38, math.sin(a) * 0.38
-        T.cyl(f"Candle{i}", "Krem", p(x, y, 1.19), r=0.022, depth=0.1, verts=6)
-        T.sphere(f"Flame{i}", "Ates", p(x, y, 1.27), r=0.018, scale=(1, 1, 1.6), seg=5, rings=3)
-        T.sphere(f"Crystal{i}", "ElfCiyi", p(x * 0.85, y * 0.85, 1.0), r=0.035, scale=(1, 1, 1.8), seg=6, rings=4)
-    T.sphere("CrystalCore", "ElfCiyi", p(0, 0, 0.98), r=0.08, scale=(1, 1, 1.6), seg=8, rings=5)
+        x, y = math.cos(a) * 0.27, math.sin(a) * 0.27
+        T.cyl(f"Candle{i}", "Krem", p(x, y, 1.65), r=0.013, depth=0.065, verts=6)
+        T.sphere(f"Flame{i}", "Ates", p(x, y, 1.7), r=0.011, scale=(1, 1, 1.6), seg=5, rings=3)
+        T.sphere(f"Crystal{i}", "ElfCiyi", p(x * 0.85, y * 0.85, 1.52), r=0.022, scale=(1, 1, 1.8), seg=6, rings=4)
+    T.sphere("CrystalCore", "ElfCiyi", p(0, 0, 1.5), r=0.05, scale=(1, 1, 1.6), seg=8, rings=5)
 
 
 def ejder_heykeli(ox, oy):

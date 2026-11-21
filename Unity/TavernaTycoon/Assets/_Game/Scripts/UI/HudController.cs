@@ -273,6 +273,9 @@ namespace Taverna
 
         // ------------------------------------------------------------------ otomatik test kancaları
         public bool LevelCardOpen => !_levelRoot.ClassListContains("hidden");
+        /// <summary>Test botu (v2.0): açık kalan ayarlar penceresini kapatır (görüntüyü örtmesin).</summary>
+        public void DebugCloseSettings() { if (_settings != null && _settings.Visible) _settings.Hide(); }
+
         public void DebugOpen(string what)
         {
             switch (what)
@@ -441,7 +444,12 @@ namespace Taverna
             if (_dayClock != null)
             {
                 int left = Mathf.Max(0, Mathf.CeilToInt(DayCycle.RemainingSeconds));
-                _dayClock.text = Loc.F("GÜN {0} · {1}:{2:00}", GameState.Data.day, left / 60, left % 60);
+                // v2.0 (madde 15): kapanışta saat yerine "kapanış"; son siparişler başlayınca bir kez bildirim
+                _dayClock.text = DayCycle.Closing ? Loc.F("GÜN {0} · KAPANIŞ", GameState.Data.day)
+                                                  : Loc.F("GÜN {0} · {1}:{2:00}", GameState.Data.day, left / 60, left % 60);
+                bool lastCall = DayCycle.LastCall && !DayCycle.Ended;
+                if (lastCall && !_lastCallShown && !Tutorial.Active) Toast(Loc.T("Son siparişler! Yeni müşteri gelmiyor"));
+                _lastCallShown = lastCall;
             }
             if (!_levelRoot.ClassListContains("hidden"))
             {
@@ -451,6 +459,8 @@ namespace Taverna
             if (_toastT > 0f) { _toastT -= Time.unscaledDeltaTime; if (_toastT <= 0f) _toast.AddToClassList("hidden"); }
             if (_pulseT > 0f) { _pulseT -= Time.unscaledDeltaTime; if (_pulseT <= 0f) _coinPill.RemoveFromClassList("pulse"); }
         }
+
+        bool _lastCallShown;
 
         bool ToPanel(Vector3 world, out Vector2 pos)
         {
@@ -1288,7 +1298,7 @@ namespace Taverna
         /// <summary>Dükkân > Dekor: han odasının konfor kademesi (yatak) — gecelik ücret 40 → 80 → 150.</summary>
         void AddRoomItem(int i)
         {
-            bool open = i < 2 || GameState.IsUnlocked($"oda{i + 1}");
+            bool open = Inn.RoomOpen(i);
             int c = Inn.Comfort(i);
             var item = new VisualElement();
             item.AddToClassList("item");
@@ -1301,11 +1311,13 @@ namespace Taverna
             ico.Add(ii);
             var col = new VisualElement();
             col.AddToClassList("item-col");
-            string[] tiers = { Loc.T("Saman yatak"), Loc.T("Yün yatak"), Loc.T("Kuştüyü yatak") };
-            var n = new Label(Loc.F("Oda {0} · {1}", i + 1, tiers[c]));
+            // v2.0 (madde 19): konfor seviyesi (Sv0–4) ve sıradaki seviyenin getirdiği eşya, ücret ve misafir artışı
+            var n = new Label(Loc.F("Oda {0} · Konfor {1}/{2}", i + 1, c, Inn.Fees.Length - 1));
             n.AddToClassList("item-name");
+            int arrivalPct = Mathf.RoundToInt(Inn.ComfortArrivalStep * 100f);
             var sub = new Label(!open ? Loc.T("Üst katta ödeme karesiyle açılır")
-                : Inn.CanUpgrade(i) ? Loc.F("Gecelik {0} → {1}", Inn.Fee(i), Inn.Fees[c + 1]) : Loc.F("Gecelik {0} · en iyi yatak", Inn.Fee(i)));
+                : Inn.CanUpgrade(i) ? Loc.F("Sonraki: {0} · gecelik {1} → {2} · misafir %{3} artar", Loc.T(Inn.ComfortNames[c + 1]), Inn.Fee(i), Inn.Fees[c + 1], arrivalPct)
+                : Loc.F("{0} · gecelik {1} · en yüksek konfor", Loc.T(Inn.ComfortNames[c]), Inn.Fee(i)));
             sub.AddToClassList("item-sub");
             col.Add(n); col.Add(sub);
             Label text;

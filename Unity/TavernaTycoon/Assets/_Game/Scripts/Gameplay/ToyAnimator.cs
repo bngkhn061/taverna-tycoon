@@ -16,8 +16,13 @@ namespace Taverna
 
         /// <summary><see cref="Hop"/> zıplamasının yüksekliği (metre). Sabit: kaydedilen alan düzeni değişmesin.</summary>
         const float JumpHeight = 0.28f;
+        /// <summary>Çalma ritmi (saniyedeki vuruş).</summary>
+        const float PlayBeat = 2f;
 
-        float _speed01, _phase, _pop, _jump, _work, _workPhase;
+        float _speed01, _phase, _pop, _jump, _work, _workPhase, _play, _playPhase;
+
+        /// <summary>v2.0 çalma hareketi (sahnedeki ozan): ritimle iki yana sallanma, baş sallama ve hafif zıplama. 0 = yok.</summary>
+        public void SetPlay(float p01) => _play = Mathf.MoveTowards(_play, Mathf.Clamp01(p01), 0.08f);
 
         /// <summary>v1.1 çalışma hareketi: öne eğilip ritmik bastırma (hamur yoğurma, bardak doldurma). 0 = yok.</summary>
         public void SetWork(float w01) => _work = Mathf.MoveTowards(_work, Mathf.Clamp01(w01), 0.08f);
@@ -53,9 +58,16 @@ namespace Taverna
             float press = 0.5f + 0.5f * Mathf.Sin(_workPhase);
             hop -= _work * press * 0.03f;
             squash -= _work * press * 0.05f;
+            // Çalma: saniyede ~2 vuruş (PlayBeat), her vuruşta küçük sekme, iki vuruşta bir yana sallanma
+            _playPhase += Time.deltaTime * PlayBeat * Mathf.PI;
+            float beat = Mathf.Abs(Mathf.Sin(_playPhase));
+            hop += _play * beat * 0.035f;
+            squash -= _play * (1f - beat) * 0.03f;
             transform.localPosition = _basePos + Vector3.up * hop;
-            transform.localRotation = _baseRot * Quaternion.Euler(leanAngle * _speed01 + _work * (10f + 10f * press), 0f,
-                                                                   Mathf.Sin(_phase) * 3f * _speed01 + _work * Mathf.Sin(_workPhase * 0.5f) * 4f);
+            transform.localRotation = _baseRot * Quaternion.Euler(leanAngle * _speed01 + _work * (10f + 10f * press) - _play * (4f + 4f * beat),
+                                                                   _play * Mathf.Sin(_playPhase * 0.5f) * 12f,
+                                                                   Mathf.Sin(_phase) * 3f * _speed01 + _work * Mathf.Sin(_workPhase * 0.5f) * 4f
+                                                                   + _play * Mathf.Sin(_playPhase * 0.5f) * 9f);
             transform.localScale = new Vector3(_baseScale.x / Mathf.Sqrt(squash) * popS, _baseScale.y * squash * popS, _baseScale.z / Mathf.Sqrt(squash) * popS);
         }
     }

@@ -213,8 +213,10 @@ namespace Taverna
         /// masalar 217 (43 masa: ana 14, salon 15, bahçe 14, ön sıra 13×3 = 39, oyun salonu 21, mahzen 24, teras 32, avlu 30, iskele 28),
         /// dekor yerleri 127 (saksı 7×2, mumluk 7×2, halı 4×4, flama 3×4, fıçı 3×3, kalkan 5, boynuz 2×5, mühür 15, avize 4×8),
         /// ozan sahnesi 20, en iyi zemin + duvar teması 6 + 6 = 12, Saray Hanı kademesi 60 → 436.
+        /// v2.0: + bahçe uzun masası 8, oyun salonu zar 2 / kart 2 masaları 6 + 7, taş yol 4×3, bahçe feneri 3×6 → 487
+        /// (yıldız eşikleri değişmedi: 5★ toplamın ≈ %72'si).
         /// </summary>
-        public const float AmbianceNoPremiumTotal = 436f;
+        public const float AmbianceNoPremiumTotal = 487f;
 
         /// <summary>
         /// Yıldız eşikleri (ambiyans): indeks i → (i+1)★. 2★ ≈ %8, 3★ ≈ %25, 4★ ≈ %50, 5★ ≈ %80 (premium'suz toplamın).
@@ -266,6 +268,14 @@ namespace Taverna
         /// <summary>Özel sipariş görevleri: açılış seviyesi, hedefler ve büyük görevin ödül çarpanları.</summary>
         public const int SpecialQuestLevel = 3, SpecialQuestSmall = 5, SpecialQuestBig = 12;
         public const int SpecialQuestBigCoinMultiplier = 2, SpecialQuestBigExtraGems = 1;
+
+        // ---- v2.0 gün sonu (oyuncu testi madde 15)
+        /// <summary>Günün bu kısmından sonra yeni müşteri gelmez, oturanlar yeni sipariş vermez ("son siparişler").</summary>
+        public const float LastCallPhase = 0.9f;
+        /// <summary>Gün bitince kapanış: müşteriler ve personel çıkarken en fazla bu kadar oyun saniyesi beklenir, sonra plan ekranı.</summary>
+        public const float ClosingMaxSeconds = 12f;
+        /// <summary>Personelin işe gelip giderken yürüme hızı (m/sn).</summary>
+        public const float CommuteSpeed = 3.2f;
 
         // ---- Oyuncu
         public const float PlayerSpeed = 3.4f;

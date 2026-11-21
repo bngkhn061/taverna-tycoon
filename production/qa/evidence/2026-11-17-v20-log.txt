@@ -1,0 +1,60 @@
+# v2.0 Paket 2 test günlüğü (2026-11-17/21) — Windows geliştirme derlemesi, -autotest, dil tr
+Birim testleri: EditMode 100/100 (93 eski + 7 V20Tests)
+
+## t1b (Exception/NullReference: 0)
+[   0.0s] v2.0 BAŞLADI · mod 'tiers' · Sv14 · kademe 1 · gün uzunluğu 420 sn · son sipariş %90
+[  69.0s] v2.0 KADEME 1: masa avizesi (PR_Tier_*Avize) sahnede 0 · aplik ışığı 8 · satın alınan avize 4 · kristal 1
+
+## t2b (Exception/NullReference: 0)
+[   0.0s] v2.0 BAŞLADI · mod 'tiers' · Sv20 · kademe 2 · gün uzunluğu 420 sn · son sipariş %90
+[  69.0s] v2.0 KADEME 2: masa avizesi (PR_Tier_*Avize) sahnede 0 · aplik ışığı 8 · satın alınan avize 4 · kristal 1
+
+## garden2 (Exception/NullReference: 0)
+[   0.0s] v2.0 BAŞLADI · mod 'garden' · Sv14 · kademe 0 · gün uzunluğu 420 sn · son sipariş %90
+[   0.0s] v2.0 BAHÇE DEKOR: dec_tasyol → Ok · ambiyans 124
+[   0.0s] v2.0 BAHÇE DEKOR: dec_tasyol → Ok · ambiyans 127
+[   0.0s] v2.0 BAHÇE DEKOR: dec_tasyol → Ok · ambiyans 130
+[   0.0s] v2.0 BAHÇE DEKOR: dec_tasyol → NoSlot · ambiyans 130
+[   0.0s] v2.0 BAHÇE DEKOR: dec_bahcefener → Ok · ambiyans 136
+[   0.0s] v2.0 BAHÇE DEKOR: dec_bahcefener → Ok · ambiyans 142
+[   0.0s] v2.0 BAHÇE DEKOR: dec_bahcefener → NoSlot · ambiyans 142
+[  60.5s] v2.0 BAHÇE: uzun masa açık=True oturan=4/6 · ozan sahnede=True konum=(-8.78, 0.30, 4.50) · taş yol 4 · fener 3
+[  78.5s] v2.0 BAHÇE GECE: bahçe fener ışığı 3 (yanık) · bölge fenerleri yanan 6/6 · ozan sahnede=True
+
+## inn2 (Exception/NullReference: 0)
+[   0.0s] v2.0 BAŞLADI · mod 'inn' · Sv22 · kademe 0 · gün uzunluğu 420 sn · son sipariş %90
+[  22.7s] v2.0 HAN: oda 8/8 · geliş çarpanı ×1.68 (aralık 8.3 sn) · Oda1: konfor 1 gecelik 65 eşya 0/6 x=-5.0; Oda2: konfor 1 gecelik 65 eşya 0/6 x=-3.0; Oda3: konfor 2 gecelik 95 eşya 2/6 x=-1.0; Oda4: konfor 3 gecelik 130 eşya 4/6 x=1.0; Oda5: konfor 4 gecelik 180 eşya 6/6 x=3.0; Oda6: konfor 4 gecelik 180 eşya 6/6 x=5.0; Oda7: konfor 2 gecelik 95 eşya 2/6 x=-7.0; Oda8: konfor 0 gecelik 40 eşya 0/6 x=-9.0;
+[  36.0s] v2.0 HAN KONFOR: Oda 8 0 → 1 (True) · bedel 500 · gecelik 40 → 65 · geliş ×1.72
+
+## game (Exception/NullReference: 0)
+[   0.0s] v2.0 BAŞLADI · mod 'game' · Sv20 · kademe 0 · gün uzunluğu 420 sn · son sipariş %90
+[  38.7s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Ready oturan 1 tur 0; GameTable_Zar: Cooldown oturan 2 tur 1; GameTable_Kart2: Playing oturan 2 tur 2; GameTable_Bilek: Playing oturan 1 tur 1; GameTable_Zar2: Idle oturan 1 tur 0;
+[  38.7s] v2.0 BAHÇE UZUN MASA: oturan -/6
+[  78.7s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Cooldown oturan 2 tur 3; GameTable_Zar: Ready oturan 2 tur 3; GameTable_Kart2: Cooldown oturan 1 tur 4; GameTable_Bilek: Cooldown oturan 2 tur 3; GameTable_Zar2: Ready oturan 2 tur 1;
+[  78.7s] v2.0 BAHÇE UZUN MASA: oturan -/6
+[ 118.7s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Cooldown oturan 3 tur 5; GameTable_Zar: Cooldown oturan 3 tur 5; GameTable_Kart2: Playing oturan 2 tur 5; GameTable_Bilek: Cooldown oturan 2 tur 5; GameTable_Zar2: Idle oturan 2 tur 2;
+[ 118.7s] v2.0 BAHÇE UZUN MASA: oturan -/6
+[ 158.7s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Playing oturan 3 tur 8; GameTable_Zar: Ready oturan 2 tur 6; GameTable_Kart2: Idle oturan 2 tur 6; GameTable_Bilek: Playing oturan 2 tur 7; GameTable_Zar2: Ready oturan 1 tur 3;
+[ 158.7s] v2.0 BAHÇE UZUN MASA: oturan -/6
+[ 198.8s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Cooldown oturan 2 tur 10; GameTable_Zar: Ready oturan 1 tur 8; GameTable_Kart2: Cooldown oturan 1 tur 8; GameTable_Bilek: Idle oturan 2 tur 8; GameTable_Zar2: Ready oturan 2 tur 5;
+[ 198.8s] v2.0 BAHÇE UZUN MASA: oturan -/6
+[ 238.8s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Ready oturan 3 tur 10; GameTable_Zar: Ready oturan 3 tur 8; GameTable_Kart2: Ready oturan 2 tur 8; GameTable_Bilek: Ready oturan 1 tur 8; GameTable_Zar2: Ready oturan 2 tur 5;
+[ 238.8s] v2.0 BAHÇE UZUN MASA: oturan -/6
+[ 278.8s] v2.0 OYUN SALONU: masa 5 · GameTable_Kart: Ready oturan 3 tur 12; GameTable_Zar: Cooldown oturan 2 tur 10; GameTable_Kart2: Cooldown oturan 1 tur 10; GameTable_Bilek: Ready oturan 2 tur 10; GameTable_Zar2: Cooldown oturan 2 tur 6;
+[ 278.8s] v2.0 BAHÇE UZUN MASA: oturan -/6
+
+## dayend3 (Exception/NullReference: 0)
+[   0.0s] v2.0 BAŞLADI · mod 'dayend' · Sv20 · kademe 0 · gün uzunluğu 420 sn · son sipariş %90
+[  38.6s] v2.0 GÜN SONU: gün %86'ya atlatıldı
+[  55.5s] v2.0 SON SİPARİŞ başladı · faz 0.900 · içeride 23 müşteri (geliyor 9 · bekliyor 3 · içiyor 9 · çıkıyor 2)
+[  97.8s] v2.0 KAPANIŞ başladı · içeride 11 müşteri (geliyor 0 · bekliyor 0 · içiyor 0 · çıkıyor 11) · son siparişten sonra gelen yeni müşteri 0 · yürüyen görevli 9 · masadaki para yığını 6
+[  99.1s] v2.0 KAPANIŞ: müşteri 9 (geliyor 0 · bekliyor 0 · içiyor 0 · çıkıyor 9) · içeride: (9.5,-0.1) (9.5,4.2) (-6.4,-2.0) (9.5,-0.1) (0.5,-0.6) · yürüyen görevli 9 · evde 0
+[ 101.1s] v2.0 KAPANIŞ: müşteri 7 (geliyor 0 · bekliyor 0 · içiyor 0 · çıkıyor 7) · içeride: (9.5,-1.6) · yürüyen görevli 9 · evde 0
+[ 103.1s] v2.0 KAPANIŞ: müşteri 6 (geliyor 0 · bekliyor 0 · içiyor 0 · çıkıyor 6) · içeride: · yürüyen görevli 9 · evde 0
+[ 104.2s] RAPOR gün 1: gelir 9323 · maaş 411 (oran %4) · ödenmeyen 4779 · servis 24 · Sv 20 · kızgın 0
+[ 104.2s] v2.0 PLAN EKRANI: tavernada müşteri 0 · sahnede görevli 0 [] · evde 9 · kapanışta kızgın ayrılan 0 · altın 117 → -4779 (maaş düştü)
+[ 104.2s] v2.0 SABAH: yürüyen görevli 9 · evde 0 · sahnede 9 [pip mina tobi gus nana ayla brak lir sema]
+[ 128.3s] v2.0 SABAH +6 sn: sahnede görevli 9 [pip mina tobi gus nana ayla brak lir sema] · yürüyen 0 · işi kapalı kalan 0 · garson 3 · müşteri 23
+
+## regress (Exception/NullReference: 0)
+[  66.3s] v1.4 REHBER: BİTTİ · gerçek 16.7 sn · gün saati 0.095 · zaman durur=False

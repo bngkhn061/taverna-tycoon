@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v1.9** (2026-11-17, oyuncu testi Paket 1, `production/qa/playtests/feedback-2026-11-17.md`: yükseltme satırları, ses karışımı, hedef kutusu, salon garsonları, zorunlu rehber, durum görevleri, açıklamalar, seviye kartında açılanlar ve "YENİ!" rozetleri, maaş borcu, elmaslı otomasyon, elmas ekonomisi).
+> Sürüm: **v2.0** (2026-11-17, oyuncu testi Paket 2, maddeler 14, 15, 17–21: kademe avizeleri kalktı ve avizeler küçüldü, gün sonu kapanışı ve personelin işe gidip gelmesi, bahçe uzun masası, sahnede çalan ozan, bahçe feneri ve taş yol, han konfor seviyeleri, 2 yeni oda ve 2 yeni oyun masası; ayrıntı §14).
+> Önceki: v1.9 (2026-11-17, oyuncu testi Paket 1, `production/qa/playtests/feedback-2026-11-17.md`: yükseltme satırları, ses karışımı, hedef kutusu, salon garsonları, zorunlu rehber, durum görevleri, açıklamalar, seviye kartında açılanlar ve "YENİ!" rozetleri, maaş borcu, elmaslı otomasyon, elmas ekonomisi).
 > Önceki: v1.8 (2026-11-16, son denge geçişi + cila: ölçülmüş Ün tablosu, müşteri / sabır / içme süresi, maaş, etkinlik fiyatı, özel sipariş, Kral Şerbeti, prestij Ün'ü; `design/balance/balance-check-final-2026-11-12.md`).
 > Önceki: v1.5 (2026-11-11, Paket C: oyun sonu — Sv27 Kral Şerbeti, Sv28 Kraliyet Ziyareti etkinliği, Sv29 Şölen Tabağı, Sv30 prestij "Yeni Şube").
 > Önceki: v1.4 (2026-11-10, Paket A: rehber zamanı, mutluluk ortalaması, yıldız eşikleri, işe alım ücreti, tellal etkinliği, müşteri çarpanı sınırı, özel sipariş görevleri).
@@ -105,7 +106,7 @@ Oyuncu Barlo'yu yönetmeye devam eder. Bunun üstüne bir yönetim katmanı ekle
 |---|---|
 | **Makineler** (Mağaza › Makineler) | Her içecek makinesi kendi seviyesinde açılır ve satın alınınca yerine kurulur. Bölgesi açık değilse "Önce Ana Salon/Bahçe" uyarısı çıkar. Ödeme kareleri artık sadece alan ve masa açmak için. |
 | **Personel** (Mağaza › Personel) | Garson ×3 (Pip, Mina, Tobi), Barmen (tüm makineler +%40 hız), Temizlikçi (kirli masaları temizler), Ozan (herkesin sabrı +%25). Tek seferlik işe alma bedeli + **günlük maaş**. |
-| **Dekor** (Mağaza › Dekor) | Saksı, mumluk, halı, flama, fıçı yığını, kalkan, geyik boynuzu, avize. Satın alınca uygun ilk boş yere yerleşir. Her biri Ambiyans puanı verir. |
+| **Dekor** (Mağaza › Dekor) | Saksı, mumluk, halı, flama, fıçı yığını, kalkan, geyik boynuzu, avize, taş yol ve bahçe feneri (v2.0, bahçe). Satın alınca uygun ilk boş yere yerleşir. Her biri Ambiyans puanı verir. |
 | **Taverna puanı** (★1–5) | v1.4: yalnızca ambiyanstan, artan eşiklerle (§7.2). Eski metin: ambiyans ve temizlik ile hesaplanır. Etkileri: müşteri gelme hızı, bahşiş (+%5 / yıldız) ve zengin müşterilerin gelme ağırlığı. |
 | **Kirli masa** | Müşteri gidince masada bardak kalır. Kirli masaya yeni müşteri oturmaz. Barlo yanında durunca ya da temizlikçi gelince temizlenir. |
 | **Gün döngüsü** | 1 gün = 5 dk. Gün sonunda gelir, maaş ve puan özeti gösterilir, maaşlar ödenir. |
@@ -271,7 +272,7 @@ Gösterilen / etkin değer `E = clamp(M − min(20, 4 × kirli masa), 0, 100)`: 
 Müşteri gelişi çarpanı (E'den): `E < 50 → lerp(0.6, 1.0, E/50)`, `E ≥ 50 → lerp(1.0, 1.5, (E−50)/50)`.
 Ölçüm (bot, 2026-11-10): yeni oyunda %59–99, Sv9 orta oyunda etkin %58–97 arasında dolaştı (eski modelde hep %93–100).
 
-**★ yıldızlar (v1.4)** yalnızca ambiyanstan gelir, artan eşikli ölçek (`Balance.StarThresholds`). Hazine olmadan elde edilebilecek toplam ambiyans **436** (masalar 217, dekor yerleri 127, ozan sahnesi 20, en iyi zemin + duvar 12, Saray Hanı kademesi 60).
+**★ yıldızlar (v1.4)** yalnızca ambiyanstan gelir, artan eşikli ölçek (`Balance.StarThresholds`). Hazine olmadan elde edilebilecek toplam ambiyans **436** (v2.0: **487**, §14) (masalar 217, dekor yerleri 127, ozan sahnesi 20, en iyi zemin + duvar 12, Saray Hanı kademesi 60).
 
 | ★ | Ambiyans | Premium'suz toplamın |
 |---|---|---|
@@ -465,3 +466,53 @@ Reklam, satın alma ve ölçüm için şimdilik yalnızca altyapı var (sahip ka
   - Günlük ödül hazır: ertesi gün aynı saat.
   - Hatırlatma: 3 gün sonra.
   - 22:00–09:00 arası bildirim yok (09:00'a kayar); günde en fazla bir bildirim (aynı güne düşen sonraki atlanır). Metinler etkin dilde. Planlama saf bir işlev (`Notifications.Plan`), birim testli; cihazda henüz denenmedi.
+
+---
+
+## 14. v2.0 Paket 2 (oyuncu testi 2026-11-17, maddeler 14, 15, 17–21)
+
+Kaynak: `production/qa/playtests/feedback-2026-11-17.md`. Kanıt: `production/qa/evidence/2026-11-17-v20-*.png`, `2026-11-17-v20-log.txt`; birim testleri `V20Tests` (7).
+
+### 14.1 Avizeler ve kademe ışığı (madde 14)
+- Kademe değişince her Meyhane / Salon masasının üstüne konan **Demir Avize / Saray Avizesi kalktı**. Kademe ışığını sütunların odaya bakan yüzüne asılı **aplikler** verir (Taş Han demir aplik, Saray Hanı iki kollu altın aplik; 8 sütun, gece ışığı 2.4 / 3.2, menzil 6 / 7.5 m). Odanın kademeyle belirgin aydınlanması için masaların üstünde **gövdesiz sıcak dolgu ışığı** kaldı (2.4 m, gece 1.7 / 2.3). Sütun, kemer, örtü, perde ve halı aynı.
+- Satın alınan **Avize** (250 altın, +8) ve Hazine **Kristal Avize** küçültülüp yükseltildi: çap 0.9 → 0.44 m (kristal 0.76 → 0.56 m), gövde dünyada ≈ 2.4–2.8 m, ince tek zincir, 4 mum. Işık gövde hizasında (avize gece 2.8, menzil 6.5 m; kristal 3.6, 8 m). Modeller `tools/blender/build_props.py x_avize`, `build_premium.py kristal_avize`, aplikler `build_v20.py`.
+
+### 14.2 Gün sonu: son siparişler ve kapanış (madde 15)
+- Günün son **%10**'unda (`Balance.LastCallPhase` 0.9, 420 sn'lik günde son 42 sn) yeni müşteri gelmez; oturan müşteri içtiğinin parasını bırakır ve **yeni sipariş vermeden** kalkar. Başlarken bir kez "Son siparişler! Yeni müşteri gelmiyor" bildirimi.
+- Gün süresi dolunca **kapanış**: saat "GÜN n · KAPANIŞ" der. İçmekte olan müşteri hesabını hemen öder; siparişini bekleyen ya da yolda olan müşteri **kızmadan** çıkar (mutluluk, yıldız, ceza yok, para kaybı yok; masadaki para yığınları masada kalır, ertesi sabah toplanır). Müşteriler kapanışta %50 hızlı yürür.
+- **Personel** (garsonlar, barmen, aşçılar, temizlikçi, fenerci, hizmetçi, ozan) işi bırakıp bölgesinin kapısından (meyhane, salon, bahçe, avlu, iskele; üst kattakiler merdivenden salon kapısına) sokağa çıkar ve sokak boyunca 7 m yürüyüp kaybolur (`StaffCommute`, `Commuter`, hız 3.2 m/sn).
+- "Gün Bitti / Yarını Planla" ekranı, tavernada müşteri ve kaldırıma çıkmamış görevli kalmayınca ya da en geç **12 oyun saniyesi** sonra açılır; sokakta kalan müşteri ve görevli o anda kaybolur. Plan ekranında tavernada kimse yoktur. **Han misafirleri** (geceleyen) odalarında kalır.
+- "Sonraki Güne Geç": görevliler sokağın ucunda belirir, kapıdan girip akşam bıraktıkları yere yürür ve işe başlar. İlk müşteri en geç 3 sn sonra gelir. Gece işe alınan görevli hemen yerinde başlar.
+- Ölçüm (`dayend` koşusu): son siparişten sonra gelen yeni müşteri 0, kapanışta kızgın ayrılan 0, plan ekranında müşteri 0 / görevli 0, kapanış ≈ 6 oyun sn, sabah 6 sn sonra 9 görevlinin hepsi işinde.
+
+### 14.3 Bahçe (madde 17, 18, 21)
+- **Bahçe Uzun Masası** (`masaBU`): Salon'daki Uzun Masa gibi 6 oturak, bahçenin sol yarısında (x −12.4, z −0.3; I masası ile ön sıra arasında). Ödeme karesi 1.600 taban → **2.240 altın**, **Sv10**, bahçe açılınca (diğer bahçe masaları 630–1.890). Ambiyans 8. Müşteri ön koridordan (z −3.55) bahçenin sol kenarına (x −13.75), oradan masanın önü (z −1.7) ya da arkası (z 1.05) boyunca oturağına yürür; mevcut masa, yol, sahne ve iskele kapısıyla çakışmaz.
+- **Ozan sahnede** (madde 18): Ozan Sahnesi (`sahne`) açıksa ozan Lir (ya da Ozan Konseri etkinliğinde gelen ozan) meyhanedeki yerinden sahneye yürür, sahnenin üstüne çıkar (0.3 m), seyirciye döner ve ritimle çalar (`ToyAnimator.SetPlay`: saniyede 2 vuruş, iki yana sallanma ve sekme). Sahne yoksa eski yerinde durur.
+- **Dekor** (madde 21): **Taş Yol** (120 altın, Sv8, +3, 4 yer: girişten ön koridora, koridor boyunca, sahnenin önü) ve **Bahçe Feneri** (300 altın, Sv9, +6, 3 yer: köşeler ve yolların dışı). Bahçe feneri gece kendiliğinden yanar (`NightLight`, gündüz sönük, gece 3.4, menzil 6 m); bölge fenerleri (`Lantern`, Barlo / fenerci yakar) sayımına girmez. Yeni yerler kayıttaki yer indeksleri kaymasın diye dekor yeri listesinin sonunda.
+
+### 14.4 Han (madde 19, 20)
+- **8 oda** (6 → 8): üst kat sola 4 m uzadı (x −10.1..6.1), oda 7–8 solda (x −7, −9; ödeme kareleri 5.000 / 6.000 taban → 7.000 / 8.400 altın, Sv18 / Sv20). Merdiven ağzı koridorda kalır. Kamera üst katta x −5'e kadar kayar.
+- **Konfor 0–4**, her seviye odada görünür eşya ekler (yeni eşya zıplayarak gelir) ve gecelik ücreti ile misafir gelişini artırır:
+
+| Konfor | Odada | Gecelik | Yükseltme bedeli |
+|---|---|---|---|
+| 0 | Saman yatak (sade oda) | 40 | — |
+| 1 | Yün yatak | 65 | 500 |
+| 2 | + kilim + komodin | 95 | 900 |
+| 3 | + ayaklı lamba (oda ışığı) + dolap | 130 | 1.600 |
+| 4 | Kuştüyü (cibinlikli) yatak + şömine + tablo | 180 | 2.600 |
+
+- **Misafir gelişi:** geliş aralığı 14 sn / (1 + 0.04 × açık odaların konfor toplamı); 8 oda Konfor 4'te ×2.28 (≈ 6.1 sn). Misafir en konforlu boş odayı seçer.
+- Dükkân › Dekor › **Han odaları** kartı: "Oda n · Konfor c/4" ve "Sonraki: <eşyalar> · gecelik a → b · misafir %4 artar" (en yüksekte "<eşyalar> · gecelik b · en yüksek konfor").
+- **Kayıt göçü** (sürüm 2 → 3): eski 3 kademeli konfordaki 2 (kuştüyü) → 4; 0 ve 1 aynı.
+
+### 14.5 Oyun salonu (madde 20)
+- 3 → **5 masa**: arka sırada **Zar Masası 2** (x 5.5, z 9.25; 2 oturak, 5.000 taban → 7.000 altın, Sv17, oyun salonu açılınca) ve **Kart Masası 2** (x 12.9, z 9.25; 2 oturak, 6.000 → 8.400 altın, Sv19, kart masası açılınca). Yanlardaki sütunlardan (x 4.65, 5.5, 11.9) oturulur; saksı ön sağ köşeye taşındı. Ücretler aynı (zar 6, kart 10 / oyuncu). Ölçüm: 280 oyun sn'de beş masanın her birinde 6–12 tur.
+
+### 14.6 Ambiyans
+Hazine olmadan toplam ambiyans 436 → **487** (+ uzun masa 8, iki oyun masası 13, taş yol 12, bahçe feneri 18). Yıldız eşikleri değişmedi.
+
+### 14.7 Test altyapısı
+- Bot: `-autotest-v20 tiers|garden|inn|game|dayend` (`PlaytestBotV20`): Barlo'yu sabit noktaya ışınlayıp görüntü alır, kapanış / sabah durumunu günlüğe yazar.
+- `-autotest-hidden` (yalnızca Windows geliştirme derlemesi, `AutoTestWindow`): oyun penceresi hiç etkinleşmeden ekran dışına ve en alta itilir (user32 `ShowWindow(SW_SHOWNOACTIVATE)` + `SetWindowPos(HWND_BOTTOM, −4000, −4000, NOSIZE|NOACTIVATE)`, ilk 12 sn'de yarım saniyede bir), arka planda çalışır, gerçek fare ve klavye kapatılır. Koşular `Start-Process -WindowStyle Minimized` + `-popupwindow` ile başlatılır; ekran görüntüsü (arayüz dahil) ekran dışında da alınıyor.
+
