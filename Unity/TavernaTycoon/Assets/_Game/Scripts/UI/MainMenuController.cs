@@ -26,6 +26,7 @@ namespace Taverna
             var ver = _root.Q<Label>("version");
             if (ver != null) ver.text = "v" + Application.version;
             Loc.Changed += OnLanguageChanged;
+            SetupLegendBadge();
             _settings = new SettingsPanel(_root, showToMenu: false);
             _root.Q<Button>("play").clicked += () =>
             {
@@ -72,11 +73,39 @@ namespace Taverna
 
         void OnDisable() => Loc.Changed -= OnLanguageChanged;
 
+        Label _legend;
+
+        /// <summary>v2.1: son sahne görüldüyse logonun altında kalıcı "Efsanevi Han" rozeti.</summary>
+        void SetupLegendBadge()
+        {
+            _legend = new Label { name = "menu-legend", pickingMode = PickingMode.Ignore };
+            _legend.AddToClassList("menu-legend");
+            var ic = new VisualElement { pickingMode = PickingMode.Ignore };
+            ic.AddToClassList("legend-badge-ic");
+            ic.style.backgroundImage = new StyleBackground(Resources.Load<Sprite>("Kit/v3i_star"));
+            _legend.Add(ic);
+            var t = new Label { pickingMode = PickingMode.Ignore };
+            t.AddToClassList("menu-legend-text");
+            _legend.Add(t);
+            var host = _root.Q("menu-root") ?? _root;
+            host.Add(_legend);
+            RefreshLegend();
+        }
+
+        void RefreshLegend()
+        {
+            if (_legend == null) return;
+            _legend.EnableInClassList("hidden", !Ending.Seen);
+            var t = _legend.Q<Label>(className: "menu-legend-text");
+            if (t != null) t.text = Loc.Upper(Loc.T("Efsanevi Han"));
+        }
+
         /// <summary>v1.7: dil değişti → UXML metinleri, ayarlar ve açık pencereler yeniden (sahne yeniden yüklenmez).</summary>
         void OnLanguageChanged()
         {
             Loc.Localize(_root);
             _settings.Refresh();
+            RefreshLegend();
             if (!_root.Q("book-root").ClassListContains("hidden")) BuildBook();
             if (!_root.Q("daily-root").ClassListContains("hidden")) OpenDaily();
             BuildNameChips();

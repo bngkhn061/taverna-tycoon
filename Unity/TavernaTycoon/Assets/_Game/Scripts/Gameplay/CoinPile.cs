@@ -8,6 +8,8 @@ namespace Taverna
     {
         public static readonly List<CoinPile> All = new();
         public long amount;
+        /// <summary>Test günlüğü (v2.1): Barlo'nun son topladığı yığına uzaklığı (m).</summary>
+        public static float DebugLastCollectDist;
         Transform _collector;
 
         readonly List<Transform> _coins = new();
@@ -60,8 +62,10 @@ namespace Taverna
             // v0.9 Kasa otomasyonu: yığın kısa bir süre sonra kendiliğinden toplanır (paralar yukarı uçar)
             _age += Time.deltaTime;
             if (!_collecting && _age > Balance.AutoCollectDelay && Automation.Has("kasa")) Collect(null);
-            if (!_collecting && p && DrinkStation.FlatDistance(p.transform.position, transform.position) < Balance.InteractRadius)
+            float dist = p ? DrinkStation.FlatDistance(p.transform.position, transform.position) : float.MaxValue;
+            if (!_collecting && p && dist < BarloSkills.CoinReach)   // v2.1: para toplama menzili (Barlo yeteneği)
             {
+                DebugLastCollectDist = dist;
                 Collect(p.transform);
                 GameSettings.Vibrate();
                 if (p.anim) p.anim.Pop();

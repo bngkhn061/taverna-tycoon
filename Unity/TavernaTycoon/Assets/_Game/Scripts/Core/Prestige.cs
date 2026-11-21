@@ -105,6 +105,7 @@ namespace Taverna
             d.zoneIds.Clear(); d.zonePaid.Clear();
             d.sulkyDay = 0;
             d.quests.Clear(); d.questDay = "";   // görevler yeni şubenin seviyesine göre yeniden üretilir
+            BarloSkills.ResetAll(d);         // v2.1: Barlo'nun yetenekleri de sıfırlanır (şube çarpanı yeniden almayı hızlandırır)
             // Personel seviyeleri: normal görevlilerinki sıfırlanır; Hazine görevlilerininki kalır
             for (int i = d.staffIds.Count - 1; i >= 0; i--)
                 if (!IsPremiumStaff(d.staffIds[i])) { d.staffIds.RemoveAt(i); if (i < d.staffLvs.Count) d.staffLvs.RemoveAt(i); }

@@ -67,6 +67,13 @@ namespace Taverna
         public List<string> seenItems = new();
         /// <summary>v1.9: bu seviyeye kadar açılan ürünler görülmüş sayılır (eski kayıtta yükseltme anındaki seviye; -1 = ayarlanmadı).</summary>
         public int seenLevel = -1;
+        /// <summary>v2.1 Barlo'nun yetenek seviyeleri (0–5): koşu hızı, taşıma, servis menzili, para menzili (BarloSkills). Prestijte sıfırlanır.</summary>
+        public int barloSpeed, barloCarry, barloServe, barloCoin;
+        /// <summary>v2.1 son sahne ("Krala Davet") görüldü mü (Ending). Görüldükten sonra serbest oyun, "Efsanevi Han" rozeti.</summary>
+        public bool endingSeen;
+        /// <summary>v2.1: oyun sahnesinde geçen toplam gerçek süre (sn) ve biten toplam gün (prestijte sıfırlanmaz; game_complete ölçümü).</summary>
+        public float playSeconds;
+        public int daysTotal;
     }
 
     /// <summary>

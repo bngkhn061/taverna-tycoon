@@ -159,7 +159,7 @@ namespace Taverna
             switch (Step)
             {
                 case 0:
-                    if (Beer && DrinkStation.FlatDistance(p.transform.position, Beer.ServePos) < Balance.InteractRadius) Next();
+                    if (Beer && DrinkStation.FlatDistance(p.transform.position, Beer.ServePos) < BarloSkills.Reach) Next();
                     break;
                 case 1:
                     if (p.carrier && p.carrier.Count > 0) Next();

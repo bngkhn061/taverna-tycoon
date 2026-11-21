@@ -56,6 +56,7 @@ namespace Taverna
         bool UpdateBranchGoal(PayZone zz)
         {
             if (!Prestige.Visible || (zz && zz.LevelOk)) return false;
+            if (UpdateEndingGoal()) return true;   // v2.1: 3. tavernada önce "Krala Davet" (HudV21)
             bool ready = Prestige.CanPrestige;
             bool tierMissing = Tiers.Next != null;
             _goal.style.display = DisplayStyle.Flex;
@@ -89,7 +90,7 @@ namespace Taverna
 
         public void OpenBranchCard()
         {
-            if (TierAnimOpen || DayCycle.Ended) return;
+            if (TierAnimOpen || DayCycle.Ended || Ending.Playing) return;
             int b = Prestige.Branch, nb = b + 1;
             var overlay = PremCard(Loc.T("YENİ ŞUBE"), 780f, out var card);
             card.AddToClassList("branch-card");
@@ -120,6 +121,7 @@ namespace Taverna
                 Loc.T("Altın, seviye, Ün ve gün sayısı"),
                 Loc.T("Alanlar, masalar, makineler, yükseltmeler, depo"),
                 Loc.T("Personel, otomasyon ve Usta"),
+                Loc.T("Barlo'nun yetenekleri (hız, taşıma, menzil)"),
                 Loc.F("Taverna kademesi · mutluluk %{0:0}", Happiness.Start),
             }));
             card.Add(cols);

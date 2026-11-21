@@ -25,6 +25,8 @@ namespace Taverna
         public bool special;
         /// <summary>Test günlüğü: açılan ve servis edilen özel sipariş sayısı.</summary>
         public static int SpecialOrders, SpecialServed;
+        /// <summary>Test günlüğü (v2.1): Barlo'nun son servisinde müşteriye uzaklığı (m).</summary>
+        public static float DebugLastServeDist;
         [System.NonSerialized] public Waiter reservedBy;
 
         Seat _seat;
@@ -70,6 +72,7 @@ namespace Taverna
                     break;
                 case State.Waiting:
                     // Karanlık odada (yakılmamış fenerler) sabır hızlı biter
+                    if (Ending.Playing) { TryGetServed(); break; }   // v2.1: son sahnede kimse beklemekten kızmaz
                     patience -= Time.deltaTime * (Night.IsDark && !Night.ZoneLit(Night.ZoneOf(transform.position)) ? Night.DarkPatienceDrain : 1f);
                     TryGetServed();
                     if (patience <= 0f) Leave(Emote.Angry);
@@ -143,8 +146,10 @@ namespace Taverna
         {
             var p = PlayerController.I;
             if (!p || !p.carrier) return;
-            if (DrinkStation.FlatDistance(p.transform.position, transform.position) > Balance.InteractRadius) return;
+            float dist = DrinkStation.FlatDistance(p.transform.position, transform.position);
+            if (dist > BarloSkills.Reach) return;   // v2.1: servis menzili (Barlo yeteneği)
             if (!p.carrier.Take(wanted)) return;
+            DebugLastServeDist = dist;
             if (p.anim) p.anim.Pop();
             Sfx.Play(SfxId.Serve);
             Serve();

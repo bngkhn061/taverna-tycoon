@@ -173,6 +173,7 @@ namespace Taverna
             TutorialClicks(hud);
             UpdateV15(hud, p);
             UpdateV20(hud, p);   // v2.0 Paket 2 ("-autotest-v20 <mod>")
+            UpdateV21(hud, p);   // v2.1 Paket 3 ("-autotest-v21 barlo|ending")
             if (!NoTests) UpdateV16(hud);
             if (hud)
             {
@@ -413,6 +414,8 @@ namespace Taverna
                 DayCycle.DayEnded += r => Log($"RAPOR gün {r.day}: gelir {r.income} · maaş {r.wages} (oran %{(r.income > 0 ? 100f * r.wages / r.income : 0f):0}) · ödenmeyen {r.unpaid} · servis {r.served} · Sv {GameState.Level} · kızgın {_angryLeaves}");
             }
             var hud = _hud ? _hud : (_hud = FindAnyObjectByType<HudController>());
+            // v2.1: son sahne oynarken botun başka işi yok (oyun zamanı da saymaz)
+            if (Ending.Playing) { PlayerController.JoystickInput = Vector2.zero; UpdateV21(hud, PlayerController.I); return true; }
             if (!_introShot && _real > 1.1f) { _introShot = true; Shot("playtest_intro.png"); }
             if (!_tutShot && Tutorial.Active && _real > 4f) { _tutShot = true; Shot("ui_tutorial.png"); }
             if (DayCycle.Ended && hud)

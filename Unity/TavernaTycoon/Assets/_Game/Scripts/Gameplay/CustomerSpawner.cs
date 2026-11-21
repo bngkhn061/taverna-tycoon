@@ -35,7 +35,7 @@ namespace Taverna
             // v1.2 rehber: bardak dolana kadar müşteri yok, sonra en fazla 2
             if (!Tutorial.AllowsSpawn) { _t = Mathf.Min(_t, 1.2f); return; }
             // v2.0 (madde 15): günün son %10'unda ve kapanışta yeni müşteri gelmez (sabah ilk müşteri kısa sürede gelir)
-            if (DayCycle.LastCall) { _t = Mathf.Min(_t, FirstMorningSpawn); return; }
+            if (DayCycle.LastCall || Ending.Playing) { _t = Mathf.Min(_t, FirstMorningSpawn); return; }   // v2.1: son sahnede de yeni müşteri gelmez
             _t -= Time.deltaTime;
             if (_t > 0f) return;
             _t = Balance.BaseSpawnInterval * intervalScale * Balance.SpawnLevelScale(GameState.Level) * Random.Range(0.75f, 1.25f)

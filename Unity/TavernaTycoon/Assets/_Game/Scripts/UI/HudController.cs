@@ -202,6 +202,7 @@ namespace Taverna
             InitV12();
             InitPrestige();
             InitV19();
+            InitV21();
             TestAdService.Presenter = PresentTestAd;   // v1.6: test reklamının bekleme ekranı
         }
 
@@ -265,6 +266,7 @@ namespace Taverna
             DisableTiers();
             DisablePrestige();
             DisableV12();
+            DisableV21();
             Management.Changed -= RefreshTop;
             PlayerController.JoystickInput = Vector2.zero;
         }
@@ -292,6 +294,8 @@ namespace Taverna
                 case "tier": OpenTierCard(); break;
                 case "tier-path": OpenTierPath(); break;
                 case "branch": OpenBranchCard(); break;
+                case "ending": OpenEndingCard(); break;
+                case "settings": _settings.Show(); break;
                 case "depot": OpenDepot(); break;
                 case "events": OpenEvents(); break;
                 case "happy": _happyCard.RemoveFromClassList("hidden"); RefreshHappyCard(); break;
@@ -314,7 +318,7 @@ namespace Taverna
         }
 
         /// <summary>Herhangi bir pencere açık mı? (joystick'i kilitler)</summary>
-        bool ModalOpen => _adOpen || V09ModalOpen || PremModalOpen || TierAnimOpen || _settings.Visible || !_shopRoot.ClassListContains("hidden") || !_offlineRoot.ClassListContains("hidden") ||
+        bool ModalOpen => _adOpen || Ending.Playing || V09ModalOpen || PremModalOpen || TierAnimOpen || _settings.Visible || !_shopRoot.ClassListContains("hidden") || !_offlineRoot.ClassListContains("hidden") ||
                           !_levelRoot.ClassListContains("hidden");
 
         // ------------------------------------------------------------------ üst çubuk
@@ -438,6 +442,7 @@ namespace Taverna
             UpdatePremium();
             UpdateTierTransform();
             UpdateV19();
+            UpdateV21();
             _starsT -= Time.unscaledDeltaTime;
             if (_starsT <= 0f) { _starsT = 0.5f; UpdateStars(); }
             if (_dayT > 0f) { _dayT -= Time.unscaledDeltaTime; if (_dayT <= 0f) _dayReport.AddToClassList("hidden"); }
@@ -1501,6 +1506,9 @@ namespace Taverna
                     break;
                 case "staff":
                     _shopNote.text = Loc.F("Personel her gün maaş alır · şu an günlük maaş: {0} altın", FormatNum(Management.DailyWages));
+                    // v2.1: Barlo'nun yetenekleri sekmenin başında (rehber sürerken işe alım kartı önde kalsın diye sonda)
+                    if (!Tutorial.Active) AddBarloSection();
+                    if (!Tutorial.Active) AddShopSection(Loc.T("PERSONEL"));
                     foreach (var s in Catalog.StaffList)
                     {
                         var can = Management.CanHire(s);
@@ -1513,6 +1521,7 @@ namespace Taverna
                         AddShopItem(LoadIcon(s.icon), $"{s.name} · {Loc.T(s.roleName)}", sub, can, Management.HireCost(s), false,
                             () => Management.Hire(ss), s.level, Loc.T(s.zoneName) ?? "", Loc.F("Maaş {0}/gün", Management.WageOf(s)), s.id, s.level);
                     }
+                    if (Tutorial.Active) AddBarloSection();
                     break;
                 case "dec":
                     // v1.1 (oyuncu testi: "artı puan neye?"): ambiyansın neye yaradığı açıkça

@@ -771,3 +771,48 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .unlocks.compact .unl-img { width: 50px; height: 50px; margin: 0 0 4px 0; }
 .unlocks.compact .unl-name { font-size: 13px; white-space: normal; }
 .unlocks.compact .unl-tag { font-size: 10px; padding: 1px 5px; }
+
+/* ==========================================================================
+   v2.1 Paket 3 (oyuncu testi 2026-11-17 maddeler 10, 25): Barlo kartları, Krala Davet, son sahne, jenerik, Efsanevi Han rozeti
+   ========================================================================== */
+.barlo-item .item-sub { font-size: 12.5px; }
+.legend-badge {
+    position: absolute; left: -30px; top: 38px; width: 30px; height: 30px; padding: 0; align-items: center; justify-content: center;
+    background-color: var(--brick); border-width: 2.5px; border-color: var(--mus);
+    border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;
+}
+.legend-badge.solo { top: 4px; }
+.legend-badge-ic { width: 18px; height: 18px; -unity-background-scale-mode: scale-to-fit; }
+.menu-legend {
+    position: absolute; left: 40px; top: 238px; flex-direction: row; align-items: center; padding: 4px 14px 6px 10px; rotate: -2deg;
+    background-color: var(--brick); border-width: 3px; border-color: var(--mus);
+    border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+}
+.menu-legend .legend-badge-ic { margin-right: 6px; }
+.menu-legend-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 16px; color: rgb(251, 243, 226); white-space: nowrap; letter-spacing: 1px; }
+.watch-ending { margin-top: 8px; min-height: 44px; }
+.watch-ending > Label { font-size: 15px; }
+.ending-head { flex-direction: row; align-items: center; margin-bottom: 8px; }
+.ending-por { width: 96px; height: 96px; flex-shrink: 0; margin-right: 14px; -unity-background-scale-mode: scale-to-fit; }
+.ending-text { flex-grow: 1; flex-shrink: 1; font-size: 17px; -unity-font-style: bold; color: var(--ink); white-space: normal; }
+.end-root { }
+.end-bar { position: absolute; left: 0; right: 0; height: 13%; background-color: rgb(12, 10, 9); justify-content: center; align-items: center; }
+.end-bar.top { top: 0; }
+.end-bar.bottom { bottom: 0; }
+.end-caption { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 24px; color: rgb(251, 243, 226); -unity-text-align: middle-center; white-space: normal; padding: 0 24px; }
+.end-title {
+    position: absolute; left: 0; right: 0; top: 22%; align-items: center; justify-content: center;
+}
+.end-title-panel { align-items: center; padding: 14px 56px 26px 48px; rotate: -2deg; max-width: 92%; background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png");
+    -unity-slice-left: 36; -unity-slice-top: 36; -unity-slice-right: 48; -unity-slice-bottom: 48; -unity-slice-scale: 0.5px; }
+.end-title-text { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 54px; color: var(--ink); white-space: nowrap; letter-spacing: 3px; }
+.end-title-sub { font-size: 17px; -unity-font-style: bold; color: var(--ink); white-space: normal; -unity-text-align: middle-center; margin-top: 2px; }
+.spark { position: absolute; width: 11px; height: 11px; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
+.end-credits { background-color: rgb(18, 14, 12); overflow: hidden; align-items: center; }
+.end-scroll { position: absolute; left: 0; right: 0; align-items: center; }
+.end-game { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 52px; color: var(--mus); margin-bottom: 4px; }
+.end-head { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 20px; color: var(--mus); margin-top: 26px; margin-bottom: 4px; letter-spacing: 2px; }
+.end-line { font-size: 18px; -unity-font-style: bold; color: rgb(251, 243, 226); -unity-text-align: middle-center; white-space: normal; margin: 1px 24px; }
+.end-small { font-size: 13px; -unity-font-style: bold; color: rgb(190, 178, 160); margin-top: 2px; }
+.end-thanks { -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); font-size: 36px; color: var(--mus); margin-top: 60px; margin-bottom: 40px; }
+.end-skip { position: absolute; right: 18px; bottom: 12px; font-size: 13px; -unity-font-style: bold; color: rgb(190, 178, 160); }

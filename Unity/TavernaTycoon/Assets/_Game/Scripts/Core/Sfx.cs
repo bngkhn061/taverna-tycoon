@@ -67,6 +67,8 @@ namespace Taverna
         float _lastCoin, _duck = 1f, _duckUntil, _duckLevel = 1f, _chatT = 2f;
         bool _inGame;
 
+        /// <summary>v2.1 son sahne: en coşkulu parça (yoğun saat, "Market Day") zorla çalar.</summary>
+        public static bool ForceFestive;
         /// <summary>Çalan müzik parçasının adı (test günlüğü için).</summary>
         public static string MusicNow => _i && _i._musA && _i._musA.clip ? _i._musA.clip.name : "-";
         /// <summary>Yüklenen efekt + konuşma grubu sayısı (test günlüğü için).</summary>
@@ -160,7 +162,7 @@ namespace Taverna
             bool dark = _inGame && (Night.IsDark || DayCycle.Ended);
 
             // Müzik seçimi + çapraz geçiş
-            var want = !_inGame ? _day : RushHour.Active && open ? _rush : dark ? _evening : _day;
+            var want = ForceFestive && _inGame ? _rush : !_inGame ? _day : RushHour.Active && open ? _rush : dark ? _evening : _day;
             if (want && _musA.clip != want)
             {
                 if (_musA.clip) _resume[_musA.clip] = _musA.time;

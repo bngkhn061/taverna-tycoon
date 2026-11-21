@@ -235,6 +235,9 @@ namespace Taverna
                     break;
                 case "staff":
                     foreach (var s in Catalog.StaffList) if (!s.premium && !Management.Hired(s.id)) yield return (s.id, s.level);   // işe alınan görevli yeni sayılmaz
+                    // v2.1: Barlo'nun yetenek seviyeleri (alınmış olanlar yeni sayılmaz)
+                    foreach (var b in BarloSkills.All)
+                        for (int n = BarloSkills.Level(b) + 1; n <= BarloSkills.MaxLevel; n++) yield return (BarloSkills.Key(b, n), BarloSkills.UnlockLevel(b, n));
                     break;
                 case "dec":
                     foreach (var d in Catalog.DecorList) if (!d.premium) yield return (d.id, d.level);
@@ -341,6 +344,10 @@ namespace Taverna
             }
             foreach (var st in Catalog.StaffList)
                 if (!st.premium && st.level == level) list.Add((Loc.T("işe alınabilir"), LoadIcon(st.icon), st.name));
+            // v2.1: bu seviyede açılan Barlo yetenek seviyeleri
+            foreach (var b in BarloSkills.All)
+                for (int n = 1; n <= BarloSkills.MaxLevel; n++)
+                    if (BarloSkills.UnlockLevel(b, n) == level) list.Add((Loc.T("Barlo yeteneği"), KitIcon(BarloSkills.Icon(b)), $"{BarloSkills.Name(b)} {n}"));
             // Alanlar: aynı adlı kareler tek kartta (ör. "Yeni Masa ×3")
             var zones = new List<(string label, Sprite icon, int n)>();
             foreach (var z in PayZone.All)

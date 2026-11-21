@@ -68,6 +68,8 @@ Parametre adları Türkçe ve ASCII.
 | `event_start` | etkinlik, fiyat, seviye | etkinlik başlayınca |
 | `special_served` | seviye | Barlo'ya özel sipariş servis edilince |
 | `prestige` | sube, gelir_carpani | yeni şube |
+| `barlo_skill` | yetenek (hiz / tasima / servis / para), seviye, taverna_seviyesi | v2.1: Barlo'nun yeteneği alınınca |
+| `game_complete` | sure_sn (oyun sahnesindeki toplam süre), gun (prestijte sıfırlanmayan toplam gün), sube, servis | v2.1: son sahne ("Krala Davet") ilk kez başlayınca; bir kez |
 | `ad_shown` / `ad_rewarded` / `ad_cancelled` | neden (= placement), uzun / sebep | ödüllü reklam |
 | `store_request` / `store_purchase` / `store_fail` | urun, acik / neden | Hazine |
 

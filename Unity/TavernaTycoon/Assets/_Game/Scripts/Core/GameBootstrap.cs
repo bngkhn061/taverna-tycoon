@@ -119,6 +119,7 @@ namespace Taverna
         void Update()
         {
             _saveT += Time.unscaledDeltaTime;
+            GameState.Data.playSeconds += Time.unscaledDeltaTime;   // v2.1: toplam oyun süresi (game_complete)
             if (_saveT > AutoSaveSeconds) { _saveT = 0f; GameState.Save(); }
             Depot.Tick(Time.deltaTime);
             Campaigns.Tick();

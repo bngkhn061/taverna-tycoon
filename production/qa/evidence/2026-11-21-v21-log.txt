@@ -1,0 +1,276 @@
+# v2.1 Paket 3 otomatik test günlüğü (2026-11-21) — yalnızca [Playtest] satırları, her koşu -autotest-hidden ile
+
+## barlo Sv3 (ilk koşu; dükkân 'sonra' görüntüsü kare sonu hatası, r6'da düzeldi) · Sv3 v1.7 DİL: tr
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'barlo' · Sv3 · şube 0 · kademe 0
+[   0.0s] YAVAŞ KARE 167 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=112 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=9
+[  11.9s] YAVAŞ KARE 136 ms · gerçek 3.2 sn · kayıt karesi=False · müşteri=3 para yığını=0 dünya UI=67 efekt UI=13 GC+=2 faz=0.03 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[  20.2s] YAVAŞ KARE 152 ms · gerçek 5.2 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=69 efekt UI=0 GC+=1 faz=0.05 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[  23.4s] v2.1 BARLO ÖNCE: hız 3.40 m/sn (Sv0) · taşıma 2 (Sv0) · servis menzili 1.35 m (Sv0) · para menzili 1.35 m (Sv0) · oyuncu hızı 3.40 · tepsi kapasitesi 2
+[  29.4s] v2.1 BARLO DÜKKÂN: sekme=staff
+[  30.0s] YAVAŞ KARE 137 ms · gerçek 7.7 sn · kayıt karesi=False · müşteri=6 para yığını=0 dünya UI=72 efekt UI=7 GC+=2 faz=0.07 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[  31.0s] v2.1 BARLO AL: hiz → Sv1 (Ok) · bedel 150 · değer 3.70
+[  31.0s] v2.1 BARLO AL: tasima → Sv1 (Ok) · bedel 250 · değer 3.00
+[  31.0s] v2.1 BARLO AL: para → Sv1 (Ok) · bedel 200 · değer 2.00
+[  31.0s] v2.1 BARLO SINIR: hiz Sv1/5 · sıradaki → LevelLow (Sv6'de, 900 altın)
+[  31.0s] v2.1 BARLO SINIR: tasima Sv1/5 · sıradaki → LevelLow (Sv8'de, 1500 altın)
+[  31.0s] v2.1 BARLO SINIR: servis Sv0/5 · sıradaki → LevelLow (Sv4'de, 300 altın)
+[  31.0s] v2.1 BARLO SINIR: para Sv1/5 · sıradaki → LevelLow (Sv7'de, 1200 altın)
+[  35.9s] v2.1 BARLO SONRA: hız 3.70 m/sn (Sv1) · taşıma 3 (Sv1) · servis menzili 1.35 m (Sv0) · para menzili 2.00 m (Sv1) · oyuncu hızı 3.70 · tepsi kapasitesi 3
+[  97.7s] YAVAŞ KARE 174 ms · gerçek 24.6 sn · kayıt karesi=False · müşteri=10 para yığını=0 dünya UI=75 efekt UI=0 GC+=8 faz=0.23 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[ 135.9s] v2.1 BARLO ETKİ (ölçülen): en yüksek koşu hızı 3.70 m/sn (beklenen 3.70) · tepside en çok 1 bardak (kapasite 3) · en uzak servis 1.29 m (menzil 1.35) · en uzak para toplama 2.00 m (menzil 2.00)
+[ 135.9s] *** SEVİYE 4 ***
+[ 136.5s] v1.9 SEVİYE KARTI Sv4: +1 Elmas/ödül | Servis menzili 1/Barlo yeteneği | Ana Salonu Aç/yeni alan | Yeni Masa/yeni alan | Kalkan & Kılıç/yeni dekor | Ahşap Lambri/yeni tema | Ozan Konseri/yeni etkinlik | Fırıncı/yeni müşteri
+[ 136.5s] YAVAŞ KARE 150 ms · gerçek 34.3 sn · kayıt karesi=True · müşteri=12 para yığını=0 dünya UI=77 efekt UI=47 GC+=4 faz=0.32 yoğun=True masa=4 istasyon=3 fener=6 amb=10
+[ 150.3s] v2.1 YENİ! rozetleri: personel sekmesi açıldı · görülen anahtarlar 4 [barlo_hiz_1,barlo_tasima_1,barlo_para_1,barlo_servis_1]
+[ 150.9s] YAVAŞ KARE 163 ms · gerçek 37.9 sn · kayıt karesi=False · müşteri=14 para yığını=0 dünya UI=79 efekt UI=16 GC+=2 faz=0.36 yoğun=False masa=5 istasyon=3 fener=6 amb=10
+[ 200.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 200.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 11 (en uzun 174 ms) · kayıt karesiyle çakışan 2 · 50 gerçek sn
+[ 200.0s] SONUÇ: 200 oyun-sn · Para=254 · Seviye=4 · Servis=44 · Kızgın ayrılan=0 · Yükseltme=82 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,masa3,masa4,masaM1,masaM2]
+
+## barlo · Sv3 v1.7 DİL: ja
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'barlo' · Sv3 · şube 0 · kademe 0
+[   0.0s] YAVAŞ KARE 178 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=112 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=9
+[  11.9s] YAVAŞ KARE 155 ms · gerçek 3.2 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=67 efekt UI=12 GC+=2 faz=0.03 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[  23.3s] v2.1 BARLO ÖNCE: hız 3.40 m/sn (Sv0) · taşıma 2 (Sv0) · servis menzili 1.35 m (Sv0) · para menzili 1.35 m (Sv0) · oyuncu hızı 3.40 · tepsi kapasitesi 2
+[  27.1s] YAVAŞ KARE 147 ms · gerçek 7.0 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=70 efekt UI=0 GC+=2 faz=0.06 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[  29.4s] v2.1 BARLO DÜKKÂN: sekme=staff
+[  31.0s] v2.1 BARLO AL: hiz → Sv1 (Ok) · bedel 150 · değer 3.70
+[  31.0s] v2.1 BARLO AL: tasima → Sv1 (Ok) · bedel 250 · değer 3.00
+[  31.0s] v2.1 BARLO AL: para → Sv1 (Ok) · bedel 200 · değer 2.00
+[  31.0s] v2.1 BARLO SINIR: hiz Sv1/5 · sıradaki → LevelLow (Sv6'de, 900 altın)
+[  31.0s] v2.1 BARLO SINIR: tasima Sv1/5 · sıradaki → LevelLow (Sv8'de, 1500 altın)
+[  31.0s] v2.1 BARLO SINIR: servis Sv0/5 · sıradaki → LevelLow (Sv4'de, 300 altın)
+[  31.0s] v2.1 BARLO SINIR: para Sv1/5 · sıradaki → LevelLow (Sv7'de, 1200 altın)
+[  35.8s] v2.1 BARLO SONRA: hız 3.70 m/sn (Sv1) · taşıma 3 (Sv1) · servis menzili 1.35 m (Sv0) · para menzili 2.00 m (Sv1) · oyuncu hızı 3.70 · tepsi kapasitesi 3
+[  36.3s] YAVAŞ KARE 142 ms · gerçek 9.3 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=73 efekt UI=7 GC+=2 faz=0.09 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[  97.7s] YAVAŞ KARE 167 ms · gerçek 24.6 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=74 efekt UI=5 GC+=6 faz=0.23 yoğun=False masa=3 istasyon=3 fener=6 amb=10
+[ 135.8s] v2.1 BARLO ETKİ (ölçülen): en yüksek koşu hızı 3.70 m/sn (beklenen 3.70) · tepside en çok 1 bardak (kapasite 3) · en uzak servis 1.30 m (menzil 1.35) · en uzak para toplama 1.99 m (menzil 2.00)
+[ 135.8s] *** SEVİYE 4 ***
+[ 135.8s] v1.9 SEVİYE KARTI Sv4: ジェム+1/報酬 | 給仕の届く距離 1/バーロの能力 | メインホールを開く/新エリア | 新しいテーブル/新エリア | 盾と剣/新しい飾り | 木の腰板/新テーマ | 吟遊詩人ライブ/新イベント | パン職人/新しいお客さん
+[ 138.5s] YAVAŞ KARE 151 ms · gerçek 34.8 sn · kayıt karesi=False · müşteri=14 para yığını=0 dünya UI=79 efekt UI=68 GC+=5 faz=0.33 yoğun=True masa=5 istasyon=3 fener=6 amb=10
+[ 138.5s] v2.1 SEVİYE KARTI Sv4: ジェム+1/報酬 | 給仕の届く距離 1/バーロの能力 | メインホールを開く/新エリア | 新しいテーブル/新エリア | 盾と剣/新しい飾り | 木の腰板/新テーマ | 吟遊詩人ライブ/新イベント | パン職人/新しいお客さん
+[ 149.3s] v2.1 YENİ! rozetleri: personel sekmesi açıldı · görülen anahtarlar 4 [barlo_hiz_1,barlo_tasima_1,barlo_para_1,barlo_servis_1]
+[ 149.9s] YAVAŞ KARE 141 ms · gerçek 37.7 sn · kayıt karesi=False · müşteri=12 para yığını=0 dünya UI=78 efekt UI=1 GC+=1 faz=0.36 yoğun=False masa=5 istasyon=3 fener=6 amb=10
+[ 200.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 200.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 11 (en uzun 178 ms) · kayıt karesiyle çakışan 1 · 50 gerçek sn
+[ 200.0s] SONUÇ: 200 oyun-sn · Para=401 · Seviye=4 · Servis=43 · Kızgın ayrılan=0 · Yükseltme=83 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,masa3,masa4,masaM1]
+
+## barlo (teleport süzgeçli hız ölçümü) · Sv15 v1.7 DİL: tr
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'barlo' · Sv15 · şube 0 · kademe 0
+[   0.0s] YAVAŞ KARE 138 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=28 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=8
+[   9.6s] YAVAŞ KARE 171 ms · gerçek 2.5 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=70 efekt UI=187 GC+=3 faz=0.02 yoğun=False masa=5 istasyon=3 fener=6 amb=13
+[  20.0s] YAVAŞ KARE 148 ms · gerçek 5.2 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=75 efekt UI=150 GC+=1 faz=0.05 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[  23.5s] v2.1 BARLO ÖNCE: hız 3.40 m/sn (Sv0) · taşıma 2 (Sv0) · servis menzili 1.35 m (Sv0) · para menzili 1.35 m (Sv0) · oyuncu hızı 3.40 · tepsi kapasitesi 2
+[  29.5s] v2.1 BARLO DÜKKÂN: sekme=staff
+[  30.1s] YAVAŞ KARE 154 ms · gerçek 7.7 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=78 efekt UI=0 GC+=2 faz=0.07 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[  31.1s] v2.1 BARLO AL: hiz → Sv1 (Ok) · bedel 150 · değer 3.70
+[  31.1s] v2.1 BARLO AL: hiz → Sv2 (Ok) · bedel 900 · değer 4.00
+[  31.1s] v2.1 BARLO AL: hiz → Sv3 (Ok) · bedel 3000 · değer 4.30
+[  31.1s] v2.1 BARLO AL: tasima → Sv1 (Ok) · bedel 250 · değer 3.00
+[  31.1s] v2.1 BARLO AL: tasima → Sv2 (Ok) · bedel 1500 · değer 4.00
+[  31.1s] v2.1 BARLO AL: tasima → Sv3 (Ok) · bedel 4500 · değer 5.00
+[  31.1s] v2.1 BARLO AL: servis → Sv1 (Ok) · bedel 300 · değer 1.50
+[  31.1s] v2.1 BARLO AL: servis → Sv2 (Ok) · bedel 1800 · değer 1.65
+[  31.1s] v2.1 BARLO AL: servis → Sv3 (Ok) · bedel 5000 · değer 1.80
+[  31.1s] v2.1 BARLO AL: para → Sv1 (Ok) · bedel 200 · değer 2.00
+[  31.1s] v2.1 BARLO AL: para → Sv2 (Ok) · bedel 1200 · değer 2.60
+[  31.1s] v2.1 BARLO AL: para → Sv3 (Ok) · bedel 3500 · değer 3.20
+[  31.1s] v2.1 BARLO SINIR: hiz Sv3/5 · sıradaki → LevelLow (Sv17'de, 8000 altın)
+[  31.1s] v2.1 BARLO SINIR: tasima Sv3/5 · sıradaki → LevelLow (Sv20'de, 11000 altın)
+[  31.1s] v2.1 BARLO SINIR: servis Sv3/5 · sıradaki → LevelLow (Sv21'de, 12000 altın)
+[  31.1s] v2.1 BARLO SINIR: para Sv3/5 · sıradaki → LevelLow (Sv19'de, 9000 altın)
+[  35.9s] v2.1 BARLO SONRA: hız 4.30 m/sn (Sv3) · taşıma 5 (Sv3) · servis menzili 1.80 m (Sv3) · para menzili 3.20 m (Sv3) · oyuncu hızı 4.30 · tepsi kapasitesi 5
+[  97.8s] YAVAŞ KARE 191 ms · gerçek 24.6 sn · kayıt karesi=False · müşteri=21 para yığını=0 dünya UI=91 efekt UI=5 GC+=7 faz=0.23 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[ 136.0s] v2.1 BARLO ETKİ (ölçülen): en yüksek koşu hızı 4.30 m/sn (beklenen 4.30) · tepside en çok 2 bardak (kapasite 5) · en uzak servis 1.79 m (menzil 1.80) · en uzak para toplama 3.20 m (menzil 3.20)
+[ 149.2s] v2.1 YENİ! rozetleri: personel sekmesi açıldı · görülen anahtarlar 12 [barlo_hiz_1,barlo_hiz_2,barlo_hiz_3,barlo_tasima_1,barlo_tasima_2,barlo_tasima_3,barlo_servis_1,barlo_servis_2,barlo_servis_3,barlo_para_1,barlo_para_2,barlo_para_3]
+[ 149.8s] YAVAŞ KARE 147 ms · gerçek 37.6 sn · kayıt karesi=False · müşteri=24 para yığını=1 dünya UI=96 efekt UI=26 GC+=5 faz=0.36 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[ 200.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 200.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 10 (en uzun 191 ms) · kayıt karesiyle çakışan 1 · 50 gerçek sn
+[ 200.0s] SONUÇ: 200 oyun-sn · Para=502 · Seviye=15 · Servis=71 · Kızgın ayrılan=0 · Yükseltme=120 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,salon,mac_Sarap,mac_Sut,staff_mina,masaE,masaF]
+
+## barlo (eski hız ölçümü: pencere ışınlanmayı sayıyordu) · Sv15 v1.7 DİL: ja
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'barlo' · Sv15 · şube 0 · kademe 0
+[   0.0s] YAVAŞ KARE 149 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=30 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=8
+[   9.5s] YAVAŞ KARE 159 ms · gerçek 2.5 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=70 efekt UI=184 GC+=3 faz=0.02 yoğun=False masa=5 istasyon=3 fener=6 amb=13
+[  19.6s] YAVAŞ KARE 155 ms · gerçek 5.1 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=74 efekt UI=155 GC+=1 faz=0.05 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[  23.4s] v2.1 BARLO ÖNCE: hız 3.40 m/sn (Sv0) · taşıma 2 (Sv0) · servis menzili 1.35 m (Sv0) · para menzili 1.35 m (Sv0) · oyuncu hızı 3.40 · tepsi kapasitesi 2
+[  29.5s] v2.1 BARLO DÜKKÂN: sekme=staff
+[  30.1s] YAVAŞ KARE 148 ms · gerçek 7.7 sn · kayıt karesi=False · müşteri=7 para yığını=0 dünya UI=77 efekt UI=0 GC+=2 faz=0.07 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[  31.1s] v2.1 BARLO AL: hiz → Sv1 (Ok) · bedel 150 · değer 3.70
+[  31.1s] v2.1 BARLO AL: hiz → Sv2 (Ok) · bedel 900 · değer 4.00
+[  31.1s] v2.1 BARLO AL: hiz → Sv3 (Ok) · bedel 3000 · değer 4.30
+[  31.1s] v2.1 BARLO AL: tasima → Sv1 (Ok) · bedel 250 · değer 3.00
+[  31.1s] v2.1 BARLO AL: tasima → Sv2 (Ok) · bedel 1500 · değer 4.00
+[  31.1s] v2.1 BARLO AL: tasima → Sv3 (Ok) · bedel 4500 · değer 5.00
+[  31.1s] v2.1 BARLO AL: servis → Sv1 (Ok) · bedel 300 · değer 1.50
+[  31.1s] v2.1 BARLO AL: servis → Sv2 (Ok) · bedel 1800 · değer 1.65
+[  31.1s] v2.1 BARLO AL: servis → Sv3 (Ok) · bedel 5000 · değer 1.80
+[  31.1s] v2.1 BARLO AL: para → Sv1 (Ok) · bedel 200 · değer 2.00
+[  31.1s] v2.1 BARLO AL: para → Sv2 (Ok) · bedel 1200 · değer 2.60
+[  31.1s] v2.1 BARLO AL: para → Sv3 (Ok) · bedel 3500 · değer 3.20
+[  31.1s] v2.1 BARLO SINIR: hiz Sv3/5 · sıradaki → LevelLow (Sv17'de, 8000 altın)
+[  31.1s] v2.1 BARLO SINIR: tasima Sv3/5 · sıradaki → LevelLow (Sv20'de, 11000 altın)
+[  31.1s] v2.1 BARLO SINIR: servis Sv3/5 · sıradaki → LevelLow (Sv21'de, 12000 altın)
+[  31.1s] v2.1 BARLO SINIR: para Sv3/5 · sıradaki → LevelLow (Sv19'de, 9000 altın)
+[  36.0s] v2.1 BARLO SONRA: hız 4.30 m/sn (Sv3) · taşıma 5 (Sv3) · servis menzili 1.80 m (Sv3) · para menzili 3.20 m (Sv3) · oyuncu hızı 4.30 · tepsi kapasitesi 5
+[  97.8s] YAVAŞ KARE 182 ms · gerçek 24.6 sn · kayıt karesi=False · müşteri=22 para yığını=3 dünya UI=92 efekt UI=10 GC+=7 faz=0.23 yoğun=False masa=7 istasyon=5 fener=6 amb=23
+[ 136.0s] v2.1 BARLO ETKİ (ölçülen): en yüksek koşu hızı 5.13 m/sn (beklenen 4.30) · tepside en çok 1 bardak (kapasite 5) · en uzak servis 1.79 m (menzil 1.80) · en uzak para toplama 3.19 m (menzil 3.20)
+[ 149.2s] v2.1 YENİ! rozetleri: personel sekmesi açıldı · görülen anahtarlar 12 [barlo_hiz_1,barlo_hiz_2,barlo_hiz_3,barlo_tasima_1,barlo_tasima_2,barlo_tasima_3,barlo_servis_1,barlo_servis_2,barlo_servis_3,barlo_para_1,barlo_para_2,barlo_para_3]
+[ 149.8s] YAVAŞ KARE 158 ms · gerçek 37.6 sn · kayıt karesi=False · müşteri=25 para yığını=1 dünya UI=95 efekt UI=7 GC+=4 faz=0.36 yoğun=False masa=8 istasyon=5 fener=6 amb=23
+[ 200.1s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 200.1s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 10 (en uzun 186 ms) · kayıt karesiyle çakışan 1 · 50 gerçek sn
+[ 200.1s] SONUÇ: 200 oyun-sn · Para=463 · Seviye=15 · Servis=74 · Kızgın ayrılan=0 · Yükseltme=117 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,salon,mac_Sarap,mac_Sut,staff_mina,masaE,masaF,mac_KaraBira]
+
+## ending (son düzeltmeler) · Sv30 v1.7 DİL: tr
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'ending' · Sv30 · şube 0 · kademe 2
+[   0.0s] YAVAŞ KARE 162 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=196 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=12
+[   9.5s] YAVAŞ KARE 153 ms · gerçek 2.5 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=70 efekt UI=280 GC+=2 faz=0.02 yoğun=False masa=5 istasyon=3 fener=6 amb=13
+[  11.4s] v2.1 SON ÖNCE: şube 2 (Dağ Geçidi) · Sv30 · kademe Saray Hanı · son açık=True görüldü=False · prestij kartı açık=True
+[  20.1s] YAVAŞ KARE 179 ms · gerçek 5.2 sn · kayıt karesi=False · müşteri=6 para yığını=0 dünya UI=111 efekt UI=1246 GC+=5 faz=0.05 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  29.5s] v2.1 SON HEDEF: "Krala Davet hazır! Büyüt karesine git · "
+[  30.2s] YAVAŞ KARE 176 ms · gerçek 7.7 sn · kayıt karesi=False · müşteri=11 para yığını=0 dünya UI=115 efekt UI=0 GC+=1 faz=0.07 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  35.9s] v2.1 SON KART: açık=True
+[  37.5s] v2.1 SON BAŞLADI: oynuyor=True · görüldü=True · müzik zorla=True · zaman ölçeği 1 · game_complete 4
+[  37.5s] v2.1 SON AŞAMA: - → Arrive · 0.0 sn · aşama Arrive · 0.0 sn · maiyet 3 · kral (-9.5, 0.0, -6.5) · oturak (1.9, 0.0, -3.0) · müzik day · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Arrive → Greet · 6.5 sn · aşama Greet · 6.4 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Greet → ToTable · 9.7 sn · aşama ToTable · 9.7 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: ToTable → Toast · 11.5 sn · aşama Toast · 11.5 sn · maiyet 3 · kral (1.9, 0.0, -3.0) · oturak (1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Toast → Orbit · 15.5 sn · aşama Orbit · 15.5 sn · maiyet 3 · kral (1.9, 0.0, -3.0) · oturak (1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Orbit → credits · 24.5 sn · - · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 JENERİK: dokunuşla geçiliyor
+[  37.6s] v2.1 SON AŞAMA: credits → BİTTİ · 36.9 sn · - · müzik day · gün 0.090 · müşteri 11
+[  37.6s] v2.1 SON SÜRE: toplam 36.9 sn [Arrive 6.5 · Greet 3.2 · ToTable 1.9 · Toast 4.0 · Orbit 9.0 · credits 12.3] · görüldü=True · oynuyor=False · zaman ölçeği 4 · müzik zorla=False
+[  42.3s] YAVAŞ KARE 176 ms · gerçek 47.6 sn · kayıt karesi=False · müşteri=13 para yığını=8 dünya UI=118 efekt UI=0 GC+=5 faz=0.10 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  49.6s] v2.1 SERBEST OYUN: son açık=False · görüldü=True · prestij görünür=True hazır=False · hedef "Yeni Şube: 3. Şube · 36 / 150B" · kayıt endingSeen=True · game_complete 4
+[  55.2s] v2.1 SERBEST: şube kartı açık=True
+[  55.9s] YAVAŞ KARE 156 ms · gerçek 51.0 sn · kayıt karesi=False · müşteri=17 para yığını=9 dünya UI=123 efekt UI=7 GC+=1 faz=0.13 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  71.3s] YAVAŞ KARE 137 ms · gerçek 54.8 sn · kayıt karesi=False · müşteri=26 para yığını=6 dünya UI=130 efekt UI=12 GC+=1 faz=0.17 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[  97.7s] YAVAŞ KARE 167 ms · gerçek 61.4 sn · kayıt karesi=False · müşteri=48 para yığını=5 dünya UI=153 efekt UI=0 GC+=4 faz=0.23 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[ 120.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 120.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 24 (en uzun 200 ms) · kayıt karesiyle çakışan 2 · 67 gerçek sn
+[ 120.0s] SONUÇ: 120 oyun-sn · Para=114 · Seviye=30 · Servis=31 · Kızgın ayrılan=0 · Yükseltme=451 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,iskeleD,mahzenC,merdiven,masaF,masaJ,masaS6,kart,mahzenD,salon,masaH,masaS5,masaBU,oda8,avluE,iskele,oda5,masaB3,oyun,masaB1,oda4,oda3,oda6,teras,masaS2,masaS3,masaE,terasD,kart2,masaB4,masaS4,mutfak,masaG,sahne,avlu,avluD,bahce,masaB2,masaS1,bilek,mahzen,zar2,masaB5,masaI,oda7,mac_Sarap,mac_Sut,mac_KaraBira,mac_Cay,mac_ElfCiyi,mac_Grog,mac_EjderAtesi,mac_Ekmek,mac_Guvec,mac_KozEt,mac_Turta,mac_YillanmisSarap,mac_BalLikoru,mac_GunBatimiPuncu,mac_IzgaraBalik,mac_KralSerbeti,mac_SolenTabagi,staff_ayla,staff_mina,staff_tobi,staff_sema]
+
+## ending (CJK) · Sv30 v1.7 DİL: ja
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'ending' · Sv30 · şube 0 · kademe 2
+[   0.0s] YAVAŞ KARE 166 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=196 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=12
+[  10.6s] YAVAŞ KARE 150 ms · gerçek 2.8 sn · kayıt karesi=False · müşteri=3 para yığını=0 dünya UI=71 efekt UI=280 GC+=2 faz=0.03 yoğun=False masa=5 istasyon=3 fener=6 amb=13
+[  11.4s] v2.1 SON ÖNCE: şube 2 (山の峠) · Sv30 · kademe Saray Hanı · son açık=True görüldü=False · prestij kartı açık=True
+[  20.1s] YAVAŞ KARE 187 ms · gerçek 5.2 sn · kayıt karesi=False · müşteri=6 para yığını=0 dünya UI=111 efekt UI=1294 GC+=5 faz=0.05 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  29.5s] v2.1 SON HEDEF: "王を招待できる!拡張マスへ · "
+[  30.2s] YAVAŞ KARE 173 ms · gerçek 7.7 sn · kayıt karesi=False · müşteri=10 para yığını=0 dünya UI=115 efekt UI=0 GC+=1 faz=0.07 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  35.9s] v2.1 SON KART: açık=True
+[  37.5s] v2.1 SON BAŞLADI: oynuyor=True · görüldü=True · müzik zorla=True · zaman ölçeği 1 · game_complete 2
+[  37.5s] v2.1 SON AŞAMA: - → Arrive · 0.0 sn · aşama Arrive · 0.0 sn · maiyet 3 · kral (-9.5, 0.0, -6.5) · oturak (-1.9, 0.0, -3.0) · müzik day · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Arrive → Greet · 6.5 sn · aşama Greet · 6.5 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Greet → ToTable · 9.7 sn · aşama ToTable · 9.7 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: ToTable → Toast · 11.6 sn · aşama Toast · 11.5 sn · maiyet 3 · kral (-1.9, 0.0, -3.0) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Toast → Orbit · 15.6 sn · aşama Orbit · 15.5 sn · maiyet 3 · kral (-1.9, 0.0, -3.0) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 14
+[  37.5s] v2.1 SON AŞAMA: Orbit → credits · 24.6 sn · - · müzik rush · gün 0.089 · müşteri 13
+[  37.5s] v2.1 JENERİK: dokunuşla geçiliyor
+[  37.6s] v2.1 SON AŞAMA: credits → BİTTİ · 36.9 sn · - · müzik day · gün 0.089 · müşteri 11
+[  37.6s] v2.1 SON SÜRE: toplam 36.9 sn [Arrive 6.5 · Greet 3.2 · ToTable 1.9 · Toast 4.0 · Orbit 9.0 · credits 12.3] · görüldü=True · oynuyor=False · zaman ölçeği 4 · müzik zorla=False
+[  42.3s] YAVAŞ KARE 178 ms · gerçek 47.6 sn · kayıt karesi=False · müşteri=12 para yığını=7 dünya UI=116 efekt UI=4 GC+=5 faz=0.10 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  49.6s] v2.1 SERBEST OYUN: son açık=False · görüldü=True · prestij görünür=True hazır=False · hedef "新店舗：3号店 · 69 / 150K" · kayıt endingSeen=True · game_complete 2
+[  55.2s] v2.1 SERBEST: şube kartı açık=True
+[  55.8s] YAVAŞ KARE 146 ms · gerçek 51.0 sn · kayıt karesi=False · müşteri=17 para yığını=4 dünya UI=122 efekt UI=8 GC+=1 faz=0.13 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  75.1s] YAVAŞ KARE 162 ms · gerçek 55.8 sn · kayıt karesi=False · müşteri=30 para yığını=5 dünya UI=134 efekt UI=0 GC+=2 faz=0.18 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[  97.8s] YAVAŞ KARE 185 ms · gerçek 61.5 sn · kayıt karesi=False · müşteri=56 para yığını=7 dünya UI=160 efekt UI=4 GC+=2 faz=0.23 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[ 130.8s] YAVAŞ KARE 190 ms · gerçek 69.7 sn · kayıt karesi=False · müşteri=69 para yığını=19 dünya UI=175 efekt UI=3 GC+=3 faz=0.31 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 189.6s] v2.1 SERBEST 30+ sn: servis +54 · müşteri 51 · gün 0.452 · altın 57 · zaman ölçeği 4
+[ 253.3s] YAVAŞ KARE 180 ms · gerçek 100.4 sn · kayıt karesi=False · müşteri=37 para yığını=32 dünya UI=142 efekt UI=0 GC+=9 faz=0.60 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 260.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 260.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 24 (en uzun 194 ms) · kayıt karesiyle çakışan 2 · 102 gerçek sn
+[ 260.0s] SONUÇ: 260 oyun-sn · Para=43 · Seviye=30 · Servis=85 · Kızgın ayrılan=45 · Yükseltme=448 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1,iskeleD,mahzenC,merdiven,masaF,masaJ,masaS6,kart,mahzenD,salon,masaH,masaS5,masaBU,oda8,avluE,iskele,oda5,masaB3,oyun,masaB1,oda4,oda3,oda6,teras,masaS2,masaS3,masaE,terasD,kart2,masaB4,masaS4,masaM2,mutfak,masaG,sahne,avlu,avluD,bahce,masaB2,masaS1,bilek,mahzen,zar2,masaB5,masaI,oda7,mac_Sarap,mac_Sut,mac_KaraBira,mac_Cay,mac_ElfCiyi,mac_Grog,mac_EjderAtesi,mac_Ekmek,mac_Guvec,mac_KozEt,mac_Turta,mac_YillanmisSarap,mac_BalLikoru,mac_GunBatimiPuncu,mac_IzgaraBalik,mac_KralSerbeti,mac_SolenTabagi,staff_ayla,staff_mina,staff_tobi,staff_sema]
+
+## ending · Sv30 v1.7 DİL: ja
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'ending' · Sv30 · şube 0 · kademe 2
+[   0.0s] YAVAŞ KARE 171 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=196 GC+=31 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=12
+[  10.5s] YAVAŞ KARE 150 ms · gerçek 2.8 sn · kayıt karesi=False · müşteri=3 para yığını=0 dünya UI=70 efekt UI=280 GC+=2 faz=0.03 yoğun=False masa=5 istasyon=3 fener=6 amb=13
+[  11.4s] v2.1 SON ÖNCE: şube 2 (山の峠) · Sv30 · kademe Saray Hanı · son açık=True görüldü=False · prestij kartı açık=True
+[  20.0s] YAVAŞ KARE 183 ms · gerçek 5.2 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=110 efekt UI=1296 GC+=5 faz=0.05 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  29.4s] v2.1 SON HEDEF: "王を招待できる!拡張マスへ · "
+[  30.1s] YAVAŞ KARE 176 ms · gerçek 7.7 sn · kayıt karesi=False · müşteri=9 para yığını=0 dünya UI=114 efekt UI=0 GC+=1 faz=0.07 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  35.9s] v2.1 SON KART: açık=True
+[  37.5s] v2.1 SON BAŞLADI: oynuyor=True · görüldü=True · müzik zorla=True · zaman ölçeği 1 · game_complete 3
+[  37.5s] v2.1 SON AŞAMA: - → Arrive · 0.0 sn · aşama Arrive · 0.0 sn · maiyet 3 · kral (-9.5, 0.0, -6.5) · oturak (-1.9, 0.0, -3.0) · müzik day · gün 0.089 · müşteri 12
+[  37.5s] v2.1 SON AŞAMA: Arrive → Greet · 6.5 sn · aşama Greet · 6.5 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 12
+[  37.5s] v2.1 SON AŞAMA: Greet → ToTable · 9.7 sn · aşama ToTable · 9.7 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 12
+[  37.5s] v2.1 SON AŞAMA: ToTable → Toast · 11.6 sn · aşama Toast · 11.5 sn · maiyet 3 · kral (-1.9, 0.0, -3.0) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 12
+[  37.5s] v2.1 SON AŞAMA: Toast → Orbit · 15.6 sn · aşama Orbit · 15.6 sn · maiyet 3 · kral (-1.9, 0.0, -3.0) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.089 · müşteri 12
+[  37.5s] v2.1 SON AŞAMA: Orbit → credits · 24.6 sn · - · müzik rush · gün 0.089 · müşteri 12
+[  37.5s] v2.1 JENERİK: dokunuşla geçiliyor
+[  37.6s] v2.1 SON AŞAMA: credits → BİTTİ · 36.9 sn · - · müzik day · gün 0.089 · müşteri 9
+[  37.6s] v2.1 SON SÜRE: toplam 36.9 sn [Arrive 6.5 · Greet 3.2 · ToTable 1.9 · Toast 4.0 · Orbit 9.0 · credits 12.3] · görüldü=True · oynuyor=False · zaman ölçeği 4 · müzik zorla=False
+[  42.3s] YAVAŞ KARE 175 ms · gerçek 47.6 sn · kayıt karesi=False · müşteri=9 para yığını=8 dünya UI=115 efekt UI=4 GC+=5 faz=0.10 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  49.6s] v2.1 SERBEST OYUN: son açık=False · görüldü=True · prestij görünür=True hazır=False · hedef "新店舗：3号店 · 406 / 150K" · kayıt endingSeen=True · game_complete 3
+[  54.1s] YAVAŞ KARE 147 ms · gerçek 50.6 sn · kayıt karesi=False · müşteri=15 para yığını=6 dünya UI=120 efekt UI=7 GC+=1 faz=0.13 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  55.2s] v2.1 SERBEST: şube kartı açık=True
+[  63.0s] YAVAŞ KARE 144 ms · gerçek 52.8 sn · kayıt karesi=False · müşteri=15 para yığını=3 dünya UI=120 efekt UI=6 GC+=1 faz=0.15 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  75.0s] YAVAŞ KARE 146 ms · gerçek 55.8 sn · kayıt karesi=False · müşteri=27 para yığını=2 dünya UI=132 efekt UI=0 GC+=1 faz=0.18 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[  97.9s] YAVAŞ KARE 200 ms · gerçek 61.5 sn · kayıt karesi=False · müşteri=51 para yığını=7 dünya UI=155 efekt UI=0 GC+=3 faz=0.23 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[ 110.7s] YAVAŞ KARE 167 ms · gerçek 64.7 sn · kayıt karesi=False · müşteri=60 para yığını=12 dünya UI=166 efekt UI=7 GC+=1 faz=0.26 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 158.3s] YAVAŞ KARE 184 ms · gerçek 76.6 sn · kayıt karesi=False · müşteri=71 para yığını=17 dünya UI=176 efekt UI=0 GC+=3 faz=0.38 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 189.6s] v2.1 SERBEST 30+ sn: servis +57 · müşteri 55 · gün 0.451 · altın 40 · zaman ölçeği 4
+[ 220.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 220.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 27 (en uzun 200 ms) · kayıt karesiyle çakışan 2 · 92 gerçek sn
+[ 220.0s] SONUÇ: 220 oyun-sn · Para=127 · Seviye=30 · Servis=74 · Kızgın ayrılan=48 · Yükseltme=493 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1,iskeleD,mahzenC,merdiven,masaF,masaJ,masaS6,kart,mahzenD,salon,masaH,masaS5,masaBU,oda8,avluE,iskele,oda5,masaB3,oyun,masaB1,oda4,oda3,oda6,teras,masaS2,masaS3,masaE,terasD,kart2,masaB4,masaS4,masaM2,mutfak,masaG,sahne,avlu,avluD,bahce,masaB2,masaS1,bilek,mahzen,zar2,masaB5,masaI,oda7,mac_Sarap,mac_Sut,mac_KaraBira,mac_Cay,mac_ElfCiyi,mac_Grog,mac_EjderAtesi,mac_Ekmek,mac_Guvec,mac_KozEt,mac_Turta,mac_YillanmisSarap,mac_BalLikoru,mac_GunBatimiPuncu,mac_IzgaraBalik,mac_KralSerbeti,mac_SolenTabagi,staff_ayla,staff_mina,staff_tobi,staff_sema]
+
+## ending (ilk koşu; şerit kesiliyordu, düzeltildi) · Sv30 v1.7 DİL: tr
+İstisna / NullReference satırı: 0
+[   0.0s] v2.1 BAŞLADI · mod 'ending' · Sv30 · şube 0 · kademe 2
+[   0.0s] YAVAŞ KARE 151 ms · gerçek 0.2 sn · kayıt karesi=True · müşteri=0 para yığını=0 dünya UI=2 efekt UI=196 GC+=29 faz=0.00 yoğun=False masa=2 istasyon=3 fener=6 amb=12
+[   9.4s] YAVAŞ KARE 147 ms · gerçek 2.5 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=70 efekt UI=280 GC+=2 faz=0.02 yoğun=False masa=5 istasyon=3 fener=6 amb=13
+[  11.4s] v2.1 SON ÖNCE: şube 2 (Dağ Geçidi) · Sv30 · kademe Saray Hanı · son açık=True görüldü=False · prestij kartı açık=True
+[  17.5s] v2.1 SON HEDEF: "Krala Davet hazır! Büyüt karesine git · "
+[  18.2s] YAVAŞ KARE 179 ms · gerçek 4.7 sn · kayıt karesi=False · müşteri=6 para yığını=0 dünya UI=110 efekt UI=1410 GC+=5 faz=0.04 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  24.0s] v2.1 SON KART: açık=True
+[  25.6s] v2.1 SON BAŞLADI: oynuyor=True · görüldü=True · müzik zorla=True · zaman ölçeği 1 · game_complete 1
+[  25.6s] v2.1 SON AŞAMA: - → Arrive · 0.0 sn · aşama Arrive · 0.0 sn · maiyet 3 · kral (-9.5, 0.0, -6.5) · oturak (-1.9, 0.0, -3.0) · müzik day · gün 0.061 · müşteri 9
+[  25.6s] v2.1 SON AŞAMA: Arrive → Greet · 6.5 sn · aşama Greet · 6.4 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.061 · müşteri 9
+[  25.6s] v2.1 SON AŞAMA: Greet → ToTable · 9.7 sn · aşama ToTable · 9.7 sn · maiyet 3 · kral (0.0, 0.0, -4.5) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.061 · müşteri 9
+[  25.6s] v2.1 SON AŞAMA: ToTable → Toast · 11.5 sn · aşama Toast · 11.5 sn · maiyet 3 · kral (-1.9, 0.0, -3.0) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.061 · müşteri 9
+[  25.6s] v2.1 SON AŞAMA: Toast → Orbit · 15.6 sn · aşama Orbit · 15.5 sn · maiyet 3 · kral (-1.9, 0.0, -3.0) · oturak (-1.9, 0.0, -3.0) · müzik rush · gün 0.061 · müşteri 9
+[  25.6s] v2.1 SON AŞAMA: Orbit → credits · 24.6 sn · - · müzik rush · gün 0.061 · müşteri 9
+[  25.6s] v2.1 JENERİK: dokunuşla geçiliyor
+[  25.7s] v2.1 SON AŞAMA: credits → BİTTİ · 33.1 sn · - · müzik day · gün 0.061 · müşteri 9
+[  25.7s] v2.1 SON SÜRE: toplam 33.1 sn [Arrive 6.5 · Greet 3.2 · ToTable 1.9 · Toast 4.0 · Orbit 9.0 · credits 8.5] · görüldü=True · oynuyor=False · zaman ölçeği 4 · müzik zorla=False
+[  30.2s] YAVAŞ KARE 146 ms · gerçek 40.8 sn · kayıt karesi=False · müşteri=9 para yığını=3 dünya UI=114 efekt UI=5 GC+=5 faz=0.07 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  37.7s] v2.1 SERBEST OYUN: son açık=False · görüldü=True · prestij görünür=True hazır=False · hedef "Yeni Şube: 3. Şube · 40 / 150B" · kayıt endingSeen=True · game_complete 1
+[  43.3s] v2.1 SERBEST: şube kartı açık=True
+[  43.8s] YAVAŞ KARE 146 ms · gerçek 44.2 sn · kayıt karesi=False · müşteri=12 para yığını=3 dünya UI=117 efekt UI=0 GC+=1 faz=0.10 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  53.8s] YAVAŞ KARE 151 ms · gerçek 46.7 sn · kayıt karesi=False · müşteri=17 para yığını=2 dünya UI=122 efekt UI=7 GC+=1 faz=0.13 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  63.1s] YAVAŞ KARE 151 ms · gerçek 49.0 sn · kayıt karesi=False · müşteri=22 para yığını=1 dünya UI=127 efekt UI=7 GC+=1 faz=0.15 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[  97.8s] YAVAŞ KARE 189 ms · gerçek 57.7 sn · kayıt karesi=False · müşteri=50 para yığını=7 dünya UI=155 efekt UI=0 GC+=2 faz=0.23 yoğun=True masa=46 istasyon=20 fener=15 amb=41
+[ 115.1s] YAVAŞ KARE 169 ms · gerçek 62.0 sn · kayıt karesi=False · müşteri=64 para yığını=14 dünya UI=169 efekt UI=6 GC+=2 faz=0.27 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 130.9s] YAVAŞ KARE 211 ms · gerçek 65.9 sn · kayıt karesi=False · müşteri=67 para yığını=15 dünya UI=172 efekt UI=0 GC+=1 faz=0.31 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 177.9s] YAVAŞ KARE 179 ms · gerçek 77.7 sn · kayıt karesi=False · müşteri=69 para yığını=18 dünya UI=174 efekt UI=0 GC+=4 faz=0.42 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 177.9s] v2.1 SERBEST 30+ sn: servis +54 · müşteri 69 · gün 0.424 · altın 7 · zaman ölçeği 4
+[ 225.7s] YAVAŞ KARE 178 ms · gerçek 89.7 sn · kayıt karesi=False · müşteri=41 para yığını=18 dünya UI=147 efekt UI=7 GC+=4 faz=0.54 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 253.3s] YAVAŞ KARE 182 ms · gerçek 96.6 sn · kayıt karesi=False · müşteri=37 para yığını=7 dünya UI=145 efekt UI=19 GC+=2 faz=0.60 yoğun=False masa=46 istasyon=20 fener=15 amb=41
+[ 260.0s] v1.4 REHBER ÖZET: bitti · bitiş gerçek -1.0 sn
+[ 260.0s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 28 (en uzun 225 ms) · kayıt karesiyle çakışan 2 · 98 gerçek sn
+[ 260.0s] SONUÇ: 260 oyun-sn · Para=20 · Seviye=30 · Servis=84 · Kızgın ayrılan=51 · Yükseltme=510 · Açılan=[mac_Sira,mac_BalSarabi,staff_nana,staff_pip,staff_gus,staff_brak,staff_lir,masa3,masa4,masaM1,masaM2,iskeleD,mahzenC,merdiven,masaF,masaJ,masaS6,kart,mahzenD,salon,masaH,masaS5,masaBU,oda8,avluE,iskele,oda5,masaB3,oyun,masaB1,oda4,oda3,oda6,teras,masaS2,masaS3,masaE,terasD,kart2,masaB4,masaS4,mutfak,masaG,sahne,avlu,avluD,bahce,masaB2,masaS1,bilek,mahzen,zar2,masaB5,masaI,oda7,mac_Sarap,mac_Sut,mac_KaraBira,mac_Cay,mac_ElfCiyi,mac_Grog,mac_EjderAtesi,mac_Ekmek,mac_Guvec,mac_KozEt,mac_Turta,mac_YillanmisSarap,mac_BalLikoru,mac_GunBatimiPuncu,mac_IzgaraBalik,mac_KralSerbeti,mac_SolenTabagi,staff_ayla,staff_mina,staff_tobi,staff_sema]
+
+## yeni oyun gerilemesi (bayraksız, 200 oyun-sn) · Sv1 v1.7 DİL: tr
+İstisna / NullReference satırı: 0
+[   0.0s] YAVAŞ KARE 117 ms · gerçek 0.1 sn · kayıt karesi=False · müşteri=0 para yığını=0 dünya UI=2 efekt UI=0 GC+=28 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[  16.2s] YAVAŞ KARE 154 ms · gerçek 4.2 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=63 efekt UI=0 GC+=2 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[  26.0s] YAVAŞ KARE 163 ms · gerçek 6.6 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=63 efekt UI=0 GC+=1 faz=0.00 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[  69.4s] YAVAŞ KARE 162 ms · gerçek 17.5 sn · kayıt karesi=False · müşteri=1 para yığını=0 dünya UI=62 efekt UI=0 GC+=6 faz=0.10 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[  77.5s] YAVAŞ KARE 86 ms · gerçek 19.5 sn · kayıt karesi=False · müşteri=2 para yığını=0 dünya UI=63 efekt UI=0 GC+=1 faz=0.12 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[  85.9s] YAVAŞ KARE 86 ms · gerçek 21.6 sn · kayıt karesi=False · müşteri=4 para yığını=0 dünya UI=65 efekt UI=0 GC+=2 faz=0.14 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[  94.4s] YAVAŞ KARE 101 ms · gerçek 23.7 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=67 efekt UI=2 GC+=0 faz=0.16 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[ 155.6s] YAVAŞ KARE 159 ms · gerçek 39.0 sn · kayıt karesi=False · müşteri=6 para yığını=0 dünya UI=67 efekt UI=2 GC+=7 faz=0.31 yoğun=False masa=2 istasyon=1 fener=6 amb=1
+[ 160.0s] *** SEVİYE 2 ***
+[ 160.1s] v1.9 SEVİYE KARTI Sv2: +1 Elmas/ödül | Nana/işe alınabilir | Koşu hızı 1/Barlo yeteneği | Yeni Masa/yeni alan | Halı/yeni dekor | Tellal/yeni etkinlik | Oduncu/yeni müşteri
+[ 170.8s] YAVAŞ KARE 163 ms · gerçek 42.8 sn · kayıt karesi=False · müşteri=5 para yığını=0 dünya UI=68 efekt UI=2 GC+=2 faz=0.34 yoğun=False masa=2 istasyon=1 fener=6 amb=3
+[ 200.1s] v1.4 REHBER ÖZET: bitti · bitiş gerçek 17.0 sn
+[ 200.1s] v1.6 YAVAŞ KARE ÖZET: >80 ms kare 23 (en uzun 175 ms) · kayıt karesiyle çakışan 1 · 50 gerçek sn
+[ 200.1s] SONUÇ: 200 oyun-sn · Para=12 · Seviye=2 · Servis=17 · Kızgın ayrılan=0 · Yükseltme=7 · Açılan=[staff_lirael,staff_ignis,thm_zemin_altin,thm_duvar_altin,mac_Sira,masa3]

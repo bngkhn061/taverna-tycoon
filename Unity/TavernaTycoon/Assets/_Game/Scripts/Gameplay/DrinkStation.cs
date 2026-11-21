@@ -47,7 +47,7 @@ namespace Taverna
             // Yakındaki oyuncuyla alışveriş
             var p = PlayerController.I;
             _transferT -= Time.deltaTime;
-            if (p && p.carrier && _transferT <= 0f && FlatDistance(p.transform.position, ServePos) < Balance.InteractRadius)
+            if (p && p.carrier && _transferT <= 0f && FlatDistance(p.transform.position, ServePos) < BarloSkills.Reach)
             {
                 int carried = p.carrier.CountOf(drink.id);
                 int demand = Demand(drink.id);

@@ -47,6 +47,10 @@ namespace Taverna
                 if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) input.x -= 1;
             }
             input = Vector2.ClampMagnitude(input, 1f);
+            if (Ending.Playing) input = Vector2.zero;   // v2.1: son sahnede Barlo'yu sahne yönetir
+            // v2.1 Barlo'nun yetenekleri: koşu hızı ve taşıma kapasitesi kayıttan (BarloSkills)
+            speed = BarloSkills.Speed;
+            if (carrier) carrier.capacity = BarloSkills.Carry;
 
             // Kamera sabit ve +Z'ye bakıyor → girdi doğrudan dünya XZ düzlemine eşlenir.
             var move = new Vector3(input.x, 0f, input.y);

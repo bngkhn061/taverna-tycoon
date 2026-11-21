@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v2.0** (2026-11-17, oyuncu testi Paket 2, maddeler 14, 15, 17–21: kademe avizeleri kalktı ve avizeler küçüldü, gün sonu kapanışı ve personelin işe gidip gelmesi, bahçe uzun masası, sahnede çalan ozan, bahçe feneri ve taş yol, han konfor seviyeleri, 2 yeni oda ve 2 yeni oyun masası; ayrıntı §14).
+> Sürüm: **v2.1** (2026-11-21, oyuncu testi Paket 3, maddeler 10 ve 25: Barlo'nun kendi yetenekleri — koşu hızı, taşıma, servis ve para menzili; gerçek bir son — 3. tavernada "Krala Davet", son sahne, jenerik, serbest oyun ve "Efsanevi Han" rozeti; ayrıntı §15).
+> Önceki: v2.0 (2026-11-17, oyuncu testi Paket 2, maddeler 14, 15, 17–21: kademe avizeleri kalktı ve avizeler küçüldü, gün sonu kapanışı ve personelin işe gidip gelmesi, bahçe uzun masası, sahnede çalan ozan, bahçe feneri ve taş yol, han konfor seviyeleri, 2 yeni oda ve 2 yeni oyun masası; ayrıntı §14).
 > Önceki: v1.9 (2026-11-17, oyuncu testi Paket 1, `production/qa/playtests/feedback-2026-11-17.md`: yükseltme satırları, ses karışımı, hedef kutusu, salon garsonları, zorunlu rehber, durum görevleri, açıklamalar, seviye kartında açılanlar ve "YENİ!" rozetleri, maaş borcu, elmaslı otomasyon, elmas ekonomisi).
 > Önceki: v1.8 (2026-11-16, son denge geçişi + cila: ölçülmüş Ün tablosu, müşteri / sabır / içme süresi, maaş, etkinlik fiyatı, özel sipariş, Kral Şerbeti, prestij Ün'ü; `design/balance/balance-check-final-2026-11-12.md`).
 > Önceki: v1.5 (2026-11-11, Paket C: oyun sonu — Sv27 Kral Şerbeti, Sv28 Kraliyet Ziyareti etkinliği, Sv29 Şölen Tabağı, Sv30 prestij "Yeni Şube").
@@ -386,6 +387,7 @@ Oyunun sonu (Sv30) artık bir döngüye bağlanır: oyuncu tavernasını bırak�
 | Makine yükseltmeleri ve depo (raflar, teslimat, tedarikçi anlaşması) | Hazine görevlileri (Lirael, Ignis) ve seviyeleri |
 | Personel: işe alımlar ve seviyeleri | Koleksiyon defteri (görülen müşteriler) |
 | Otomasyon ve Usta | Taverna adı, ayarlar, rehber görüldü bilgisi |
+| Barlo'nun yetenekleri (hız, taşıma, menzil; v2.1, §15.1) | Son sahne görüldü bilgisi ve "Efsanevi Han" rozeti (v2.1, §15.2) |
 | Taverna kademesi (Ahşap Meyhane) | Reklam hakkı sayaçları (ad değiştirme, görevli reklam seviyeleri) |
 | Mutluluk (%60'a döner) | Zemin / duvar temaları (satın alınmış ve seçili) |
 | Günlük etkinlik kullanımı, maaş küskünlüğü | Satın alınmış dekorlar: kayıtta kalır, **bölgesi yeniden açılınca** yerine gelir (o yer başka dekora verilmez) |
@@ -515,4 +517,46 @@ Hazine olmadan toplam ambiyans 436 → **487** (+ uzun masa 8, iki oyun masası 
 ### 14.7 Test altyapısı
 - Bot: `-autotest-v20 tiers|garden|inn|game|dayend` (`PlaytestBotV20`): Barlo'yu sabit noktaya ışınlayıp görüntü alır, kapanış / sabah durumunu günlüğe yazar.
 - `-autotest-hidden` (yalnızca Windows geliştirme derlemesi, `AutoTestWindow`): oyun penceresi hiç etkinleşmeden ekran dışına ve en alta itilir (user32 `ShowWindow(SW_SHOWNOACTIVATE)` + `SetWindowPos(HWND_BOTTOM, −4000, −4000, NOSIZE|NOACTIVATE)`, ilk 12 sn'de yarım saniyede bir), arka planda çalışır, gerçek fare ve klavye kapatılır. Koşular `Start-Process -WindowStyle Minimized` + `-popupwindow` ile başlatılır; ekran görüntüsü (arayüz dahil) ekran dışında da alınıyor.
+
+---
+
+## 15. v2.1 Paket 3 (oyuncu testi 2026-11-17, maddeler 10 ve 25)
+
+Kaynak: `production/qa/playtests/feedback-2026-11-17.md`. Kanıt: `production/qa/evidence/2026-11-21-v21-*.png`, `2026-11-21-v21-log.txt`; birim testleri `V21Tests` (7).
+
+### 15.1 Barlo'nun yetenekleri (madde 10)
+Oyuncunun karakteri için dört kalıcı yükseltme, her biri **5 seviye**, altınla (`Scripts/Core/BarloSkills.cs`, sayılar `Balance.Barlo*`). Her yetenek seviyesi belirli bir taverna seviyesinde açılır. Fiyat dayanağı: açıldığı seviyedeki iyi oyuncunun 3 dakikalık geliri (`Balance.EventIncomeRef`): ilk seviyeler bunun 0.2–0.35 katı (yarım dakikadan kısa), son seviyeler 1.5–2 katı (geç oyun hedefi, zorunlu değil).
+
+| Yetenek | Etki (Sv0 → Sv5) | Açıldığı taverna seviyesi (Sv1–5) | Fiyat (Sv1–5, altın) |
+|---|---|---|---|
+| **Koşu hızı** | 3.4 → 3.7 → 4.0 → 4.3 → 4.6 → 4.9 m/sn | 2 · 6 · 11 · 17 · 24 | 150 · 900 · 3.000 · 8.000 · 22.000 |
+| **Taşıma kapasitesi** | 2 → 3 → 4 → 5 → 6 → 7 bardak | 3 · 8 · 14 · 20 · 26 | 250 · 1.500 · 4.500 · 11.000 · 28.000 |
+| **Servis menzili** | 1.35 → 1.50 → 1.65 → 1.80 → 1.95 → 2.10 m | 4 · 9 · 15 · 21 · 27 | 300 · 1.800 · 5.000 · 12.000 · 30.000 |
+| **Para toplama menzili** | 1.35 → 2.0 → 2.6 → 3.2 → 3.8 → 4.5 m | 3 · 7 · 13 · 19 · 25 | 200 · 1.200 · 3.500 · 9.000 · 24.000 |
+
+- Toplam: 5 seviyenin hepsi 166.300 altın (Sv30 prestij şartının ≈ 1.1 katı; dört yeteneğin ilk seviyeleri Sv2–4'te toplam 900 altın).
+- **Servis menzili** Barlo'nun müşteriye servis, makineden bardak alma, kirli masa temizleme (+0.2), han misafiri karşılama ve oyun masası başlatma (+0.3) mesafesidir (eskiden sabit `Balance.InteractRadius`). **Para menzili** yalnızca para yığınlarını çeker. Garsonlar etkilenmez.
+- **Dükkân:** ayrı sekme yerine Personel sekmesinin başında "BARLO" başlığı ve dört kart (dar ekranda 6 sekme zaten sığmaya sınırda; rehber sürerken kartlar listenin sonunda, işe alım kartı önde kalsın diye). Kart: "Koşu hızı · Sv 1/5", "Hız 3.4 → 3.7 m/sn · Barlo daha hızlı koşar", düğme fiyat / kilitli "SV n" / "MAX". Alınca konfeti, Barlo zıplar, bildirim ("Koşu hızı: Hız 3.7 m/sn").
+- **"YENİ!"** rozeti her yetenek seviyesini ayrı ürün sayar (`barlo_<yetenek>_<seviye>`): yeni açılan seviye kartta ve Personel sekmesinde rozet çıkarır. **Seviye kartı** açılanlarda "Barlo yeteneği · Servis menzili 1" gösterir.
+- **Prestij:** yetenekler **sıfırlanır** (taverna gibi; şube kartının "Sıfırlanır" sütununda). Şube çarpanı gelir hızını artırdığı için yeniden almak hızlıdır.
+- Ölçüm: `barlo_skill` (yetenek, seviye, taverna_seviyesi). Kayıtta `barloSpeed`, `barloCarry`, `barloServe`, `barloCoin`.
+- Test ölçümü (bot): Sv15'te üç seviye alınınca ölçülen en yüksek koşu hızı 4.30 m/sn (tablo 4.30), en uzak servis 1.79 m (menzil 1.80), en uzak para toplama 3.20 m (menzil 3.20); Sv3'te 3.70 m/sn, para 1.99 m (menzil 2.00). Bot tek siparişlik yol izlediği için tepside en çok 1–2 bardak taşıdı (kapasite değeri 3 / 5 kayıtta ve tepside doğrulandı).
+
+### 15.2 Gerçek bir son (madde 25)
+- **Tetik:** 3. taverna (şube 2, Dağ Geçidi) **Sv30** ve **Saray Hanı** kademesi; son henüz görülmemiş (`Scripts/Core/Ending.cs`). Altın şartı yok. Bu durumda hedef kutusu "Krala Davet hazır! Büyüt karesine git" (Gizli Kral ikonu) gösterir; "Tavernayı Büyüt" karesi prestij kartı yerine **Krala Davet** kartını açar (üç şart çipi, "SONRA" / "KRALI DAVET ET").
+- **Son sahne** (oyun içinde, kodla: `Scripts/Gameplay/EndingScene.cs`, arayüz `Scripts/UI/HudV21.cs`): siyah sinema şeritleri, alt yazı; HUD gizli, gün durur, yeni müşteri gelmez, oturanların sabrı azalmaz, joystick kapalı; zaman ölçeği 1; müzik en coşkulu parça (yoğun saat, "Market Day"), başta borazan.
+  1. **Geliş** (≈ 6.5 sn): Kral (Gizli Kral modeli, ×1.15) önde şövalye, arkada iki muhafızla sokağın batısından kapıya yürür; kamera sokakta alçak açıyla izler. "Kral maiyetiyle geliyor!"
+  2. **Karşılama** (3.2 sn): Barlo kapının içinde bekler, iki kez zıplar; kral karşılık verir. "Barlo kralı kapıda karşılıyor"
+  3. **Masaya** (≈ 2 sn): kral meyhanede kapıya en yakın boş oturağa yürür. "Kral en iyi masaya buyuruyor"
+  4. **Kadeh** (4 sn): kralın elinde Kral Şerbeti kadehi yükselir, "şerefe" sallanır, Barlo ve kral zıplar. "Şerefe! Kral kadeh kaldırıyor"
+  5. **Tur** (9 sn): kamera tavernanın üstünde yükselip yavaşça döner (−22° → 55°, 56° eğim, 19 m), havai fişek patlamaları (0.42 sn'de bir) ve konfeti, ortada "EFSANEVİ HAN" unvan şeridi ve "<taverna adı> artık krallığın en ünlü hanı".
+  6. **Jenerik** (14 sn, dokununca geçilir): Taverna Tycoon · Bir Bn Studio oyunu · Tasarım, kod ve modeller: Bn Studio · Müzik: RandomMind (Minstrel Dance, The Old Tower Inn, Market Day; CC0, opengameart.org) · Ses efektleri: Kenney (Casino, Impact, Interface, RPG Audio; CC0) · Yazı tipleri: Noto Sans SC/JP/KR, Nunito, Rubik, Lilita One (SIL OFL 1.1) · Araçlar: Unity, Blender · "Oynadığın için teşekkürler!"
+  Toplam ≈ 39 sn (jenerik geçilirse daha kısa; bot ölçümü 24.6 sn sahne + jenerik).
+- **Sonra serbest oyun:** kral ve maiyeti kaybolur, oyun aynı tavernada sürer; "EFSANEVİ HAN" şeridi ve "Serbest oyun: taverna senin. Yeni Şube istersen hâlâ açık" bildirimi. Prestij yine açık (büyüt karesi artık şube kartını açar, 4. şube "3. Şube"). **"Efsanevi Han" rozeti** kalıcıdır: HUD'da seviye kalkanının solunda (şube rozetinin altında) yıldızlı kırmızı daire, ana menüde logonun altında yıldızlı şerit.
+- Son sahne **bir kez** kendiliğinden oynar; Ayarlar'da (yalnızca oyun içinde, görüldükten sonra) **"Son sahneyi yeniden izle"** düğmesi (gün sonu ekranındayken "Yeni gün başlayınca izlenebilir").
+- Ölçüm: `game_complete` (sure_sn = oyun sahnesindeki toplam süre, gun = prestijte sıfırlanmayan toplam gün, sube, servis); ilk izlemede bir kez. Kayıtta `endingSeen`, `playSeconds`, `daysTotal`.
+
+### 15.3 Test altyapısı
+- Bot `-autotest-v21 barlo` (`-autotest-start-level 3` / `15` ile): Personel sekmesi önce / sonra, açık seviyelerin hepsi alınır, ölçülen hız (ışınlanma süzgeçli 1 sn pencere), tepsi, servis ve toplama mesafesi; Sv3'te bir sonraki seviyenin kartı ve "YENİ!" rozeti.
+- Bot `-autotest-v21 ending` (`-autotest-start-level 30 -autotest-tier 2` ile; bot şubeyi 2 yapar, bütün alanları açar): hedef kutusu, Krala Davet kartı, altı aşamanın her biri, jenerik (dokunuşla geçilir), serbest oyunda şube kartı, Ayarlar, Barlo kartları ve 30+ sn oyun. Sonraki koşunun ana menü görüntüsü (`app_menu.png`) kalıcı rozeti gösterir.
 

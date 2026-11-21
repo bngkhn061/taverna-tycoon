@@ -61,7 +61,7 @@ namespace Taverna
                 case State.Ready:
                     if (Players == 0) { state = State.Idle; break; }
                     var p = PlayerController.I;
-                    bool near = p && DrinkStation.FlatDistance(p.transform.position, transform.position) < Balance.InteractRadius + 0.3f;
+                    bool near = p && DrinkStation.FlatDistance(p.transform.position, transform.position) < BarloSkills.Reach + 0.3f;
                     if (Automation.Has("oyun")) _autoT -= Time.deltaTime;
                     if (near || (Automation.Has("oyun") && _autoT <= 0f)) StartRound(near ? p : null);
                     break;

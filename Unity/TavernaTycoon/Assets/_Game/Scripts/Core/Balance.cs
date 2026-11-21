@@ -281,5 +281,33 @@ namespace Taverna
         public const float PlayerSpeed = 3.4f;
         public const int StartCarryCapacity = 2;
         public const float InteractRadius = 1.35f;
+
+        // ---- v2.1 Barlo'nun yetenekleri (oyuncu testi madde 10, GAME_DESIGN.md §15.1)
+        // Her yeteneğin 5 seviyesi var. Tablolar: *Levels = o yetenek seviyesinin açıldığı taverna seviyesi (indeks 0 = yetenek Sv1),
+        // *Prices = altın bedeli, *Values = etki (indeks 0 = yükseltmesiz, 5 = en üst). Fiyat dayanağı: açıldığı seviyedeki iyi oyuncunun
+        // 3 dakikalık geliri (EventIncomeRef) ≈ ilk seviyelerde 0.2–0.35 kat, son seviyelerde 1.5–2 kat (zorunlu değil, geç oyun hedefi).
+        /// <summary>Barlo yeteneklerinin en yüksek seviyesi.</summary>
+        public const int BarloSkillMaxLevel = 5;
+        /// <summary>Koşu hızı: yetenek seviyesinin açıldığı taverna seviyesi.</summary>
+        public static readonly int[] BarloSpeedLevels = { 2, 6, 11, 17, 24 };
+        /// <summary>Koşu hızı: seviye bedeli (altın).</summary>
+        public static readonly long[] BarloSpeedPrices = { 150, 900, 3000, 8000, 22000 };
+        /// <summary>Koşu hızı (m/sn), indeks 0 = <see cref="PlayerSpeed"/>.</summary>
+        public static readonly float[] BarloSpeedValues = { PlayerSpeed, 3.7f, 4.0f, 4.3f, 4.6f, 4.9f };
+        /// <summary>Taşıma kapasitesi: açıldığı taverna seviyesi.</summary>
+        public static readonly int[] BarloCarryLevels = { 3, 8, 14, 20, 26 };
+        public static readonly long[] BarloCarryPrices = { 250, 1500, 4500, 11000, 28000 };
+        /// <summary>Taşıma kapasitesi (bardak), indeks 0 = <see cref="StartCarryCapacity"/>.</summary>
+        public static readonly int[] BarloCarryValues = { StartCarryCapacity, 3, 4, 5, 6, 7 };
+        /// <summary>Servis menzili: açıldığı taverna seviyesi.</summary>
+        public static readonly int[] BarloServeLevels = { 4, 9, 15, 21, 27 };
+        public static readonly long[] BarloServePrices = { 300, 1800, 5000, 12000, 30000 };
+        /// <summary>Servis menzili (m; müşteriye, makineye, masaya, misafire yaklaşma), indeks 0 = <see cref="InteractRadius"/>.</summary>
+        public static readonly float[] BarloServeValues = { InteractRadius, 1.5f, 1.65f, 1.8f, 1.95f, 2.1f };
+        /// <summary>Para toplama menzili: açıldığı taverna seviyesi.</summary>
+        public static readonly int[] BarloCoinLevels = { 3, 7, 13, 19, 25 };
+        public static readonly long[] BarloCoinPrices = { 200, 1200, 3500, 9000, 24000 };
+        /// <summary>Para yığınlarını çekme menzili (m), indeks 0 = <see cref="InteractRadius"/>.</summary>
+        public static readonly float[] BarloCoinValues = { InteractRadius, 2.0f, 2.6f, 3.2f, 3.8f, 4.5f };
     }
 }

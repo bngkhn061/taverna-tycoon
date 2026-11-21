@@ -68,7 +68,7 @@ namespace Taverna
                 if ((!CustomersInside() && !StaffCommute.AnyInside) || _closeT >= Balance.ClosingMaxSeconds) EndDay();
                 return;
             }
-            if (Tutorial.HoldsTime) { RemainingSeconds = dayLength - _t; Progress01 = _t / dayLength; return; }   // v1.2: rehber sürerken gün akmaz
+            if (Tutorial.HoldsTime || Ending.Playing) { RemainingSeconds = dayLength - _t; Progress01 = _t / dayLength; return; }   // v1.2: rehber sürerken, v2.1: son sahnede gün akmaz
             _t += Time.deltaTime;
             Progress01 = _t / dayLength;
             RemainingSeconds = dayLength - _t;
@@ -101,6 +101,7 @@ namespace Taverna
             Services.Track("day_end", ("gun", r.day), ("gelir", r.income), ("maas", r.wages), ("odenmeyen", r.unpaid),
                            ("servis", r.served), ("mutluluk", Mathf.RoundToInt(Happiness.Value)), ("seviye", GameState.Level));
             GameState.Data.day++;
+            GameState.Data.daysTotal++;   // v2.1: prestijte sıfırlanmayan toplam gün (game_complete)
             // Maaş ödenemediyse personel yeni gün küskün çalışır (Balance.SulkySpeed)
             GameState.Data.sulkyDay = wages > paid ? GameState.Data.day : 0;
             _income = 0;

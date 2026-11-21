@@ -92,7 +92,7 @@ namespace Taverna
                     // v0.9 Han resepsiyonu otomasyonu: misafir kısa bekleyince kendi giriş yapar
                     if (Automation.Has("han") && patienceMax - patience > Balance.AutoCheckInDelay) { CheckIn(); break; }
                     var p = PlayerController.I;
-                    if (p && DrinkStation.FlatDistance(p.transform.position, transform.position) < Balance.InteractRadius) CheckIn();
+                    if (p && DrinkStation.FlatDistance(p.transform.position, transform.position) < BarloSkills.Reach) CheckIn();
                     else if (patience <= 0f) Leave(true);
                     else if (!Night.IsDark) Leave(false);
                     break;

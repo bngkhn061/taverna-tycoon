@@ -50,7 +50,7 @@ namespace Taverna
         {
             if (!Dirty || Busy) { _cleanT = 0f; return; }
             var p = PlayerController.I;
-            if (p && DrinkStation.FlatDistance(p.transform.position, transform.position) < Balance.InteractRadius + 0.2f)
+            if (p && DrinkStation.FlatDistance(p.transform.position, transform.position) < BarloSkills.Reach + 0.2f)
             {
                 _cleanT += Time.deltaTime;
                 if (_cleanT > 0.6f) { Clean(); if (p.anim) p.anim.Pop(); }

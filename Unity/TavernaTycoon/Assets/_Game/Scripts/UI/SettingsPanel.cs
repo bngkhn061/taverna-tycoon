@@ -16,6 +16,9 @@ namespace Taverna
         public event Action ResetRequested;
         /// <summary>v0.9: Ayarlar › Taverna adı › DEĞİŞTİR (sadece oyun içinde).</summary>
         public event Action RenameRequested;
+        /// <summary>v2.1: Ayarlar › "Son sahneyi yeniden izle" (yalnızca oyun içinde ve son görüldükten sonra).</summary>
+        public event Action WatchEndingRequested;
+        readonly Button _watchEnding;
         readonly Label _nameLabel;
         /// <summary>v1.6: yalnızca geliştirme derlemesinde görünen "Ölçüm özeti" satırı (yerel ölçüm sayaçları).</summary>
         readonly Label _metrics;
@@ -69,6 +72,20 @@ namespace Taverna
                 else _root.Add(_metrics);
             }
 
+            // v2.1: son sahne görüldüyse (yalnızca oyun içinde) "Son sahneyi yeniden izle"
+            if (showToMenu)
+            {
+                _watchEnding = new Button(() => WatchEndingRequested?.Invoke()) { name = "watch-ending" };
+                _watchEnding.AddToClassList("btn");
+                _watchEnding.AddToClassList("btn-plum");
+                _watchEnding.AddToClassList("watch-ending");
+                var wl = new Label(Loc.T("SON SAHNEYİ YENİDEN İZLE"));
+                _watchEnding.Add(wl);
+                var card = _root.Q(className: "settings-card");
+                var actions = card?.Q(className: "sheet-actions");
+                if (card != null && actions != null) card.Insert(card.IndexOf(actions), _watchEnding);
+            }
+
             var reset = _root.Q<Button>("reset-save");
             bool armed = false;
             reset.clicked += () =>
@@ -94,6 +111,12 @@ namespace Taverna
         public void Refresh()
         {
             _nameLabel.text = GameState.TavernName;
+            if (_watchEnding != null)
+            {
+                _watchEnding.EnableInClassList("hidden", !Ending.Seen);
+                var wl = _watchEnding.Q<Label>();
+                if (wl != null) wl.text = Loc.T("SON SAHNEYİ YENİDEN İZLE");
+            }
             if (_metrics != null)
                 _metrics.text = Services.LocalAnalytics != null ? Services.LocalAnalytics.SummaryText() : Loc.T("Ölçüm özeti: gerçek ölçüm hizmeti bağlı (veri panelde)");
             _vib.text = GameSettings.Vibration ? Loc.T("AÇIK") : Loc.T("KAPALI");

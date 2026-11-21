@@ -17,12 +17,18 @@ namespace Taverna
         {
             // v1.5: kademeler bitince aynı kare "Yeni Şube" (prestij) kartını açar
             bool branch = Tiers.Next == null && Prestige.Visible;
-            bool vis = Tiers.Visible || branch;
+            bool vis = (Tiers.Visible || branch) && !Ending.Playing;   // v2.1: son sahnede kare gizli
             if (visual && visual.activeSelf != vis) visual.SetActive(vis);
             var p = PlayerController.I;
             if (!vis || !p) { _inside = false; return; }
             bool inside = DrinkStation.FlatDistance(p.transform.position, transform.position) < radius;
-            if (inside && !_inside) { if (branch) Prestige.RaiseZoneEntered(); else Tiers.RaiseZoneEntered(); }
+            // v2.1: 3. tavernada Sv30 + Saray Hanı ve son görülmediyse kare "Krala Davet" kartını açar (prestij kartının yerine)
+            if (inside && !_inside && !Ending.Playing)
+            {
+                if (branch && Ending.Available) Ending.RaiseZoneEntered();
+                else if (branch) Prestige.RaiseZoneEntered();
+                else Tiers.RaiseZoneEntered();
+            }
             _inside = inside;
         }
     }
