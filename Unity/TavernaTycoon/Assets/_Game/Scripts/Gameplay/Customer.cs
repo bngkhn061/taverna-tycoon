@@ -38,6 +38,36 @@ namespace Taverna
         ToyAnimator _anim;
         Vector3 _exit;
 
+        /// <summary>v2.3: müşterinin oturağı (düzenleme modu masayı taşırken müşteriyi de taşır).</summary>
+        public Seat Seat => _seat;
+
+        /// <summary>
+        /// v2.3 düzenleme modu: oturağın masası taşındı ya da yürüme yolu değişti. Oturan müşteri oturağa, bardağı masaya taşınır;
+        /// yürüyen müşteri yeni yoldan devam eder (sokak ve kapı noktaları aynı kalır, çıkış da yeni yolun tersinden).
+        /// </summary>
+        public void OnSeatMoved()
+        {
+            if (!_seat || _path == null || _path.Count < 2) return;
+            var np = new List<Vector3> { _path[0], _path[1] };
+            np.AddRange(CustomerSpawner.InnerPath(_seat));
+            switch (state)
+            {
+                case State.WalkingIn:
+                    _path = np;
+                    _pathIdx = Mathf.Min(_pathIdx, 2);
+                    break;
+                case State.Waiting:
+                case State.Drinking:
+                    _path = np;
+                    _pathIdx = np.Count;
+                    var sp = _seat.transform.position;
+                    transform.position = new Vector3(sp.x, transform.position.y, sp.z);
+                    FaceTable();
+                    if (_cupGo) _cupGo.transform.position = Vector3.Lerp(transform.position, _seat.table.transform.position, 0.55f) + Vector3.up * 0.64f;
+                    break;
+            }
+        }
+
         public float Patience01 => patienceMax > 0 ? patience / patienceMax : 0f;
         public Vector3 HeadPos => transform.position + Vector3.up * (def && def.modelPrefab ? 1.55f : 1.4f);
 

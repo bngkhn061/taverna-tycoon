@@ -204,6 +204,7 @@ namespace Taverna
             InitV19();
             InitV21();
             InitV22();
+            InitV23();   // v2.3 düzenleme modu ve bulut kaydı
             TestAdService.Presenter = PresentTestAd;   // v1.6: test reklamının bekleme ekranı
         }
 
@@ -269,6 +270,7 @@ namespace Taverna
             DisableV12();
             DisableV21();
             DisableV22();
+            DisableV23();
             Management.Changed -= RefreshTop;
             PlayerController.JoystickInput = Vector2.zero;
         }
@@ -447,6 +449,7 @@ namespace Taverna
             UpdateV19();
             UpdateV21();
             UpdateV22();
+            UpdateV23();
             _starsT -= Time.unscaledDeltaTime;
             if (_starsT <= 0f) { _starsT = 0.5f; UpdateStars(); }
             if (_dayT > 0f) { _dayT -= Time.unscaledDeltaTime; if (_dayT <= 0f) _dayReport.AddToClassList("hidden"); }

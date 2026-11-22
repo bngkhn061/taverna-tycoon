@@ -359,6 +359,29 @@ namespace Taverna.EditorTools
             return mat;
         }
 
+        /// <summary>v2.3: düzenleme modu izi / ızgarası için saydam (alfa karışımlı) ışıksız malzeme.</summary>
+        static Material EditMaterial(string name, Color c)
+        {
+            string path = TavernaImport.Root + "/Art/" + name + ".mat";
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (!mat)
+            {
+                mat = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
+                AssetDatabase.CreateAsset(mat, path);
+            }
+            mat.SetFloat("_Surface", 1f);
+            mat.SetFloat("_Blend", 0f);
+            mat.SetOverrideTag("RenderType", "Transparent");
+            mat.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+            mat.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+            mat.SetInt("_ZWrite", 0);
+            mat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            mat.renderQueue = (int)RenderQueue.Transparent;
+            mat.SetColor("_BaseColor", c);
+            EditorUtility.SetDirty(mat);
+            return mat;
+        }
+
         static void Embers(Vector3 pos)
         {
             var go = new GameObject("Embers");
@@ -533,6 +556,12 @@ namespace Taverna.EditorTools
             var dayNight = systems.AddComponent<DayNightLighting>();
             systems.AddComponent<RushHour>();
             systems.AddComponent<DayCycle>();
+            // v2.3 düzenleme modu (GAME_DESIGN.md §17): iz ve ızgara malzemeleri saydam, gölgesiz
+            var edit = systems.AddComponent<EditLayout>();
+            edit.okMat = EditMaterial("M_EditOk", new Color(1f, 0.82f, 0.25f, 0.38f));
+            edit.selMat = EditMaterial("M_EditSel", new Color(0.35f, 0.95f, 0.75f, 0.55f));
+            edit.badMat = EditMaterial("M_EditBad", new Color(0.92f, 0.2f, 0.15f, 0.62f));
+            edit.gridMat = EditMaterial("M_EditGrid", new Color(1f, 1f, 1f, 0.55f));
 
             // --- Işık (DESIGN_RULES §5)
             RenderSettings.ambientMode = AmbientMode.Trilight;
@@ -1383,6 +1412,15 @@ namespace Taverna.EditorTools
         /// <summary>v2.0: kademe dolgu ışığının masa üstündeki yüksekliği (m).</summary>
         const float TierFillHeight = 2.4f;
 
+        /// <summary>v2.3: parça masayla birlikte taşınsın (düzenleme modu): masanın yerel uzayındaki konum ve dönüş.</summary>
+        static void Follow(GameObject go, Transform table)
+        {
+            var f = go.AddComponent<TableFollower>();
+            f.table = table;
+            f.localPos = table.InverseTransformPoint(go.transform.position);
+            f.localYaw = go.transform.eulerAngles.y - table.eulerAngles.y;
+        }
+
         static void BuildTiers(Transform tables)
         {
             bool lay = _layout;
@@ -1421,9 +1459,10 @@ namespace Taverna.EditorTools
                     fill.transform.SetParent(grp, false);
                     fill.transform.position = new Vector3(pos.x, 0f, pos.z);
                     NightLight.Attach(fill, TierFillHeight, 5.5f, col, night);
+                    Follow(fill, t);
                 }
-                P("PR_Tier_Ortu1", t1, pos.x, pos.z, longTable ? 90f : 0f);
-                P("PR_Tier_Ortu2", t2, pos.x, pos.z, longTable ? 90f : 0f);
+                Follow(P("PR_Tier_Ortu1", t1, pos.x, pos.z, longTable ? 90f : 0f), t);
+                Follow(P("PR_Tier_Ortu2", t2, pos.x, pos.z, longTable ? 90f : 0f), t);
             }
             // Saray: arka duvarda perdeler (üst saçak, makinelerin üstünde kalır) + giriş halıları
             foreach (var x in new[] { -2.8f, 2.8f, 5.6f, 12.8f }) P("PR_Tier_Perde", t2, x, 4.98f);

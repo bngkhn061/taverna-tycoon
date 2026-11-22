@@ -25,6 +25,19 @@ namespace Taverna
         Vector3 _focus;
         float _introT = -1f, _introDur = 2f;
 
+        /// <summary>v2.3 düzenleme modu: kamera üstten bakan açıya geçer, odak parmakla kaydırılır (<see cref="EditFocus"/>).</summary>
+        public static bool EditView;
+        /// <summary>v2.3: düzenleme görünümünün odağı (dünya XZ; EditLayout sınırlar).</summary>
+        public static Vector3 EditFocus;
+        /// <summary>v2.3: düzenleme görünümü eğimi (derece) ve uzaklığı (m).</summary>
+        public const float EditPitch = 66f, EditDistance = 15f;
+        /// <summary>v2.3: düzenleme görünümünde yakınlaştırma sınırı (m).</summary>
+        public static readonly Vector2 EditZoomRange = new(11f, 19f);
+        /// <summary>v2.3: düzenleme görünümüne geçiş süresi (sn).</summary>
+        const float EditBlendSeconds = 0.4f;
+        float _edit01, _editZoom = EditDistance;
+        Vector3 _editFocusS;
+
         /// <summary>v0.9 giriş animasyonu: kamera sokağın uzağından, alçak açıyla tavernaya süzülür.</summary>
         public void Intro(float seconds) { _introDur = Mathf.Max(0.1f, seconds); _introT = 0f; }
         public void SkipIntro() => _introT = -1f;
@@ -43,6 +56,10 @@ namespace Taverna
 
         void LateUpdate()
         {
+            float wasEdit = _edit01;
+            _edit01 = Mathf.MoveTowards(_edit01, EditView ? 1f : 0f, Time.unscaledDeltaTime / EditBlendSeconds);
+            if (wasEdit <= 0f && _edit01 > 0f) _editFocusS = _focus;
+            _editFocusS = Vector3.Lerp(_editFocusS, EditView ? EditFocus : _focus, 1f - Mathf.Exp(-10f * Time.unscaledDeltaTime));
             HandleZoom();
             distance = Mathf.Lerp(distance, _zoomTarget, 1f - Mathf.Exp(-10f * Time.unscaledDeltaTime));
             if (target) _focus = Vector3.Lerp(_focus, Clamp(target.position), 1f - Mathf.Exp(-smooth * Time.deltaTime));
@@ -55,7 +72,8 @@ namespace Taverna
             if (mouse != null)
             {
                 float s = mouse.scroll.ReadValue().y;
-                if (Mathf.Abs(s) > 0.01f) _zoomTarget = Mathf.Clamp(_zoomTarget - Mathf.Sign(s) * 1.2f, zoomRange.x, zoomRange.y);
+                if (Mathf.Abs(s) > 0.01f && EditView) _editZoom = Mathf.Clamp(_editZoom - Mathf.Sign(s) * 1.2f, EditZoomRange.x, EditZoomRange.y);
+                else if (Mathf.Abs(s) > 0.01f) _zoomTarget = Mathf.Clamp(_zoomTarget - Mathf.Sign(s) * 1.2f, zoomRange.x, zoomRange.y);
             }
             var ts = Touchscreen.current;
             if (ts == null) return;
@@ -70,7 +88,8 @@ namespace Taverna
             if (active >= 2)
             {
                 float d = Vector2.Distance(a, b);
-                if (_pinchStart < 0f) { _pinchStart = d; _pinchDist = _zoomTarget; }
+                if (_pinchStart < 0f) { _pinchStart = d; _pinchDist = EditView ? _editZoom : _zoomTarget; }
+                else if (EditView) _editZoom = Mathf.Clamp(_pinchDist * _pinchStart / Mathf.Max(1f, d), EditZoomRange.x, EditZoomRange.y);
                 else _zoomTarget = Mathf.Clamp(_pinchDist * _pinchStart / Mathf.Max(1f, d), zoomRange.x, zoomRange.y);
                 PlayerController.JoystickInput = Vector2.zero;
             }
@@ -98,6 +117,13 @@ namespace Taverna
                 dist += 8f * (1f - e);
                 pt = Mathf.Lerp(30f, pitch, e);
                 if (k >= 1f) _introT = -1f;
+            }
+            if (_edit01 > 0f)
+            {
+                float e = _edit01 * _edit01 * (3f - 2f * _edit01);
+                focus = Vector3.Lerp(focus, _editFocusS, e);
+                dist = Mathf.Lerp(dist, _editZoom, e);
+                pt = Mathf.Lerp(pt, EditPitch, e);
             }
             var rot = Quaternion.Euler(pt, 0f, 0f);
             transform.SetPositionAndRotation(focus - rot * Vector3.forward * dist, rot);

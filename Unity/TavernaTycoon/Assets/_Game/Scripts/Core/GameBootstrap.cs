@@ -18,7 +18,9 @@ namespace Taverna
             // v1.5: test kaydı süreç başına bir kez sıfırlanır (prestij sahneyi yeniden yükleyince şube kaydı kalsın)
             bool firstBoot = !_booted;
             _booted = true;
-            if (AutoTest.Enabled && firstBoot) { GameState.ResetSave(); Application.runInBackground = true; }
+            // v2.3: "-autotest-keep-save" → önceki test koşusunun kaydıyla aç (yeniden açılışta yerleşim geliyor mu)
+            bool keep = System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-autotest-keep-save") >= 0;
+            if (AutoTest.Enabled && firstBoot) { if (!keep) GameState.ResetSave(); Application.runInBackground = true; }
             // v1.6 test: "-autotest-release-sim" → geliştirme derlemesinde yayın derlemesi gibi (test reklamı / mağazası kapalı)
             if (AutoTest.Enabled && firstBoot && System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-autotest-release-sim") >= 0)
                 Services.ReleaseSimulation = true;

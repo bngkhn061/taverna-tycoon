@@ -86,6 +86,14 @@ namespace Taverna
         /// <summary>v2.2 kostümler: edinilen (jeton, ödül, Hazine) ve giyilen ("sahip=kostüm"). Prestijte sıfırlanmaz (Costumes).</summary>
         public List<string> costumes = new();
         public List<string> wornCostumes = new();
+        /// <summary>v2.3 düzenleme modu: taşınmış masa ve dekorların yerleşimi ("anahtar|x|z|çeyrek", <see cref="Layout"/>). Prestijte silinmez.</summary>
+        public List<string> layout = new();
+        /// <summary>v2.3: yerleşim biçimi sürümü (0 = alan yok, eski kayıt → varsayılan düzen).</summary>
+        public int layoutVersion;
+        /// <summary>v2.3: düzenleme modunun ilk ipucu gösterildi mi.</summary>
+        public bool editTipShown;
+        /// <summary>v2.3 bulut kaydı: oyun boyunca kazanılan toplam altın (prestijte sıfırlanmaz; çakışma kuralı, <see cref="CloudSave"/>).</summary>
+        public long totalEarned;
     }
 
     /// <summary>
@@ -97,8 +105,10 @@ namespace Taverna
         /// <summary>v1.5 ve öncesinin PlayerPrefs kayıt anahtarı (v1.6'da ilk açılışta dosyaya taşınır).</summary>
         public const string LegacyPrefsKey = "taverna_save_v1";
         /// <summary>Kayıt biçimi sürümü: 2 = v1.6 imzalı dosya.</summary>
-        public const int CurrentSaveVersion = 3;   // v2.0: han konforu 3 → 5 seviye (Inn.MigrateComfortV2)
+        public const int CurrentSaveVersion = 4;   // v2.3: yerleşim (Layout) ve toplam kazanç; v2.0: han konforu 3 → 5 seviye (Inn.MigrateComfortV2)
         public static SaveData Data { get; private set; } = new();
+        /// <summary>v2.3: kayıt diskten yüklendi ya da yeni oyun kuruldu (boş varsayılan kayıt buluta gönderilmesin).</summary>
+        public static bool IsLoaded { get; private set; }
 
         /// <summary>Son açılışta kayıt nereden geldi (test günlüğü, bilgi mesajı).</summary>
         public static SaveLoadSource LoadSource { get; private set; }
@@ -166,6 +176,27 @@ namespace Taverna
             }
             LoadSource = src;
             Data = Upgrade(d ?? NewGame());
+            IsLoaded = true;
+            Changed?.Invoke();
+        }
+
+        /// <summary>v2.3 (bulut kaydı, birim testi): JSON'u okuyup güncel biçime yükseltir; okunamazsa null.</summary>
+        public static SaveData FromJson(string json)
+        {
+            if (string.IsNullOrEmpty(json)) return null;
+            var d = Parse(json);
+            return d == null ? null : Upgrade(d);
+        }
+
+        /// <summary>v2.3: bellekteki kaydın JSON'u (bulut yedeği; diske yazmaz).</summary>
+        public static string SnapshotJson() => Snapshot();
+
+        /// <summary>v2.3 (buluttan yükle): bellekteki kaydın yerine geçer. Çağıran hemen <see cref="SaveSync"/> yapar.</summary>
+        public static void ReplaceData(SaveData d)
+        {
+            if (d == null) return;
+            Data = d;
+            IsLoaded = true;
             Changed?.Invoke();
         }
 
@@ -185,10 +216,11 @@ namespace Taverna
                 for (int i = 0; i < d.roomLvs.Count; i++) d.roomLvs[i] = Inn.MigrateComfortV2(d.roomLvs[i]);
             if (d.saveVersion < CurrentSaveVersion) d.saveVersion = CurrentSaveVersion;
             if (d.seenLevel < 0) d.seenLevel = Mathf.Max(1, d.level);   // v1.9: eski kayıtta mevcut ürünler "YENİ!" çıkmasın
+            Layout.Migrate(d);   // v2.3: yerleşimi olmayan eski kayıt varsayılan düzenle açılır
             return d;
         }
 
-        static SaveData NewGame() => new SaveData { coins = 0, level = 1, saveVersion = CurrentSaveVersion, seenLevel = 1 };
+        static SaveData NewGame() => new SaveData { coins = 0, level = 1, saveVersion = CurrentSaveVersion, seenLevel = 1, layoutVersion = Layout.Version };
 
         static string Snapshot()
         {
@@ -233,6 +265,7 @@ namespace Taverna
             SaveStore.DeleteAll();
             PlayerPrefs.DeleteKey(LegacyPrefsKey);
             Data = NewGame();
+            IsLoaded = true;
             Changed?.Invoke();
         }
 
@@ -242,6 +275,7 @@ namespace Taverna
         public static void AddCoins(long amount, Vector3 worldPos)
         {
             Data.coins += amount;
+            if (amount > 0) Data.totalEarned += amount;   // v2.3: bulut çakışma kuralı için toplam kazanç
             CoinsGainedAt?.Invoke(amount, worldPos);
             Changed?.Invoke();
         }

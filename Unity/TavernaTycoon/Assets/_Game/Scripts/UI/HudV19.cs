@@ -375,6 +375,7 @@ namespace Taverna
             foreach (var t in Tiers.List)
                 if (t.index > 0 && t.level == level) list.Add((Loc.T("kademe şartı"), KitIcon("home"), Loc.T(t.name)));
             if (level == Prestige.RequiredLevel) list.Add((Loc.T("prestij şartı"), KitIcon("shield"), Loc.T("Yeni Şube")));
+            if (level == Layout.UnlockLevel) list.Add((Loc.T("yeni özellik"), KitIcon("hammer"), Loc.T("Düzenleme modu")));   // v2.3
             return list;
         }
 

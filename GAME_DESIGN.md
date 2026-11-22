@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v2.2** (2026-11-21, Paket 4 — sahibin seçtiği eklemeler: sezonluk etkinlikler (Hasat Şenliği, Kış Festivali, Bahar Bayramı; süreli menü, süsleme, müşteri, sezon jetonu, görevler, kalıcı sezon dekoru) ve Barlo ile personelin kostümleri (Gardırop); ayrıntı §16).
+> Sürüm: **v2.3** (2026-11-22, Paket 5 — sahibin seçtiği eklemeler: masa ve dekor düzenleme modu (Sv5; Meyhane, Ana Salon, Bahçe; ızgara, döndürme, geçersiz yerleşim kırmızı, kayıtta yerleşim) ve bulut kaydı altyapısı (sağlayıcı arayüzü, sahte bulut, imzalı bulut kaydı, çakışma kuralı ve seçim ekranı, otomatik eşitleme); ayrıntı §17).
+> Önceki: v2.2 (2026-11-21, Paket 4 — sahibin seçtiği eklemeler: sezonluk etkinlikler (Hasat Şenliği, Kış Festivali, Bahar Bayramı; süreli menü, süsleme, müşteri, sezon jetonu, görevler, kalıcı sezon dekoru) ve Barlo ile personelin kostümleri (Gardırop); ayrıntı §16).
 > Önceki: v2.1 (2026-11-21, oyuncu testi Paket 3, maddeler 10 ve 25: Barlo'nun kendi yetenekleri — koşu hızı, taşıma, servis ve para menzili; gerçek bir son — 3. tavernada "Krala Davet", son sahne, jenerik, serbest oyun ve "Efsanevi Han" rozeti; ayrıntı §15).
 > Önceki: v2.0 (2026-11-17, oyuncu testi Paket 2, maddeler 14, 15, 17–21: kademe avizeleri kalktı ve avizeler küçüldü, gün sonu kapanışı ve personelin işe gidip gelmesi, bahçe uzun masası, sahnede çalan ozan, bahçe feneri ve taş yol, han konfor seviyeleri, 2 yeni oda ve 2 yeni oyun masası; ayrıntı §14).
 > Önceki: v1.9 (2026-11-17, oyuncu testi Paket 1, `production/qa/playtests/feedback-2026-11-17.md`: yükseltme satırları, ses karışımı, hedef kutusu, salon garsonları, zorunlu rehber, durum görevleri, açıklamalar, seviye kartında açılanlar ve "YENİ!" rozetleri, maaş borcu, elmaslı otomasyon, elmas ekonomisi).
@@ -122,7 +123,7 @@ Oyuncu Barlo'yu yönetmeye devam eder. Bunun üstüne bir yönetim katmanı ekle
 | 2 | Oduncu · ilk istasyon yükseltmeleri |
 | 3 | Bal Şarabı · Ozan |
 | 4 | Fırıncı · **Dekor modu (temel)** |
-| 5 | Kırmızı Şarap · Tüccar · Aşama 2 ödeme alanı belirir |
+| 5 | Kırmızı Şarap · Tüccar · Aşama 2 ödeme alanı belirir · **Düzenleme modu** (v2.3, §17) |
 | 6 | Süt · Çoban Kız · **Pip garson olur** |
 | 7 | Kunduracı · **Temizlikçi** |
 | 8 | Kara Bira · Demirci |
@@ -225,6 +226,7 @@ v1.5 eğrisi: Kral Şerbeti en pahalı içecekten (Yıllanmış Şarap 80 / 12 s
 - Küçük genişletmeler (birkaç karolık), aşamalar arasında da satın alınabilir. Böylece aşama geçişleri arasında da sürekli büyüme hissi olur.
 
 ### 6.2 Düzenleme Modu
+> **v2.3:** uygulanan biçim §17'dedir (Sv5, "DÜZENLE" düğmesi, 0.25 m ızgara, 90° döndürme). Aşağıdaki ilk taslağın envanterden yerleştirme ve duvar süsü maddeleri uygulanmadı.
 - Ekrandaki **çekiç butonu** düzenleme moduna geçirir. Kamera yukarı kalkar, ızgara görünür.
 - Mobilya ve dekor **sürükle-bırak** ile taşınır, **tek dokunuşla 90°** döner. Envanterden yenisi yerleştirilir.
 - **Kurallar:** Kapıdan tezgâha bir yol açık kalmalı (yol hesaplaması). İstasyonlar duvara bitişik olmalı.
@@ -615,3 +617,58 @@ Kaynak: `production/qa/playtests/feedback-2026-11-17.md` › "Sahibinin seçtiğ
 - Bot `-autotest-v22 season`: rozet ve duyuru, tezgâh ve süsleme, ~110 oyun-sn servis (sezon müşterisi, sezon içeceği siparişi, jeton), görev ödülü, dekor ve kostüm jetonla, Sezon sekmesi (üst ve alt), sahnede kostüm, sonra sezon bitişi (jeton sona erer, dekor ve kostüm kalır, pencere). `offseason`: hiçbir sezon öğesi yok. `wardrobe`: Gardırop, önizleme, Barlo ve dört personelin kostümü sahnede, ödül kostümü, çıkar; `-autotest-release-sim` ile Hazine kostümleri "YAKINDA".
 - Kanıt: `production/qa/evidence/2026-11-21-v22-*.png`, `2026-11-21-v22-log.txt`; birim testleri `Assets/Tests/EditMode/V22Tests.cs`.
 
+## 17. v2.3 Paket 5 (sahibin seçtiği eklemeler: masa düzenleme modu ve bulut kaydı)
+
+Kaynak: `production/qa/playtests/feedback-2026-11-17.md` › "Sahibinin seçtiği eklemeler". Kod: `Scripts/Core/Layout.cs`, `Scripts/Core/LayoutGrid.cs`,
+`Scripts/Gameplay/EditLayout.cs`, `Scripts/Gameplay/TableFollower.cs`, arayüz `Scripts/UI/HudV23.cs`; bulut `Scripts/Core/CloudSave.cs`,
+`Scripts/Core/Services/ICloudSaveService.cs` (+ `NoneCloudSaveService`, `LocalCloudSaveService`), `Scripts/UI/CloudSavePanel.cs`. Kanıt: `production/qa/evidence/2026-11-22-v23-*`; birim testleri `V23Tests` (11).
+
+### 17.1 Düzenleme modu: giriş ve kontroller
+- **Açılış:** **Sv5** (`Layout.UnlockLevel`). Sol sütunda (yardımcı / etkinlik / sezon düğmelerinin altında) **"DÜZENLE"** düğmesi (çekiç ikonu); ilk görüldüğünde "YENİ!" rozeti ve bir kez ipucu bildirimi ("Yeni: DÜZENLE ile masaları ve dekoru istediğin yere taşıyabilirsin"). Seviye kartının açılanlarında "yeni özellik · Düzenleme modu".
+- Rehber sürerken, gün sonu / kapanışta ve son sahnede açılmaz.
+- **Modda:** zaman durur (müşteri akışı, gün saati, sabır; zaman ölçeği 0, kapanınca önceki değer), HUD gizlenir, kamera 0.4 sn'de üstten bakan açıya geçer (eğim 52° → 66°, uzaklık 15 m, iki parmak / tekerlekle 11–19 m). Açık bölgelerin zemininde 0.5 m'lik ızgara çizgileri.
+- **Taşınabilir nesneler** sarı izle vurgulanır. Dokun-sürükle ile taşınır; konum **0.25 m'lik ızgaraya** oturur (`Layout.GridStep`). Seçili nesne yeşil, geçersiz yerdeyse **kırmızı**; boş zemini sürüklemek kamerayı kaydırır.
+- Alt çubuk: **DÖNDÜR** (seçili nesne 90°; yeni yer geçersizse kırmızı yanıp söner, dönmez) · **VARSAYILANA DÖN** (her şey varsayılan yuvasına, kaydetmek için BİTTİ) · **İPTAL** (mod açılırkenki hâline döner) · **BİTTİ** (kaydeder). Üstte başlık, ipucu ve "Buraya konabilir / Buraya konamaz".
+
+### 17.2 Geçersiz yerleşim (kırmızı, bırakılamaz)
+Bırakınca son geçerli yerine döner ve nedeni yazılır (`LayoutRules`, `PlaceResult`):
+
+| Neden | Kural |
+|---|---|
+| Bölge dışı | İz (masa + oturaklar) bölgenin iç sınırına sığmalı: Meyhane x −3.95..3.95, Salon 4.25..14.95, Bahçe −14.95..−4.25; z −4.95..4.95. Nesne bölge değiştirmez. |
+| Duvar, tezgâh, makine, kapı, yürüme yolu | Sabit engel: sahnedeki çarpıştırıcılar (duvar, köşe, şömine, sahne, makineler) 0.25 m kare kare okunur. Açık tutulan alanlar: ön kapı ağzı (1.4 × 1.1 m), toplanma noktaları (0.9 m), iç kapılar (mutfak, oyun salonu, mahzen, avlu, iskele; 1.2 m), merdiven ağzı, alınmamışlar dahil her makinenin ve sezon tezgâhının önü (servis noktasıyla birlikte, +0.45 m), alınmamış ödeme kareleri, "Tavernayı Büyüt" karesi, kademe sütunları. |
+| Başka bir nesneyle çakışma | Diğer masa / dekorun izi; **alınmamış masanın varsayılan yeri ayrılmıştır** (yeni masa alınınca oraya gelir). |
+| Erişilemez kalma | Kapıdan 4 yönlü yayılma: nesne yokken ulaşılan her oturak, servis noktası, iç kapı ve toplanma noktası, nesne yeni yerindeyken de ulaşılmalı; taşınan masanın kendi oturakları da (0.55 m yakınında erişilen kare). |
+
+- **Düz eşyalar** (taş yol, masa altında olmayan halı) üstünden yürünür: yalnızca sınır, sabit engel ve birbirleriyle çakışma denetlenir.
+- Varsayılan yer her zaman geçerlidir.
+
+### 17.3 Kapsam
+- **Taşınır:** Meyhane, Ana Salon ve Bahçe'deki bütün (alınmış) masalar — ön sıra ve uzun masalar dahil — ve yer dekorları: saksı, flama, fıçı yığını, bahçe feneri, taş yol, halı. Masa üstü **mum** ve masa altı **halı** masaya bağlanır, masayla taşınır. Oturaklar, sandalyeler, para noktası (masadaki para yığınları da), kirli bardaklar, oturan müşteri ve bardağı masayla gelir; kademe örtüsü ve masa üstü dolgu ışığı `TableFollower` ile.
+- **Taşınmaz:** tezgâh ve makineler (sezon tezgâhı dahil), mutfak, şömine, Ozan Sahnesi, merdiven; Han (odalar, konfor eşyaları; üst kat ayrı dünya, oda yerleşimi konfora bağlı), Oyun Salonu (oyun masalarının oturakları sütunlara bağlı), Mahzen, Teras, Avlu, İskele; duvar süsleri (kalkan, boynuz, mühür), avizeler, sokaktaki vitrin ve sezon dekoru.
+
+### 17.4 Yollar (NavMesh yok)
+Projede NavMesh yok: müşteri sokak → kapı → masanın toplanma noktası → oturağın yaklaşma noktaları → oturak çizgisinde yürür; garsonlar ve personel müşteriye / masaya düz yürür (arka odalara `KitchenLayout` kapı rotası). Taşınan masanın — ve varsayılan yolu taşınmış bir nesnenin içinden geçen masanın — yaklaşma noktaları bölge ızgarasında **A\*** ile (8 yön, köşe kesmeden, görüş hattıyla sadeleştirilmiş) kapıdan oturağa yeniden kurulur; o masanın toplanma noktası kapı olur. Yürüyen müşteri yeni yoldan devam eder, kalkan müşteri yeni yolun tersinden çıkar. Kapanışta Barlo taşınan bir eşyanın içinde kaldıysa en yakın boş kareye alınır. Garsonlar eskisi gibi düz yürür (masaların içinden geçebilir; değişmedi).
+
+### 17.5 Kayıt ve prestij
+- `SaveData.layout`: satır başına `"anahtar|x|z|çeyrek"` (masa `t:<masa adı>`, dekor `d:<yuva>`), `layoutVersion` 1; **kayıt sürümü 3 → 4**. Varsayılan yerindeki nesnenin satırı yoktur. Eski kayıt (alan yok) varsayılan yerleşimle açılır; bozuk satır atılır.
+- **Yeni masa / dekor** önce varsayılan yuvasına gelir, sonra taşınabilir.
+- **Prestij:** yerleşim tercihi silinmez. Bölgesi kapalı (ya da masası alınmamış) nesnenin satırı bekler; masa / bölge yeniden açılınca kayıtlı yerine gelir. VARSAYILANA DÖN kapalı bölgelerdeki satırları da siler.
+- Ölçüm: `edit_mode_open` (taşınabilir, taşınmış, seviye), `edit_mode_save` (taşınmış, sıfırlama, seviye).
+
+### 17.6 Bulut kaydı (altyapı)
+Hesap yok; reklam / mağaza yaklaşımıyla aynı: önce altyapı, sağlayıcı (Google Play Games Saved Games / iCloud / Unity Cloud Save) sonra (`docs/services-integration.md` › Bulut kaydı).
+- **Hizmet:** `ICloudSaveService` (IsAvailable, SignedIn, ProviderName, LastSyncUtc, SignIn, Upload(bayt, üst bilgi), Download), geri çağrılı. Yayında gerçek sağlayıcı yokken `NoneCloudSaveService` (kullanılamaz → Ayarlar "Yakında", düğmeler kapalı); geliştirmede `LocalCloudSaveService` (`persistentDataPath/cloud_fake/`).
+- **Biçim:** `TAVERNA-CLOUD-1` + HMAC-SHA256 imzası + üst bilgi + kayıt; imza cihazdan bağımsız anahtarla (başka cihaz doğrulayabilsin). İndirilen kaydın imzası tutmazsa, kesik ya da imzasızsa **reddedilir**, hiçbir şey değişmez. Yüklenen kayıt güncel sürüme yükseltilir ve bu cihazın anahtarıyla hemen yazılır, sahne yeniden yüklenir.
+- **Üst bilgi:** kayıt zamanı, seviye, prestij sayısı, toplam kazanç (`SaveData.totalEarned`, yeni alan, prestijte sıfırlanmaz; eski kayıtta 0'dan başlar), cihaz kimliği (ilk açılışta rastgele GUID, PlayerPrefs'te; kişisel veri yok).
+- **Çakışma kuralı** (`CloudSave.Resolve`): ilerlemesi açıkça büyük olan kazanır — prestij sayısı farklıysa yüksek olan; aynıysa seviye farkı ≥ 3; seviyeler yakınsa toplam kazanç ≥ 1,5 kat (seviye ters yönde değilse); bu kurulumun eski yedeğinden ileride olan cihaz. Değilse **KAYIT SEÇ** ekranı: "Bu cihaz: Sv12, 3 prestij — Bulut: Sv14, 3 prestij", iki sütun (seviye, prestij, toplam kazanç, kayıt zamanı), **BU CİHAZI TUT** (bulutun üstüne yazar) / **BULUTU YÜKLE**; "Seçilmeyen kayıt silinir."
+  - Şimdi yedekle: bulut boş / bozuk / geride / aynıysa yükler; bulut ileride ya da belirsizse seçim ekranı.
+  - Buluttan yükle: bulut ileride → yükler; aynı → "Bu cihaz zaten güncel."; bu cihaz ileride ya da belirsiz → seçim ekranı.
+- **Ayarlar:** "Bulut kaydı" satırı (Dil ile Grafik arası; durum: "Son: 22.11 14:02" / "Henüz eşitlenmedi" / "Yakında", **YÖNET**) → pencere: sağlayıcı, son eşitleme, bu cihazın özeti, otomatik yedek notu, **ŞİMDİ YEDEKLE**, **BULUTTAN YÜKLE**, sonuç satırı. Ana menüde de aynı.
+- **Otomatik eşitleme:** yalnızca sağlayıcı varsa ve girişliyse; uygulama arka plana geçerken ve **10 dakikada bir** (`CloudSave.AutoSyncSeconds`). Bulutta açıkça ileri ya da belirsiz kayıt varsa yüklemez, Ayarlar'da uyarı çıkar. Kayıt diskten yüklenmeden hiçbir şey gönderilmez.
+- Ölçüm: `cloud_backup`, `cloud_restore`, `cloud_conflict`. Gizlilik taslağına bulut kaydı notu eklendi (`docs/privacy-policy-draft.md` §5a).
+
+### 17.7 Test altyapısı
+- Bot `-autotest-v23 edit` (`-autotest-start-level 9 -autotest-unlock salon,masa3,masa4,masaE,masaF,masaG` ile): DÜZENLE, bir masa ve bir dekor geçerli yere, geçersiz yer (makine önü, kırmızı, geri alınır), döndürme, BİTTİ; kayıt diske yazılıp sahne diskten yeniden yüklenir ve yerleşim doğrulanır; taşınan masaya müşterinin oturup servis aldığı izlenir.
+- `-autotest-keep-save` (yeni bayrak): test kaydı sıfırlanmadan açılır. `-autotest-v23 editcheck` ile ikinci süreçte yerleşimin geldiği doğrulanır.
+- Bot `-autotest-v23 cloud` (`-autotest-start-level 12`): Ayarlar satırı, pencere, yedekle, aynı ilerlemede yükle, başka cihazın belirsiz kaydıyla çakışma ekranı → bulutu yükle (sahne yeniden), bozuk imza reddi, yedeklemede çakışma → bu cihazı tut. `-autotest-release-sim` ile "Yakında".

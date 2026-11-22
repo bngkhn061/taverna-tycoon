@@ -18,6 +18,10 @@ namespace Taverna
         public event Action RenameRequested;
         /// <summary>v2.1: Ayarlar › "Son sahneyi yeniden izle" (yalnızca oyun içinde ve son görüldükten sonra).</summary>
         public event Action WatchEndingRequested;
+        /// <summary>v2.3: buluttaki kayıt yüklendi (sahibi sahneyi yeniden yükler).</summary>
+        public event Action CloudRestored;
+        /// <summary>v2.3: Ayarlar › Bulut kaydı satırı ve penceresi.</summary>
+        public CloudSavePanel Cloud { get; }
         readonly Button _watchEnding;
         readonly Label _nameLabel;
         /// <summary>v1.6: yalnızca geliştirme derlemesinde görünen "Ölçüm özeti" satırı (yerel ölçüm sayaçları).</summary>
@@ -86,6 +90,10 @@ namespace Taverna
                 if (card != null && actions != null) card.Insert(card.IndexOf(actions), _watchEnding);
             }
 
+            // v2.3: Bulut kaydı satırı (Dil ile Grafik arası) ve penceresi
+            Cloud = new CloudSavePanel(_root);
+            Cloud.Restored += () => { Hide(); CloudRestored?.Invoke(); };
+
             var reset = _root.Q<Button>("reset-save");
             bool armed = false;
             reset.clicked += () =>
@@ -127,6 +135,7 @@ namespace Taverna
             _langOpen.text = li >= 0 ? Loc.NativeNames[li] : Loc.Lang;
             if (!_langPicker.ClassListContains("hidden")) BuildLangGrid();
             for (int i = 0; i < _gfx.Length; i++) _gfx[i].EnableInClassList("on", GameSettings.Graphics == i);
+            Cloud?.Refresh();
         }
 
         /// <summary>Dil seçicinin düğmeleri: <see cref="Loc.Codes"/> sırasıyla, dilin kendi adı; etkin dil vurgulu.</summary>
@@ -156,6 +165,6 @@ namespace Taverna
 
         public bool Visible => !_root.ClassListContains("hidden");
         public void Show() { Refresh(); _root.RemoveFromClassList("hidden"); }
-        public void Hide() { _langPicker.AddToClassList("hidden"); _root.AddToClassList("hidden"); }
+        public void Hide() { _langPicker.AddToClassList("hidden"); Cloud?.Close(); _root.AddToClassList("hidden"); }
     }
 }

@@ -24,6 +24,16 @@ namespace Taverna
         public Transform decorRoot;
 
         readonly System.Collections.Generic.HashSet<int> _usedSlots = new();
+        readonly System.Collections.Generic.Dictionary<int, GameObject> _placed = new();
+
+        /// <summary>v2.3: dekor sahneye kondu (yuva, nesne); düzenleme modu kayıtlı yerleşimi uygular. Büyüme efektinden önce çağrılır.</summary>
+        public static event Action<int, GameObject> DecorPlaced;
+
+        /// <summary>v2.3: yuvadaki dekor nesnesi (yoksa null).</summary>
+        public GameObject Placed(int slot) => _placed.TryGetValue(slot, out var go) ? go : null;
+
+        /// <summary>v2.3: sahnedeki bütün dekorlar (yuva, nesne).</summary>
+        public System.Collections.Generic.IReadOnlyDictionary<int, GameObject> AllPlaced => _placed;
 
         void Awake() => I = this;
 
@@ -138,8 +148,10 @@ namespace Taverna
             // v2.0 (madde 21): bahçe feneri gece kendiliğinden yanar (Lantern değil: yakılması gerekmez, bölge fener sayımına girmez)
             else if (item == "dec_kabakfener") NightLight.Attach(go, KabakLampHeight, 4.5f, new Color(1f, 0.62f, 0.25f), 2.6f).dayIntensity = 0f;   // v2.2
             else if (item == "dec_bahcefener") NightLight.Attach(go, GardenLampLightHeight, 6f, new Color(1f, 0.74f, 0.42f), 3.4f).dayIntensity = 0f;
-            if (animate) go.AddComponent<PopIn>();
             _usedSlots.Add(slot);
+            _placed[slot] = go;
+            DecorPlaced?.Invoke(slot, go);   // v2.3 düzenleme modu (ölçüler tam boyutta okunsun diye büyüme efektinden önce)
+            if (animate) go.AddComponent<PopIn>();
         }
     }
 }

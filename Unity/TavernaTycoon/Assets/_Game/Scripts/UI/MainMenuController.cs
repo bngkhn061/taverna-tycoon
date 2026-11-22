@@ -29,6 +29,7 @@ namespace Taverna
             SetupLegendBadge();
             SetupSeasonChip();   // v2.2
             _settings = new SettingsPanel(_root, showToMenu: false);
+            _settings.CloudRestored += () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);   // v2.3: buluttan yüklendi
             _root.Q<Button>("play").clicked += () =>
             {
                 Sfx.Play(SfxId.Buy);

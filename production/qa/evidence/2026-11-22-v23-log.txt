@@ -1,0 +1,55 @@
+=== run_edit (-autotest-v23 edit -autotest-start-level 9 -autotest-unlock salon,masa3,masa4,masaE,masaF,masaG) ===
+[Playtest] [   0.0s] v2.3 BAŞLADI · mod 'edit' · Sv9 · bulut açık=True (Yerel test bulutu) · yerleşim satırı 0 · kayıt sürümü 4/1
+[Playtest] [  22.9s] v2.3 DEKOR al dec_saksi: NoSlot
+[Playtest] [  22.9s] v2.3 DEKOR al dec_fici: NoSlot
+[Playtest] [  22.9s] v2.3 DÜZENLE düğmesi görünür=True · açılabilir=True
+[Playtest] [  22.9s] v2.3 DÜZENLEME AÇIK=True · zaman ölçeği 0 · masalar [t:Table_E,t:Table_A,t:Table_G,t:Table_F,t:Table_masaM2,t:Table_D,t:Table_masaM1,t:Table_C,t:Table_B] · dekor [d:0,d:18,d:21,d:1,d:19,d:22,d:2,d:3]
+[Playtest] [  22.9s] v2.3 GÖRÜNTÜ v23_edit_open.png
+[Playtest] [  22.9s] v2.3 IZGARA t:Table_F: 2 m ötede geçerli yer yok · bölge 1 ızgara 43x40 sabit 80 · açık alan 35 · giriş 1 · hedef 7 · iz [4.67,-0.88 → 7.1,0.18] · sonuç [OutOfBounds=168 Blocked=150 Overlap=66 Unreachable=56] · engel [PR_Building_Kose@(0.3, 1.6, 0.3), Tier2@(0.9, 1.1, 0.5), Tier2@(0.8, 0.7, 0.5), Tier2@(0.8, 1.6, 0.7), PR_Building_Duvar@(1.0, 1.5, 0.2), PR_Building_Pencere@(1.0, 1.5, 0.2)]
+[Playtest] [  22.9s] v2.3 IZGARA t:Table_E: 2 m ötede geçerli yer yok · bölge 1 ızgara 43x40 sabit 80 · açık alan 35 · giriş 1 · hedef 7 · iz [8.75,0.48 → 10.73,2.72] · sonuç [OutOfBounds=170 Blocked=179 Overlap=46 Unreachable=45] · engel [PR_Building_Kose@(0.3, 1.6, 0.3), Tier2@(0.9, 1.1, 0.5), Tier2@(0.8, 0.7, 0.5), Tier2@(0.8, 1.6, 0.7), PR_Building_Duvar@(1.0, 1.5, 0.2), PR_Building_Pencere@(1.0, 1.5, 0.2)]
+[Playtest] [  22.9s] v2.3 IZGARA t:Table_A: 2 m ötede geçerli yer yok · bölge 0 ızgara 32x40 sabit 81 · açık alan 20 · giriş 1 · hedef 5 · iz [-2.93,1.22 → -0.5,2.97] · sonuç [OutOfBounds=144 Overlap=75 Blocked=98 Unreachable=3] · engel [PR_Building_Kose@(0.3, 1.6, 0.3), Tier2@(0.8, 0.9, 0.6), Tier2@(0.5, 1.0, 0.7), Tier2@(0.7, 1.1, 0.6), PR_Decor_Somine@(1.3, 1.9, 0.7), PR_Building_Duvar@(1.0, 1.5, 0.2), PR_Building_Pencere@(1.0, 1.5, 0.2), PR_Building_Duvar@(0.2, 1.5, 1.0)]
+[Playtest] [  22.9s] v2.3 MASA t:Table_G → (12.25, 1.50) sürükleniyor: Ok
+[Playtest] [  22.9s] v2.3 GÖRÜNTÜ v23_edit_valid.png
+[Playtest] [  22.9s] v2.3 MASA bırakıldı: (12.25, 1.5) 0° · varsayılan değil=True
+[Playtest] [  22.9s] v2.3 GEÇERSİZ deneme t:Table_G → (6.25, 3.25) (Station_Sarap): Blocked · "Duvar, tezgâh, makine, kapı ya da yürüme yolu: buraya konamaz" · seçim geçerli=False
+[Playtest] [  22.9s] v2.3 GÖRÜNTÜ v23_edit_invalid_red.png
+[Playtest] [  22.9s] v2.3 GEÇERSİZ bırakılamadı: geri alındı=True · yer (12.25, 1.5) 0° (önceki geçerli (12.25, 1.5) 0°) · mesaj "Duvar, tezgâh, makine, kapı ya da yürüme yolu: buraya konamaz"
+[Playtest] [  22.9s] v2.3 DÖNDÜR 90°: Blocked → (12.25, 1.5) 0°
+[Playtest] [  22.9s] v2.3 DEKOR d:0 → (-1.5, 3.5) 0°: Ok
+[Playtest] [  22.9s] v2.3 GÖRÜNTÜ v23_edit_moved.png
+[Playtest] [  22.9s] v2.3 BİTTİ: kaydedildi=True · zaman ölçeği 4 · yerleşim [t:Table_G|12.25|1.5|0 ; d:0|-1.5|3.5|0]
+[Playtest] [  22.9s] v2.3 YOL Table_G (toplanma Entrance_Salon): [(9.5,-5.5) → (9.5,-4.7) → (11.1,1.4) → (11.6,1.6)] [(9.5,-5.5) → (9.5,-4.7) → (11.6,-0.8) → (13.4,1.2) → (13.4,1.4) → (12.9,1.6)]
+[Playtest] [  32.9s] v2.3 GÖRÜNTÜ v23_edit_saved.png
+[Playtest] [  32.9s] v2.3 YENİDEN AÇ: kayıt diske yazıldı, sahne diskten yükleniyor
+[Playtest] [  32.9s] v2.3 YENİDEN AÇILIŞ: yerleşim satırı 2 · eşleşen 2 · uymayan 0 · sürüm 4/1 · t:Table_G: kayıt (12.25, 1.5) 0° sahne (12.25, 1.5) 0° ✓; d:0: kayıt (-1.5, 3.5) 0° sahne (-1.5, 3.5) 0° ✓;
+[Playtest] [  32.9s] v2.3 YOL Table_G (toplanma Entrance_Salon): [(9.5,-5.5) → (9.5,-4.7) → (11.1,1.4) → (11.6,1.6)] [(9.5,-5.5) → (9.5,-4.7) → (11.6,-0.8) → (13.4,1.2) → (13.4,1.4) → (12.9,1.6)]
+[Playtest] [ 171.4s] v2.3 TAŞINAN MASA: Çiftçi Table_G oturağında (11.6, 1.55) servis aldı, içiyor ✓
+[Playtest] [ 171.4s] v2.3 GÖRÜNTÜ v23_moved_table_served.png
+=== run_editcheck (-autotest-keep-save -autotest-v23 editcheck) ===
+[Playtest] [   0.0s] v2.3 BAŞLADI · mod 'editcheck' · Sv10 · bulut açık=True (Yerel test bulutu) · yerleşim satırı 2 · kayıt sürümü 4/1
+[Playtest] [  18.9s] v2.3 İKİNCİ SÜREÇ (-autotest-keep-save): yerleşim satırı 2 · eşleşen 2 · uymayan 0 · sürüm 4/1 · t:Table_G: kayıt (12.25, 1.5) 0° sahne (12.25, 1.5) 0° ✓; d:0: kayıt (-1.5, 3.5) 0° sahne (-1.5, 3.5) 0° ✓;
+[Playtest] [  18.9s] v2.3 GÖRÜNTÜ v23_reopen.png
+=== run_cloud (-autotest-v23 cloud -autotest-start-level 12) ===
+[Playtest] [   0.0s] v2.3 BAŞLADI · mod 'cloud' · Sv12 · bulut açık=True (Yerel test bulutu) · yerleşim satırı 0 · kayıt sürümü 4/1
+[Playtest] [  19.2s] v2.3 AYARLAR açıldı · bulut açık=True · sahte bulut klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\cloud_fake
+[Playtest] [  19.2s] v2.3 GÖRÜNTÜ v23_settings_cloud_row.png
+[Playtest] [  19.2s] v2.3 GÖRÜNTÜ v23_cloud_panel.png
+[Playtest] [  19.2s] v2.3 YEDEKLE: "Yedeklendi." · son eşitleme 11:22:31
+[Playtest] [  19.2s] v2.3 GÖRÜNTÜ v23_cloud_backup.png
+[Playtest] [  19.2s] v2.3 YÜKLE (aynı ilerleme): "Bu cihaz zaten güncel."
+[Playtest] [  19.2s] v2.3 ÇAKIŞMA hazırlığı: bulutta başka cihazın kaydı Sv14 (bu cihaz Sv12)
+[Playtest] [  19.2s] v2.3 ÇAKIŞMA ekranı görünür=True · "Bu cihaz: Sv12, 0 prestij — Bulut: Sv14, 0 prestij"
+[Playtest] [  19.2s] v2.3 GÖRÜNTÜ v23_cloud_conflict.png
+[Playtest] [  19.2s] v2.3 BULUTU YÜKLE: sahne yeniden yüklendi · Sv12 → Sv14 ✓
+[Playtest] [  19.2s] v2.3 BOZUK İMZA: "Buluttaki kayıt doğrulanamadı (bozuk ya da imzasız); yüklenmedi." · seviye değişmedi=True ✓
+[Playtest] [  19.2s] v2.3 GÖRÜNTÜ v23_cloud_rejected.png
+[Playtest] [  19.2s] v2.3 YEDEKLE (bulutta başka cihazın Sv12 kaydı): çakışma ekranı bekleniyor
+[Playtest] [  19.2s] v2.3 ÇAKIŞMA (yedekle) görünür=True · "Bu cihaz: Sv14, 0 prestij — Bulut: Sv12, 0 prestij" → BU CİHAZI TUT
+[Playtest] [  19.2s] v2.3 BU CİHAZI TUT: "Bu cihazın kaydı buluta yazıldı." · otomatik yedek aralığı 600 sn
+[Playtest] [  19.2s] v2.3 ÖLÇÜM: cloud_backup=4 cloud_restore=6 cloud_conflict=8 edit_mode_open=5 edit_mode_save=4
+=== run_cloud_soon (-autotest-v23 cloud -autotest-release-sim -autotest-start-level 6) ===
+[Playtest] [   0.0s] v2.3 BAŞLADI · mod 'cloud' · Sv6 · bulut açık=False (Yerel test bulutu) · yerleşim satırı 0 · kayıt sürümü 4/1
+[Playtest] [  19.5s] v2.3 AYARLAR açıldı · bulut açık=False · sahte bulut klasörü C:/Users/bngkh/AppData/LocalLow/Bn Studio/Taverna Tycoon\cloud_fake
+[Playtest] [  19.5s] v2.3 GÖRÜNTÜ v23_settings_cloud_soon_row.png
+[Playtest] [  19.5s] v2.3 GÖRÜNTÜ v23_cloud_panel_soon.png
+[Playtest] [  19.5s] v2.3 BULUT YAYIN TAKLİDİ: sağlayıcı yok → "Yakında", düğmeler kapalı ✓

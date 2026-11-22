@@ -24,7 +24,10 @@ namespace Taverna
         public bool Dirty => _dirt.Count > 0;
         public bool Busy { get { foreach (var s in seats) if (s && s.occupant) return true; return false; } }
 
-        void OnEnable() => All.Add(this);
+        /// <summary>v2.3: masa sahnede etkinleşti (satın alındı / bölge açıldı); düzenleme modu kayıtlı yerleşimi uygular.</summary>
+        public static event System.Action<Table> Activated;
+
+        void OnEnable() { All.Add(this); Activated?.Invoke(this); }
         void OnDisable() => All.Remove(this);
 
         public Vector3 CoinPos => coinPoint ? coinPoint.position : transform.position + Vector3.up * 0.65f;

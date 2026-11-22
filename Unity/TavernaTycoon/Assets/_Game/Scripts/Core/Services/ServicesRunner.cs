@@ -30,6 +30,7 @@ namespace Taverna
 
         void Update()
         {
+            CloudSave.Tick(Time.unscaledDeltaTime);   // v2.3: 10 dakikada bir otomatik bulut yedeği (sağlayıcı varsa)
             _flushT += Time.unscaledDeltaTime;
             if (_flushT < FlushIntervalSeconds) return;
             _flushT = 0f;
@@ -42,6 +43,7 @@ namespace Taverna
             {
                 _pausedAt = Time.realtimeSinceStartup;
                 Services.Analytics?.Flush(true);
+                CloudSave.OnPause();   // v2.3: arka plana geçerken bulut yedeği (sağlayıcı varsa)
                 return;
             }
             if (_pausedAt >= 0f && Time.realtimeSinceStartup - _pausedAt >= NewSessionAfterSeconds)

@@ -22,6 +22,8 @@ namespace Taverna
         public static IStoreService Store { get; private set; }
         /// <summary>Kayıtlı ölçüm hizmeti (varsayılan: yerel dosya).</summary>
         public static IAnalyticsService Analytics { get; private set; }
+        /// <summary>v2.3 kayıtlı bulut kaydı hizmeti (geliştirme: yerel sahte bulut, yayın: <see cref="NoneCloudSaveService"/>).</summary>
+        public static ICloudSaveService Cloud { get; private set; }
 
         /// <summary>Bu süreçteki oturum kimliği (ölçüm satırlarında).</summary>
         public static string SessionId { get; private set; } = NewSessionId();
@@ -44,6 +46,9 @@ namespace Taverna
         /// <summary>Hazine ürünleri satın alınabilir mi? (gerçek mağaza ya da izinli test)</summary>
         public static bool StoreEnabled => Store != null && (!Store.IsTest || TestProvidersAllowed);
 
+        /// <summary>v2.3: bulut kaydı kullanılabilir mi? (gerçek sağlayıcı ya da izinli sahte bulut; değilse Ayarlar "Yakında")</summary>
+        public static bool CloudEnabled => Cloud != null && Cloud.IsAvailable && (!Cloud.IsTest || TestProvidersAllowed);
+
         static bool _installed;
 
         /// <summary>Test uygulamalarını kurar (bir kez). Sahne yüklenmeden önce kendiliğinden çağrılır.</summary>
@@ -55,6 +60,8 @@ namespace Taverna
             if (Ads == null) Ads = new TestAdService();
             if (Store == null) Store = new TestStoreService();
             if (Analytics == null) Analytics = new LocalAnalyticsService(Application.persistentDataPath);
+            // v2.3: yayında gerçek sağlayıcı yoksa boş uygulama ("Yakında"); geliştirmede cihazda ayrı klasöre yazan sahte bulut
+            if (Cloud == null) Cloud = Debug.isDebugBuild ? new LocalCloudSaveService(Application.persistentDataPath) : new NoneCloudSaveService();
             if (Application.isPlaying) ServicesRunner.Ensure();
         }
 
@@ -62,6 +69,8 @@ namespace Taverna
         public static void Register(IAdService ads) => Ads = ads ?? throw new ArgumentNullException(nameof(ads));
         /// <summary>Gerçek mağazayı takar (test mağazasının yerine geçer).</summary>
         public static void Register(IStoreService store) => Store = store ?? throw new ArgumentNullException(nameof(store));
+        /// <summary>v2.3: gerçek bulut sağlayıcısını takar (Google Play Games Saved Games, iCloud, Unity Cloud Save; docs/services-integration.md).</summary>
+        public static void Register(ICloudSaveService cloud) => Cloud = cloud ?? throw new ArgumentNullException(nameof(cloud));
         /// <summary>Gerçek ölçüm hizmetini takar (yerel dosyanın yerine geçer; eski hizmetin kuyruğu önce yazılır).</summary>
         public static void Register(IAnalyticsService analytics)
         {

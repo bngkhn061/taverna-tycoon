@@ -133,12 +133,28 @@ namespace Taverna
             go.transform.position = from.position;
             var t = seat.table;
             var ent = t.entrance ? t.entrance : entrance;
-            var h = t.hub ? t.hub : hub;
-            var path = new List<Vector3> { new Vector3(ent.position.x, 0f, from.position.z), ent.position, h.position };
+            var path = new List<Vector3> { new Vector3(ent.position.x, 0f, from.position.z), ent.position };
+            path.AddRange(InnerPath(seat));
+            go.AddComponent<Customer>().Init(def, seat, path, from.position);
+        }
+
+        static CustomerSpawner _i;
+        void Awake() => _i = this;
+
+        /// <summary>
+        /// Kapıdan sonraki yol: toplanma noktası, oturağın yaklaşma noktaları, oturak. v2.3: düzenleme modu taşınan masanın
+        /// yaklaşma noktalarını ızgara yolundan yeniden kurar (o masanın toplanma noktası kapının kendisi olur).
+        /// </summary>
+        public static List<Vector3> InnerPath(Seat seat)
+        {
+            var t = seat.table;
+            var h = t.hub ? t.hub : _i ? _i.hub : null;
+            var path = new List<Vector3>();
+            if (h) path.Add(h.position);
             if (seat.approach != null)
                 foreach (var a in seat.approach) if (a) path.Add(a.position);
             path.Add(seat.transform.position);
-            go.AddComponent<Customer>().Init(def, seat, path, from.position);
+            return path;
         }
     }
 }
