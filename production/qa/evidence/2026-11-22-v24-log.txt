@@ -1,0 +1,67 @@
+[Playtest] AudioCapture: gizli test sessiz (ana düzey −60 dB), çıkış kaydı hazır
+[Playtest] [   0.0s] v2.4 BAŞLADI · mod 'audio' · Sv10 · ses 48000 Hz · Doppler (ayar) kaynak 16 kaynak · en yüksek dopplerLevel 1.00 · en yüksek spatialBlend 0.00
+[Playtest] [   0.0s] v2.4 SES kayıt hazır: kaydedici çıkış dikişi (GetOutputData + dspTime) · sahnede AudioListener YOK · DSP 1024×4 · gerçek ses sınırı 24 · sanal 64 · etiket 'once'
+[Playtest] [   5.8s] v2.4 SES deneme tonu açık (diğer sesler sustu)
+[Playtest] [  21.3s] v2.4 SES deneme kaydı: C:\Users\bngkh\Desktop\Hypercasual\Tycoon\Unity\captures\v24_audio_probe_once.wav · 14.0 sn · kamera hızı ort 1.21 m/sn, en yüksek 3.11 m/sn · kayıt 14.0 sn / gerçek 14.5 sn · tekrar okuma 2 · boşluk 0 · ham tepe 0.0000000 · geri çarpıldı=False
+[Playtest] [  29.8s] v2.4 SES karışım: müşteri 7 · çalan kaynak 6 · atlanan efekt +2 · müzik day · ortam [crowd_low:0.13 crowd_high:0.05 fire:0.11 day:0.06 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  39.8s] v2.4 SES karışım: müşteri 7 · çalan kaynak 6 · atlanan efekt +2 · müzik day · ortam [crowd_low:0.13 crowd_high:0.04 fire:0.12 day:0.07 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  49.8s] v2.4 SES karışım: müşteri 9 · çalan kaynak 5 · atlanan efekt +2 · müzik day · ortam [crowd_low:0.14 crowd_high:0.02 fire:0.12 day:0.07 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  59.8s] v2.4 SES karışım: müşteri 10 · çalan kaynak 6 · atlanan efekt +2 · müzik day · ortam [crowd_low:0.13 crowd_high:0.05 fire:0.11 day:0.06 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  69.3s] v2.4 SES karışım kaydı: C:\Users\bngkh\Desktop\Hypercasual\Tycoon\Unity\captures\v24_audio_mix_once.wav · 45.0 sn · dinleyici hızı ort 1.38 m/sn, en yüksek 3.58 m/sn · atlanan efekt +2 · 17 kaynak · en yüksek dopplerLevel 1.00 · en yüksek spatialBlend 0.00 · kayıt 45.0 sn / gerçek 45.5 sn · tekrar okuma 3 · boşluk 0 · ham tepe 0.0002366 · geri çarpıldı=True
+[Playtest] AudioCapture: gizli test sessiz (ana düzey −60 dB), çıkış kaydı hazır
+[Playtest] [   0.0s] v2.4 BAŞLADI · mod 'audio' · Sv10 · ses 48000 Hz · Doppler (ayar) kaynak 16 kaynak · en yüksek dopplerLevel 1.00 · en yüksek spatialBlend 0.00
+[Playtest] [   0.0s] v2.4 SES ara ölçüm: kameraya AudioListener eklendi (Doppler ayarı aynı)
+[Playtest] [   0.0s] v2.4 SES kayıt hazır: kaydedici dinleyici süzgeci (OnAudioFilterRead, tam ölçek) · sahnede AudioListener Main Camera · DSP 1024×4 · gerçek ses sınırı 24 · sanal 64 · etiket 'ara'
+[Playtest] [   5.8s] v2.4 SES deneme tonu açık (diğer sesler sustu)
+[Playtest] [  21.3s] v2.4 SES deneme kaydı: C:\Users\bngkh\Desktop\Hypercasual\Tycoon\Unity\captures\v24_audio_probe_ara.wav · 14.0 sn · kamera hızı ort 1.19 m/sn, en yüksek 3.11 m/sn · kayıt 14.0 sn / gerçek 14.5 sn · tekrar okuma 0 · boşluk 0 · ham tepe 0.2120973 · geri çarpıldı=False
+[Playtest] [  29.8s] v2.4 SES karışım: müşteri 7 · çalan kaynak 6 · atlanan efekt +0 · müzik day · ortam [crowd_low:0.13 crowd_high:0.05 fire:0.11 day:0.06 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  39.8s] v2.4 SES karışım: müşteri 8 · çalan kaynak 6 · atlanan efekt +0 · müzik day · ortam [crowd_low:0.13 crowd_high:0.04 fire:0.12 day:0.07 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  49.8s] v2.4 SES karışım: müşteri 9 · çalan kaynak 6 · atlanan efekt +0 · müzik day · ortam [crowd_low:0.13 crowd_high:0.04 fire:0.12 day:0.07 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  59.8s] v2.4 SES karışım: müşteri 9 · çalan kaynak 6 · atlanan efekt +0 · müzik day · ortam [crowd_low:0.13 crowd_high:0.05 fire:0.11 day:0.06 night:0.00 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  69.3s] v2.4 SES karışım kaydı: C:\Users\bngkh\Desktop\Hypercasual\Tycoon\Unity\captures\v24_audio_mix_ara.wav · 45.0 sn · dinleyici hızı ort 1.36 m/sn, en yüksek 3.38 m/sn · atlanan efekt +1 · 17 kaynak · en yüksek dopplerLevel 1.00 · en yüksek spatialBlend 0.00 · kayıt 45.0 sn / gerçek 45.5 sn · tekrar okuma 0 · boşluk 0 · ham tepe 0.3797349 · geri çarpıldı=False
+[Playtest] AudioCapture: gizli test sessiz (ana düzey −60 dB), çıkış kaydı hazır
+[Playtest] [   0.0s] v2.4 BAŞLADI · mod 'audio' · Sv10 · ses 48000 Hz · Doppler (ayar) kaynak 13 kaynak · en yüksek dopplerLevel 0.00 · en yüksek spatialBlend 0.00
+[Playtest] [   0.0s] v2.4 SES kayıt hazır: kaydedici dinleyici süzgeci (OnAudioFilterRead, tam ölçek) · sahnede AudioListener AudioListener · DSP 1024×4 · gerçek ses sınırı 24 · sanal 64 · etiket 'sonra'
+[Playtest] [   5.8s] v2.4 SES deneme tonu açık (diğer sesler sustu)
+[Playtest] [  21.3s] v2.4 SES deneme kaydı: C:\Users\bngkh\Desktop\Hypercasual\Tycoon\Unity\captures\v24_audio_probe_sonra.wav · 14.0 sn · kamera hızı ort 0.00 m/sn, en yüksek 0.00 m/sn · kayıt 14.0 sn / gerçek 14.5 sn · tekrar okuma 0 · boşluk 0 · ham tepe 0.2120973 · geri çarpıldı=False
+[Playtest] [  29.8s] v2.4 SES karışım: müşteri 7 · çalan kaynak 3 · atlanan efekt +0 · müzik day · ortam [room:0.12 murmur:0.15 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  39.8s] v2.4 SES karışım: müşteri 8 · çalan kaynak 5 · atlanan efekt +0 · müzik day · ortam [room:0.12 murmur:0.13 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  49.8s] v2.4 SES karışım: müşteri 9 · çalan kaynak 3 · atlanan efekt +0 · müzik day · ortam [room:0.12 murmur:0.15 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  59.8s] v2.4 SES karışım: müşteri 9 · çalan kaynak 3 · atlanan efekt +0 · müzik day · ortam [room:0.12 murmur:0.15 oyun=True ayar=m0.70/e0.85]
+[Playtest] [  69.3s] v2.4 SES karışım kaydı: C:\Users\bngkh\Desktop\Hypercasual\Tycoon\Unity\captures\v24_audio_mix_sonra.wav · 45.0 sn · dinleyici hızı ort 0.00 m/sn, en yüksek 0.00 m/sn · atlanan efekt +0 · 14 kaynak · en yüksek dopplerLevel 0.00 · en yüksek spatialBlend 0.00 · kayıt 45.0 sn / gerçek 45.5 sn · tekrar okuma 0 · boşluk 0 · ham tepe 0.3681208 · geri çarpıldı=False
+[Playtest] AudioCapture: gizli test sessiz (ana düzey −60 dB), çıkış kaydı hazır
+[Playtest] [   0.0s] v2.4 BAŞLADI · mod 'intro' · Sv1 · ses 48000 Hz · Doppler (ayar) kaynak 13 kaynak · en yüksek dopplerLevel 0.00 · en yüksek spatialBlend 0.00
+[Playtest] [   0.0s] v2.4 GİRİŞ başlıyor: ad 'Test Tavernası' · kayıtta görüldü=False · cihazda=False · kendiliğinden oynar mı (yeni oyun)=True · şube 0
+[Playtest] [   0.0s] v2.4 GİRİŞ: oynuyor=True · çekim Journey · 0.0 sn · karartma 1.00 · Barlo (105.2, 0.0, 0.0) · kral yok · tabela 1.00
+[Playtest] [   0.0s] v2.4 GİRİŞ ÇEKİM: - → Journey · 0.0 sn · çekim Journey · 0.0 sn · karartma 1.00 · Barlo (105.2, 0.0, 0.0) · kral yok · tabela 1.00 · yazı "Barlo bütün eşyasını el arabasına yükledi ve şehrin yolunu tuttu." · gün 0.000 · müşteri 0
+[Playtest] [   0.0s] v2.4 GÖRÜNTÜ v24_intro_1_yolculuk.png · yazı "Barlo bütün eşyasını el arabasına yükledi ve şehrin yolunu tuttu." · ferman kartı=False
+[Playtest] [   0.0s] v2.4 GİRİŞ ÇEKİM: Journey → Ruin · 6.5 sn · çekim Ruin · 6.5 sn · karartma 1.00 · Barlo (119.0, 0.0, 0.7) · kral yok · tabela 1.00 · yazı "Şehirde boş, harap bir han buldu. Çatısı akıyordu ama ruhu vardı!" · gün 0.000 · müşteri 0
+[Playtest] [   0.0s] v2.4 GÖRÜNTÜ v24_intro_2_harabe.png · yazı "Şehirde boş, harap bir han buldu. Çatısı akıyordu ama ruhu vardı!" · ferman kartı=False
+[Playtest] [   0.0s] v2.4 GİRİŞ ÇEKİM: Ruin → Palace · 11.0 sn · çekim Palace · 11.0 sn · karartma 1.00 · Barlo (150.0, 0.0, -4.2) · kral var · tabela 1.00 · yazı "Taverna açmak için Kral'ın izni gerekir. Barlo saraya çıktı." · gün 0.000 · müşteri 0
+[Playtest] [   0.0s] v2.4 GÖRÜNTÜ v24_intro_3_saray.png · yazı "Taverna açmak için Kral'ın izni gerekir. Barlo saraya çıktı." · ferman kartı=False
+[Playtest] [   0.0s] v2.4 GÖRÜNTÜ v24_intro_3b_egilme.png · yazı ""Majesteleri, krallığın en sıcak tavernasını açmak istiyorum!"" · ferman kartı=False
+[Playtest] [   0.0s] v2.4 GİRİŞ ÇEKİM: Palace → Decree · 17.0 sn · çekim Decree · 17.0 sn · karartma 1.00 · Barlo (150.0, 0.0, 1.0) · kral var · tabela 1.00 · yazı "Kral fermanı imzaladı: "Test Tavernası açılsın!"" · gün 0.000 · müşteri 0
+[Playtest] [   0.0s] v2.4 GÖRÜNTÜ v24_intro_4_ferman.png · yazı "Kral fermanı imzaladı: "Test Tavernası açılsın!"" · ferman kartı=True
+[Playtest] [   0.0s] v2.4 GİRİŞ ÇEKİM: Decree → Sign · 23.5 sn · çekim Sign · 23.5 sn · karartma 1.00 · Barlo (-2.4, 0.0, -6.6) · kral var · tabela 0.00 · yazı "Barlo tabelayı astı. Test Tavernası kapılarını açtı!" · gün 0.000 · müşteri 0
+[Playtest] [   0.0s] v2.4 GÖRÜNTÜ v24_intro_5_tabela.png · yazı "Barlo tabelayı astı. Test Tavernası kapılarını açtı!" · ferman kartı=False
+[Playtest] [   0.0s] v2.4 GİRİŞ ÇEKİM: Sign → BİTTİ · 29.6 sn · - · yazı "Barlo tabelayı astı. Test Tavernası kapılarını açtı!" · gün 0.000 · müşteri 0
+[Playtest] [   0.0s] v2.4 GİRİŞ BİTTİ: toplam 29.6 sn · kayıtta görüldü=True · cihazda=False · oynuyor=False · zaman ölçeği 4
+[Playtest] [  12.8s] v2.4 GİRİŞ SONRASI: rehber açık=True adım 2 · HUD görünür · zaman ölçeği 4
+[Playtest] [  24.0s] v2.4 YENİDEN İZLE (Ayarlar): oynuyor=True · çekim Journey · 0.0 sn · karartma 1.00 · Barlo (105.2, 0.0, 0.0) · kral yok · tabela 1.00
+[Playtest] [  24.0s] v2.4 GİRİŞ ÇEKİM: - → Journey · 35.6 sn · çekim Journey · 0.0 sn · karartma 1.00 · Barlo (105.2, 0.0, 0.0) · kral yok · tabela 1.00 · yazı "Barlo bütün eşyasını el arabasına yükledi ve şehrin yolunu tuttu." · gün 0.000 · müşteri 2
+[Playtest] [  24.0s] v2.4 ATLA: oynuyor=False · çekim '' · zaman ölçeği 4 · kayıtta görüldü=True
+[Playtest] [  24.0s] v2.4 GİRİŞ ÇEKİM: Journey → BİTTİ · 37.6 sn · - · yazı "Barlo bütün eşyasını el arabasına yükledi ve şehrin yolunu tuttu." · gün 0.000 · müşteri 2
+[Playtest] [  38.0s] v2.4 PRESTİJ SONRASI giriş tekrar oynar mı: False (kayıt görüldü=True, cihaz=False) · yeni kayıtla (cihaz gördü) True
+[Playtest] AudioCapture: gizli test sessiz (ana düzey −60 dB), çıkış kaydı hazır
+[Playtest] [   0.0s] v2.4 BAŞLADI · mod 'ending' · Sv30 · ses 48000 Hz · Doppler (ayar) kaynak 13 kaynak · en yüksek dopplerLevel 0.00 · en yüksek spatialBlend 0.00
+[Playtest] [  37.6s] v2.4 HEDİYE başladı: hediye kayıtta=True · duvarda görünür=False · kral modeli CH_King
+[Playtest] [  37.6s] v2.4 GÖRÜNTÜ v24_end_1_hediye_kral.png · hediye kartı=True
+[Playtest] [  37.6s] v2.4 GÖRÜNTÜ v24_end_2_hediye_duvar.png · duvarda görünür=True · hediye kartı=True
+[Playtest] [  43.6s] v2.4 HEDİYE SONRASI: kayıtta=True · gelir çarpanı ×1.575 (ferman ×1.05) · kostüm 'Kral'ın Dostu' sahip=True · Efsanevi Han=True · yeni şube kopyasında ferman=True ×1.05 (önce ×1.05) · şube 3 Sv1
+[Playtest] [  65.6s] v2.4 GÖRÜNTÜ v24_end_3_duvarda_ferman.png (serbest oyunda tezgâhın üstü)
+[Playtest] AudioCapture: gizli test sessiz (ana düzey −60 dB), çıkış kaydı hazır
+[Playtest] v2.4 GÜNLÜK ÖDÜL tablosu (Sv10): 1. gün 500 altın 0 elmas · 2. gün 1000 altın 0 elmas · 3. gün 1500 altın 0 elmas · 4. gün 2000 altın 0 elmas · 5. gün 2500 altın 0 elmas · 6. gün 3000 altın 0 elmas · 7. gün 5250 altın 5 elmas · haftalık elmas 5
+[Playtest] v2.4 GÜNLÜK 1. gün: 'Gün 1 / 7 · seriyi bozma!' · '+1.500 altın · 7. günde +5 elmas'
+[Playtest] v2.4 GÜNLÜK 7. gün: 'Gün 7 / 7 · seriyi bozma!' · '+15.8B altın  +5 elmas'
+[Playtest] v2.4 GÜNLÜK 7. gün alındı: +15750 altın +5 elmas · elmas 24 → 29 · altın 88 → 15838 · seri 7
+[Playtest] [   0.0s] v2.4 BAŞLADI · mod 'daily' · Sv1 · ses 48000 Hz · Doppler (ayar) kaynak 13 kaynak · en yüksek dopplerLevel 0.00 · en yüksek spatialBlend 0.00

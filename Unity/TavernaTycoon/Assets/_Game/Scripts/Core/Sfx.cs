@@ -18,10 +18,19 @@ namespace Taverna
     /// <list type="bullet">
     /// <item>Efektler: Kenney CC0 kayıtları + kendi katmanlamamız; her olayın birkaç çeşidi, perde oynaması ve tekrar sınırı var.</item>
     /// <item>Müzik (RandomMind, CC0): gündüz Minstrel Dance, akşam The Old Tower Inn, yoğun saat Market Day. Duruma göre çapraz geçer, dönülen parça kaldığı yerden sürer.</item>
-    /// <item>Ortam: kalabalık uğultusu müşteri sayısıyla büyür; ocak çıtırtısı, gündüz kuşlar, akşam cırcır böcekleri.</item>
+    /// <item>Ortam (v2.4): kısık oda tonu + müşteri sayısıyla büyüyen yumuşak kalabalık uğultusu (v2.3'e kadar: ocak çıtırtısı, kuşlar, cırcır böcekleri).</item>
     /// <item>Konuşma: oturan müşteriler ara sıra kendi ses tiplerinde gevezelik eder, güler, sipariş verir, söylenir.</item>
     /// </list>
     /// Ses düzeyleri GameSettings.Music / GameSettings.Sfx'ten.
+    /// <para>
+    /// v2.4 (oyuncu testi 2026-11-22 madde 2, "oyuna girince cızırtı, tiz, titreme"): kök neden oyun sahnesinde hiç AudioListener
+    /// olmamasıydı. Dinleyici yalnızca ana menü kamerasındaydı; oyun sahnesi yüklenince yok oluyordu ve oyun boyunca Unity sesi
+    /// dinleyicisiz (desteklenmeyen durumda) karıştırıyordu (v1.9 ölçeri de bu yüzden hiç örnek görmemişti: "dinleyici yok", −120 dBFS).
+    /// Artık tek dinleyici bu kalıcı ses nesnesinde (sahne değişse de yaşar, hareket etmez: Doppler / konum etkisi yok); sahnelerdeki
+    /// başka dinleyiciler kapatılır. Bütün kaynaklar 2B (spatialBlend 0) ve dopplerLevel 0. Ortam sesi sadeleşti: ocak çıtırtısı,
+    /// kuş ve cırcır böceği (tiz, 1000 çıtırtı/dk) kalktı; yerine yumuşak oda tonu ve alçak geçirgen kalabalık uğultusu
+    /// (tools/audio/build_amb_v24.py; 2 kHz üstü yok). Ölçüm: production/qa/evidence/2026-11-22-v24-audio.md.
+    /// </para>
     /// </summary>
     public class Sfx : MonoBehaviour
     {
@@ -33,8 +42,13 @@ namespace Taverna
         const float MusicBase = 0.45f, CrossFade = 2.5f, TalkBase = 0.4f;
         /// <summary>v1.9: bütün ortam döngülerinin toplam düzey tavanı (ayar çarpılmadan önce).</summary>
         public const float AmbientCap = 0.35f;
+        /// <summary>v2.4: oda tonunun gündüz / akşam düzeyi ve kalabalık uğultusunun en yüksek düzeyi (ayar çarpılmadan önce).</summary>
+        public const float RoomDay = 0.12f, RoomNight = 0.16f, MurmurMax = 0.26f;
         /// <summary>v1.9: aynı anda çalan efektlerin toplam düzey tavanı ve efektlerin genel çarpanı.</summary>
         public const float FxBudget = 1f, FxScale = 0.8f;
+        /// <summary>v2.4: art arda para sesinin perde adımı ve en fazla adım (en çok +%12).</summary>
+        public const float CoinStreakStep = 0.03f;
+        public const int CoinStreakMax = 4;
         /// <summary>Bütçeden kalan düzey bundan azsa efekt hiç çalınmaz.</summary>
         const float FxMinVolume = 0.08f;
 
@@ -63,21 +77,32 @@ namespace Taverna
         int _fxNext, _coinStreak;
         AudioSource _musA, _musB;
         AudioClip _day, _evening, _rush;
-        AudioSource _crowdLo, _crowdHi, _fire, _birds, _crickets;
+        AudioListener _listener;
+        AudioSource _room, _murmur;   // v2.4: oda tonu + kalabalık uğultusu (eski: crowd_low/high, fire, day, night)
         float _lastCoin, _duck = 1f, _duckUntil, _duckLevel = 1f, _chatT = 2f;
         bool _inGame;
 
         /// <summary>v2.1 son sahne: en coşkulu parça (yoğun saat, "Market Day") zorla çalar.</summary>
         public static bool ForceFestive;
+        /// <summary>
+        /// v2.4 ses teşhisi (otomatik test): bütün kaynaklar susar, aynı ses nesnesinde 1 kHz saf ton çalar. Dinleyici kaydında tonun
+        /// perdesi ölçülür: kamera (dinleyici) hareket ederken perde oynuyorsa Doppler etkisi vardır (tools/audio/analyze_capture.py).
+        /// </summary>
+        public static bool ProbeMode;
+        /// <summary>v2.4: ana ses düzeyi (oyunda 1; gizli otomatik testte −60 dB, AudioCapture).</summary>
+        public static float MasterVolume = 1f;
+        /// <summary>v2.4: deneme tonunun frekansı (Hz).</summary>
+        public const int ProbeHz = 1000;
+        AudioSource _probe;
         /// <summary>Çalan müzik parçasının adı (test günlüğü için).</summary>
         public static string MusicNow => _i && _i._musA && _i._musA.clip ? _i._musA.clip.name : "-";
         /// <summary>Yüklenen efekt + konuşma grubu sayısı (test günlüğü için).</summary>
         public static int LoadedGroups => _i ? _i._fx.Count + _i._talk.Count : 0;
         /// <summary>Kalabalık uğultusunun toplam düzeyi (test günlüğü için).</summary>
-        public static float CrowdLevel => _i ? _i.Raw(_i._crowdLo) + _i.Raw(_i._crowdHi) : 0f;
+        public static float CrowdLevel => _i ? _i.Raw(_i._murmur) : 0f;
         /// <summary>Ortam kaynaklarının durumu (test günlüğü için).</summary>
         public static string AmbientInfo => !_i ? "-" : string.Join(" ", System.Array.ConvertAll(
-            new[] { _i._crowdLo, _i._crowdHi, _i._fire, _i._birds, _i._crickets },
+            new[] { _i._room, _i._murmur },
             s => s && s.clip ? $"{s.clip.name}:{_i.Raw(s):0.00}{(s.isPlaying ? "" : "(durdu)")}" : "yok")) + $" oyun={_i._inGame} ayar=m{GameSettings.Music:0.00}/e{GameSettings.Sfx:0.00}";
 
         float Raw(AudioSource s) => s && _raw.TryGetValue(s, out var v) ? v : 0f;
@@ -109,19 +134,37 @@ namespace Taverna
             _musA = NewSource(true);
             _musB = NewSource(true);
 
-            _crowdLo = Ambient("crowd_low");
-            _crowdHi = Ambient("crowd_high");
-            _fire = Ambient("fire");
-            _birds = Ambient("day");
-            _crickets = Ambient("night");
+            _room = Ambient("room");
+            _murmur = Ambient("murmur");
 
+            // v2.4: oyunun tek dinleyicisi bu kalıcı nesnenin çocuğunda (oyun sahnesinde dinleyici yoktu). Kaynaklarla aynı nesnede
+            // değil: dinleyiciye takılan süzgeçler (OnAudioFilterRead) kaynak yerine bütün karışıma uygulansın.
+            _listener = new GameObject("AudioListener").AddComponent<AudioListener>();
+            _listener.transform.SetParent(transform, false);
             SceneManager.sceneLoaded += OnScene;
             OnScene(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
 
         void OnDestroy() => SceneManager.sceneLoaded -= OnScene;
 
-        void OnScene(Scene s, LoadSceneMode m) => _inGame = FindAnyObjectByType<GameBootstrap>() != null;
+        void OnScene(Scene s, LoadSceneMode m)
+        {
+            _inGame = FindAnyObjectByType<GameBootstrap>() != null;
+            // v2.4: sahnede başka dinleyici varsa kapat (iki dinleyici Unity'de uyarı + belirsiz karışım)
+            foreach (var l in FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
+                if (l != _listener) l.enabled = false;
+        }
+
+        /// <summary>v2.4 (test günlüğü): etkin dinleyici sayısı ve bu ses nesnesinde mi.</summary>
+        public static string ListenerInfo
+        {
+            get
+            {
+                int n = 0;
+                foreach (var l in FindObjectsByType<AudioListener>(FindObjectsSortMode.None)) if (l.enabled && l.gameObject.activeInHierarchy) n++;
+                return $"etkin dinleyici {n} · ses nesnesinde={(_i && _i._listener && _i._listener.enabled)}";
+            }
+        }
 
         static void Group(Dictionary<string, List<AudioClip>> d, AudioClip c)
         {
@@ -139,6 +182,8 @@ namespace Taverna
             s.playOnAwake = false;
             s.loop = loop;
             s.volume = 0f;
+            s.spatialBlend = 0f;   // v2.4: hepsi 2B
+            s.dopplerLevel = 0f;   // v2.4: Doppler kapalı (proje ayarında da Doppler Factor 0)
             return s;
         }
 
@@ -157,7 +202,7 @@ namespace Taverna
         void Update()
         {
             float dt = Time.unscaledDeltaTime;
-            AudioListener.volume = 1f;
+            AudioListener.volume = MasterVolume;
             bool open = _inGame && !DayCycle.Ended;
             bool dark = _inGame && (Night.IsDark || DayCycle.Ended);
 
@@ -179,24 +224,20 @@ namespace Taverna
             _musB.volume = Mathf.MoveTowards(_musB.volume, 0f, fade);
             if (_musB.isPlaying && _musB.volume <= 0f) _musB.Stop();
 
-            // Ortam: kalabalık müşteri sayısıyla büyür
+            // Ortam (v2.4): oyunda hep kısık oda tonu; kalabalık uğultusu içerideki müşteri sayısıyla büyür (12 müşteride tam)
             int n = 0;
             if (open) foreach (var c in Customer.All) if (c && c.state != Customer.State.Leaving) n++;
             float sfx = GameSettings.Sfx;
-            float lo = open ? Mathf.Clamp01(n / 4f) * 0.32f : 0f;
-            float hi = open ? Mathf.Clamp01((n - 4) / 10f) * 0.45f : 0f;
-            if (open && RushHour.Active) hi = Mathf.Max(hi, 0.18f);
-            float fire = _inGame ? (dark ? 0.4f : 0.28f) : 0f;   // v1.9: 0.45 / 0.7 → 0.28 / 0.4 (ocak döngüsü de yumuşadı)
-            float birds = _inGame && !dark ? 0.16f : 0f, crickets = _inGame && dark ? 0.2f : 0f;
-            // v1.9: toplam ortam düzeyi tavanı — oranlar korunur, toplam AmbientCap'i aşmaz
-            float sum = lo + hi + fire + birds + crickets;
+            float room = _inGame ? (dark ? RoomNight : RoomDay) : 0f;
+            float murmur = open ? Mathf.Clamp01(n / 12f) * MurmurMax : 0f;
+            if (open && RushHour.Active) murmur = Mathf.Max(murmur, MurmurMax * 0.7f);
+            float sum = room + murmur;
             float k = sum > AmbientCap ? AmbientCap / sum : 1f;
-            Fade(_crowdLo, lo * k, sfx, dt);
-            Fade(_crowdHi, hi * k, sfx, dt);
-            Fade(_fire, fire * k, sfx, dt);
-            Fade(_birds, birds * k, sfx, dt);
-            Fade(_crickets, crickets * k, sfx, dt);
+            Fade(_room, room * k, sfx, dt);
+            Fade(_murmur, murmur * k, sfx, dt);
 
+            if (ProbeMode) { ApplyProbe(); return; }
+            if (_probe && _probe.isPlaying) _probe.Stop();
             // Gevezelik: oturan müşterilerden rastgele biri konuşur ya da güler (kalabalıkta daha sık)
             if (open && n >= 2)
             {
@@ -208,6 +249,24 @@ namespace Taverna
                     if (c) Voice(c.def, Random.value < 0.22f ? VoiceKind.Laugh : VoiceKind.Chat, c.transform.position, 0.8f);
                 }
             }
+        }
+
+        /// <summary>v2.4 teşhis: diğer bütün kaynakları sustur, 1 kHz deneme tonunu çal (aynı nesnede, aynı ayarlarla).</summary>
+        void ApplyProbe()
+        {
+            if (!_probe)
+            {
+                int rate = 44100;
+                var data = new float[rate];   // 1 sn = tam 1000 devir: döngü ekinde tık yok
+                for (int k = 0; k < rate; k++) data[k] = Mathf.Sin(2f * Mathf.PI * ProbeHz * k / rate);
+                var clip = AudioClip.Create("probe_1k", rate, 1, rate, false);
+                clip.SetData(data, 0);
+                _probe = NewSource(true);
+                _probe.clip = clip;
+            }
+            foreach (var s in GetComponents<AudioSource>()) if (s != _probe) s.volume = 0f;
+            _probe.volume = 0.3f;
+            if (!_probe.isPlaying) _probe.Play();
         }
 
         /// <summary>Ortam düzeyi ayardan bağımsız yavaşça hedefe gider, ayar en son çarpılır (sürgü anında etki eder).</summary>
@@ -237,6 +296,7 @@ namespace Taverna
 
         void PlayFx(SfxId id, float pitch)
         {
+            if (ProbeMode) return;
             var (key, vol, jitter, gap) = Table[(int)id];
             float now = Time.unscaledTime;
             if (_last.TryGetValue(id, out var lt) && now - lt < gap) return;
@@ -245,9 +305,10 @@ namespace Taverna
             if (id == SfxId.Coin)
             {
                 // Arka arkaya toplanan paralar yükselen perdeyle çalsın (tatmin hissi)
-                _coinStreak = now - _lastCoin < 0.45f ? Mathf.Min(_coinStreak + 1, 8) : 0;
+                // v2.4: en çok +%12 (v1.1–v2.3: +%28; seri boyunca giderek tizleşiyordu)
+                _coinStreak = now - _lastCoin < 0.45f ? Mathf.Min(_coinStreak + 1, CoinStreakMax) : 0;
                 _lastCoin = now;
-                pitch *= 1f + 0.035f * _coinStreak;
+                pitch *= 1f + CoinStreakStep * _coinStreak;
             }
             // v1.9: boş kaynak seç; aynı efekt zaten çalıyorsa ya da bütçe doluysa atla (çalan klibi kesmek tık sesi yapar).
             // Büyük anlar (seviye, yoğun saat, alan açma, şafak, gece) her durumda çalar: en eski kaynağın yerine geçer.
@@ -299,7 +360,7 @@ namespace Taverna
         /// </summary>
         public static void Voice(CustomerDef def, VoiceKind kind, Vector3 pos, float vol = 1f)
         {
-            if (!_i) return;
+            if (!_i || ProbeMode) return;
             string key = BankOf(def ? def.number : 0) + "_" + kind.ToString().ToLowerInvariant();
             if (!_i._talk.TryGetValue(key, out var clips) || clips.Count == 0) return;
             float pan = 0f, att = 1f;

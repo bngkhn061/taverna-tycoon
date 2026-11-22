@@ -11,7 +11,8 @@ namespace Taverna
     {
         static float _incomeUntil;
         public static float IncomeMultiplier => (Time.unscaledTime < _incomeUntil ? 2f : 1f) * Automation.IncomeMultiplier * Premium.IncomeMultiplier
-                                                 * Prestige.IncomeMultiplier;   // v1.5: şube başına kalıcı +%25
+                                                 * Prestige.IncomeMultiplier   // v1.5: şube başına kalıcı +%25
+                                                 * RoyalGift.IncomeMultiplier;   // v2.4: Kraliyet Fermanı +%5 (prestijte kalır)
         public static float IncomeRemaining => Mathf.Max(0f, _incomeUntil - Time.unscaledTime);
 
         public struct Offer
@@ -72,10 +73,25 @@ namespace Taverna
             }
         }
 
-        /// <summary>Günlük ödül: altın seviyeyle; elmas 1–4, 7. gün <see cref="DailyWeekGems"/> (v1.9: 10 → 8).</summary>
-        public static (long coins, int gems) DailyReward(int streak) =>
-            (40L * streak * Mathf.Max(1, GameState.Level), streak >= 7 ? DailyWeekGems : 1 + streak / 2);
-        public const int DailyWeekGems = 8;
+        /// <summary>
+        /// Günlük ödül (v2.4, oyuncu testi 2026-11-22 madde 1 "günlük ödül çok elmas veriyor"): ödül altındır; elmas yalnızca serinin
+        /// 7. gününde, küçük miktarda. v1.9–v2.3: elmas her gün (1, 2, 2, 3, 3, 4, 8 = haftada 23; ×2 gelir 30, dolum 15) →
+        /// v2.4: yalnız 7. gün 5 (haftada 5, en ucuz elmas ürününün üçte biri). Altın 40 → 50 × gün × Sv, 7. gün ×1.5
+        /// (GAME_DESIGN.md §8.2 tablo, §18.1).
+        /// </summary>
+        public static (long coins, int gems) DailyReward(int streak, int level)
+        {
+            int s = Mathf.Clamp(streak, 1, 7);
+            long coins = DailyCoinBase * s * Mathf.Max(1, level);
+            if (s >= 7) coins = (long)(coins * DailyWeekCoinBonus);
+            return (coins, s >= 7 ? DailyWeekGems : 0);
+        }
+        public static (long coins, int gems) DailyReward(int streak) => DailyReward(streak, GameState.Level);
+        /// <summary>v2.4: serinin 7. günündeki elmas (v1.9–v2.3: 8; 1–6. günlerde 1–4 de veriliyordu, artık 0).</summary>
+        public const int DailyWeekGems = 5;
+        /// <summary>v2.4: günlük altın tabanı (× gün × seviye; v1.1–v2.3: 40) ve 7. günün altın çarpanı.</summary>
+        public const long DailyCoinBase = 50;
+        public const float DailyWeekCoinBonus = 1.5f;
 
         public static (long coins, int gems) ClaimDaily()
         {

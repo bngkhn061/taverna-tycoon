@@ -261,7 +261,8 @@ namespace Taverna
                 GameState.Data.tavernName = n;
                 GameState.Save();
                 Sfx.Play(SfxId.Buy);
-                StartGame();
+                // v2.4: yeni oyunda ad seçilince giriş sineması (yalnızca ilk yeni oyunda; GAME_DESIGN.md §18.2)
+                StartGame(Opening.ShouldAutoPlay(GameState.Data, true, Opening.DeviceSeen));
             };
         }
 
@@ -286,9 +287,10 @@ namespace Taverna
             _root.Q("name-root").RemoveFromClassList("hidden");
         }
 
-        void StartGame()
+        void StartGame(bool opening = false)
         {
-            HudController.PlayIntro = true;
+            HudController.PlayIntro = !opening;
+            HudController.PlayOpening = opening;
             SceneManager.LoadScene(gameScene);
         }
 
@@ -362,10 +364,38 @@ namespace Taverna
             int s = Boosts.DailyAvailable ? Boosts.NextStreak : Mathf.Max(1, GameState.Data.dailyStreak);
             var r = Boosts.DailyReward(s);
             _root.Q<Label>("daily-sub").text = Boosts.DailyAvailable ? Loc.F("Gün {0} / 7 · seriyi bozma!", s) : Loc.T("Bugünün ödülü alındı · yarın gel");
-            _root.Q<Label>("daily-text").text = Loc.F("+{0}  +{1} elmas", HudController.FormatNum(r.coins), r.gems);
+            // v2.4: elmas yalnız 7. günde; diğer günlerde altın ve 7. günün elması hatırlatılır
+            _root.Q<Label>("daily-text").text = r.gems > 0
+                ? Loc.F("+{0} altın  +{1} elmas", HudController.FormatNum(r.coins), r.gems)
+                : Loc.F("+{0} altın · 7. günde +{1} elmas", HudController.FormatNum(r.coins), Boosts.DailyWeekGems);
             _root.Q<Button>("daily-claim").EnableInClassList("locked", !Boosts.DailyAvailable);
             _root.Q("daily-root").RemoveFromClassList("hidden");
             Sfx.Play(SfxId.Pop);
+        }
+
+        /// <summary>v2.4 test ("-autotest-v24 daily"): seri 1. gün ve 7. gün ödül ekranı, 7. günü alınca elmas farkı, haftalık toplam.</summary>
+        System.Collections.IEnumerator DailyV24()
+        {
+            var d = GameState.Data;
+            string yesterday = System.DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+            int week = 0;
+            for (int s = 1; s <= 7; s++) week += Boosts.DailyReward(s, 10).gems;
+            Debug.Log($"[Playtest] v2.4 GÜNLÜK ÖDÜL tablosu (Sv10): " + string.Join(" · ", System.Linq.Enumerable.Select(System.Linq.Enumerable.Range(1, 7), s => { var r = Boosts.DailyReward(s, 10); return $"{s}. gün {r.coins} altın {r.gems} elmas"; })) + $" · haftalık elmas {week}");
+            d.lastDaily = "2000-01-01"; d.dailyStreak = 0;   // seri kopuk → 1. gün
+            OpenDaily();
+            yield return new WaitForSecondsRealtime(0.6f);
+            Debug.Log($"[Playtest] v2.4 GÜNLÜK 1. gün: '{_root.Q<Label>("daily-sub").text}' · '{_root.Q<Label>("daily-text").text}'");
+            AutoTest.Shot("v24_daily_day1.png"); yield return null; yield return null;
+            _root.Q("daily-root").AddToClassList("hidden");
+            d.lastDaily = yesterday; d.dailyStreak = 6;   // dün 6. gündü → bugün 7. gün
+            OpenDaily();
+            yield return new WaitForSecondsRealtime(0.6f);
+            Debug.Log($"[Playtest] v2.4 GÜNLÜK 7. gün: '{_root.Q<Label>("daily-sub").text}' · '{_root.Q<Label>("daily-text").text}'");
+            AutoTest.Shot("v24_daily_day7.png"); yield return null; yield return null;
+            int g0 = d.gems; long c0 = d.coins;
+            var got = Boosts.ClaimDaily();
+            Debug.Log($"[Playtest] v2.4 GÜNLÜK 7. gün alındı: +{got.coins} altın +{got.gems} elmas · elmas {g0} → {d.gems} · altın {c0} → {d.coins} · seri {d.dailyStreak}");
+            _root.Q("daily-root").AddToClassList("hidden");
         }
 
         void BuildBook()
@@ -442,6 +472,7 @@ namespace Taverna
             yield return new WaitForSecondsRealtime(0.5f);
             AutoTest.Shot("app_daily.png"); yield return null; yield return null; // çekim kare sonunda alınır: önce kareyi bitir
             _root.Q("daily-root").AddToClassList("hidden");
+            { var a = System.Environment.GetCommandLineArgs(); int i = System.Array.IndexOf(a, "-autotest-v24"); if (i >= 0 && i + 1 < a.Length && a[i + 1] == "daily") yield return DailyV24(); }
             BuildBook();
             _root.Q("book-root").RemoveFromClassList("hidden");
             yield return new WaitForSecondsRealtime(0.5f);

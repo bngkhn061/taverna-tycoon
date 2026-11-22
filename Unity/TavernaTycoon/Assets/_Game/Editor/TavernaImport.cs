@@ -59,13 +59,21 @@ namespace Taverna.EditorTools
             // düşük uçlu cihazda dosya okuması gecikince boşluk / çıtırtı yapabiliyor; 3 parça ≈ 3 MB), ortam kalitesi 0.4 → 0.5,
             // bütün klipler 44.1 kHz'e sabit (kaynaklar 44.1 kHz; platformun "optimize" seçimi yeniden örneklemesin).
             if (assetPath.Contains("/music/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.5f; }
-            else if (assetPath.Contains("/amb/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.5f; }
+            // v2.4: ortam döngüleri (room, murmur) tek kanal, normalleştirilmez (düzeyi sentez ve Sfx belirler), kalite 0.7
+            else if (assetPath.Contains("/amb/")) { st.loadType = AudioClipLoadType.CompressedInMemory; st.quality = 0.7f; }
             else { st.loadType = AudioClipLoadType.DecompressOnLoad; st.quality = 0.6f; }
             st.sampleRateSetting = AudioSampleRateSetting.OverrideSampleRate;
             st.sampleRateOverride = 44100;
             st.preloadAudioData = !assetPath.Contains("/music/");
             a.defaultSampleSettings = st;
             a.loadInBackground = assetPath.Contains("/music/");
+            if (assetPath.Contains("/amb/"))
+            {
+                a.forceToMono = true;
+                var so = new SerializedObject(a);   // "normalize" için genel API yok (meta alanı)
+                var np = so.FindProperty("normalize") ?? so.FindProperty("m_Normalize");
+                if (np != null) { np.boolValue = false; so.ApplyModifiedPropertiesWithoutUndo(); }
+            }
         }
 
         void OnPreprocessTexture()

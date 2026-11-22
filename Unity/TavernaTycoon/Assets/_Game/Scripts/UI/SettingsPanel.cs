@@ -18,11 +18,13 @@ namespace Taverna
         public event Action RenameRequested;
         /// <summary>v2.1: Ayarlar › "Son sahneyi yeniden izle" (yalnızca oyun içinde ve son görüldükten sonra).</summary>
         public event Action WatchEndingRequested;
+        /// <summary>v2.4: Ayarlar › "Girişi yeniden izle" (yalnızca oyun içinde).</summary>
+        public event Action WatchOpeningRequested;
         /// <summary>v2.3: buluttaki kayıt yüklendi (sahibi sahneyi yeniden yükler).</summary>
         public event Action CloudRestored;
         /// <summary>v2.3: Ayarlar › Bulut kaydı satırı ve penceresi.</summary>
         public CloudSavePanel Cloud { get; }
-        readonly Button _watchEnding;
+        readonly Button _watchEnding, _watchOpening;
         readonly Label _nameLabel;
         /// <summary>v1.6: yalnızca geliştirme derlemesinde görünen "Ölçüm özeti" satırı (yerel ölçüm sayaçları).</summary>
         readonly Label _metrics;
@@ -88,6 +90,16 @@ namespace Taverna
                 var card = _root.Q(className: "settings-card");
                 var actions = card?.Q(className: "sheet-actions");
                 if (card != null && actions != null) card.Insert(card.IndexOf(actions), _watchEnding);
+                // v2.4: giriş sineması (her zaman); son sahne düğmesinin hemen önünde
+                _watchOpening = new Button(() => WatchOpeningRequested?.Invoke()) { name = "watch-opening" };
+                _watchOpening.AddToClassList("btn");
+                _watchOpening.AddToClassList("btn-teal");
+                _watchOpening.AddToClassList("watch-ending");
+                _watchOpening.Add(new Label(Loc.T("GİRİŞİ YENİDEN İZLE")));
+                // iki düğme yan yana tek satırda (ayarlar kartı yatayda kısa)
+                var row = new VisualElement { name = "watch-row" };
+                row.AddToClassList("watch-row");
+                if (card != null && actions != null) { card.Insert(card.IndexOf(_watchEnding), row); row.Add(_watchOpening); row.Add(_watchEnding); }
             }
 
             // v2.3: Bulut kaydı satırı (Dil ile Grafik arası) ve penceresi
@@ -124,6 +136,11 @@ namespace Taverna
                 _watchEnding.EnableInClassList("hidden", !Ending.Seen);
                 var wl = _watchEnding.Q<Label>();
                 if (wl != null) wl.text = Loc.T("SON SAHNEYİ YENİDEN İZLE");
+            }
+            if (_watchOpening != null)
+            {
+                var ol = _watchOpening.Q<Label>();
+                if (ol != null) ol.text = Loc.T("GİRİŞİ YENİDEN İZLE");
             }
             if (_metrics != null)
                 _metrics.text = Services.LocalAnalytics != null ? Services.LocalAnalytics.SummaryText() : Loc.T("Ölçüm özeti: gerçek ölçüm hizmeti bağlı (veri panelde)");

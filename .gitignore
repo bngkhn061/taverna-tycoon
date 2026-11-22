@@ -23,6 +23,10 @@
 /Unity/TavernaTycoon/*.apk
 /Unity/TavernaTycoon/*.aab
 /Unity/TavernaTycoon/crashlytics-build.properties
+/Unity/TavernaTycoon/.utmp/
+
+# Ses ölçüm kayıtları büyük; sonuçlar .md/.json olarak kalır
+/production/qa/evidence/*.wav
 
 # Player builds, autotest screenshots and batch-mode logs (all regenerable)
 /Unity/Builds/

@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v2.3** (2026-11-22, Paket 5 — sahibin seçtiği eklemeler: masa ve dekor düzenleme modu (Sv5; Meyhane, Ana Salon, Bahçe; ızgara, döndürme, geçersiz yerleşim kırmızı, kayıtta yerleşim) ve bulut kaydı altyapısı (sağlayıcı arayüzü, sahte bulut, imzalı bulut kaydı, çakışma kuralı ve seçim ekranı, otomatik eşitleme); ayrıntı §17).
+> Sürüm: **v2.4** (2026-11-22, Paket 6 — oyuncu testi `production/qa/playtests/feedback-2026-11-22.md`: günlük ödülde elmas yalnız 7. günde (5), oyun içi ses bozulmasının kök nedeni (oyun sahnesinde AudioListener yoktu) ve sade ortam sesi, yeni oyunda taverna adı + giriş sineması, taçlı Kral modeli, son sahnede kralın hediyesi Kraliyet Fermanı (+%5 gelir, prestijte kalır); ayrıntı §18).
+> Önceki: v2.3 (2026-11-22, Paket 5 — sahibin seçtiği eklemeler: masa ve dekor düzenleme modu (Sv5; Meyhane, Ana Salon, Bahçe; ızgara, döndürme, geçersiz yerleşim kırmızı, kayıtta yerleşim) ve bulut kaydı altyapısı (sağlayıcı arayüzü, sahte bulut, imzalı bulut kaydı, çakışma kuralı ve seçim ekranı, otomatik eşitleme); ayrıntı §17).
 > Önceki: v2.2 (2026-11-21, Paket 4 — sahibin seçtiği eklemeler: sezonluk etkinlikler (Hasat Şenliği, Kış Festivali, Bahar Bayramı; süreli menü, süsleme, müşteri, sezon jetonu, görevler, kalıcı sezon dekoru) ve Barlo ile personelin kostümleri (Gardırop); ayrıntı §16).
 > Önceki: v2.1 (2026-11-21, oyuncu testi Paket 3, maddeler 10 ve 25: Barlo'nun kendi yetenekleri — koşu hızı, taşıma, servis ve para menzili; gerçek bir son — 3. tavernada "Krala Davet", son sahne, jenerik, serbest oyun ve "Efsanevi Han" rozeti; ayrıntı §15).
 > Önceki: v2.0 (2026-11-17, oyuncu testi Paket 2, maddeler 14, 15, 17–21: kademe avizeleri kalktı ve avizeler küçüldü, gün sonu kapanışı ve personelin işe gidip gelmesi, bahçe uzun masası, sahnede çalan ozan, bahçe feneri ve taş yol, han konfor seviyeleri, 2 yeni oda ve 2 yeni oyun masası; ayrıntı §14).
@@ -351,7 +352,7 @@ Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirme
   |---|---|---|
   | Seviye ödülü | 2 + Sv/5 | 1 + Sv/10 |
   | Görev ödülü | 1 + Sv/4 | 1 + Sv/8 (büyük özel görev +1) |
-  | Günlük ödül 7. gün | 10 | 8 (1–6. gün aynı: 1–4) |
+  | Günlük ödül 7. gün | 10 | 8 (1–6. gün aynı: 1–4) → **v2.4: 5; 1–6. gün 0** (§18.1) |
   | ×2 Gelir (10 dk) | 10 | 30 |
   | Anında Dolum | 5 | 15 |
   | Yoğun Saati Başlat | 8 | 20 |
@@ -359,7 +360,9 @@ Oyuncu testi: "oyun kendi kendine oynuyor". Personel yardım eder, oyunu bitirme
   | "Sen yokken" ×2 | 5 | 12 |
   | Ad değiştir | — | 20 (altın 500 ya da 2 reklam da var) |
 
-  İlk saat ≈ 25 elmas (seviye 12 + görev ≈ 12 + günlük 1): en fazla bir ×2 gelir. Başlangıç elması 0 (değişmedi). Hazine elması (gerçek para) değişmedi.
+  **v2.4 günlük ödül:** altın = 50 × gün × Sv (7. gün ×1.5); elmas yalnızca 7. gün 5 (haftada 23 → 5). Ayrıntı ve gerekçe §18.1.
+
+  İlk saat ≈ 25 elmas (seviye 12 + görev ≈ 12 + günlük 1; v2.4'te günlük 0): en fazla bir ×2 gelir. Başlangıç elması 0 (değişmedi). Hazine elması (gerçek para) değişmedi.
 - **v1.9 maaş borcu (oyuncu testi madde 7):** gün sonunda maaş her durumda düşer (`GameState.ForceSpend`); altın yetmezse bakiye eksiye iner. Borçluyken satın alma ve ödeme kareleri kapalı ("Önce borcu öde": dükkân mesajı, kare etiketi, hedef kutusu), bakiye kırmızı. Malzeme siparişi borca yazılabilir (makineler durup oyun kilitlenmesin; malzeme satışın %30'u). Kazanılan altın önce borcu kapatır. Maaş tamamı ödenemediyse personel ertesi gün küskün (değişmedi).
 
 ### 8.3 Görevler
@@ -546,6 +549,8 @@ Oyuncunun karakteri için dört kalıcı yükseltme, her biri **5 seviye**, alt�
 - Test ölçümü (bot): Sv15'te üç seviye alınınca ölçülen en yüksek koşu hızı 4.30 m/sn (tablo 4.30), en uzak servis 1.79 m (menzil 1.80), en uzak para toplama 3.20 m (menzil 3.20); Sv3'te 3.70 m/sn, para 1.99 m (menzil 2.00). Bot tek siparişlik yol izlediği için tepside en çok 1–2 bardak taşıdı (kapasite değeri 3 / 5 kayıtta ve tepside doğrulandı).
 
 ### 15.2 Gerçek bir son (madde 25)
+> **v2.4 (§18.2–18.3):** son, giriş sinemasının hikâyesine bağlandı: tavernaya izni veren Kral (artık taçlı, cüppeli `CH_King` modeli; Gizli Kral müşterisi yerine) "izin verdiği tavernayı görmeye" gelir. Kadehten sonra yeni **Hediye** aşaması (6 sn): Kral fermanı uzatır, kamera Meyhane'nin arka duvarına döner, **Kraliyet Fermanı** tezgâhın üstünde belirir; sağda "KRAL'IN HEDİYESİ" kartı (Kraliyet Fermanı +%5 gelir, Kral'ın Dostu kostümü, Efsanevi Han unvanı). Mevcut ödüller korunur.
+
 - **Tetik:** 3. taverna (şube 2, Dağ Geçidi) **Sv30** ve **Saray Hanı** kademesi; son henüz görülmemiş (`Scripts/Core/Ending.cs`). Altın şartı yok. Bu durumda hedef kutusu "Krala Davet hazır! Büyüt karesine git" (Gizli Kral ikonu) gösterir; "Tavernayı Büyüt" karesi prestij kartı yerine **Krala Davet** kartını açar (üç şart çipi, "SONRA" / "KRALI DAVET ET").
 - **Son sahne** (oyun içinde, kodla: `Scripts/Gameplay/EndingScene.cs`, arayüz `Scripts/UI/HudV21.cs`): siyah sinema şeritleri, alt yazı; HUD gizli, gün durur, yeni müşteri gelmez, oturanların sabrı azalmaz, joystick kapalı; zaman ölçeği 1; müzik en coşkulu parça (yoğun saat, "Market Day"), başta borazan.
   1. **Geliş** (≈ 6.5 sn): Kral (Gizli Kral modeli, ×1.15) önde şövalye, arkada iki muhafızla sokağın batısından kapıya yürür; kamera sokakta alçak açıyla izler. "Kral maiyetiyle geliyor!"
@@ -672,3 +677,46 @@ Hesap yok; reklam / mağaza yaklaşımıyla aynı: önce altyapı, sağlayıcı 
 - Bot `-autotest-v23 edit` (`-autotest-start-level 9 -autotest-unlock salon,masa3,masa4,masaE,masaF,masaG` ile): DÜZENLE, bir masa ve bir dekor geçerli yere, geçersiz yer (makine önü, kırmızı, geri alınır), döndürme, BİTTİ; kayıt diske yazılıp sahne diskten yeniden yüklenir ve yerleşim doğrulanır; taşınan masaya müşterinin oturup servis aldığı izlenir.
 - `-autotest-keep-save` (yeni bayrak): test kaydı sıfırlanmadan açılır. `-autotest-v23 editcheck` ile ikinci süreçte yerleşimin geldiği doğrulanır.
 - Bot `-autotest-v23 cloud` (`-autotest-start-level 12`): Ayarlar satırı, pencere, yedekle, aynı ilerlemede yükle, başka cihazın belirsiz kaydıyla çakışma ekranı → bulutu yükle (sahne yeniden), bozuk imza reddi, yedeklemede çakışma → bu cihazı tut. `-autotest-release-sim` ile "Yakında".
+
+## 18. v2.4 Paket 6 (oyuncu testi 2026-11-22, `production/qa/playtests/feedback-2026-11-22.md`)
+
+### 18.1 Günlük ödül (madde 1)
+- **Sorun:** "Bugünün ödülü" her gün elmas veriyordu: 1, 2, 2, 3, 3, 4, 8 = **haftada 23 elmas**. Elmas fiyatları (×2 gelir 30, dolum 15, yoğun saat 20, altın kesesi 40, ad değiştirme 20) yanında günlük ödül tek başına her hafta bir dolum + bir ad değişikliğine yetiyordu; elmasın nadirliğini bozuyordu.
+- **v2.4:** ödül altındır; elmas yalnızca serinin 7. gününde, küçük miktarda (`Boosts.DailyReward`, EditMode `V24Tests`):
+
+  | Gün | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+  |---|---|---|---|---|---|---|---|
+  | Altın (× Sv) | 50 | 100 | 150 | 200 | 250 | 300 | 525 (×1.5) |
+  | Elmas (v2.3) | 1 | 2 | 2 | 3 | 3 | 4 | 8 |
+  | Elmas (v2.4) | 0 | 0 | 0 | 0 | 0 | 0 | **5** |
+
+- **Gerekçe:** haftalık 5 elmas en ucuz elmas ürününün (15) üçte biri; yedi gün aralıksız gelen oyuncu ayda ≈ 20 elmas alır, yani ayda en fazla bir dolum ya da bir hızlandırma. Elmasın ana kaynağı görev ve seviye ödülü kalır (§8.2). Altın 40 → 50 × gün × Sv (elmas kaybını altınla karşılar; 7. gün ×1.5 "haftanın kesesi"). Sv10'da 7. gün 5.250 altın ≈ 2.6 altın kesesi; cömert ama bir günlük gelirin altında.
+- Ekranda: 1–6. gün "+N altın · 7. günde +5 elmas", 7. gün "+N altın +5 elmas". Seri bozulursa 1. güne döner (değişmedi).
+
+### 18.2 Yeni oyun: taverna adı ve giriş sineması (madde 3)
+- **Akış:** ana menü › OYNA, kayıtta ad yoksa (yeni oyun) mevcut ad penceresi açılır (yazı alanı, zar = rastgele ad, dört hazır öneri). "BAŞLA" ile oyun sahnesi açılır ve giriş sineması oynar (`Scripts/Core/Opening.cs`, dünya `Scripts/Gameplay/OpeningScene.cs`, arayüz `Scripts/UI/HudV24.cs`). Bitince v0.9 kısa açılışı ("<AD> · GÜN 1" şeridi, HUD kayarak gelir) ve rehber (zorunlu, 9 adım) başlar.
+- **Ne zaman oynar:** yalnızca ilk yeni oyunda: menüden yeni ad seçildi + kayıtta `openingSeen` yok + cihazda `opening_seen` yok + ilk taverna (şube 0) + hiç servis yok. Prestij / şube açılışında ve kayıt sıfırlanıp yeniden başlanınca oynamaz. Ayarlar (oyun içinde) › **"GİRİŞİ YENİDEN İZLE"** (son sahne düğmesinin yanında; gün sonu ekranında "Yeni gün başlayınca izlenebilir").
+- **Atla:** sağ üstte "ATLA" düğmesi (sinema zorunlu değil; rehber zorunlu kalır). Atlansa da "görüldü" sayılır.
+- **Sahne:** oyun içi 3B, son sahnedeki gibi siyah şeritler ve alt yazı; çekimler arası siyaha kararma. Gerçek oyuncu gizlenir, sahneye özel Barlo oynar; tavernadan uzakta (x 100–155) kapalı duran giriş sahnesi kullanılır (kır yolu, harap han, saray köşesi; `TavernaSceneBuilder.BuildCinema`). Gün akmaz, müşteri gelmez, zaman ölçeği 1. Toplam ≈ 29.5 sn:
+  1. **Yolculuk** (6.5 sn): Barlo eşyalarıyla dolu el arabasını çekerek taş yolda yürür. "Barlo bütün eşyasını el arabasına yükledi ve şehrin yolunu tuttu."
+  2. **Harabe** (4.5 sn): çatısı çökük, kapısı çakılı harap hanın önünde durur, şaşkın zıplar. "Şehirde boş, harap bir han buldu. Çatısı akıyordu ama ruhu vardı!"
+  3. **Saray** (6 sn): kırmızı halıda tahtın önündeki Kral'a yürür (iki muhafız), eğilir. "Taverna açmak için Kral'ın izni gerekir. Barlo saraya çıktı." → "Majesteleri, krallığın en sıcak tavernasını açmak istiyorum!"
+  4. **Ferman** (6.5 sn): Kral fermanı uzatır, rulo Barlo'ya süzülür; solda **KRALİYET FERMANI** kartı: "Bu fermanla <ad> adlı tavernanın açılmasına izin verilmiştir." · "Bira bol, kavga az olsun. Kral'ın birası hep soğuk olsun!" · "— Kral, mührüyle" (kral portresi, kırmızı mühür). Alt yazı: "Kral fermanı imzaladı: "<ad> açılsın!"
+  5. **Tabela** (6 sn): gerçek tavernanın önü; merdiven, tabela yaylı yerine oturur, üstünde oyuncunun adı; konfeti. "Barlo tabelayı astı. <ad> kapılarını açtı!"
+- Metinler 10 dilde (Resources/Loc). Ölçüm olayları `opening_start` (tekrar), `opening_done` (atlandı, tekrar).
+
+### 18.3 Kral ve kralın hediyesi (madde 3, §15.2)
+- **Kral modeli** `CH_King` (`tools/blender/build_v24.py`, 3.432 üçgen ≤ 3.500): dolgun, beyaz sakallı; altın taç (beş uç, kırmızı ve mavi taş, bordo kadife), yere değen bordo cüppe, kakum yaka ve etek, kırmızı omuz pelerini, altın kemer ve madalyon, kırmızı taşlı altın asa. Girişte saray çekiminde, sonda kral olarak kullanılır. Ayrıca: saray köşesi `PR_Intro_Taht` (kürsü, taht, halı, sancaklar, şamdanlar), `PR_Intro_Araba`, `PR_Intro_Harabe`, `PR_Intro_Ferman`, `PR_Intro_Merdiven`; ikon `ICO_King`. Önizleme `assets/renders/V24_Sheet.png`.
+- **Hediye: Kraliyet Fermanı** (`Scripts/Core/RoyalGift.cs`, dekor `PR_Decor_KraliyetFermani` + `RoyalDecreeDecor`): bordo arma kalkanı (altın taç), altında açık ferman ve kırmızı mühür; Meyhane arka duvarında, Bira ve Şıra tezgâhlarının arasında, tezgâh hizasında. Son sahne ilk kez görülünce verilir (`Ending.MarkSeen`), kayıtta `royalDecree`; **kalıcı +%5 gelir** (`Boosts.IncomeMultiplier` çarpanına eklenir) ve **prestijte kalır** (yeni şubede de duvarda). v2.4 öncesi sonu görmüş kayıt yüklenince hediyeyi alır. "Kral'ın Dostu" kostümü ve "Efsanevi Han" unvanı değişmedi.
+
+### 18.4 Oyun içi ses (madde 2)
+- **Kök neden:** oyun sahnesinde hiç **AudioListener** yoktu. Dinleyici yalnızca ana menü kamerasındaydı; oyun sahnesi yüklenince yok oluyor, oyun boyunca Unity sesi dinleyicisiz (desteklenmeyen durum) karıştırıyordu. "Menüde sorun yok, oyuna girince bozuluyor, her telefonda" belirtisinin tam karşılığı. v1.9 ses ölçeri de dinleyiciye takıldığı için oyunda hiç örnek görmemişti ("dinleyici yok", −120 dBFS): v1.9 düzeltmeleri ölçülmeden yapılmıştı.
+- **Düzeltme:** tek dinleyici kalıcı ses nesnesinin (`Sfx`) çocuğunda; sahne değişse de yaşar, hareket etmez. Sahnelerdeki başka dinleyiciler kapatılır, menü kamerasındaki kaldırıldı. Bütün kaynaklar 2B (`spatialBlend 0`), `dopplerLevel 0`; proje ayarında Doppler Factor 0.
+- **Ortam sesi sadeleşti:** ocak çıtırtısı, kuş (gündüz) ve cırcır böceği (akşam) döngüleri kaldırıldı (kuş ve cırcır 3 kHz üstünde %52 / %38 enerji, cırcırda dakikada ≈ 1.000 çıtırtı: telefon hoparlöründe "tiz, titreme"). Yerine iki yumuşak, 2B, tek kanallı döngü (`tools/audio/build_amb_v24.py`, numpy sentezi): **oda tonu** (kahverengi gürültü + ocak uğultusu, 450 Hz alçak geçirgen; gündüz 0.12, akşam 0.16) ve **kalabalık uğultusu** (16 sentetik ses, iki formant, yankı, 1.8 kHz alçak geçirgen; 12 müşteride 0.26, yoğun saatte en az 0.18). İkisinde de 2 kHz üstü enerji ≈ 0. Ortam toplam tavanı 0.35 (değişmedi). İçe aktarma: tek kanal, normalleştirme kapalı, Vorbis 0.7. Eski dosyalar `assets/audio/_archive_v23/`.
+- Art arda para sesinin perdesi en çok +%12 (v1.1–v2.3: +%28, seri boyunca tizleşiyordu).
+- Ölçüm ve yöntem: `production/qa/evidence/2026-11-22-v24-audio.md`.
+
+### 18.5 Test altyapısı
+- Bot `-autotest-v24 audio` (`-autotest-start-level 10`): dinleyici kaydı (14 sn 1 kHz deneme tonu, 45 sn oyun karışımı), gerçek hız, ses ayarı yalnızca bellekte 0.70 / 0.85; `-autotest-v24-tag <ad>` dosya adına eklenir; `-autotest-v24-listener` (eski sahneye ara ölçüm için dinleyici ekler), `-autotest-v24-tap` (dinleyici süzgeci yerine çıkış dikişi). Çözümleme `tools/audio/analyze_capture.py`.
+- `-autotest-hidden` koşularında ses kaydedici kurulur ve gizli test hoparlörden duyulmaz (dinleyici süzgecinde çıkış sıfırlanır; dinleyici yoksa ana düzey −60 dB).
+- Bot `-autotest-v24 intro`: beş çekimin görüntüsü, bitiş, rehber, Ayarlar'dan yeniden izle + ATLA, prestijte yeniden oynamama. `-autotest-v24 ending` (`-autotest-v21 ending -autotest-start-level 30 -autotest-tier 2` ile): hediye anı (kral, duvar), hediye kartı, yeni şube kopyasında fermanın ve +%5'in kalması. `-autotest-v24 daily` (ana menü): 1. ve 7. gün ekranı, 7. günü alınca elmas farkı.

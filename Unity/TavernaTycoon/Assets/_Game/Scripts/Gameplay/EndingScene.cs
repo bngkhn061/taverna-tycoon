@@ -13,12 +13,14 @@ namespace Taverna
     public class EndingScene : MonoBehaviour
     {
         /// <summary>Sahnenin aşamaları (HUD her aşamada yazı / efekt değiştirir).</summary>
-        public enum Phase { Arrive, Greet, ToTable, Toast, Orbit, Done }
+        public enum Phase { Arrive, Greet, ToTable, Toast, Gift, Orbit, Done }   // v2.4: Gift (kralın hediyesi)
 
         /// <summary>Kralın ve maiyetinin yürüyüş hızı (m/sn).</summary>
         const float WalkSpeed = 1.8f;
         /// <summary>Aşama süreleri (sn): karşılama, kadeh, kamera turu.</summary>
         const float GreetSeconds = 3.2f, ToastSeconds = 4f, OrbitSeconds = 9f;
+        /// <summary>v2.4: hediye anı (sn): kral fermanı uzatır, kamera duvara döner, ferman tezgâhın üstünde belirir.</summary>
+        public const float GiftSeconds = 6f;
         /// <summary>Kralın ve maiyetinin sokakta başladığı x (batı ucu, kapının solunda) ve sokağın z'si.</summary>
         const float StreetStartX = -9.5f, StreetZ = -6.5f;
         /// <summary>Kamera turu: tavernanın ortası, açı (derece), uzaklık ve dönüş genişliği.</summary>
@@ -86,7 +88,9 @@ namespace Taverna
             PickSeat(ent, hub);
 
             var street = new Vector3(ent.x, 0f, StreetZ);
-            _king = MakeActor(TavernEvents.KingCustomerNumber, new Vector3(StreetStartX, 0f, StreetZ), KingScale);
+            // v2.4: taçlı, cüppeli gerçek Kral modeli (CH_King; giriş sinemasındaki kralın aynısı). Yoksa eski "Gizli Kral" müşterisi.
+            _king = MakeKing(new Vector3(StreetStartX, 0f, StreetZ)) ?? MakeActor(TavernEvents.KingCustomerNumber, new Vector3(StreetStartX, 0f, StreetZ), KingScale);
+            if (RoyalDecreeDecor.I) { RoyalDecreeDecor.I.forceHidden = true; RoyalDecreeDecor.I.Refresh(); }   // hediye anına kadar duvarda yok
             if (_king != null) { _king.path.AddRange(new[] { street, ent, _greetPos }); }
             // Şövalye önde (kapıdan girip kralın soluna geçer), iki muhafız arkada (kapının iki yanında nöbet)
             AddFollower(KnightNumber, -1.3f, new[] { street, ent, _greetPos + new Vector3(-1.0f, 0f, 0.5f) });
@@ -145,6 +149,22 @@ namespace Taverna
             a.delay = Mathf.Max(0f, delay);
             a.path.AddRange(path);
             _retinue.Add(a);
+        }
+
+        /// <summary>v2.4: CinemaProps'taki Kral modeli.</summary>
+        Actor MakeKing(Vector3 pos)
+        {
+            var pf = CinemaProps.I ? CinemaProps.I.king : null;
+            if (!pf) return null;
+            var go = new GameObject("Ending_Kral");
+            go.transform.position = pos;
+            go.transform.rotation = Quaternion.LookRotation(Vector3.right);
+            var m = Instantiate(pf, go.transform);
+            m.transform.localPosition = Vector3.zero;
+            m.transform.localScale *= 1.05f;
+            if (!m.TryGetComponent(out ToyAnimator anim)) anim = m.AddComponent<ToyAnimator>();
+            _spawned.Add(go);
+            return new Actor { t = go.transform, anim = anim };
         }
 
         Actor MakeActor(int number, Vector3 pos, float scale)
@@ -244,7 +264,19 @@ namespace Taverna
                         _cup.localPosition = new Vector3(CupSide, Mathf.Lerp(CupLow, CupHigh, k) + Mathf.Sin(PhaseTime * 9f) * 0.04f * k, CupForward);
                     }
                     if (PhaseTime > 1.3f && PhaseTime - dt <= 1.3f) { if (_king != null) _king.anim.Hop(); if (barlo && barlo.anim) barlo.anim.Hop(); Sfx.Play(SfxId.Clink, 1.1f); }
-                    if (PhaseTime >= ToastSeconds) { Sfx.Play(SfxId.LevelUp); Next(Phase.Orbit); }
+                    if (PhaseTime >= ToastSeconds) { Next(Phase.Gift); if (_king != null) _king.anim.Pop(); Sfx.Play(SfxId.Claim); }
+                    break;
+                case Phase.Gift:
+                    // v2.4: kral fermanı uzatır (0.4 sn), kamera duvara döner (1.6 sn), ferman tezgâhın üstünde belirir (2.2 sn)
+                    if (PhaseTime > 0.4f && PhaseTime - dt <= 0.4f) RaiseScroll();
+                    if (_giftScroll) _giftScroll.localPosition = new Vector3(CupSide * -1f, 1.0f + Mathf.Sin(PhaseTime * 5f) * 0.03f, 0.35f);
+                    if (PhaseTime > 2.2f && PhaseTime - dt <= 2.2f)
+                    {
+                        if (RoyalDecreeDecor.I) RoyalDecreeDecor.I.Reveal();
+                        Sfx.Play(SfxId.Unlock);
+                        if (barlo && barlo.anim) barlo.anim.Hop();
+                    }
+                    if (PhaseTime >= GiftSeconds) { Sfx.Play(SfxId.LevelUp); Next(Phase.Orbit); }
                     break;
                 case Phase.Orbit:
                     if (PhaseTime > 2f && PhaseTime - dt <= 2f && _king != null) _king.anim.Hop();
@@ -252,6 +284,19 @@ namespace Taverna
                     break;
             }
             UpdateCamera(dt);
+        }
+
+        Transform _giftScroll;
+
+        /// <summary>v2.4: kralın elinde ferman rulosu.</summary>
+        void RaiseScroll()
+        {
+            var pf = CinemaProps.I ? CinemaProps.I.scroll : null;
+            if (_king == null || !pf) return;
+            _giftScroll = Instantiate(pf, _king.t).transform;
+            _giftScroll.localPosition = new Vector3(-CupSide, 1.0f, 0.35f);
+            _giftScroll.localRotation = Quaternion.identity;
+            _giftScroll.localScale = Vector3.one * 1.6f;
         }
 
         void RaiseCup()
@@ -283,6 +328,11 @@ namespace Taverna
                 case Phase.Toast:
                     focus = kp + new Vector3(0f, 0.5f, 0f);
                     pitch = 46f; dist = 8.5f; break;
+                case Phase.Gift:
+                    // önce kral, 1.6 sn'den sonra duvardaki ferman
+                    var wall = RoyalDecreeDecor.I ? RoyalDecreeDecor.I.Center : kp + new Vector3(0f, 1.5f, 2f);
+                    focus = PhaseTime < 1.6f ? kp + new Vector3(0f, 0.7f, 0f) : wall + new Vector3(0f, -0.3f, 0f);
+                    pitch = PhaseTime < 1.6f ? 30f : 18f; dist = PhaseTime < 1.6f ? 6.5f : 6f; break;
                 default:
                     float k = Mathf.Clamp01(PhaseTime / OrbitSeconds);
                     float e = k * k * (3f - 2f * k);
@@ -306,6 +356,7 @@ namespace Taverna
         {
             foreach (var g in _spawned) if (g) Destroy(g);
             _spawned.Clear();
+            if (RoyalDecreeDecor.I) { RoyalDecreeDecor.I.forceHidden = false; RoyalDecreeDecor.I.Refresh(); }   // v2.4: atlanırsa da görünür
             if (_follow) { _follow.enabled = true; _follow.SnapNow(); }
             Destroy(gameObject);
         }

@@ -22,8 +22,12 @@ namespace Taverna
         /// <summary>Şartlar tamam ve son henüz görülmedi: hedef kutusu ve büyüt karesi "Krala Davet" gösterir.</summary>
         public static bool Available => !Seen && Prestige.Branch >= RequiredBranch && GameState.Level >= RequiredLevel && Tiers.Next == null;
 
-        /// <summary>Son sahne ya da jenerik oynuyor (gün akmaz, müşteri gelmez, sabır azalmaz, joystick kapalı).</summary>
-        public static bool Playing { get; private set; }
+        /// <summary>
+        /// Bir sinema oynuyor: son sahne / jenerik ya da (v2.4) giriş sineması. Gün akmaz, müşteri gelmez, sabır azalmaz, joystick kapalı.
+        /// </summary>
+        public static bool Playing => EndingPlaying || Opening.Playing;
+        /// <summary>v2.4: yalnızca son sahne ve jenerik oynuyor.</summary>
+        public static bool EndingPlaying { get; private set; }
 
         /// <summary>Barlo büyüt karesine bastı ve son açık (HUD Krala Davet kartını açar).</summary>
         public static event Action ZoneEntered;
@@ -31,7 +35,7 @@ namespace Taverna
         public static void RaiseZoneEntered() => ZoneEntered?.Invoke();
 
         /// <summary>Son sahne başlar / biter (HUD çağırır).</summary>
-        public static void SetPlaying(bool on) => Playing = on;
+        public static void SetPlaying(bool on) => EndingPlaying = on;
 
         /// <summary>
         /// İlk kez görülünce: kayda işlenir, ölçüm olayı <c>game_complete</c> (toplam oyun süresi, toplam gün, şube) gönderilir.
@@ -42,6 +46,7 @@ namespace Taverna
             var d = GameState.Data;
             if (d.endingSeen) return false;
             d.endingSeen = true;
+            RoyalGift.Grant(d);   // v2.4: Kral'ın hediyesi (Kraliyet Fermanı, kalıcı +%5 gelir)
             Services.Track("game_complete", ("sure_sn", Mathf.RoundToInt(d.playSeconds)), ("gun", d.daysTotal), ("sube", Prestige.Branch),
                            ("servis", d.customersServed));
             GameState.Save();

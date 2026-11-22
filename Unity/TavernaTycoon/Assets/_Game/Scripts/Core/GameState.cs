@@ -94,6 +94,10 @@ namespace Taverna
         public bool editTipShown;
         /// <summary>v2.3 bulut kaydı: oyun boyunca kazanılan toplam altın (prestijte sıfırlanmaz; çakışma kuralı, <see cref="CloudSave"/>).</summary>
         public long totalEarned;
+        /// <summary>v2.4 giriş sineması bu kayıtta görüldü mü (<see cref="Opening"/>; prestijte silinmez).</summary>
+        public bool openingSeen;
+        /// <summary>v2.4 kralın hediyesi Kraliyet Fermanı (<see cref="RoyalGift"/>: duvarda dekor, kalıcı +%5 gelir; prestijte silinmez).</summary>
+        public bool royalDecree;
     }
 
     /// <summary>
@@ -217,6 +221,7 @@ namespace Taverna
             if (d.saveVersion < CurrentSaveVersion) d.saveVersion = CurrentSaveVersion;
             if (d.seenLevel < 0) d.seenLevel = Mathf.Max(1, d.level);   // v1.9: eski kayıtta mevcut ürünler "YENİ!" çıkmasın
             Layout.Migrate(d);   // v2.3: yerleşimi olmayan eski kayıt varsayılan düzenle açılır
+            RoyalGift.Migrate(d);   // v2.4: sonu görmüş eski kayıt kralın hediyesini de alır
             return d;
         }
 

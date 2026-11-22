@@ -125,7 +125,7 @@ namespace Taverna.EditorTools
             cam.backgroundColor = Hex("#2A1F1A");
             cam.nearClipPlane = 0.3f;
             cam.farClipPlane = 60f;
-            cam.gameObject.AddComponent<AudioListener>();
+            // v2.4: dinleyici kamerada değil, kalıcı ses nesnesinde (Sfx); oyun sahnesinde hiç dinleyici yoktu
             // Uzak ve geniş: oda ekranın alt-ortasına (logo ile butonların arasında kalan boşluğa) oturur
             var drift = cam.gameObject.AddComponent<MenuCameraDrift>();
             drift.target = new Vector3(1.4f, 0.5f, 0.65f);
@@ -1027,6 +1027,8 @@ namespace Taverna.EditorTools
             BindDocument(doc, panel, UiDir + "/Hud.uxml");
             hudGo.AddComponent<HudController>().cam = cam;
 
+            BuildCinema();   // v2.4 giriş sineması sahnesi, sinema modelleri, Kraliyet Fermanı dekoru
+
             // Performans: zemin, duvar, dekor tek seferde birleştirilsin (mobilde draw call düşer)
             _layout = false;
             foreach (var g in new[] { ground, floorThemes, walls, decor, wallLeft, wallRight, wallKitchen, kitchen, wallGame, world, wallCellar, wallYard, gateDock })
@@ -1034,6 +1036,104 @@ namespace Taverna.EditorTools
                     GameObjectUtility.SetStaticEditorFlags(t.gameObject, StaticEditorFlags.BatchingStatic);
 
             Save(scene, GameScene);
+        }
+
+        /// <summary>v2.4: giriş sahnesinin x başlangıcı (tavernadan uzakta, kamera uzak düzlemi 60 m: tavernadan bir şey görünmez).</summary>
+        public const float OpeningStageX = 100f;
+        /// <summary>v2.4: Kraliyet Fermanı dekorunun yeri — Meyhane arka duvarı, Bira ile Şıra tezgâhlarının arası, tezgâh hizasında.</summary>
+        public static readonly Vector3 RoyalDecreePos = new(2.08f, 0.6f, 4.93f);   // Saray Hanı perdesi x 2.8'de: arada kalır
+        /// <summary>v2.4: dekorun ölçeği (duvarlar 1.5 m: ferman duvarın üstünden taşmasın).</summary>
+        public const float RoyalDecreeScale = 0.64f;
+
+        /// <summary>
+        /// v2.4 (GAME_DESIGN.md §18): sinema modelleri (CinemaProps), uzakta kapalı duran giriş sahnesi — kır yolu ve harap han
+        /// (x 100–125), saray köşesi (x 150) — ve kralın hediyesi Kraliyet Fermanı (kayıtta varsa görünür). Ham koordinat.
+        /// </summary>
+        static void BuildCinema()
+        {
+            bool lay = _layout;
+            _layout = false;
+            var root = new GameObject("Cinema");
+            var props = root.AddComponent<CinemaProps>();
+            props.king = TavernaImport.Prefab("CH_King");
+            props.barlo = TavernaImport.Prefab("CH_Main_Barlo");
+            props.guard = TavernaImport.Prefab("CH_Cust_10_Muhafiz");
+            props.cart = TavernaImport.Prefab("PR_Intro_Araba");
+            props.scroll = TavernaImport.Prefab("PR_Intro_Ferman");
+            props.ladder = TavernaImport.Prefab("PR_Intro_Merdiven");
+
+            var st = Group("OpeningStage");
+            st.SetParent(root.transform, false);
+            props.stage = st.gameObject;
+            const float O = OpeningStageX;
+            var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            Object.DestroyImmediate(plane.GetComponent<Collider>());
+            plane.name = "OpeningGround";
+            plane.transform.SetParent(st, false);
+            plane.transform.position = new Vector3(O + 25f, -0.03f, 4f);
+            plane.transform.localScale = new Vector3(8f, 1f, 4f);   // 80 × 40 m
+            plane.GetComponent<MeshRenderer>().sharedMaterial = TavernaImport.ColorMaterial(TavernaImport.Root + "/Art/M_WorldGrass.mat", Hex("#5E8F45"));
+            Transform Pt(string n, float x, float y, float z, float rotY = 0f)
+            {
+                var t = new GameObject(n).transform;
+                t.SetParent(st, false);
+                t.SetPositionAndRotation(new Vector3(x, y, z), Quaternion.Euler(0f, rotY, 0f));
+                return t;
+            }
+            GameObject Put(string prefab, float x, float z, float rot = 0f, float s = 1f, float y = 0f)
+            {
+                var go = P(prefab, st, x, z, rot, y);
+                go.transform.localScale = Vector3.one * s;
+                return go;
+            }
+            // --- kır yolu: taş yol, arkada ağaçlar ve tepeler, önde alçak çalılar
+            for (int i = 0; i < 30; i++) { Put("PR_Building_Kaldirim", O - 5f + i, 0.5f); Put("PR_Building_Kaldirim", O - 5f + i, -0.5f); }
+            var trees = new (float x, float z, string p, float s)[]
+            {
+                (-3f, 5.5f, "PR_Nature_Agac", 1.1f), (1.5f, 7f, "PR_Nature_Cam", 1f), (4.5f, 4.6f, "PR_Nature_Agac", 0.95f), (8f, 6.8f, "PR_Nature_Cam", 1.2f),
+                (11f, 5f, "PR_Nature_Agac", 1.05f), (14f, 7.5f, "PR_Nature_Agac", 1.2f), (17f, 6.2f, "PR_Nature_Cam", 1f), (24f, 6f, "PR_Nature_Agac", 1.1f),
+                (27f, 4.8f, "PR_Nature_Cam", 0.9f), (6f, 9.5f, "PR_Nature_Agac", 1.3f), (20f, 9.6f, "PR_Nature_Cam", 1.2f),
+            };
+            foreach (var (x, z, p, s) in trees) Put(p, O + x, z, x * 37f % 360f, s);
+            foreach (var (x, z) in new[] { (0f, 15f), (12f, 17f), (26f, 15f) }) Put("PR_Nature_Tepe", O + x, z, x * 13f, 1.1f);
+            foreach (var (x, z) in new[] { (-1f, -2.6f), (3.5f, -3.4f), (7.5f, -2.4f), (12f, -3.2f), (16.5f, -2.5f), (22f, -3f) })
+                Put(x % 2f == 0f ? "PR_Nature_OtTutami" : "PR_Nature_Cali", O + x, z, x * 50f, 0.9f);
+            foreach (var (x, z) in new[] { (2f, 2.2f), (9.5f, 2.6f), (15f, 2.3f), (5.5f, -1.8f), (13.5f, -1.9f) }) Put("PR_Nature_OtTutami", O + x, z, x * 30f, 0.8f);
+            Put("PR_Nature_Kaya1", O + 6.5f, 3.0f, 40f); Put("PR_Nature_Kaya2", O + 23.5f, 2.6f, 120f);
+            Put("PR_Nature_At", O + -1.5f, 3.2f, 70f);
+            // --- harap han (ön yüzü yola bakar)
+            Put("PR_Intro_Harabe", O + 20f, 3.6f);
+            Put("PR_Nature_Cali", O + 22.6f, 2.0f, 10f);
+            props.roadStart = Pt("Op_RoadStart", O + 5.2f, 0f, 0f, 90f);
+            props.ruinStop = Pt("Op_RuinStop", O + 19.0f, 0f, 0.7f);
+            props.ruinFocus = Pt("Op_RuinFocus", O + 20f, 0f, 3.0f);
+            // --- saray köşesi: taş zemin, taş duvar, meşaleler, taht seti (kürsü, halı, sancaklar), kral ve iki muhafız
+            float px = O + 50f;
+            for (int ix = -5; ix <= 5; ix++)
+                for (int iz = -5; iz <= 3; iz++)
+                    Put("PR_Building_Zemin_Tas", px + ix, iz);
+            for (int ix = -5; ix <= 5; ix++) Put(ix % 4 == 2 ? "PR_Building_Pencere_Tas" : "PR_Building_Duvar_Tas", px + ix, 3.6f);
+            for (int iz = -4; iz <= 3; iz++) { Put("PR_Building_Duvar_Tas", px - 5.6f, iz, -90f); Put("PR_Building_Duvar_Tas", px + 5.6f, iz, 90f); }
+            foreach (var x in new[] { -3.4f, 3.4f }) Put("PR_Decor_Mesale", px + x, 3.45f);
+            foreach (var x in new[] { -4.4f, 4.4f }) Put("PR_Decor_Saksi", px + x, 2.6f);
+            Put("PR_Intro_Taht", px, 2.2f);
+            props.kingSpot = Pt("Op_KingSpot", px, 0.32f, 2.25f, 180f);
+            props.carpetStart = Pt("Op_CarpetStart", px, 0f, -4.2f);
+            props.bowSpot = Pt("Op_BowSpot", px, 0f, 0.95f);
+            props.guardL = Pt("Op_GuardL", px - 2.1f, 0f, 0.4f, 150f);
+            props.guardR = Pt("Op_GuardR", px + 2.1f, 0f, 0.4f, 210f);
+            props.palaceFocus = Pt("Op_PalaceFocus", px, 0f, 0.8f);
+            st.gameObject.SetActive(false);
+
+            // --- Kraliyet Fermanı (kralın hediyesi): Meyhane arka duvarı, tezgâhın üstü
+            var dec = new GameObject("RoyalDecree");
+            dec.transform.SetParent(root.transform, false);
+            dec.transform.position = RoyalDecreePos;
+            var rd = dec.AddComponent<RoyalDecreeDecor>();
+            rd.visual = P("PR_Decor_KraliyetFermani", dec.transform, RoyalDecreePos.x, RoyalDecreePos.z, 0f, RoyalDecreePos.y);
+            rd.visual.transform.localScale = Vector3.one * RoyalDecreeScale;
+            rd.visual.SetActive(false);
+            _layout = lay;
         }
 
         static Transform TrayStack(Transform visual, out GameObject tray)

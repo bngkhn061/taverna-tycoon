@@ -57,7 +57,7 @@ namespace Taverna
         void DisableV21()
         {
             Ending.ZoneEntered -= OpenEndingCard;
-            if (Ending.Playing) FinishEnding();
+            if (Ending.EndingPlaying) FinishEnding();
         }
 
         void RefreshLegendBadge()
@@ -190,7 +190,7 @@ namespace Taverna
 
         // ------------------------------------------------------------------ son sahne
         /// <summary>Test botu: son sahnenin aşaması ("" = oynamıyor, "credits" = jenerik).</summary>
-        public string EndingPhase => !Ending.Playing ? "" : _creditsT >= 0f ? "credits" : _endScene ? _endScene.Current.ToString() : "?";
+        public string EndingPhase => !Ending.EndingPlaying ? "" : _creditsT >= 0f ? "credits" : _endScene ? _endScene.Current.ToString() : "?";
         /// <summary>Test botu: son sahnenin ayrıntısı (aktörler, kral konumu).</summary>
         public string EndingDebug => _endScene ? _endScene.DebugInfo : "-";
 
@@ -256,11 +256,17 @@ namespace Taverna
         {
             switch (p)
             {
-                case EndingScene.Phase.Arrive: _endCaption.text = Loc.T("Kral maiyetiyle geliyor!"); break;
+                case EndingScene.Phase.Arrive: _endCaption.text = Loc.T("Kral, izin verdiği tavernayı görmeye geliyor!"); break;   // v2.4: giriş sinemasına bağlanır
                 case EndingScene.Phase.Greet: _endCaption.text = Loc.T("Barlo kralı kapıda karşılıyor"); break;
                 case EndingScene.Phase.ToTable: _endCaption.text = Loc.T("Kral en iyi masaya buyuruyor"); break;
                 case EndingScene.Phase.Toast: _endCaption.text = Loc.T("Şerefe! Kral kadeh kaldırıyor"); Confetti(20); break;
+                case EndingScene.Phase.Gift:   // v2.4: kralın hediyesi
+                    _endCaption.text = Loc.T("\"Fermanı ben verdim, şerefi sen kazandın!\" Kral'ın hediyesi duvara asıldı");
+                    ShowGiftCard();
+                    Confetti(24);
+                    break;
                 case EndingScene.Phase.Orbit:
+                    HideGiftCard();
                     _endCaption.text = "";
                     _endTitleSub.text = Loc.F("{0} artık krallığın en ünlü hanı", GameState.TavernName);
                     _endTitle.RemoveFromClassList("hidden");
@@ -273,7 +279,7 @@ namespace Taverna
 
         void UpdateV21()
         {
-            if (!Ending.Playing) return;
+            if (!Ending.EndingPlaying) return;
             PlayerController.JoystickInput = Vector2.zero;
             if (_endScene && _endScene.Current == EndingScene.Phase.Orbit)
             {

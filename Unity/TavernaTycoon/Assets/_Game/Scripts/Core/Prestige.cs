@@ -86,6 +86,20 @@ namespace Taverna
             if (!CanPrestige) return false;
             var d = GameState.Data;
             int b = Branch + 1;
+            ResetForBranch(d, b);
+            _unCarry = 0f;
+            TavernEvents.StopAll();
+            Services.Track("prestige", ("sube", b), ("gelir_carpani", IncomeMultiplierFor(b)));
+            GameState.Save();
+            return true;
+        }
+
+        /// <summary>
+        /// v2.4 (birim testi): kaydı yeni şube için sıfırlar (yalnızca veri; sahne, ölçüm ve kayıt yok). Kalanlar aşağıdaki listede;
+        /// v2.4: giriş sineması işareti (openingSeen) ve kralın hediyesi (royalDecree) de kalır.
+        /// </summary>
+        public static void ResetForBranch(SaveData d, int b)
+        {
             d.branch = b;
             // --- sıfırlanan
             d.coins = StartCoins(b);
@@ -114,11 +128,7 @@ namespace Taverna
             // --- kalanlar: gems, premium, benched, vip*, seenCustomers, tavernName, tutorialDone, eventsSeen,
             //     renameAds, staffAds, decor (bölgesi açılınca görünür), floorTheme/wallTheme, lastDaily/dailyStreak, customersServed,
             //     v2.2: costumes / wornCostumes (giyilen kostüm) ve sezon jetonu / görevleri (sezona bağlı, şubeye değil)
-            _unCarry = 0f;
-            TavernEvents.StopAll();
-            Services.Track("prestige", ("sube", b), ("gelir_carpani", IncomeMultiplierFor(b)));
-            GameState.Save();
-            return true;
+            //     v2.4: openingSeen, royalDecree (Kraliyet Fermanı ve +%5 gelir)
         }
 
         /// <summary>Şubeyi aç: kaydı sıfırla ve oyun sahnesini yeniden yükle (rehber tekrar başlamaz).</summary>
