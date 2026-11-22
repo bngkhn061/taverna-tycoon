@@ -46,6 +46,16 @@ Thumbs.db
 desktop.ini
 *.tmp
 
+# Kök klasör yanlışlıkla Unity'de açılırsa oluşanlar (asıl proje Unity/TavernaTycoon)
+/Library/
+/Logs/
+/Packages/
+/ProjectSettings/
+/UserSettings/
+/Temp/
+/assets/**/*.meta
+/assets/Settings/
+
 # Python önbelleği
 __pycache__/
 *.pyc
