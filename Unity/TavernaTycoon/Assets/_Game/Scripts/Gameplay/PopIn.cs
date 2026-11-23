@@ -7,7 +7,14 @@ namespace Taverna
     {
         float _t;
         Vector3 _target;
-        void Awake() { _target = transform.localScale; transform.localScale = Vector3.zero; }
+        void Awake()
+        {
+            _target = transform.localScale;
+            // v2.4.1: nesne (masa, makine, dekor) Barlo'nun üstünde beliriyorsa, tam boyuttayken Barlo boş yere alınır;
+            // yoksa büyüyen çarpıştırıcı onu itip ön sınırın dışına atabiliyordu
+            if (PlayerController.I && GetComponentInChildren<Collider>() && !Ending.Playing) PlayerController.I.EnsureFree();
+            transform.localScale = Vector3.zero;
+        }
         void Update()
         {
             _t += Time.deltaTime * 2.5f;

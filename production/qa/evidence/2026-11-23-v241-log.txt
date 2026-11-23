@@ -1,0 +1,15 @@
+[Playtest] [   0.0s] v2.4.1 SIKIŞMA başlıyor: masa Table_B @ (0.60, 0.00, 0.18) (iz 0.86×0.84) · Barlo (0.60, 0.00, -4.78) · kurtarma 0
+[Playtest] [   0.0s] v2.4.1 SIKIŞMA: masa Barlo'nun üstüne kaydırıldı → (0.60, 0.00, -4.59) · Barlo çakışıyor=True
+[Taverna] Barlo güvenli yere alındı (duvar geçti): (0.60, 0.08, -5.76) → (1.35, 0.08, -4.74)
+[Playtest] [   0.0s] v2.4.1 SIKIŞMA SONUÇ: Barlo (1.35, 0.08, -4.74) · içeride=True · çakışıyor=False · kurtarma 1 ✓
+[Playtest] [   0.0s] v2.4.1 AÇILIŞ başlıyor: masa4 · masa Table_D @ (2.65, 0.00, -0.95) · ödeme alanı @ (2.65, 0.05, -0.95) · Barlo (2.65, 0.00, -0.95)
+[Taverna] Barlo güvenli yere alındı (çakışma): (2.65, 0.08, -0.95) → (3.40, 0.08, -0.95)
+[Playtest] [   0.0s] v2.4.1 AÇILIŞ: açıldı · Barlo (3.40, 0.08, -0.95) · kurtarma 2
+[Playtest] [   0.0s] v2.4.1 AÇILIŞ SONUÇ: açık=True · Barlo (3.40, 0.08, -0.95) · içeride=True · çakışıyor=False · kurtarma 2 ✓
+[Playtest] [   0.0s] v2.4.1 BİTTİ · toplam kurtarma 2
+--- normal oyun (Sv12, 120 sn): kurtarma satırları
+[Taverna] Barlo güvenli yere alındı (çakışma): (-1.69, 0.08, -0.91) → (-0.94, 0.08, -0.91)
+[Taverna] Barlo güvenli yere alındı (çakışma): (2.46, 0.08, -0.95) → (2.65, 0.08, -0.22)
+[Taverna] Barlo güvenli yere alındı (çakışma): (-2.34, 0.08, -2.91) → (-1.59, 0.08, -2.91)
+[Taverna] Barlo güvenli yere alındı (çakışma): (2.49, 0.08, -3.00) → (3.24, 0.08, -3.00)
+--- EditMode: 143/143

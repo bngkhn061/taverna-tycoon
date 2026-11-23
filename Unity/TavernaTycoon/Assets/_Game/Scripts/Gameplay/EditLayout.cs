@@ -500,6 +500,7 @@ namespace Taverna
             }
             for (int z = 0; z < Zones.Length; z++) RebuildPaths(z);
             Unstick();
+            if (PlayerController.I) PlayerController.I.EnsureFree();   // v2.4.1: varsayılana dönen eşya da Barlo'nun üstüne gelebilir
             foreach (var it in _items) if (it.quad) { Destroy(it.quad); it.quad = null; }
             foreach (var zs in _zones) if (zs?.gridQuad) { Destroy(zs.gridQuad); zs.gridQuad = null; }
             foreach (var a in _gridAssets) if (a) Destroy(a);

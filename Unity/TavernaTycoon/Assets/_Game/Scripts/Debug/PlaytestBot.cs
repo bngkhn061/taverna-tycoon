@@ -129,6 +129,7 @@ namespace Taverna
             if (_done) return;
             _real += Time.unscaledDeltaTime;
             CountSlowFrame();   // v1.6: her yavaş kare (günlük 2 sn'de bir yazar, sayım her kare)
+            if (UpdateStuck()) return;   // v2.4.1 "-autotest-stuck": Barlo haritadan itilmesin
             if (UpdateV24()) return;   // v2.4 Paket 6 ("-autotest-v24 audio|intro|ending|daily")
             if (UpdateV23()) return;   // v2.3 Paket 5 ("-autotest-v23 edit|editcheck|cloud"); düzenleme modunda bot oynamaz
             if (UpdateV09()) return;

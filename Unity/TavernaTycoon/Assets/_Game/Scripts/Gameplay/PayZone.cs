@@ -141,13 +141,12 @@ namespace Taverna
 
         void ApplyUnlocked(bool animate)
         {
-            foreach (var t in unlockTargets)
-            {
-                if (!t) continue;
-                t.SetActive(true);
-                if (animate) t.AddComponent<PopIn>();
-            }
+            foreach (var t in unlockTargets) if (t) t.SetActive(true);
             foreach (var h in hideOnUnlock) if (h) h.SetActive(false);
+            // v2.4.1: açılan masa Barlo'nun üstünde belirirse onu dışarı (ince ön sınırın ötesine) itebiliyordu;
+            // nesne tam boyuttayken Barlo önce boş bir yere alınır, sonra büyüyerek belirme başlar
+            if (animate && PlayerController.I) PlayerController.I.EnsureFree();
+            if (animate) foreach (var t in unlockTargets) if (t) t.AddComponent<PopIn>();
             if (_visual) _visual.SetActive(false);
             enabled = false;
         }
