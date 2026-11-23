@@ -62,6 +62,10 @@ namespace Taverna
         Transform _cup;
         Vector3 _camFocus;
         float _camPitch = 40f, _camDist = 12f, _camYaw;
+        /// <summary>v2.5: kameranın önüne giren büyük nesneler (tabela, sancak, sütun…) çekim boyunca gizlenir.</summary>
+        CinemaOccluders _occluders;
+        /// <summary>Test günlüğü: gizlenen nesne sayısı ve adları.</summary>
+        public string OccluderInfo => _occluders != null ? $"{_occluders.HiddenCount} ({_occluders.HiddenNames})" : "-";
 
         /// <summary>Sahneyi kurar ve başlatır (kamera takibi kapanır).</summary>
         public static EndingScene Play(Camera cam)
@@ -105,6 +109,7 @@ namespace Taverna
                 FaceTo(p.transform, street);
             }
             _camFocus = new Vector3(StreetStartX * 0.4f, 0f, StreetZ + 1f);
+            _occluders = new CinemaOccluders();
             Current = Phase.Arrive;
         }
 
@@ -213,6 +218,7 @@ namespace Taverna
 
         void Next(Phase p)
         {
+            _occluders?.Reset();   // v2.5: her çekim kendi önünü açar (önceki çekimde kalkan tabela, sonrakinde engel değilse geri gelir)
             Current = p;
             PhaseTime = 0f;
             PhaseChanged?.Invoke(p);
@@ -342,6 +348,12 @@ namespace Taverna
                     yaw = Mathf.Lerp(-OrbitYaw * 0.4f, OrbitYaw, e);
                     break;
             }
+            // v2.5: hedef duruşu önceden yokla (nesne kamera oraya varmadan kalksın); hediyede duvar ve kral çekimleri ikisi de
+            // Gelişte kamera sokağın arkasına bakar ama konu kral: önü kapatan yalnızca kralla kamera arasındaki nesne (arkadaki tabela kalır)
+            Vector3 subject = Current == Phase.Arrive ? kp + new Vector3(0f, 0.8f, 0f) : focus;
+            CheckPose(focus, pitch, dist, yaw, subject);
+            if (Current == Phase.Gift && RoyalDecreeDecor.I) { var w = RoyalDecreeDecor.I.Center + new Vector3(0f, -0.3f, 0f); CheckPose(w, 18f, 6f, 0f, w); }
+            if (Current == Phase.ToTable) { var st = _seatPos + new Vector3(0f, 0.5f, 0f); CheckPose(st, 46f, 8.5f, 0f, st); }
             float s = 1f - Mathf.Exp(-3f * dt);
             _camFocus = Vector3.Lerp(_camFocus, focus, s);
             _camPitch = Mathf.Lerp(_camPitch, pitch, s);
@@ -349,6 +361,14 @@ namespace Taverna
             _camYaw = Current == Phase.Orbit || Current == Phase.Done ? yaw : Mathf.Lerp(_camYaw, yaw, s);
             var rot = Quaternion.Euler(_camPitch, _camYaw, 0f);
             _cam.transform.SetPositionAndRotation(_camFocus - rot * Vector3.forward * _camDist, rot);
+            _occluders?.Check(_cam, _cam.transform.position, rot, Current == Phase.Arrive ? subject : _camFocus);
+        }
+
+        void CheckPose(Vector3 focus, float pitch, float dist, float yaw, Vector3 subject)
+        {
+            if (_occluders == null) return;
+            var r = Quaternion.Euler(pitch, yaw, 0f);
+            _occluders.Check(_cam, focus - r * Vector3.forward * dist, r, subject);
         }
 
         /// <summary>Oluşturulan aktörleri siler, kamera takibini geri açar ve kamerayı Barlo'ya oturtur.</summary>
@@ -356,10 +376,14 @@ namespace Taverna
         {
             foreach (var g in _spawned) if (g) Destroy(g);
             _spawned.Clear();
+            _occluders?.Restore();   // v2.5: gizlenen tabela / sancak / sütun geri
+            _occluders = null;
             if (RoyalDecreeDecor.I) { RoyalDecreeDecor.I.forceHidden = false; RoyalDecreeDecor.I.Refresh(); }   // v2.4: atlanırsa da görünür
             if (_follow) { _follow.enabled = true; _follow.SnapNow(); }
             Destroy(gameObject);
         }
+
+        void OnDestroy() => _occluders?.Restore();
 
         /// <summary>Test günlüğü: aktör sayısı ve kralın konumu.</summary>
         public string DebugInfo => $"aşama {Current} · {TotalTime:0.0} sn · maiyet {_retinue.Count} · kral {(_king != null ? _king.t.position.ToString("F1") : "yok")} · oturak {_seatPos:F1}";

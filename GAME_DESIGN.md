@@ -2,7 +2,8 @@
 
 > Görsel kurallar: [DESIGN_RULES.md](DESIGN_RULES.md) · Karakterler: [CHARACTERS.md](CHARACTERS.md)
 > Bu belge oyunun **nasıl oynandığını, nasıl ilerlediğini ve nasıl dengelendiğini** tanımlar.
-> Sürüm: **v2.4** (2026-11-22, Paket 6 — oyuncu testi `production/qa/playtests/feedback-2026-11-22.md`: günlük ödülde elmas yalnız 7. günde (5), oyun içi ses bozulmasının kök nedeni (oyun sahnesinde AudioListener yoktu) ve sade ortam sesi, yeni oyunda taverna adı + giriş sineması, taçlı Kral modeli, son sahnede kralın hediyesi Kraliyet Fermanı (+%5 gelir, prestijte kalır); ayrıntı §18).
+> Sürüm: **v2.5** (2026-11-23, cila — "ekran çok karışık gözükmesin": sade HUD (sol üstte üç satır, küçük araç kutuları, tek "YENİ!", uzaktaki satın alma etiketleri küçük simge, kısa ve solan ipucu şeridi), son sahnede kameranın önüne giren tabela / sancak / sütun çekim boyunca gizlenir, Saray Hanı perdesi Kraliyet Fermanı'na değmiyor; ayrıntı §19).
+> Önceki: v2.4 (2026-11-22, Paket 6 — oyuncu testi `production/qa/playtests/feedback-2026-11-22.md`: günlük ödülde elmas yalnız 7. günde (5), oyun içi ses bozulmasının kök nedeni (oyun sahnesinde AudioListener yoktu) ve sade ortam sesi, yeni oyunda taverna adı + giriş sineması, taçlı Kral modeli, son sahnede kralın hediyesi Kraliyet Fermanı (+%5 gelir, prestijte kalır); ayrıntı §18).
 > Önceki: v2.3 (2026-11-22, Paket 5 — sahibin seçtiği eklemeler: masa ve dekor düzenleme modu (Sv5; Meyhane, Ana Salon, Bahçe; ızgara, döndürme, geçersiz yerleşim kırmızı, kayıtta yerleşim) ve bulut kaydı altyapısı (sağlayıcı arayüzü, sahte bulut, imzalı bulut kaydı, çakışma kuralı ve seçim ekranı, otomatik eşitleme); ayrıntı §17).
 > Önceki: v2.2 (2026-11-21, Paket 4 — sahibin seçtiği eklemeler: sezonluk etkinlikler (Hasat Şenliği, Kış Festivali, Bahar Bayramı; süreli menü, süsleme, müşteri, sezon jetonu, görevler, kalıcı sezon dekoru) ve Barlo ile personelin kostümleri (Gardırop); ayrıntı §16).
 > Önceki: v2.1 (2026-11-21, oyuncu testi Paket 3, maddeler 10 ve 25: Barlo'nun kendi yetenekleri — koşu hızı, taşıma, servis ve para menzili; gerçek bir son — 3. tavernada "Krala Davet", son sahne, jenerik, serbest oyun ve "Efsanevi Han" rozeti; ayrıntı §15).
@@ -418,7 +419,7 @@ Oyunun sonu (Sv30) artık bir döngüye bağlanır: oyuncu tavernasını bırak�
 |---|---|
 | **Ana Menü** | Oyun logosu + canlı taverna arka planı (Barlo ve Pip). Butonlar: **Oyna**, **Ayarlar**, **Çıkış** (iOS'ta Çıkış gizlenir) |
 | **Ayarlar** | Müzik, Ses Efektleri, Titreşim, Dil (TR/EN), Grafik kalitesi (Düşük/Orta/Yüksek), Bildirimler, Kaydı Sıfırla, Gizlilik |
-| **HUD (oyun içi)** | Üstte: Para · Elmas · Seviye çubuğu. Sağda: Görevler, Mağaza, Düzenleme (çekiç). Altta: Joystick alanı |
+| **HUD (oyun içi)** | v2.5 (§19): sol üstte para + elmas, mutluluk + gün saati, küçük araç kutuları (yardımcı, etkinlik, sezon, düzenle); üst ortada sıradaki hedef; sağ üstte seviye kalkanı, yıldızlar, ayarlar; sağda Görevler, Dükkân, Depo, Personel; sol altta joystick |
 | **Yükseltme Paneli** | İstasyon ya da personele dokununca açılan parşömen panel. Hız / Stok / Kalite satırları, fiyat butonları |
 | **Seviye Atladın** | Açılan içerik kartları + "Topla" butonu |
 | **Sen Yokken…** | Çevrimdışı kazanç, "Topla" ve "×3 (reklam)" butonları |
@@ -720,3 +721,38 @@ Hesap yok; reklam / mağaza yaklaşımıyla aynı: önce altyapı, sağlayıcı 
 - Bot `-autotest-v24 audio` (`-autotest-start-level 10`): dinleyici kaydı (14 sn 1 kHz deneme tonu, 45 sn oyun karışımı), gerçek hız, ses ayarı yalnızca bellekte 0.70 / 0.85; `-autotest-v24-tag <ad>` dosya adına eklenir; `-autotest-v24-listener` (eski sahneye ara ölçüm için dinleyici ekler), `-autotest-v24-tap` (dinleyici süzgeci yerine çıkış dikişi). Çözümleme `tools/audio/analyze_capture.py`.
 - `-autotest-hidden` koşularında ses kaydedici kurulur ve gizli test hoparlörden duyulmaz (dinleyici süzgecinde çıkış sıfırlanır; dinleyici yoksa ana düzey −60 dB).
 - Bot `-autotest-v24 intro`: beş çekimin görüntüsü, bitiş, rehber, Ayarlar'dan yeniden izle + ATLA, prestijte yeniden oynamama. `-autotest-v24 ending` (`-autotest-v21 ending -autotest-start-level 30 -autotest-tier 2` ile): hediye anı (kral, duvar), hediye kartı, yeni şube kopyasında fermanın ve +%5'in kalması. `-autotest-v24 daily` (ana menü): 1. ve 7. gün ekranı, 7. günü alınca elmas farkı.
+
+## 19. v2.5 cila (2026-11-23, "ekran çok karışık gözükmesin")
+
+Son ayar turu; bundan sonrası düzeltme ve test. Özellik eklenmedi, hiçbir özellik kaldırılmadı.
+
+### 19.1 HUD sadeleştirme kuralları
+- **Sol üst üç satır** (`Hud.uxml`, `Theme.uss` "v2.5" bölümü): 1) para (+ hızlandır) ve elmas yan yana; 2) mutluluk yüzü + yüzde ve gün saati tek satırda (çubuk ve "MUTLULUK" yazısı kalktı; %25 altında sayı kırmızı; dokununca açıklama kartı araç kutularının altında açılır); 3) **küçük araç kutuları**: YARDIMCI, ETKİNLİK, sezon, DÜZENLE. Kutu = simge + kısa yazı, en az 68×64 px (Türkçede 79–82×64; başvuru 1266×585). Yardımcı çalışırken / beklerken kutuda yalnızca süre (uzun metin ipucunda); sezon kutusunda sezonun adı (kalan gün ipucunda ve Sezon sekmesinde).
+- **Görünürlük** (değişmedi, doğrulandı): YARDIMCI reklam kapalıysa ve rehber sürerken gizli; ETKİNLİK Sv2 ve rehber bitince; sezon kutusu sezon sürerken; DÜZENLE Sv5'ten, rehber, gün sonu ve son sahne dışında. Mutluluk kartı açıkken ETKİNLİK ve sezon kutusu artık gizlenmez (kart aşağıda açılır).
+- **"YENİ!" rozeti:** HUD'da aynı anda en fazla bir tane (önce ETKİNLİK, sonra DÜZENLE). İlk dokunuşta kalkar; DÜZENLE'de düzenleme modu açılamasa da (gün sonu) kalkar.
+- **Satın alma etiketleri:** tam etiket (ad + fiyat) yalnızca sıradaki hedefte ve Barlo'nun 2.8 m yakınında (`HudController.ZoneNearMeters`). Uzaktakiler zemin karesinin ortasında küçük, soluk bir para simgesi; parası yetiyorsa sarı. Seviyesi yetmeyen kareler eskisi gibi yalnızca sıradaki hedef ve büyük dönüm noktalarında.
+- **İpucu şeridi:** en fazla 620 px genişlik, gerekirse iki satır; son 0.35 sn'de solar. "Yeni: DÜZENLE…" ipucu 5 → 3.5 sn ve yalnızca sakin bir anda (açık pencere, başka bildirim, şerit, yoğun saat yokken).
+- **Görevli etiketleri** %88 boyut.
+- **Dokunma hedefleri:** araç kutuları ≈ 80×64, sağ sütun 90×76, para / elmas / bilgi satırı 46–50 px yüksek. Telefon ölçüsünde (844×390 pt ekranda başvuru pikseli ≈ 0.67 pt) araç kutuları ≈ 53×43 pt.
+- Rehberin vurguladığı düğmeler (Görevler, Dükkân, Personel, Depo) değişmedi; rehber kilidi ve botun düğme adları aynı.
+- Ölçü: sol blok 262×174 px (v2.4: ≈ 260×380 px, yedi satır).
+
+### 19.2 Son sahnede kamera önü (`Scripts/Gameplay/CinemaOccluders.cs`)
+- Sorun: hediye anında tavernanın tabelası kameranın önüne girip görüntünün solunu kapatıyordu (sahne dışında HUD'un yazdığı ad da görünmediğinden boş mor tabela).
+- Kural: son sahnenin her çekiminde kamerayla konu (kral, karşılama, masa, duvardaki ferman, tur merkezi) arasındaki büyük nesneler çekim boyunca gizlenir. Nesne konudan en az 1.4 m kameraya yakın, en az 0.9 m yüksek, görüntünün en az %3.5'ini kaplıyor ve konunun görüntüdeki çevresine (±%22 genişlik, ±%30 yükseklik) giriyorsa ya da görüntünün %25'inden fazlasını kaplıyorsa gizlenir. Karakterler, masalar, oturaklar ve Kraliyet Fermanı hiç gizlenmez. Kameranın gideceği duruş önceden yoklanır (nesne kamera gelmeden kalkar), her çekim başında gizlenenler geri açılıp yeniden değerlendirilir, sahne bitince hepsi geri gelir. Nesne listesi yoktur: her kademe, şube ve düzenlenmiş yerleşimde çalışır.
+- Son sahne boyunca tabelanın üstünde tavernanın adı görünür (diğer dünya etiketleri gizli); tabela kameranın önünden kaldırıldıysa ad da gizlenir.
+
+### 19.3 Saray Hanı perdesi ve Kraliyet Fermanı
+- Perdenin sol kanadı fermanın sağ kenarına ≈ 7 cm biniyordu. Ferman x 2.08 → 2.02, ölçek 0.64 → 0.60 (0.54 m genişlik); Bira–Şıra arasındaki perde x 2.8 → 2.9. Ferman x 1.75–2.29, perde kanadı 2.40–2.56: ≈ 11 cm boşluk. Diğer kademelerde perde yok.
+
+### 19.4 Test altyapısı
+- `-autotest-v25 hud` (sol blok ve kutu ölçüleri, görünen "YENİ!" sayısı, tam / uzak etiket sayısı, ETKİNLİK ve DÜZENLE'ye basınca rozetler), `endshots` (son sahne "yeniden izle" ile o anki kademede, `-autotest-tier N -autotest-v25-branch N`; her çekimin görüntüsü ve gizlenen nesneler), `rec-intro`, `rec-ending` (+ `-autotest-v21 ending`), `rec-game` (müzikli video kareleri ve ses).
+- **Penceresiz test** (`-batchmode -autotest -autotest-offscreen`, `-nographics` yok): oyuncu pencere açmaz; kamera ve arayüz ayrı RenderTexture'lara çizilir, görüntü ikisinin birleşimidir (`Scripts/Debug/OffscreenCapture.cs`, boyut `-autotest-offscreen-size 2532x1170`, varsayılan 1266×586). Kayıt dışında ses düzeyi 0. Video: oyun saati kareye bağlanır (`Time.captureFramerate = 30`), ses `AudioRenderer` ile kare kare alınır (çıkış hoparlöre gitmez), görüntü ve ses örnek örnek eşleşir. Süreç `-autotest-timeout` saniye sonra kendini kapatır (varsayılan 600).
+- `-autotest-stuck` artık bitince olağan bota döner ve `-autotest-seconds` dolunca kapanır (eskiden süreç açık kalıyordu).
+- EditMode `V25Tests`: kamera ile konu arasındaki tabela gizlenir ve geri gelir; yandaki, arkadaki ve alçak nesneler kalır; kameranın dibindeki büyük nesne gizlenir; yeni çekimde yeniden değerlendirilir.
+
+### 19.5 Müzikli videolar (penceresiz kayıt)
+- `production/qa/evidence/2026-11-23-v25-video_intro.mp4` (34.0 sn, giriş sineması + rehberin başı), `-video_ending.mp4` (47.7 sn, "Krala Davet", hediye, tur, jenerik tam, "Efsanevi Han" şeridi), `-video_gameplay.mp4` (38.0 sn, Sv12 normal oyun: müzik, oda tonu, kalabalık, efektler). 1266×586, 30 kare/sn, H.264 yuv420p CRF 23, AAC 160k, `+faststart`; 6.8 / 15.0 / 18.6 MB.
+- Kayıt: oyuncu penceresiz (`-batchmode -autotest -autotest-offscreen -autotest-v25 rec-intro|rec-ending|rec-game`), oyun saati kareye bağlı (30), ses AudioRenderer ile kare kare: görüntü ve ses süresi farkı ≤ 0.02 sn. Ses yalnız doğrusal kazançla yükseltildi (−24 LUFS → ≈ −19 LUFS; tepe −1.5 dBFS; sıkıştırma yok). Birleştirme: ffmpeg (kareler `frames.txt` zamanlarıyla).
+- Jenerik başında (≈ 1.8 sn) ve sonunda (≈ 2.4 sn) ekran yazılar kayarken bir süre siyah kalır: jenerik tasarımı, kayıt hatası değil.
+

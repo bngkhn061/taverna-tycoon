@@ -113,9 +113,9 @@ namespace Taverna
 
             // Etkinlik butonu (Sv2, rehber bitince) + mor şerit (tellal dahil)
             bool evOn = !Tutorial.Active && GameState.Level >= EventsLevel;
-            // v1.4: açıklama kartı açıkken buton kartın altında kalmasın
-            _eventBtn.EnableInClassList("hidden", !evOn || !_happyCard.ClassListContains("hidden"));
-            _eventNew.EnableInClassList("hidden", !evOn || GameState.Data.eventsSeen || !_happyCard.ClassListContains("hidden"));
+            // v2.5: açıklama kartı artık araç kutularının altında açılır, buton gizlenmez; "YENİ!" seçimi UpdateV25'te (tek rozet)
+            _eventBtn.EnableInClassList("hidden", !evOn);
+            _eventNew.EnableInClassList("hidden", !evOn || GameState.Data.eventsSeen);
             var act = TavernEvents.Active;
             _eventBanner.EnableInClassList("hidden", !act.HasValue);
             if (act.HasValue)

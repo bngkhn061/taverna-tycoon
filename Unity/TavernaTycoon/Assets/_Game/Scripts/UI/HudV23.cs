@@ -21,8 +21,8 @@ namespace Taverna
         const float EditTipDelay = 5f;
         /// <summary>Düzenleme mesajının ekranda kalma süresi (gerçek sn).</summary>
         const float EditMsgSeconds = 2.6f;
-        /// <summary>İlk ipucu bildiriminin ekranda kalma süresi (sn).</summary>
-        const float EditTipSeconds = 5f;
+        /// <summary>İlk ipucu bildiriminin ekranda kalma süresi (sn). v2.5: 5 → 3.5 (ipucu şeridi kısa sürsün).</summary>
+        const float EditTipSeconds = 3.5f;
         /// <summary>"YENİ!" rozetinin görüldü anahtarı (seenItems).</summary>
         const string EditSeenKey = "edit_mode";
 
@@ -35,7 +35,7 @@ namespace Taverna
         {
             _editBtn = new Button(EditPressed) { name = "edit-btn" };
             _editBtn.AddToClassList("btn"); _editBtn.AddToClassList("btn-sm"); _editBtn.AddToClassList("helper-btn");
-            _editBtn.AddToClassList("btn-paper"); _editBtn.AddToClassList("edit-open-btn"); _editBtn.AddToClassList("hidden");
+            _editBtn.AddToClassList("btn-paper"); _editBtn.AddToClassList("edit-open-btn"); _editBtn.AddToClassList("tool-btn"); _editBtn.AddToClassList("hidden");   // v2.5 araç kutusu
             var ic = new VisualElement { pickingMode = PickingMode.Ignore };
             ic.AddToClassList("price-icon");
             ic.style.backgroundImage = new StyleBackground(KitIcon("hammer"));
@@ -128,13 +128,16 @@ namespace Taverna
         Vector2 PanelToScreen(Vector2 p)
         {
             var r = _root.layout;
-            float sx = r.width > 1f ? Screen.width / r.width : 1f, sy = r.height > 1f ? Screen.height / r.height : 1f;
-            return new Vector2(p.x * sx, Screen.height - p.y * sy);
+            float sw = RenderTargetMode && cam ? cam.pixelWidth : Screen.width, sh = RenderTargetMode && cam ? cam.pixelHeight : Screen.height;   // v2.5 penceresiz test
+            float sx = r.width > 1f ? sw / r.width : 1f, sy = r.height > 1f ? sh / r.height : 1f;
+            return new Vector2(p.x * sx, sh - p.y * sy);
         }
 
         void EditPressed()
         {
             if (EditLayout.Active || !EditLayout.I) return;
+            // v2.5: "YENİ!" ilk dokunuşta kalkar (açılamasa da: oyuncu düğmeyi gördü)
+            if (!GameState.Data.seenItems.Contains(EditSeenKey)) { GameState.Data.seenItems.Add(EditSeenKey); GameState.Save(); }
             if (!EditLayout.CanOpen)
             {
                 Toast(GameState.Level < Layout.UnlockLevel ? Loc.F("Seviye {0} gerekli", Layout.UnlockLevel) : Loc.T("Şu an düzenlenemez: gün sürerken dene"));
@@ -172,7 +175,7 @@ namespace Taverna
             _editBtn.EnableInClassList("hidden", !show);
             _editNew.EnableInClassList("hidden", GameState.Data.seenItems.Contains(EditSeenKey));
             var d = GameState.Data;
-            if (show && !d.editTipShown && !ModalOpen && !AnyPanelOpen && !LevelCardOpen && Time.timeSinceLevelLoad > EditTipDelay)
+            if (show && !d.editTipShown && CalmForTip && Time.timeSinceLevelLoad > EditTipDelay)   // v2.5: başka şerit / bildirim yokken
             {
                 d.editTipShown = true;
                 Toast(Loc.T("Yeni: DÜZENLE ile masaları ve dekoru istediğin yere taşıyabilirsin"));

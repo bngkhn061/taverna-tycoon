@@ -27,6 +27,7 @@
 
 # Ses ölçüm kayıtları büyük; sonuçlar .md/.json olarak kalır
 /production/qa/evidence/*.wav
+/production/qa/evidence/*.mp4
 
 # Player builds, autotest screenshots and batch-mode logs (all regenerable)
 /Unity/Builds/

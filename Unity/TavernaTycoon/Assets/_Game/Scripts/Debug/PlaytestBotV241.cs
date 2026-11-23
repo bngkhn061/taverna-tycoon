@@ -104,7 +104,7 @@ namespace Taverna
                     _stuckStep = 5;
                     return true;
                 default:
-                    return true;
+                    return false;   // v2.5: sonra olağan bot oynar ve "-autotest-seconds" dolunca kapanır (eskiden süreç açık kalıyordu)
             }
         }
 

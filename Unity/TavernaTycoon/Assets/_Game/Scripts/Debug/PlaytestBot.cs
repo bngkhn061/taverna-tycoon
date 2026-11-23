@@ -50,7 +50,7 @@ namespace Taverna
             Time.timeScale = timeScale;
             // UI'yi ekrana değil bir dokuya çiz → batchmode'da da arayüzlü görüntü alınabilsin
             var doc = FindAnyObjectByType<UIDocument>();
-            if (doc && doc.panelSettings && Application.isBatchMode)
+            if (doc && doc.panelSettings && Application.isBatchMode && !OffscreenCapture.Enabled)   // v2.5: penceresiz mod kendi dokusunu kurar
             {
                 doc.panelSettings.targetTexture = new RenderTexture(1080, 1920, 24, RenderTextureFormat.ARGB32);
                 doc.panelSettings.clearColor = true;
@@ -130,6 +130,7 @@ namespace Taverna
             _real += Time.unscaledDeltaTime;
             CountSlowFrame();   // v1.6: her yavaş kare (günlük 2 sn'de bir yazar, sayım her kare)
             if (UpdateStuck()) return;   // v2.4.1 "-autotest-stuck": Barlo haritadan itilmesin
+            if (UpdateV25()) return;   // v2.5 cila ("-autotest-v25 hud|endshots|rec-intro|rec-ending|rec-game")
             if (UpdateV24()) return;   // v2.4 Paket 6 ("-autotest-v24 audio|intro|ending|daily")
             if (UpdateV23()) return;   // v2.3 Paket 5 ("-autotest-v23 edit|editcheck|cloud"); düzenleme modunda bot oynamaz
             if (UpdateV09()) return;

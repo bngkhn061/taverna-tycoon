@@ -206,6 +206,7 @@ namespace Taverna
             InitV22();
             InitV23();   // v2.3 düzenleme modu ve bulut kaydı
             InitV24();   // v2.4 giriş sineması, kralın hediyesi
+            InitV25();   // v2.5 sade HUD (araç kutuları, tek "YENİ!", uzak etiketler)
             TestAdService.Presenter = PresentTestAd;   // v1.6: test reklamının bekleme ekranı
         }
 
@@ -453,6 +454,7 @@ namespace Taverna
             UpdateV22();
             UpdateV23();
             UpdateV24();
+            UpdateV25();
             _starsT -= Time.unscaledDeltaTime;
             if (_starsT <= 0f) { _starsT = 0.5f; UpdateStars(); }
             if (_dayT > 0f) { _dayT -= Time.unscaledDeltaTime; if (_dayT <= 0f) _dayReport.AddToClassList("hidden"); }
@@ -471,15 +473,32 @@ namespace Taverna
                 _raysRot += Time.unscaledDeltaTime * 20f;
                 _rays.style.rotate = new Rotate(_raysRot);
             }
-            if (_toastT > 0f) { _toastT -= Time.unscaledDeltaTime; if (_toastT <= 0f) _toast.AddToClassList("hidden"); }
+            if (_toastT > 0f)
+            {
+                _toastT -= Time.unscaledDeltaTime;
+                _toast.style.opacity = Mathf.Clamp01(_toastT / ToastFadeSeconds);   // v2.5: son 0.35 sn'de solar
+                if (_toastT <= 0f) _toast.AddToClassList("hidden");
+            }
             if (_pulseT > 0f) { _pulseT -= Time.unscaledDeltaTime; if (_pulseT <= 0f) _coinPill.RemoveFromClassList("pulse"); }
         }
 
         bool _lastCallShown;
 
+        /// <summary>
+        /// v2.5: test kipi — kamera ve arayüz ekrana değil dokulara çiziliyor (penceresiz test). Dünya → panel dönüşümü ekran boyutu yerine
+        /// kameranın görüntü oranından hesaplanır (Screen boyutu penceresiz oyuncuda dokuyla aynı değil).
+        /// </summary>
+        public static bool RenderTargetMode;
+
         bool ToPanel(Vector3 world, out Vector2 pos)
         {
             var vp = cam.WorldToViewportPoint(world);
+            if (RenderTargetMode)
+            {
+                var r = _root.layout;
+                pos = new Vector2(vp.x * r.width, (1f - vp.y) * r.height);
+                return vp.z > 0f && vp.x > -0.1f && vp.x < 1.1f && vp.y > -0.1f && vp.y < 1.1f;
+            }
             pos = RuntimePanelUtils.CameraTransformWorldToPanel(_root.panel, world, cam);
             return vp.z > 0f && vp.x > -0.1f && vp.x < 1.1f && vp.y > -0.1f && vp.y < 1.1f;
         }
@@ -602,6 +621,11 @@ namespace Taverna
                 bool milestone = (z.id == "salon" || z.id == "bahce") && GameState.Level >= z.requiredLevel - 2;
                 bool worthShowing = !locked || z == PayZone.NextGoal() || milestone;
                 Place(t.box, p, on && z.Visible && z.enabled && worthShowing);
+                // v2.5: tam etiket yalnızca sıradaki hedefte ve Barlo'nun yakınında; uzaktakiler küçük soluk para simgesi
+                // (alınabiliyorsa sarı). Rehberin ödeme karesi adımı sıradaki hedefi gösterir: o hep tam.
+                bool full = ZoneTagFull(z);
+                t.box.EnableInClassList("zt-far", !full);
+                t.box.EnableInClassList("zt-can", !full && !locked && !GameState.InDebt && GameState.Coins >= z.Remaining);
                 t.box.EnableInClassList("locked", locked);
                 var ico = t.cost.parent[0];
                 ico.style.backgroundImage = locked ? new StyleBackground(KitIcon("lock")) : new StyleBackground(CoinIcon);
@@ -903,9 +927,11 @@ namespace Taverna
         {
             _helperBtn.EnableInClassList("hidden", !Services.RewardedAdsEnabled);   // v1.6: reklam yoksa yardımcı çağrılmaz
             static string Mmss(float s) { int t = Mathf.CeilToInt(s); return $"{t / 60}:{t % 60:00}"; }
-            if (Campaigns.HelperActive) { _helperText.text = Loc.F("YARDIMCI {0}", Mmss(Campaigns.HelperRemaining)); _helperBtn.AddToClassList("locked"); }
-            else if (Campaigns.HelperWait > 0f) { _helperText.text = Loc.F("YARDIMCI · {0}", Mmss(Campaigns.HelperWait)); _helperBtn.AddToClassList("locked"); }
-            else { _helperText.text = Loc.T("YARDIMCI ÇAĞIR"); _helperBtn.RemoveFromClassList("locked"); }
+            // v2.5: küçük araç kutusu: kısa yazı ("YARDIMCI"), çalışırken / beklerken yalnızca süre
+            // (uzun metin ipucunda kalır: fareyle / erişilebilirlik okuyucusuyla okunur)
+            if (Campaigns.HelperActive) { _helperText.text = Mmss(Campaigns.HelperRemaining); _helperBtn.tooltip = Loc.F("YARDIMCI {0}", Mmss(Campaigns.HelperRemaining)); _helperBtn.AddToClassList("locked"); }
+            else if (Campaigns.HelperWait > 0f) { _helperText.text = Mmss(Campaigns.HelperWait); _helperBtn.tooltip = Loc.F("YARDIMCI · {0}", Mmss(Campaigns.HelperWait)); _helperBtn.AddToClassList("locked"); }
+            else { _helperText.text = Loc.T("YARDIMCI"); _helperBtn.tooltip = Loc.T("YARDIMCI ÇAĞIR"); _helperBtn.RemoveFromClassList("locked"); }
         }
 
         void AddShopSection(string title)
@@ -1198,7 +1224,7 @@ namespace Taverna
         void PlaceGoalArrow(Vector3 world)
         {
             var vp = cam.WorldToViewportPoint(world);
-            var p = RuntimePanelUtils.CameraTransformWorldToPanel(_root.panel, world, cam);
+            ToPanel(world, out var p);   // v2.5: penceresiz testte de doğru yer
             var size = _root.layout.size;
             bool inside = vp.z > 0 && vp.x > 0.05f && vp.x < 0.92f && vp.y > 0.12f && vp.y < 0.8f;
             float bob = Mathf.Abs(Mathf.Sin(Time.unscaledTime * 5f)) * 10f;
@@ -1362,6 +1388,7 @@ namespace Taverna
         {
             _toast.text = text;
             _toast.RemoveFromClassList("hidden");
+            _toast.style.opacity = 1f;
             _toastT = 1.8f;
         }
 
@@ -1721,7 +1748,7 @@ namespace Taverna
         void CoinFly(Vector3 world, int count)
         {
             if (!CoinIcon || _root.panel == null) return;
-            var from = RuntimePanelUtils.CameraTransformWorldToPanel(_root.panel, world, cam);
+            ToPanel(world, out var from);   // v2.5: penceresiz testte de doğru yer
             var to = _fx.WorldToLocal(_coinPill.worldBound.position + new Vector2(18f, 18f));
             for (int i = 0; i < count; i++)
             {

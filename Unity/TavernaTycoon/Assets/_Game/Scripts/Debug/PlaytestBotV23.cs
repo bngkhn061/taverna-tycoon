@@ -308,6 +308,8 @@ namespace Taverna
                     return true;
                 case 5:
                     if (!V23After(1.0f)) return true;
+                    // v2.5: başlangıç paketi penceresi (Sv3+) çakışma kartının üstüne açılırsa önce kapanır (görüntü örtülmesin)
+                    if (hud.DebugModalOpen) { hud.DebugClosePremModal(); _v23At = _real - 0.6f; return true; }
                     Log($"v2.3 ÇAKIŞMA ekranı görünür={cp.ConflictVisible} · \"{cp.ConflictLine}\"");
                     ShotV23("cloud_conflict");
                     AfterShot(() => cp.DebugChoose(true));

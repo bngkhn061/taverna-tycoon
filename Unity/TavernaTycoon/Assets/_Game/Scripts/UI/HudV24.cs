@@ -164,11 +164,9 @@ namespace Taverna
                     {
                         _opWorldShown = true;
                         _opHiddenWorld.Clear();
-                        // dünya katmanı HUD kökünün içinde: kök açılır, kökte dünya katmanı dışındaki her şey ve katmanda tabela adı dışındaki her şey gizli
-                        foreach (var c in _hudRoot.Children()) if (c != _world && c.visible) { c.visible = false; _opHiddenWorld.Add(c); }
-                        foreach (var c in _world.Children()) if (c != _signLabel && c.visible) { c.visible = false; _opHiddenWorld.Add(c); }
-                        _world.style.display = DisplayStyle.Flex;
-                        _hudRoot.style.display = DisplayStyle.Flex;
+                        // v2.5: HUD kökü kapalı kalır; yalnızca tabela adı sinema katmanının en altına taşınır (bitince dünya katmanına döner).
+                        // (v2.4: kök açılıp diğer her şey "visible = false" yapılıyordu; dokuya çizimde gizli çubuklar yine görünüyordu.)
+                        if (_signLabel != null && _opRoot != null) _opRoot.Insert(0, _signLabel);
                         Confetti(30);
                         GameSettings.Vibrate();
                     }
@@ -183,6 +181,7 @@ namespace Taverna
             _opRoot = null;
             foreach (var c in _opHiddenWorld) c.visible = true;
             _opHiddenWorld.Clear();
+            if (_signLabel != null && _signLabel.parent != _world) _world.Add(_signLabel);   // v2.5
             _opWorldShown = false;
             Opening.SetPlaying(false);
             Time.timeScale = _opPrevScale;

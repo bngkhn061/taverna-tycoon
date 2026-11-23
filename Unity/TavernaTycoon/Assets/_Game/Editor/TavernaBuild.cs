@@ -53,11 +53,22 @@ namespace Taverna.EditorTools
             var opts = new BuildPlayerOptions
             {
                 scenes = new[] { TavernaSceneBuilder.MenuScene, TavernaSceneBuilder.GameScene },
-                locationPathName = Path.Combine(BuildDir, "Windows", "TavernaTycoon.exe"),
+                locationPathName = Path.Combine(BuildDir, WindowsFolder(), "TavernaTycoon.exe"),
                 target = BuildTarget.StandaloneWindows64,
                 options = BuildOptions.Development,
             };
             Report(BuildPipeline.BuildPlayer(opts));
+        }
+
+        /// <summary>
+        /// v2.5: Windows test sürümünün klasörü (Unity/Builds altında). Varsayılan "Windows"; komut satırında
+        /// "-taverna-win-dir Ad" verilirse o klasöre derlenir (eski sürüm açıkken dosyaları kilitliyse yan klasöre derlemek için).
+        /// </summary>
+        static string WindowsFolder()
+        {
+            var args = System.Environment.GetCommandLineArgs();
+            int i = System.Array.IndexOf(args, "-taverna-win-dir");
+            return i >= 0 && i + 1 < args.Length && !string.IsNullOrWhiteSpace(args[i + 1]) ? args[i + 1] : "Windows";
         }
 
         [MenuItem("Taverna/Derle/Android APK (test)")]

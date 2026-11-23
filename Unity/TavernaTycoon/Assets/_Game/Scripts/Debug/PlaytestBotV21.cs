@@ -191,7 +191,7 @@ namespace Taverna
                     case "Orbit": ShotOnce("v21_end_5_orbit.png", 1.6f); ShotOnce("v21_end_6_orbit_late.png", 6.5f); break;
                     case "credits":
                         ShotOnce("v21_end_7_credits.png", 2.5f); ShotOnce("v21_end_8_credits_late.png", 11.5f);
-                        if (at > 12.3f && _v21Shots.Add("tap")) { Log("v2.1 JENERİK: dokunuşla geçiliyor"); hud.DebugEndingTap(); }
+                        if (at > 12.3f && V25 != "rec-ending" && _v21Shots.Add("tap")) { Log("v2.1 JENERİK: dokunuşla geçiliyor"); hud.DebugEndingTap(); }   // v2.5 video: jenerik sonuna kadar
                         break;
                 }
             }

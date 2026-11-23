@@ -901,3 +901,41 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .gift-text { font-size: 15px; -unity-font-style: bold; color: var(--ink); white-space: normal; flex-shrink: 1; flex-grow: 1; }
 .watch-row { flex-direction: row; }
 .watch-row > .watch-ending { flex-grow: 1; flex-basis: 0; margin-right: 6px; }
+
+
+/* ==========================================================================
+   v2.5 cila: sade HUD (GAME_DESIGN.md §19) — daha az şey, net hiyerarşi, özellik kaybı yok
+   Sol üst üç satır: [para][elmas] · [mutluluk yüzü %][gün saati] · [küçük araç kutuları].
+   Ölçü: başvuru çözünürlüğü 1266×585; dokunulan her şey en az 46 px yüksek, araç kutuları 66×64 px.
+   ========================================================================== */
+.hud-top-left { align-items: flex-start; }
+.hud-row { flex-direction: row; align-items: flex-start; }
+.hud-row > .res { margin-right: 8px; }
+.res { height: 50px; }
+.gem-pill { min-width: 96px; }
+.info-row { margin-bottom: 2px; }
+.happy-pill { width: auto; height: 46px; padding: 0 16px 6px 6px; margin: 0 8px 0 0; }
+.happy-face { width: 30px; height: 30px; margin-right: 6px; }
+.happy-cap, .happy-track { display: none; }
+.happy-num { font-size: 17px; -unity-font-definition: url("project://database/Assets/_Game/UI/Fonts/Rubik.asset"); -unity-font-style: normal; }
+.happy-num.low { color: rgb(200, 52, 40); }
+.day-pill { height: 46px; }
+.day-clock { font-size: 15px; }
+.happy-card { top: 184px; }
+/* araç kutuları: yardımcı, etkinlik, sezon, düzenle — sağ sütundaki büyük kutuların küçük kardeşi (simge + kısa yazı) */
+.tool-row { margin-top: 6px; }
+.tool-btn { flex-direction: column; justify-content: center; align-self: auto; min-width: 68px; height: 64px; min-height: 64px;
+    padding: 3px 15px 11px 10px; margin: 0 6px 0 0; }
+.tool-btn > .price-icon { width: 26px; height: 26px; margin: 0 0 1px 0; }
+.tool-btn > Label { font-size: 11px; white-space: nowrap; -unity-text-align: middle-center; }
+.tool-btn .event-new { right: -9px; top: -10px; font-size: 10px; }
+.tool-btn.locked > Label { color: rgb(138, 125, 108); }
+/* sahnedeki satın alma etiketleri: yalnızca yakındaki ve sıradaki hedef tam; uzaktakiler küçük soluk para simgesi */
+.zone-tag.zt-far .zone-title, .zone-tag.zt-far .zone-cost-text { display: none; }
+.zone-tag.zt-far .zone-cost { height: 26px; padding: 0 3px; margin-top: 0; opacity: 0.55; }
+.zone-tag.zt-far .zone-cost-icon { margin-right: 0; }
+.zone-tag.zt-far.zt-can .zone-cost { opacity: 0.95; background-color: rgb(242, 182, 49); }
+/* ipucu şeridi: daha kısa ve dar, kendiliğinden solar */
+.toast { font-size: 14px; max-width: 620px; white-space: normal; -unity-text-align: middle-center; }
+/* görevli etiketleri biraz küçük (sahnede kalabalık yapmasın) */
+.staff-tag { scale: 0.88 0.88; }

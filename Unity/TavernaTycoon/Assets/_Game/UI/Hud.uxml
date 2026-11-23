@@ -12,46 +12,53 @@
 
         <ui:VisualElement name="world-layer" class="world-layer" picking-mode="Ignore" />
 
-        <!-- Sol üst: para (+ hızlandır kısayolu), elmas, gün saati -->
+        <!-- Sol üst (v2.5 sade): 1. satır para + elmas, 2. satır mutluluk + gün saati (ikon ve sayı), 3. satır küçük araç kutuları
+             (yardımcı, etkinlik; sezon ve düzenle kodla eklenir). Ayrıntı GAME_DESIGN.md §19 -->
         <ui:VisualElement class="hud-top-left" picking-mode="Ignore">
-            <ui:VisualElement name="coin-pill" class="res v3-panel">
-                <ui:VisualElement name="coin-icon" class="res-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_coin.png');" />
-                <ui:Label name="coins" text="0" class="res-text" />
-                <ui:Button name="open-shop-plus" text="+" class="plus" />
-            </ui:VisualElement>
-            <ui:VisualElement name="gem-pill" class="res v3-panel" style="min-width: 110px;">
-                <ui:VisualElement name="gem-icon" class="res-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_gem.png');" />
-                <ui:Label name="gems" text="0" class="res-text" />
-            </ui:VisualElement>
-            <!-- v1.2 Mutluluk barı (yüz kodla çizilir, dokununca açıklama) -->
-            <ui:Button name="happy-pill" class="happy-pill v3-panel">
-                <ui:VisualElement class="happy-col" picking-mode="Ignore">
-                    <ui:VisualElement class="happy-head" picking-mode="Ignore">
-                        <ui:Label text="MUTLULUK" class="small" picking-mode="Ignore" />
-                        <ui:Label name="happy-num" text="%60" class="happy-num" picking-mode="Ignore" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="happy-track" picking-mode="Ignore"><ui:VisualElement name="happy-fill" class="happy-fill" picking-mode="Ignore" /></ui:VisualElement>
+            <ui:VisualElement name="res-row" class="hud-row" picking-mode="Ignore">
+                <ui:VisualElement name="coin-pill" class="res v3-panel">
+                    <ui:VisualElement name="coin-icon" class="res-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_coin.png');" />
+                    <ui:Label name="coins" text="0" class="res-text" />
+                    <ui:Button name="open-shop-plus" text="+" class="plus" />
                 </ui:VisualElement>
-            </ui:Button>
+                <ui:VisualElement name="gem-pill" class="res gem-pill v3-panel">
+                    <ui:VisualElement name="gem-icon" class="res-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_gem.png');" />
+                    <ui:Label name="gems" text="0" class="res-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="info-row" class="hud-row info-row" picking-mode="Ignore">
+                <!-- v1.2 Mutluluk (yüz kodla çizilir, dokununca açıklama); v2.5: yüz + yüzde, tek satır -->
+                <ui:Button name="happy-pill" class="happy-pill v3-panel">
+                    <ui:VisualElement class="happy-col" picking-mode="Ignore">
+                        <ui:VisualElement class="happy-head" picking-mode="Ignore">
+                            <ui:Label text="MUTLULUK" class="small happy-cap" picking-mode="Ignore" />
+                            <ui:Label name="happy-num" text="%60" class="happy-num" picking-mode="Ignore" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="happy-track" picking-mode="Ignore"><ui:VisualElement name="happy-fill" class="happy-fill" picking-mode="Ignore" /></ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:Button>
+                <ui:VisualElement class="day-pill v3-panel">
+                    <ui:VisualElement name="day-icon" class="ic" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_sun.png');" />
+                    <ui:Label name="day-clock" text="GÜN 1 · 5:00" class="day-clock" />
+                    <ui:Label name="lantern-count" text="" class="lantern-chip hidden" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="tool-row" class="hud-row tool-row" picking-mode="Ignore">
+                <ui:Button name="helper-btn" class="btn btn-plum btn-sm helper-btn tool-btn">
+                    <ui:VisualElement class="price-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_play.png');" />
+                    <ui:Label name="helper-text" text="YARDIMCI" />
+                </ui:Button>
+                <!-- v1.2 Etkinlikler (Sv2) -->
+                <ui:Button name="event-btn" class="btn btn-sun btn-sm helper-btn event-btn tool-btn hidden">
+                    <ui:VisualElement class="price-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_horn.png');" />
+                    <ui:Label name="event-text" text="ETKİNLİK" />
+                    <ui:Label name="event-new" text="YENİ!" class="event-new hidden" />
+                </ui:Button>
+            </ui:VisualElement>
             <ui:VisualElement name="happy-card" class="happy-card v3-panel hidden" picking-mode="Ignore">
                 <ui:Label text="Müşteriler ne kadar mutlu?" class="happy-card-title" />
                 <ui:Label name="happy-card-text" text="" class="happy-card-text" />
             </ui:VisualElement>
-            <ui:VisualElement class="day-pill v3-panel">
-                <ui:VisualElement name="day-icon" class="ic" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_sun.png');" />
-                <ui:Label name="day-clock" text="GÜN 1 · 5:00" class="day-clock" />
-                <ui:Label name="lantern-count" text="" class="lantern-chip hidden" />
-            </ui:VisualElement>
-            <ui:Button name="helper-btn" class="btn btn-plum btn-sm helper-btn">
-                <ui:VisualElement class="price-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_play.png');" />
-                <ui:Label name="helper-text" text="YARDIMCI" />
-            </ui:Button>
-            <!-- v1.2 Etkinlikler (Sv4) -->
-            <ui:Button name="event-btn" class="btn btn-sun btn-sm helper-btn event-btn hidden">
-                <ui:VisualElement class="price-icon" style="background-image: url('project://database/Assets/_Game/UI/Images/Kit/v3i_horn.png');" />
-                <ui:Label name="event-text" text="ETKİNLİK" />
-                <ui:Label name="event-new" text="YENİ!" class="event-new hidden" />
-            </ui:Button>
         </ui:VisualElement>
 
         <!-- Üst orta: sıradaki hedef -->

@@ -33,6 +33,14 @@ namespace Taverna
             }
         }
 
-        public static void Shot(string file) => ScreenCapture.CaptureScreenshot(Path.Combine(CaptureDir, file), 2);
+        /// <summary>v2.5: penceresiz modda (-autotest-offscreen) görüntüyü RenderTexture birleşiminden yazan kanca.</summary>
+        public static Action<string> ShotHook;
+
+        public static void Shot(string file)
+        {
+            var path = Path.Combine(CaptureDir, file);
+            if (ShotHook != null) ShotHook(path);
+            else ScreenCapture.CaptureScreenshot(path, 2);
+        }
     }
 }

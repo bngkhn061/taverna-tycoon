@@ -35,7 +35,7 @@ namespace Taverna
         {
             _seasonBtn = new Button(() => OpenEvents("season"));
             _seasonBtn.AddToClassList("btn"); _seasonBtn.AddToClassList("btn-sm"); _seasonBtn.AddToClassList("helper-btn");
-            _seasonBtn.AddToClassList("season-btn"); _seasonBtn.AddToClassList("hidden");
+            _seasonBtn.AddToClassList("season-btn"); _seasonBtn.AddToClassList("tool-btn"); _seasonBtn.AddToClassList("hidden");   // v2.5 araç kutusu
             _seasonBtnIc = new VisualElement { pickingMode = PickingMode.Ignore };
             _seasonBtnIc.AddToClassList("price-icon");
             _seasonBtnText = new Label { pickingMode = PickingMode.Ignore };
@@ -67,13 +67,14 @@ namespace Taverna
 
         void UpdateV22()
         {
-            bool show = Seasons.Playable && _happyCard.ClassListContains("hidden");
+            bool show = Seasons.Playable;   // v2.5: mutluluk kartı araç kutularının altında, sezon kutusu gizlenmez
             _seasonBtn.EnableInClassList("hidden", !show);
             var d = GameState.Data;
             if (show)
             {
                 var s = Seasons.Current;
-                _seasonBtnText.text = Loc.F("{0} · {1} gün", Loc.Upper(Loc.T(s.name)), Seasons.DaysLeftNow);
+                _seasonBtnText.text = Loc.Upper(Loc.T(s.name));   // v2.5: araç kutusunda yalnızca sezonun adı; kalan gün ipucunda ve sezon sekmesinde
+                _seasonBtn.tooltip = Loc.F("{0} · {1} gün", Loc.Upper(Loc.T(s.name)), Seasons.DaysLeftNow);
                 _seasonBtn.style.unityBackgroundImageTintColor = s.color;
                 _seasonBtnIc.style.backgroundImage = new StyleBackground(LoadIcon("Season_" + s.set));
                 _seasonBtnBadge.EnableInClassList("hidden", Seasons.ReadyCount == 0);

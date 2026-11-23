@@ -19,6 +19,26 @@ namespace Taverna
 
         public GameObject[] variants;
         int _shown = -1;
+        static SignTier _i;
+
+        void Awake() => _i = this;
+        void OnDestroy() { if (_i == this) _i = null; }
+
+        /// <summary>
+        /// v2.5: görünen tabelanın bütün parçaları çiziliyor mu (son sahne tabelayı kameranın önünden kaldırınca
+        /// HUD'daki ad yazısı da gizlensin, havada asılı kalmasın).
+        /// </summary>
+        public static bool BoardVisible
+        {
+            get
+            {
+                if (!_i || _i._shown < 0 || _i._shown >= _i.variants.Length) return false;
+                var v = _i.variants[_i._shown];
+                if (!v || !v.activeInHierarchy) return false;
+                foreach (var r in v.GetComponentsInChildren<Renderer>()) if (!r.enabled) return false;
+                return true;
+            }
+        }
 
         public static int TierFor(int level)
         {

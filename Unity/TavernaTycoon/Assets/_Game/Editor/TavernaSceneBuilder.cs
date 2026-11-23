@@ -1040,10 +1040,14 @@ namespace Taverna.EditorTools
 
         /// <summary>v2.4: giriş sahnesinin x başlangıcı (tavernadan uzakta, kamera uzak düzlemi 60 m: tavernadan bir şey görünmez).</summary>
         public const float OpeningStageX = 100f;
-        /// <summary>v2.4: Kraliyet Fermanı dekorunun yeri — Meyhane arka duvarı, Bira ile Şıra tezgâhlarının arası, tezgâh hizasında.</summary>
-        public static readonly Vector3 RoyalDecreePos = new(2.08f, 0.6f, 4.93f);   // Saray Hanı perdesi x 2.8'de: arada kalır
-        /// <summary>v2.4: dekorun ölçeği (duvarlar 1.5 m: ferman duvarın üstünden taşmasın).</summary>
-        public const float RoyalDecreeScale = 0.64f;
+        /// <summary>v2.4: Kraliyet Fermanı dekorunun yeri — Meyhane arka duvarı, Bira ile Şıra tezgâhlarının arası, tezgâh hizasında.
+        /// v2.5: Saray Hanı perdesinin sol kanadı fermanın sağ kenarına ≈ 7 cm biniyordu (oyuncu testi); ferman 6 cm sola ve
+        /// biraz küçüldü, perde <see cref="SarayCurtainX"/>'e kaydı: ferman x 1.75–2.29, perde kanadı x 2.40–2.56 (≈ 11 cm boşluk).</summary>
+        public static readonly Vector3 RoyalDecreePos = new(2.02f, 0.6f, 4.93f);
+        /// <summary>v2.4: dekorun ölçeği (duvarlar 1.5 m: ferman duvarın üstünden taşmasın). v2.5: 0.64 → 0.60 (0.9 m × 0.6 = 0.54 m).</summary>
+        public const float RoyalDecreeScale = 0.60f;
+        /// <summary>v2.5: Saray Hanı arka duvar perdesinin Bira–Şıra arasındaki x'i (v2.4: 2.8; kanatlar ±0.42 m, kanat 0.16 m).</summary>
+        public const float SarayCurtainX = 2.9f;
 
         /// <summary>
         /// v2.4 (GAME_DESIGN.md §18): sinema modelleri (CinemaProps), uzakta kapalı duran giriş sahnesi — kır yolu ve harap han
@@ -1565,7 +1569,7 @@ namespace Taverna.EditorTools
                 Follow(P("PR_Tier_Ortu2", t2, pos.x, pos.z, longTable ? 90f : 0f), t);
             }
             // Saray: arka duvarda perdeler (üst saçak, makinelerin üstünde kalır) + giriş halıları
-            foreach (var x in new[] { -2.8f, 2.8f, 5.6f, 12.8f }) P("PR_Tier_Perde", t2, x, 4.98f);
+            foreach (var x in new[] { -2.8f, SarayCurtainX, 5.6f, 12.8f }) P("PR_Tier_Perde", t2, x, 4.98f);   // v2.5: fermanla arası açık
             P("PR_Tier_Hali", t2, 0f, -0.9f);
             P("PR_Tier_Hali", t2, 9.46f, -0.9f);
 
