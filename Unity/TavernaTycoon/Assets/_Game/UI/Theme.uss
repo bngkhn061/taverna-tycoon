@@ -513,7 +513,8 @@ Slider .unity-base-slider__dragger-border { display: none; }
 .btn-sun { background-image: url("project://database/Assets/_Game/UI/Images/Kit/v3_panel_mus.png"); }
 .btn-sun > Label { color: var(--ink); }
 /* rehber */
-.tut-dim { position: absolute; background-color: rgba(31, 26, 23, 0.55); }
+/* v2.5.1: karartma tek halka: deliği çevreleyen 3000px kalın, tam yuvarlak kenarlık (HudController.ShadeBorder ile aynı) */
+.tut-shade { position: absolute; border-width: 3000px; border-color: rgba(31, 26, 23, 0.55); border-top-left-radius: 50%; border-top-right-radius: 50%; border-bottom-left-radius: 50%; border-bottom-right-radius: 50%; }
 .tut-ring { position: absolute; border-width: 4px; border-color: var(--mus); border-top-left-radius: 50%; border-top-right-radius: 50%; border-bottom-left-radius: 50%; border-bottom-right-radius: 50%; }
 .tut-tip { position: absolute; bottom: 16px; left: 50%; translate: -50% 0; width: 560px; flex-direction: row; align-items: center; padding: 12px 14px 16px 12px; }
 .tut-por { width: 66px; height: 66px; flex-shrink: 0; margin-right: 12px; -unity-background-scale-mode: scale-to-fit; border-width: 3px; border-color: var(--ink); background-color: var(--paper2); border-top-left-radius: 33px; border-top-right-radius: 33px; border-bottom-left-radius: 33px; border-bottom-right-radius: 33px; }

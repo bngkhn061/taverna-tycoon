@@ -16,7 +16,9 @@ namespace Taverna
         public static bool PlayIntro;
 
         VisualElement _hudRoot, _banner, _bannerIc, _dayendRoot, _dayendRows, _dayendChips, _tutLayer, _tutRing, _tutPips, _renameRoot;
-        VisualElement[] _tutDim;
+        VisualElement _tutShade;
+        /// <summary>Rehber karartmasının kenarlık kalınlığı (Theme.uss .tut-shade ile aynı); panel köşegeninden büyük olmalı.</summary>
+        const float ShadeBorder = 3000f;
         Label _bannerText, _dayendTitle, _planNote, _tutText, _tutStep, _signLabel, _renameAdText, _renameCoinsText;
         ScrollView _planScroll;
         TextField _renameField;
@@ -61,7 +63,7 @@ namespace Taverna
             _tutText = _root.Q<Label>("tut-text");
             _tutStep = _root.Q<Label>("tut-step");
             _tutPips = _root.Q("tut-pips");
-            _tutDim = new[] { _root.Q("tut-dim-t"), _root.Q("tut-dim-b"), _root.Q("tut-dim-l"), _root.Q("tut-dim-r") };
+            _tutShade = _root.Q("tut-shade");
             _root.Q("tut-por").style.backgroundImage = new StyleBackground(LoadIcon("Main_Barlo"));
             for (int i = 0; i < Tutorial.StepCount; i++)
             {
@@ -322,19 +324,18 @@ namespace Taverna
                 hole = new Rect(p.x - 75f, p.y - 75f, 150f, 150f);
             else hole = Rect.zero;
             bool show = hole.width > 0f && _introT < 0f;
-            float W = _root.layout.width, H = _root.layout.height;
             void Set(VisualElement e, float x, float y, float w, float h)
             {
                 e.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
                 e.style.left = x; e.style.top = y; e.style.width = Mathf.Max(0f, w); e.style.height = Mathf.Max(0f, h);
             }
-            Set(_tutDim[0], 0, 0, W, hole.yMin);
-            Set(_tutDim[1], 0, hole.yMax, W, H - hole.yMax);
-            Set(_tutDim[2], 0, hole.yMin, hole.xMin, hole.height);
-            Set(_tutDim[3], hole.xMax, hole.yMin, W - hole.xMax, hole.height);
+            // v2.5.1 (oyuncu testi 2026-11-24 "yuvarlağın etrafı kare kalıyor"): karartma dört dikdörtgen değil, tek bir halka:
+            // deliği çevreleyen çok kalın, tam yuvarlak kenarlık (.tut-shade). İç kenarı deliğin çemberi, dış kenarı ekranın dışında.
+            Set(_tutShade, hole.x - ShadeBorder, hole.y - ShadeBorder, hole.width + 2f * ShadeBorder, hole.height + 2f * ShadeBorder);
             float pulse = 1f + Mathf.Sin(Time.unscaledTime * 6f) * 0.06f;
             Set(_tutRing, hole.x, hole.y, hole.width, hole.height);
             _tutRing.style.scale = new Scale(new Vector3(pulse, pulse, 1f));
+            _tutShade.style.scale = _tutRing.style.scale;   // delik halkayla birlikte atar (merkezleri aynı), arada açık şerit kalmaz
         }
 
         // ------------------------------------------------------------------ oyun salonu etiketleri

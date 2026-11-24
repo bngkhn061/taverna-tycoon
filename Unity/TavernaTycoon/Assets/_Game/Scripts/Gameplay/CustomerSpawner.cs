@@ -135,7 +135,126 @@ namespace Taverna
             var ent = t.entrance ? t.entrance : entrance;
             var path = new List<Vector3> { new Vector3(ent.position.x, 0f, from.position.z), ent.position };
             path.AddRange(InnerPath(seat));
-            go.AddComponent<Customer>().Init(def, seat, path, from.position);
+            var cut = Shortcut(path, 1, seat);
+            go.AddComponent<Customer>().Init(def, seat, cut, from.position);
+            Spawned++;
+            // düzenleme modunda taşınan masanın toplanma noktası kapının kendisidir: o zaman uğranacak ayrı nokta yok
+            bool viaHub = path.Count > 3 && (path[2] - path[1]).sqrMagnitude > 0.01f && cut.Contains(path[2]);
+            if (!viaHub) HubSkipped++;
+            if (AutoTest.Enabled)
+            {
+                Clear(path[1], path[^1], seat);
+                Debug.Log($"[Taverna] müşteri yolu {t.name}/{seat.name}: {path.Count - 1} → {cut.Count - 1} adım · toplanma noktası {(viaHub ? "VAR" : "yok")} ({HubSkipped}/{Spawned} kestirme){(viaHub ? " · kapıdan engel: " + LastBlocker : "")}");
+            }
+        }
+
+        /// <summary>v2.5.1 ölçüm: gelen müşteri ve toplanma noktasına uğramadan yürüyen müşteri sayısı (oturum boyunca).</summary>
+        public static int Spawned, HubSkipped;
+
+        /// <summary>Kestirme denemesinde müşterinin genişliği (yarıçap) ve yoklama yüksekliği (masa ve tezgâh bu boyda).</summary>
+        public const float ClearRadius = 0.24f, ClearY = 0.5f;
+        static readonly RaycastHit[] _hits = new RaycastHit[24];
+        /// <summary>Hedef oturağın kendi masası, yolun yalnız bu son kısmında engel sayılmaz (oturak masanın 0.2–0.4 m yanında).</summary>
+        public const float OwnTableSlack = 0.6f;
+        /// <summary>Kendi masasının köşesini sıyırmaya izin: yolun ortası masaya bundan yakın geçmezse engel değil.</summary>
+        public const float OwnTableThin = 0.12f;
+
+        /// <summary>a→b yolunun ilk <paramref name="upTo"/> metresinde, yolun ortası <paramref name="c"/>'ye <see cref="OwnTableThin"/>'den yakın geçiyor mu?</summary>
+        static bool Pierces(Collider c, Vector3 a, Vector3 b, float upTo)
+        {
+            var from = new Vector3(a.x, ClearY, a.z);
+            var dir = new Vector3(b.x - a.x, 0f, b.z - a.z).normalized;
+            for (float s = 0f; s <= upTo; s += 0.05f)
+            {
+                var p = from + dir * s;
+                var q = c.ClosestPoint(p);
+                q.y = p.y;
+                if ((q - p).sqrMagnitude < OwnTableThin * OwnTableThin) return true;
+            }
+            return false;
+        }
+        /// <summary>Son <see cref="Clear"/> yoklamasını kesen nesnenin adı (ölçüm günlüğü için; boşsa yol açıktı).</summary>
+        public static string LastBlocker { get; private set; } = "";
+
+        /// <summary>
+        /// v2.5.1 (oyuncu testi 2026-11-24: "müşteriler önce fıçıya gidiyor sonra masaya oturuyor"): yol, <paramref name="from"/>
+        /// noktasından sonra kestirilir. Her noktadan, arası boş olan en uzak noktaya doğrudan gidilir; böylece önü açık
+        /// masaya giden müşteri bira fıçısının önündeki toplanma noktasına uğramaz. Arası kapalıysa eski yol aynen kalır.
+        /// </summary>
+        public static List<Vector3> Shortcut(List<Vector3> path, int from, Seat seat)
+        {
+            if (path == null || from < 0 || path.Count - from < 3) return path;
+            var res = new List<Vector3>(path.Count);
+            for (int k = 0; k <= from; k++) res.Add(path[k]);
+            int i = from, last = path.Count - 1;
+            while (i < last)
+            {
+                int next = i + 1;
+                for (int j = last; j > i + 1; j--)
+                    if (Clear(path[i], path[j], j == last ? seat : null)) { next = j; break; }
+                // kapıdan yalnız toplanma noktası görünüyorsa önce aradaki masanın yanından kısa bir sapma dene
+                if (i == from && next == from + 1)
+                    for (int j = last; j > from + 1; j--)
+                        if (Detour(path[i], path[j], j == last ? seat : null, out var dp)) { res.Add(dp); next = j; break; }
+                res.Add(path[next]);
+                i = next;
+            }
+            return res;
+        }
+
+        static readonly float[] DetourAlong = { 0.25f, 0.4f, 0.55f, 0.7f, 0.85f };
+        static readonly float[] DetourSide = { 0.4f, -0.4f, 0.8f, -0.8f, 1.2f, -1.2f, 1.6f, -1.6f, 2.0f, -2.0f };
+
+        /// <summary>
+        /// a'dan b'ye düz yol kapalıysa, aradaki engelin yanından tek bir sapma noktası arar (a→sapma ve sapma→b açık olmalı);
+        /// birden çok varsa toplam yolu en kısa olanı.
+        /// </summary>
+        public static bool Detour(Vector3 a, Vector3 b, Seat seat, out Vector3 point)
+        {
+            point = default;
+            var v = new Vector3(b.x - a.x, 0f, b.z - a.z);
+            float len = v.magnitude;
+            if (len < 0.5f || Inn.Upstairs(a) != Inn.Upstairs(b)) return false;
+            var side = new Vector3(v.z, 0f, -v.x) / len;
+            float best = float.MaxValue;
+            foreach (var f in DetourAlong)
+                foreach (var s in DetourSide)
+                {
+                    var d = a + v * f + side * s;
+                    d.y = 0f;
+                    float cost = Vector3.Distance(a, d) + Vector3.Distance(d, b);
+                    if (cost >= best) continue;
+                    if (!Clear(a, d, null) || !Clear(d, b, seat)) continue;
+                    best = cost;
+                    point = d;
+                }
+            return best < float.MaxValue;
+        }
+
+        /// <summary>
+        /// İki nokta arasında müşteri genişliğinde engel (masa, tezgâh, makine, duvar) yok mu? Tetikleyiciler, karakterler ve
+        /// ön görünmez sınır sayılmaz; hedef oturaksa kendi masası yalnız son <see cref="OwnTableSlack"/> metrede sayılmaz
+        /// (oturak masaya değer, ama müşteri kendi masasının içinden de geçmez). Kat değişiyorsa (teras merdiveni) kestirme yok.
+        /// </summary>
+        public static bool Clear(Vector3 a, Vector3 b, Seat seat)
+        {
+            LastBlocker = "";
+            if (Inn.Upstairs(a) != Inn.Upstairs(b)) { LastBlocker = "kat"; return false; }
+            var d = new Vector3(b.x - a.x, 0f, b.z - a.z);
+            float len = d.magnitude;
+            if (len < 0.01f) return true;
+            int n = Physics.SphereCastNonAlloc(new Vector3(a.x, ClearY, a.z), ClearRadius, d / len, _hits, len, ~0, QueryTriggerInteraction.Ignore);
+            var own = seat && seat.table ? seat.table.transform : null;
+            for (int k = 0; k < n; k++)
+            {
+                var c = _hits[k].collider;
+                if (!c || _hits[k].distance <= 0f) continue;   // başlangıçta zaten içinde olunan (ör. kapı eşiği) sayılmaz
+                if (c is CharacterController || c.name.EndsWith("Barrier") || c.GetComponentInParent<Customer>()) continue;
+                if (own && c.transform.IsChildOf(own) && (_hits[k].distance >= len - OwnTableSlack || !Pierces(c, a, b, len - OwnTableSlack))) continue;
+                LastBlocker = c.name;
+                return false;
+            }
+            return true;
         }
 
         static CustomerSpawner _i;

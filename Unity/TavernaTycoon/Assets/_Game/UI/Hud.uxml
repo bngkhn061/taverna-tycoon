@@ -232,10 +232,7 @@
 
         <!-- v0.9 · Rehber (mockup E): karartma + halka + Barlo balonu -->
         <ui:VisualElement name="tut-layer" class="screen hidden" picking-mode="Ignore">
-            <ui:VisualElement name="tut-dim-t" class="tut-dim" picking-mode="Ignore" />
-            <ui:VisualElement name="tut-dim-b" class="tut-dim" picking-mode="Ignore" />
-            <ui:VisualElement name="tut-dim-l" class="tut-dim" picking-mode="Ignore" />
-            <ui:VisualElement name="tut-dim-r" class="tut-dim" picking-mode="Ignore" />
+            <ui:VisualElement name="tut-shade" class="tut-shade" picking-mode="Ignore" />
             <ui:VisualElement name="tut-ring" class="tut-ring" picking-mode="Ignore" />
             <ui:VisualElement name="tut-tip" class="tut-tip v3-panel">
                 <ui:VisualElement name="tut-por" class="tut-por" />

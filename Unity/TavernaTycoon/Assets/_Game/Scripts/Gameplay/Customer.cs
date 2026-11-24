@@ -53,7 +53,7 @@ namespace Taverna
             switch (state)
             {
                 case State.WalkingIn:
-                    _path = np;
+                    _path = CustomerSpawner.Shortcut(np, 1, _seat);
                     _pathIdx = Mathf.Min(_pathIdx, 2);
                     break;
                 case State.Waiting:

@@ -188,6 +188,10 @@ namespace Taverna
             var png = ImageConversion.EncodeArrayToPNG(px, GraphicsFormat.R8G8B8A8_UNorm, (uint)Width, (uint)Height);
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             File.WriteAllBytes(path, png);
+            // "-autotest-offscreen-uilayer": arayüz dokusunu ham hâliyle (RGBA) ayrıca yazar (birleştirme hatalarını incelemek için)
+            if (Array.IndexOf(Environment.GetCommandLineArgs(), "-autotest-offscreen-uilayer") >= 0)
+                File.WriteAllBytes(Path.ChangeExtension(path, null) + "_uilayer.png",
+                    ImageConversion.EncodeArrayToPNG(_readUi.GetRawTextureData<byte>().ToArray(), GraphicsFormat.R8G8B8A8_UNorm, (uint)Width, (uint)Height));
         }
 
         int _pending;
