@@ -28,6 +28,14 @@
 # Ses ölçüm kayıtları büyük; sonuçlar .md/.json olarak kalır
 /production/qa/evidence/*.wav
 /production/qa/evidence/*.mp4
+# v0.6–v2.2 eski test görüntüleri yalnız yerelde (2026-11-24 depodan çıkarıldı)
+/production/qa/evidence/2026-11-09*
+/production/qa/evidence/2026-11-1[0-9]*
+/production/qa/evidence/2026-11-21*
+
+# Blender çıktıları yeniden üretilebilir: FBX'ler Unity/…/Art/Models'te zaten var, önizlemeler betikle çıkar
+/assets/export/
+/assets/renders/
 
 # Player builds, autotest screenshots and batch-mode logs (all regenerable)
 /Unity/Builds/

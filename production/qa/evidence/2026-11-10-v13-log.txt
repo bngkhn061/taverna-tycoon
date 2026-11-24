@@ -1,4 +1,0 @@
-[Playtest] [ 120.0s] v1.3 KOV: Nana → True · çalışıyor=False · maaş 665 → 619 · temizlikçi var=False
-[Playtest] [ 126.0s] v1.3 YENİDEN İŞE AL: Nana → Owned · çalışıyor=True · seviye 0
-[Playtest] [ 240.0s] TEMPO: başlangıç Sv9 → Sv9 · 4.0 oyun-dk · Ün 99 (24.7/dk) · altın 8491 (2122/dk) · servis 90 · kızgın 0 · sonraki seviye 184 Ün
-[Playtest] [ 240.0s] v1.3: özel sipariş açılan=21 oyuncu servis etti=9 · garson=4 · kasa otomasyonu=False · yerdeki para yığını=2
